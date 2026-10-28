@@ -100,7 +100,8 @@ button:disabled{cursor:default}
 @keyframes um-pop-a{from{transform:scale(0) rotate(-25deg);opacity:0}to{transform:none;opacity:1}}
 @keyframes um-pop-b{from{transform:scale(0) rotate(25deg);opacity:0}to{transform:none;opacity:1}}
 @media (max-width: 640px){
-.um-plants .um-pk:nth-child(n+9){display:none}
+/* на узком экране оставляем каждое второе растение — так они равномерно по всей ширине */
+.um-plants .um-pk:nth-child(even){display:none}
 .um-pk{width:52px!important;height:52px!important}
 }
 /* небо: облака, солнце, змей и фигурки; слой под всем содержимым */
