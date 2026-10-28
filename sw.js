@@ -9,6 +9,13 @@ self.addEventListener('activate', function (e) {
 });
 self.addEventListener('fetch', function (e) {
   if (e.request.method !== 'GET') return;
+  // сама страница: сначала свежая из интернета (чтобы обновления приходили сразу), без интернета — из памяти
+  if (e.request.mode === 'navigate') {
+    e.respondWith(fetch(e.request).then(function (res) {
+      var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put('./', copy); }); return res;
+    }).catch(function () { return caches.match('./'); }));
+    return;
+  }
   e.respondWith(caches.match(e.request, { ignoreSearch: true }).then(function (hit) {
     return hit || fetch(e.request).then(function (res) {
       if (res.ok && (e.request.url.indexOf(self.location.origin) === 0 || e.request.url.indexOf('fonts.g') > 0)) {
