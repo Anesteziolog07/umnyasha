@@ -58,6 +58,8 @@ button:disabled{cursor:default}
 .pulse{animation:um-pulse 1.6s ease-in-out infinite}
 @keyframes um-pulse{0%,100%{box-shadow:0 0 0 0 rgba(30,42,74,.22)}50%{box-shadow:0 0 0 7px rgba(30,42,74,0)}}
 .um-lvgrid{grid-template-columns:repeat(10,minmax(0,1fr))}
+.um-lvgrid.um-lvgrid-topics{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important}
+.um-lvgrid-topics button{min-height:104px!important;padding:10px 6px!important}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width: 640px){
 .um-head{padding:12px 16px!important;gap:10px!important}
@@ -527,7 +529,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <section class="um-lv" aria-labelledby="um-lv-h" style="background: #FFFFFF; border-radius: 32px; padding: 24px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 1px 0 rgba(30,42,74,.04), 0 22px 50px -18px rgba(43,84,160,.3)">
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px">
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 4px">
-<h2 id="um-lv-h" style="margin: 0; font-size: 30px; font-weight: 900; line-height: 1.1">Уроки</h2>
+<h2 id="um-lv-h" style="margin: 0; font-size: 30px; font-weight: 900; line-height: 1.1">{{lvl.h}}</h2>
 <p style="margin: 0; font-size: 17px; color: #4A5578">{{lvl.sub}}</p>
 </div>
 <sc-if value="{{lvl.ctaShow}}" hint-placeholder-val="{{ true }}">
@@ -537,11 +539,12 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </button>
 </sc-if>
 </div>
-<div class="um-lvgrid" style="display: grid; gap: 10px">
+<div class="um-lvgrid {{lvl.gridCls}}" style="display: grid; gap: 10px">
 <sc-for list="{{cells}}" as="c" hint-placeholder-count="20">
 <button type="button" class="press {{c.anim}}" onClick="{{c.open}}" disabled="{{c.locked}}" aria-label="{{c.aria}}" style="min-width: 0; min-height: 74px; border-radius: 18px; border: 3px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; cursor: {{c.cursor}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 6px 2px">
 <sc-if value="{{c.isOpen}}" hint-placeholder-val="{{ true }}">
-<span style="font-size: 23px; font-weight: 900; line-height: 1">{{c.n}}</span>
+<sc-if value="{{c.hasDot}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="display: block; width: 30px; height: 30px; border-radius: 50%; background: {{c.dot}}; box-shadow: inset 0 0 0 2px rgba(30,42,74,.12)"></span></sc-if>
+<span style="font-size: {{c.fs}}px; font-weight: 900; line-height: 1.1; text-align: center">{{c.n}}</span>
 <span aria-hidden="true" style="display: flex; gap: 1px"><sc-for list="{{c.stars}}" as="s" hint-placeholder-count="3"><svg width="{{s.size}}" height="{{s.size}}" viewBox="0 0 24 24"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="{{s.fill}}" stroke="{{s.stroke}}" stroke-width="1.6" stroke-linejoin="round"></path></svg></sc-for></span>
 </sc-if>
 <sc-if value="{{c.locked}}" hint-placeholder-val="{{ false }}">
@@ -565,6 +568,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <div class="um-gbar-title" style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 200px; min-width: 0">
 <span style="font-size: 22px; font-weight: 900; text-align: center">{{game.title}}</span>
 <sc-if value="{{game.hasSub}}" hint-placeholder-val="{{ false }}"><span style="font-size: 15px; font-weight: 800; color: #4A5578; text-align: center; margin-top: -4px">{{game.sub}}</span></sc-if>
+<sc-if value="{{game.hasTopics}}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="{{game.topicsAria}}" style="display: flex; align-items: center; gap: 8px; margin: 2px 0"><sc-for list="{{game.topicDots}}" as="d" hint-placeholder-count="8"><span aria-hidden="true" style="display: block; flex: none; width: {{d.size}}px; height: {{d.size}}px; border-radius: 50%; background: {{d.bg}}; box-shadow: {{d.ring}}; opacity: {{d.op}}"></span></sc-for></span></sc-if>
 <span style="display: flex; align-items: center; gap: 6px" aria-label="{{game.counter}}">
 <sc-for list="{{game.dots}}" as="d" hint-placeholder-count="5"><span aria-hidden="true" style="display: block; width: {{d.w}}px; height: 12px; border-radius: 999px; background: {{d.bg}}"></span></sc-for>
 </span>
@@ -635,6 +639,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <main style="max-width: 720px; margin: 0 auto; padding: 8px 16px 0; box-sizing: border-box">
 <section class="rise" style="background: #FFFFFF; border-radius: 32px; padding: 36px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; box-shadow: 0 1px 0 rgba(30,42,74,.04), 0 22px 50px -18px rgba(43,84,160,.3)">
 <span style="font-size: 16px; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; color: #4A5578">{{res.gameTitle}}</span>
+<sc-if value="{{res.hasBadge}}" hint-placeholder-val="{{ false }}"><span class="pop" aria-hidden="true" style="display: block; width: 120px; height: 120px; border-radius: 50%; background: {{res.badge}}; box-shadow: inset 0 -10px 18px rgba(0,0,0,.18), inset 0 8px 14px rgba(255,255,255,.45), 0 14px 28px -12px rgba(30,42,74,.45)"></span></sc-if>
 <div role="img" aria-label="{{res.starsAria}}" style="display: flex; gap: 8px; align-items: flex-end">
 <sc-for list="{{res.stars}}" as="s" hint-placeholder-count="3"><svg class="pop" width="{{s.size}}" height="{{s.size}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="{{s.fill}}" stroke="{{s.stroke}}" stroke-width="1.2" stroke-linejoin="round"></path></svg></sc-for>
 </div>
@@ -1657,6 +1662,54 @@ var LEARN_CARD = {
   first: learnLetter,
   count: function (v) { return { mode: 'learn', prompt: 'Это ' + v, say: 'Это ' + NUM_WORD[v] + '.', audio: 'learn-num-' + v, display: rep(v, function () { return sh('ball', 'red', v > 6 ? 48 : 60); }).concat([op('='), bigNum(v)]), displayAria: v + ' — ' + NUM_WORD[v] }; }
 };
+// ===== ТЕМЫ (вариант «Б»): игра идёт непрерывно — тема за темой, без списка уроков. Пока только «Цвета» =====
+// тема: знакомство с новым (learn) и TOPIC_TASKS заданий; темы-повторения без знакомства; после последней — бесконечное повторение
+var TOPIC_TASKS = 10;
+var TOPICS = {
+  colors: [
+    { title: 'Красный цвет', learn: ['red'], known: ['red'] },
+    { title: 'Синий цвет', learn: ['blue'], known: ['red', 'blue'] },
+    { title: 'Жёлтый цвет', learn: ['yellow'], known: ['red', 'blue', 'yellow'] },
+    { title: 'Зелёный цвет', learn: ['green'], known: ['red', 'blue', 'yellow', 'green'] },
+    { title: 'Повторяем цвета', learn: [], known: ['red', 'blue', 'yellow', 'green'] },
+    { title: 'Белый цвет', learn: ['white'], known: ['red', 'blue', 'yellow', 'green', 'white'] },
+    { title: 'Чёрный цвет', learn: ['black'], known: ['red', 'blue', 'yellow', 'green', 'white', 'black'] },
+    { title: 'Повторяем все цвета', learn: [], known: ['red', 'blue', 'yellow', 'green', 'white', 'black'] }
+  ]
+};
+var TOPIC_PALETTE = ['red', 'blue', 'yellow', 'green', 'white', 'black'];
+function topicsOf(gid) { return TOPICS[gid] || null; }
+// номер темы (с 0) по прогрессу; после последней — снова последняя (повторение)
+function topicIndex(str, gid) { var n = topicsOf(gid).length, cur = lvCurrent(str); return !cur || cur > n ? n - 1 : cur - 1; }
+// задания темы «Цвета»: от простого к сложному — сначала кружки из двух цветов, потом из трёх, потом одинаковые предметы разных цветов
+function genColorTopic(top) {
+  var fresh = top.learn[0], known = top.known, out = [];
+  var item = pick(EASY_RECOLOR);
+  for (var k = 0; k < TOPIC_TASKS; k++) {
+    var nOpts = k < 3 ? 2 : k < 6 ? 3 : 4, disc = fresh ? k < 4 : k < 2;
+    // в новой теме чаще спрашиваем новый цвет, в повторении — все знакомые по очереди
+    var c = fresh ? ([0, 1, 2, 3, 5, 7, 9].indexOf(k) >= 0 || known.length < 2 ? fresh : pick(others(known, fresh))) : known[(k + Math.floor(Math.random() * known.length)) % known.length];
+    var pool = others(known, c).length >= nOpts - 1 ? others(known, c) : others(TOPIC_PALETTE, c);
+    var cs = [c].concat(sample(pool, nOpts - 1));
+    if (k >= 6 && k % 2 === 0) item = pick(EASY_RECOLOR);
+    var s = disc ? 'disc' : item;
+    var options = cs.map(function (cc, i) { return { tokens: [sh(s, cc, 82)], aria: disc ? C[cc].m + ' кружок' : nameOf(s, cc), correct: i === 0 }; });
+    var prompt = 'Где ' + (disc ? C[c].m : nameOf(s, c)) + '?';
+    out.push({ mode: 'choose', prompt: prompt, say: prompt, audio: 'color-' + c + (!disc && info(s).fem ? '-f' : ''), display: [], hint: [sh('disc', c, 64)], hintAria: 'Подсказка: ' + C[c].m + ' цвет', options: shuffle(options), why: disc ? 'Это ' + C[c].m + ' цвет.' : 'Это ' + nameOf(s, c) + '.' });
+  }
+  return out;
+}
+var TOPIC_GEN = { colors: genColorTopic };
+function topicTasks(age, gid, i) {
+  var top = topicsOf(gid)[i];
+  GEN_GAME = gid; var tasks = TOPIC_GEN[gid](top, age); GEN_GAME = null;
+  return top.learn.map(function (k) { return LEARN_CARD[gid](k, age); }).concat(tasks);
+}
+// кружок темы в шапке и на экране награды: цвет темы; у повторения — все её цвета
+function topicLook(gid, top) {
+  var cols = top.learn.length ? top.learn : top.known;
+  return cols.length === 1 ? C[cols[0]].hex : 'conic-gradient(' + cols.map(function (c, i) { return C[c].hex + ' ' + Math.round(i * 100 / cols.length) + '% ' + Math.round((i + 1) * 100 / cols.length) + '%'; }).join(', ') + ')';
+}
 // ===== ОБУЧЕНИЕ-END
 
 // ===== НОВЫЕ ИГРЫ-BEGIN: «Что пропало?», «Тени», «Полочки» =====
@@ -2027,7 +2080,10 @@ function levelTasks(age, gid, d, n) {
 // прогресс: строка цифр (звёзды по уровням) на каждую тройку «возраст | игра | сложность»
 function lvKey(age, gid, d) { return age + '|' + gid + '|' + d; }
 function lvStr(lv, age, gid, d) { var s = lv && lv[lvKey(age, gid, d)]; return typeof s === 'string' ? s : ''; }
-function gameLv(lv, age, gid) { var r = { passed: 0, stars: 0 }; for (var d = 0; d < DIFFS.length; d++) { var x = lvStr(lv, age, gid, d); r.passed += lvPassed(x); r.stars += lvSum(x); } return r; }
+function gameLv(lv, age, gid) { var r = { passed: 0, stars: 0 }; var ds = topicsOf(gid) ? ['t'] : DIFFS.map(function (x, i) { return i; }); ds.forEach(function (d) { var x = lvStr(lv, age, gid, d); r.passed += lvPassed(x); r.stars += lvSum(x); }); return r; }
+// сколько всего ступеней в игре: тем или уроков
+function gameSteps(gid) { return topicsOf(gid) ? topicsOf(gid).length : LEVELS; }
+function stepsFor(age) { return gamesFor(age).reduce(function (s, g) { return s + gameSteps(g.id); }, 0); }
 function diffPassed(lv, age, d) { return gamesFor(age).reduce(function (s, g) { return s + lvPassed(lvStr(lv, age, g.id, d)); }, 0); }
 // старые общие уровни («возраст|сложность») не переносятся: оставляем только ключи новой схемы
 function cleanLv(lv) { var out = {}; Object.keys(objOr(lv)).forEach(function (k) { if (k.split('|').length === 3 && typeof lv[k] === 'string') out[k] = lv[k]; }); return out; }
@@ -2282,7 +2338,9 @@ class Component extends DCLogic {
     }, 1000);
     if (this.state.sound) this.playVoice('say-rest');
   }
-  restDone() { if (this.state.restLeft > 0) return; this.snd('tap'); this.setState({ screen: 'result' }); this.top(); }
+  restDone() { if (this.state.restLeft > 0) return; this.snd('tap'); this.setState({ screen: 'result' }); this.top(); var r = this.state.result; if (r && r.level && r.level.topic) this.topicAuto(); }
+  // экран «Ура!» держится несколько секунд, потом игра сама продолжается следующей темой
+  topicAuto() { var self = this; this.later(function () { var st = self.state, r = st.result; if (st.screen === 'result' && r && r.level && r.level.topic) self.openTopic(r.level.g, Math.min(r.level.n, topicsOf(r.level.g).length - 1)); }, 4500); }
   // одна запись за раз
   playVoice(name) {
     var url = VOICE[name]; if (!url) return false;
@@ -2334,11 +2392,24 @@ class Component extends DCLogic {
     this.setState({ sound: sound }); this.persist({ sound: sound }); if (sound) this.snd('tap', 0, true);
   }
   // страница игры: карта уроков
-  openHub(gid) {
+  openHub(gid, list) {
     if (!GAME_BY[gid]) return;
+    if (!list && topicsOf(gid) && this.state.age && gameForAge(gid, this.state.age)) { this.openTopic(gid); return; }
     this.clearTimers(); this.stopSpeech(); this.snd('tap');
     this.setState(Object.assign({ screen: 'hub', hub: gid, level: null, result: null }, fresh())); this.top();
-  }  openLevel(gid, d, n) {
+  }
+  // тема: знакомство + задания; номер i с 0, без номера — текущая. Открыты пройденные темы и текущая
+  openTopic(gid, i) {
+    var st = this.state; if (!st.age || !gameForAge(gid, st.age) || !topicsOf(gid)) return;
+    var cur = topicIndex(lvStr(st.lv, st.age, gid, 't'), gid);
+    if (i == null) i = cur; if (i < 0 || i > cur) return;
+    this.clearTimers(); this.stopSpeech(); this.snd('tap');
+    var tasks = topicTasks(st.age, gid, i);
+    this.setState(Object.assign({ screen: 'game', hub: gid, gameId: gid, level: { g: gid, d: 't', n: i + 1, topic: true }, tasks: tasks, ti: 0, mistakes: 0, result: null }, fresh()));
+    this._lvStart = Date.now(); this.autoSay(tasks[0]); this.startMemo(tasks[0]);
+    this.top();
+  }
+  openLevel(gid, d, n) {
     var st = this.state; if (!st.age || !gameForAge(gid, st.age) || n < 1 || n > LEVELS || !lvOpen(lvStr(st.lv, st.age, gid, d), n)) return;
     this.clearTimers(); this.stopSpeech(); this.snd('tap');
     var tasks = levelTasks(st.age, gid, d, n);
@@ -2374,6 +2445,7 @@ class Component extends DCLogic {
     this.setState(Object.assign({ screen: rest ? 'rest' : 'result', restLeft: rest ? REST_SEC : 0, result: { gameId: st.gameId, level: st.level, stars: stars, prev: prev } }, patch, fresh()));
     this.persist(patch); this.snd('finish'); this.top();
     if (rest) this.startRest();
+    else if (st.level && st.level.topic) this.topicAuto();
   }
   pickChoose(i) {
     var st = this.state; if (st.solved) return; var t = st.tasks[st.ti]; var o = t.options[i]; var self = this;
@@ -2544,7 +2616,7 @@ class Component extends DCLogic {
       progress: 'Пройдено ' + hgl.passed + ' из ' + LEVELS + ' уроков · ★ ' + hgl.stars };
     var cells = rep(LEVELS, function (i) {
       var n = i + 1; var s = lvStar(str, n); var open = lvOpen(str, n); var isCur = n === cur;
-      return { n: n, locked: !open, isOpen: open, stars: starRow(s, 13), open: function () { self.openLevel(hid, d, n); },
+      return { n: n, fs: 23, locked: !open, isOpen: open, dot: '', hasDot: false, stars: starRow(s, 13), open: function () { self.openLevel(hid, d, n); },
         aria: 'Урок ' + n + ': ' + (!open ? 'закрыт' : s ? starsWord(s) + ' из 3' : 'играть'),
         bg: !open ? '#F1F4FB' : isCur ? accent : s ? '#E7F8EE' : '#FFFFFF', fg: !open ? '#9AA6C4' : isCur ? '#FFFFFF' : '#1E2A4A',
         bd: !open ? '#E3E8F4' : isCur ? accent : s ? '#BFE8CF' : '#D5DDF2', cursor: open ? 'pointer' : 'default', anim: isCur ? 'pulse' : '' };
@@ -2552,11 +2624,34 @@ class Component extends DCLogic {
     var lvl = { sub: 'Пройдено ' + passed + ' из ' + LEVELS + '. Пройди урок, и откроется следующий.', cta: '', ctaSub: '', ctaShow: true, ctaGo: null };
     if (cur) { lvl.cta = cur === 1 ? 'Начать: урок 1' : 'Дальше: урок ' + cur; lvl.ctaSub = LEARN[hid] ? 'Знакомимся и закрепляем' : 'Играем'; lvl.ctaGo = function () { self.openLevel(hid, d, cur); }; }
     else { lvl.ctaShow = false; lvl.sub = 'Все ' + LEVELS + ' уроков пройдены! Можно переиграть любой, чтобы собрать больше звёзд.'; }
+    // игра с темами: вместо 50 уроков — темы (для взрослых: можно вернуться к любой пройденной)
+    lvl.h = 'Уроки'; lvl.gridCls = '';
+    if (hid && topicsOf(hid) && age) {
+      var tstr = lvStr(st.lv, age, hid, 't'), tcur = topicIndex(tstr, hid), tl = topicsOf(hid);
+      lvl.h = 'Темы'; lvl.gridCls = 'um-lvgrid-topics'; lvl.sub = 'Пройдено ' + lvPassed(tstr) + ' из ' + tl.length + '. Игра сама переходит к следующей теме.';
+      lvl.ctaShow = true; lvl.cta = 'Играть'; lvl.ctaSub = tl[tcur].title; lvl.ctaGo = function () { self.openTopic(hid); };
+      hub.progress = 'Пройдено ' + lvPassed(tstr) + ' из ' + tl.length + ' тем · ★ ' + lvSum(tstr);
+      cells = tl.map(function (tp, i) {
+        var sN = lvStar(tstr, i + 1), open = i <= tcur, isCur = i === tcur;
+        return { n: tp.title, fs: 15, locked: !open, isOpen: open, dot: topicLook(hid, tp), hasDot: true, stars: starRow(sN, 13), open: function () { self.openTopic(hid, i); },
+          aria: tp.title + ': ' + (!open ? 'закрыта' : sN ? starsWord(sN) + ' из 3' : 'играть'),
+          bg: !open ? '#F1F4FB' : isCur ? '#FFF6E0' : sN ? '#E7F8EE' : '#FFFFFF', fg: !open ? '#9AA6C4' : '#1E2A4A',
+          bd: !open ? '#E3E8F4' : isCur ? accent : sN ? '#BFE8CF' : '#D5DDF2', cursor: open ? 'pointer' : 'default', anim: isCur ? 'pulse' : '' };
+      });
+    }
 
-    var game = { isLearn: false, learnNext: null, shelf: [], hasShelf: false, title: '', sub: '', hasSub: false, back: 'К урокам', backGo: function () { self.openHub(st.hub); }, counter: '', dots: [], prompt: '', hasDisplay: false, display: [], displayAria: '', options: [], gridMax: '100%', gap: 12, fbText: '', fbBg: 'transparent', fbFg: '#1E2A4A' };
+    var game = { isLearn: false, learnNext: null, shelf: [], hasShelf: false, title: '', sub: '', hasSub: false, back: 'К урокам', backGo: function () { self.openHub(st.hub); }, hasTopics: false, topicDots: [], topicsAria: '', counter: '', dots: [], prompt: '', hasDisplay: false, display: [], displayAria: '', options: [], gridMax: '100%', gap: 12, fbText: '', fbBg: 'transparent', fbFg: '#1E2A4A' };
     if (st.screen === 'game' && st.tasks.length) {
       var t = st.tasks[st.ti];
-      if (st.level) { game.title = GAME_BY[st.level.g].title; game.sub = 'Урок ' + st.level.n; game.hasSub = true; }
+      if (st.level && st.level.topic) {
+        var tps = topicsOf(st.level.g), ti0 = st.level.n - 1, tdone = lvStr(st.lv, st.age, st.level.g, 't');
+        game.title = GAME_BY[st.level.g].title; game.sub = tps[ti0].title; game.hasSub = true;
+        game.back = 'Все игры'; game.backGo = function () { self.go('home'); };
+        game.hasTopics = true;
+        game.topicDots = tps.map(function (tp, i) { var done = lvStar(tdone, i + 1) > 0, now = i === ti0; return { bg: topicLook(st.level.g, tp), size: now ? 22 : 14, ring: now ? '0 0 0 3px #FFFFFF, 0 0 0 5px #1E2A4A' : 'inset 0 0 0 1px rgba(30,42,74,.15)', op: done || now ? 1 : 0.28 }; });
+        game.topicsAria = 'Тема ' + (ti0 + 1) + ' из ' + tps.length + ': ' + tps[ti0].title;
+      }
+      else if (st.level) { game.title = GAME_BY[st.level.g].title; game.sub = 'Урок ' + st.level.n; game.hasSub = true; }
       else game.title = GAME_BY[st.gameId].title;
       var nLearn = st.tasks.filter(function (x) { return x.mode === 'learn'; }).length;
       game.counter = t.mode === 'learn' ? 'Знакомимся' : (t.mode === 'memory' ? 'Раунд ' : 'Задание ') + (st.ti - nLearn + 1) + ' из ' + (st.tasks.length - nLearn);
@@ -2605,13 +2700,23 @@ class Component extends DCLogic {
       }
     }
 
-    var res = { gameTitle: '', stars: [], starsAria: '', title: '', text: '', isRecord: false, nextLabel: '', hasNext: true, homeLabel: 'К урокам', homeGo: function () { self.openHub(st.hub); }, replay: null, next: null };
+    var res = { hasBadge: false, badge: '', gameTitle: '', stars: [], starsAria: '', title: '', text: '', isRecord: false, nextLabel: '', hasNext: true, homeLabel: 'К урокам', homeGo: function () { self.openHub(st.hub); }, replay: null, next: null };
     if (st.screen === 'result' && st.result) {
       var r = st.result;
       res.stars = starRow(r.stars, 72); res.stars[1].size = 92; res.starsAria = starsWord(r.stars) + ' из 3';
       res.title = r.stars === 3 ? 'Отлично!' : r.stars === 2 ? 'Хорошо!' : 'Получилось!';
       res.isRecord = r.prev > 0 && r.stars > r.prev;
-      if (r.level) {
+      if (r.level && r.level.topic) {
+        var tg = r.level.g, tl = topicsOf(tg), tn = r.level.n, top = tl[tn - 1], nx = Math.min(tn, tl.length - 1);
+        res.gameTitle = GAME_BY[tg].title;
+        res.title = top.learn.length ? 'Ура! Теперь ты знаешь ' + top.title.toLowerCase() + '!' : 'Ура! Повторили!';
+        res.text = tn < tl.length ? 'А теперь — ' + tl[nx].title.toLowerCase() + '.' : 'Играем дальше: повторяем все цвета.';
+        res.hasBadge = true; res.badge = topicLook(tg, top);
+        res.replay = function () { self.openTopic(tg, tn - 1); };
+        res.nextLabel = 'Дальше'; res.next = function () { self.openTopic(tg, nx); };
+        res.homeLabel = 'Все темы'; res.homeGo = function () { self.openHub(tg, true); };
+      }
+      else if (r.level) {
         var lg = r.level.g, ld = r.level.d, ln = r.level.n;
         res.gameTitle = GAME_BY[lg].title + ' · урок ' + ln;
         res.text = (r.stars === 3 ? 'Три звезды! ' : 'Урок пройден. ') + (ln < LEVELS ? (r.prev ? 'Можно идти дальше.' : 'Открыт урок ' + (ln + 1) + '.') : 'Это был последний урок в этой игре!');
@@ -2626,13 +2731,13 @@ class Component extends DCLogic {
       var ag = gamesFor(a.id);
       var rows = ag.map(function (g) {
         var gl = gameLv(st.lv, a.id, g.id); sum += gl.stars;
-        return { title: g.title, stars: [], status: gl.passed ? 'Пройдено ' + gl.passed + ' из ' + LEVELS + ' · ★ ' + gl.stars : 'Ещё не играли', bg: gl.passed ? '#F4F7FF' : '#FAFBFE', aria: g.title + ': пройдено ' + gl.passed + ' из ' + LEVELS + ', ' + starsWord(gl.stars) };
+        return { title: g.title, stars: [], status: gl.passed ? 'Пройдено ' + gl.passed + ' из ' + gameSteps(g.id) + ' · ★ ' + gl.stars : 'Ещё не играли', bg: gl.passed ? '#F4F7FF' : '#FAFBFE', aria: g.title + ': пройдено ' + gl.passed + ' из ' + gameSteps(g.id) + ', ' + starsWord(gl.stars) };
       });
       var levels = DIFFS.map(function (x, i) {
         var p = diffPassed(st.lv, a.id, i), max = ag.length * LEVELS, z = ag.reduce(function (s2, g) { return s2 + lvSum(lvStr(st.lv, a.id, g.id, i)); }, 0);
         return { title: x.name, status: 'Пройдено ' + p + ' из ' + max, stars: z + ' из ' + max * 3, pct: Math.round(p * 100 / max) + '%', color: x.color, aria: x.name + ': пройдено ' + p + ' из ' + max + ', ' + starsWord(z) };
       });
-      return { title: a.label + ' ' + a.unit, sum: sum + ' из ' + ag.length * LEVELS * DIFFS.length * 3, games: rows, levels: levels };
+      return { title: a.label + ' ' + a.unit, sum: sum + ' из ' + stepsFor(a.id) * 3, games: rows, levels: levels };
     });
 
 
@@ -2677,7 +2782,7 @@ class Component extends DCLogic {
     var acct = { email: db.session || '', title: acc && acc.name ? acc.name : 'Ваш аккаунт', since: acc && acc.since ? 'Аккаунт создан ' + sinceText(acc.since) : '', hasSince: !!(acc && acc.since),
       kids: (acc ? acc.kids : []).map(function (k) {
         var av = avatarOf(k.shape, k.color), n = playerStars(k), done = DIFFS.map(function (x, i) { return diffPassed(k.lv, k.age, i); });
-        return { name: k.name, clip: av.clip, bg: av.bg, info: ageText(k.age) + ' · ★ ' + n + ' · уроки: ' + done.join(' / ') + ' из ' + gamesFor(k.age).length * LEVELS, edit: function () { self.parentGo({ screen: 'kid', id: k.id }); }, editAria: 'Изменить профиль ' + k.name };
+        return { name: k.name, clip: av.clip, bg: av.bg, info: ageText(k.age) + ' · ★ ' + n + ' · уроки: ' + done.join(' / ') + ' из ' + stepsFor(k.age), edit: function () { self.parentGo({ screen: 'kid', id: k.id }); }, editAria: 'Изменить профиль ' + k.name };
       }),
       hasKids: !!acc && acc.kids.length > 0, add: function () { self.parentGo({ screen: 'kid' }); },
       showAsk: !st.acctAsk, askOut: st.acctAsk === 'out', askDel: st.acctAsk === 'del',
@@ -2705,12 +2810,12 @@ class Component extends DCLogic {
       goHome: function () { self.go('home'); },
       nav: nav, navCls: st.screen === 'game' ? 'um-hide' : '', ages: ages, cats: cats, games: games, needAge: !age, hasAge: !!age,
       cells: cells, lvl: lvl,
-      totalStars: total, starsAria: 'Всего: ' + starsWord(total), totalOf: total + ' из ' + AGES.reduce(function (s2, x) { return s2 + gamesFor(x.id).length; }, 0) * LEVELS * DIFFS.length * 3,
+      totalStars: total, starsAria: 'Всего: ' + starsWord(total), totalOf: total + ' из ' + AGES.reduce(function (s2, x) { return s2 + stepsFor(x.id); }, 0) * 3,
       soundOn: st.sound, soundOff: !st.sound, soundLabel: st.sound ? 'Звук вкл' : 'Звук выкл', soundPressed: st.sound ? 'true' : 'false',
       soundBg: st.sound ? '#FFFFFF' : '#E6EAF5', soundFg: '#1E2A4A', soundBd: st.sound ? '#1E2A4A' : '#9AA6C4',
       toggleSound: function () { self.toggleSound(); },
       game: game, canSpeak: st.sound && (speechOk || !!(st.screen === 'game' && st.tasks[st.ti] && VOICE[st.tasks[st.ti].audio])), speak: function () { self.speak(); },
-      restart: function () { if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
+      restart: function () { if (st.level && st.level.topic) self.openTopic(st.level.g, st.level.n - 1); else if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
       res: res,
       progAges: progAges, hasProgress: total > 0, noProgress: total === 0,
       ageInfo: [
