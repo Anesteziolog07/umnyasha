@@ -58,15 +58,50 @@ button:disabled{cursor:default}
 .pulse{animation:um-pulse 1.6s ease-in-out infinite}
 @keyframes um-pulse{0%,100%{box-shadow:0 0 0 0 rgba(30,42,74,.22)}50%{box-shadow:0 0 0 7px rgba(30,42,74,0)}}
 .um-lvgrid{grid-template-columns:repeat(10,minmax(0,1fr))}
+@media (max-width: 640px){.um-res-h{font-size:28px!important}}
+.um-tdot{display:block;flex:none;padding:0;border:0;border-radius:50%;cursor:pointer}
+.um-tdot:disabled{cursor:default}
+/* «Паровозик» */
+.um-tr-scene{width:100%;max-width:760px;position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(180deg,#DDF0FF 0%,#F2F9FF 64%,#D9EFC9 64%,#C5E5B0 100%);padding:28px 6px 13px;box-sizing:border-box}
+.um-train{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:center;gap:4px}
+.um-tr-in{animation:um-tr-in 1.6s cubic-bezier(.2,.8,.3,1) both}
+.um-tr-go{transform:translateX(-140vw);transition:transform 3.6s cubic-bezier(.55,0,.8,.6)}
+@keyframes um-tr-in{0%{transform:translateX(110vw)}100%{transform:translateX(0)}}
+.um-tr-in .um-wheel,.um-tr-go .um-wheel{animation:um-spin .5s linear infinite}
+.um-tr-in .um-wheel{animation-iteration-count:3}
+@keyframes um-spin{to{transform:rotate(-360deg)}}
+.um-loco{position:relative;flex:0 1 min(140px,28vw);min-width:66px;aspect-ratio:120/100;display:block}
+.um-loco svg{display:block;overflow:visible}
+.um-smoke{position:absolute;left:12%;top:-6%;width:30%;height:40%;pointer-events:none}
+.um-smoke i{position:absolute;left:0;bottom:0;width:60%;aspect-ratio:1;border-radius:50%;background:#FFFFFF;opacity:0;animation:um-puff 2.2s ease-out infinite}
+.um-smoke i:nth-child(2){animation-delay:.73s}.um-smoke i:nth-child(3){animation-delay:1.46s}
+.um-tr-go .um-smoke i{animation-duration:.9s}
+@keyframes um-puff{0%{transform:translate(0,0) scale(.4);opacity:.95}100%{transform:translate(70%,-160%) scale(1.5);opacity:0}}
+.um-wagon{position:relative;flex:0 1 min(140px,26vw);min-width:58px;aspect-ratio:118/108;padding:0;border:0;background:transparent;cursor:pointer;display:block}
+.um-wagon-box{position:absolute;left:0;right:0;bottom:17%;height:44%;border-radius:10px 10px 8px 8px;background:var(--wc);border:2.5px solid var(--wr);box-sizing:border-box;box-shadow:inset 0 9px 0 rgba(255,255,255,.35),inset 0 -12px 0 rgba(0,0,0,.14),0 4px 10px -4px rgba(30,42,74,.4);transition:transform .15s ease}
+.um-wagon-load{position:absolute;left:2%;right:2%;bottom:42%;height:62%;z-index:0}
+.um-wagon-box{z-index:1}
+.um-load-it{position:absolute;bottom:0;width:54%;height:auto;aspect-ratio:1;left:calc(var(--n) * 23%);transform:rotate(calc(var(--n) * 9deg - 9deg));animation:um-drop .45s cubic-bezier(.3,1.5,.5,1) both;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18))}
+@keyframes um-drop{0%{transform:translateY(-90%) scale(.6);opacity:0}100%{opacity:1}}
+.um-wagon-wheels{position:absolute;left:10%;right:10%;bottom:1%;height:22%;display:flex;justify-content:space-between;z-index:2}
+.um-wagon-wheels i{display:block;height:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 50%,#FFC21A 0 16%,#3B404C 17% 54%,#C9CED8 55% 63%,#262A33 64%);box-shadow:0 2px 3px rgba(0,0,0,.25)}
+.um-wagon::before{content:'';position:absolute;left:-7px;bottom:24%;width:10px;height:5px;border-radius:3px;background:#3B404C}
+.um-wagon-ready .um-wagon-box{animation:um-wready 1s ease-in-out infinite}
+.um-wagon-hot .um-wagon-box{transform:scale(1.08);box-shadow:0 0 0 4px #FFFFFF,0 0 0 7px #22A55A}
+@keyframes um-wready{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.um-rails{position:absolute;left:0;right:0;bottom:12px;height:7px;background:repeating-linear-gradient(90deg,#9B6B43 0 8px,transparent 8px 22px);border-top:3px solid #8C93A3}
+.um-toys{width:100%;max-width:640px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(92px,26vw),1fr));gap:10px}
+.um-toy{aspect-ratio:1;border-radius:22px;border:3px solid #E1E7F5;background:#FFFFFF;padding:8%;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;position:relative}
+.um-toy .um-photo{animation:none}
+.um-toy-off{opacity:.35}
+.um-toy-sel{border-color:#22A55A;box-shadow:0 0 0 4px rgba(34,165,90,.25);transform:translateY(-6px) scale(1.06)}
+.um-toy-drag{z-index:50;pointer-events:none;transition:none!important;box-shadow:0 18px 30px -10px rgba(30,42,74,.5);cursor:grabbing}
 .um-lvgrid.um-lvgrid-topics{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))!important}
 .um-lvgrid-topics button{min-height:104px!important;padding:10px 6px!important}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
 @media (max-width: 640px){
-.um-head{padding:12px 16px!important;gap:10px!important}
 .um-nav{order:3;width:100%;flex-wrap:nowrap!important;gap:6px!important}
 .um-nav button{flex:1 1 auto;white-space:nowrap;padding:0 8px!important;font-size:14px!important}
-.um-logo-text{font-size:20px!important}
-.um-logo-shapes span{width:15px!important;height:15px!important}
 .um-tools{gap:6px!important}
 .um-tools button,.um-tools > span{padding:0 10px!important;font-size:15px!important;gap:5px!important}
 .um-hero{padding:20px!important}
@@ -215,10 +250,21 @@ button:disabled{cursor:default}
 .um-sun{width:200px;height:200px;top:-70px;right:-70px}
 .um-fl{display:none}
 }
-/* шапка: белая «стеклянная» панель; на телефоне не прилипает, чтобы не занимать экран */
-.um-head{position:sticky;top:10px;z-index:30}
-@media (max-width: 1000px){.um-head{position:relative}}
-@media (max-width: 640px){.um-head{position:static;margin:8px 8px 12px!important;width:auto!important}}
+/* шапка: одна лёгкая строка — слева вход и звук, справа профиль со звёздами */
+.um-head{width:calc(100% - 32px);max-width:1088px;margin:12px auto 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;box-sizing:border-box}
+.um-hside{display:flex;align-items:center;gap:8px;min-width:0}
+.um-hb{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:46px;padding:0 15px;border-radius:999px;border:1.5px solid #DCE4F4;background:rgba(255,255,255,.92);color:#1E2A4A;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 3px 10px -6px rgba(43,84,160,.45);white-space:nowrap;box-sizing:border-box}
+.um-hb-ic{width:46px;padding:0}
+.um-hlogo{display:flex;align-items:center;gap:8px;background:transparent;border:0;padding:4px;cursor:pointer;color:#1E2A4A}
+.um-logo-shapes{display:flex;gap:3px;align-items:center}
+.um-logo-shapes span{display:block;width:17px;height:17px}
+.um-logo-text{font-size:24px;font-weight:900;letter-spacing:-0.01em}
+.um-hprof{padding:0 14px 0 8px;gap:8px}
+.um-hprof[aria-current="page"]{background:#1E2A4A;border-color:#1E2A4A;color:#FFFFFF}
+.um-hstars{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px 0 7px;border-radius:999px;background:#FFF4D6;color:#7A5200;font-weight:900}
+@media (max-width: 760px){.um-logo-text{display:none}}
+@media (max-width: 520px){.um-head{width:auto;margin:8px 12px 10px}.um-hprof-t{display:none}.um-hprof{padding:0 10px 0 6px}.um-hb{font-size:15px;padding:0 12px}.um-hb-ic{padding:0}}
+@media (max-width: 380px){.um-hlogo{display:none}}
 .um-chip{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;background:#F2F7FF;border:1.5px solid #D7E5FA;font-size:15px;font-weight:800;color:#1E2A4A}
 .um-skill{transition:transform .2s ease}
 .um-skill:hover{transform:translateY(-3px)}
@@ -356,49 +402,32 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </sc-if>
 
 <sc-if value="{{isReady}}" hint-placeholder-val="{{ true }}">
-<header class="um-head {{headCls}}" style="width: calc(100% - 32px); max-width: 1088px; margin: 12px auto 18px; padding: 10px 14px; box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; background: rgba(255,255,255,.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-radius: 28px; border: 1.5px solid rgba(255,255,255,.95); box-shadow: 0 12px 32px -14px rgba(43,84,160,.4)">
-<button type="button" class="press" onClick="{{goHome}}" aria-label="Умняша, на главную" style="display: flex; align-items: center; gap: 10px; background: transparent; border: 0; padding: 6px 4px; cursor: pointer; color: #1E2A4A">
-<span class="um-logo-shapes" aria-hidden="true" style="display: flex; gap: 3px; align-items: center">
-<span style="display: block; width: 22px; height: 22px; background: #EF4444; clip-path: circle(48% at 50% 50%)"></span>
-<span style="display: block; width: 22px; height: 22px; background: #FACC15; clip-path: polygon(50% 5%, 97% 93%, 3% 93%)"></span>
-<span style="display: block; width: 22px; height: 22px; background: #3B82F6; clip-path: inset(8% round 16%)"></span>
-</span>
-<span class="um-logo-text" style="font-size: 28px; font-weight: 900; letter-spacing: -0.01em">Умняша</span>
+<header class="um-head {{headCls}}">
+<div class="um-hside">
+<sc-if value="{{showBack}}" hint-placeholder-val="{{ false }}"><button type="button" class="press um-hb um-hb-ic" onClick="{{goHome}}" aria-label="К играм"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button></sc-if>
+<button type="button" class="press um-hlogo" onClick="{{goHome}}" aria-label="Умняша, на главную">
+<span class="um-logo-shapes" aria-hidden="true"><span style="background: #EF4444; clip-path: circle(48% at 50% 50%)"></span><span style="background: #FACC15; clip-path: polygon(50% 5%, 97% 93%, 3% 93%)"></span><span style="background: #3B82F6; clip-path: inset(8% round 16%)"></span></span>
+<span class="um-logo-text">Умняша</span>
 </button>
-<nav class="um-nav {{navCls}}" aria-label="Разделы" style="display: flex; flex-wrap: wrap; gap: 8px">
-<sc-for list="{{nav}}" as="n" hint-placeholder-count="3">
-<button type="button" class="press" onClick="{{n.go}}" aria-current="{{n.current}}" style="min-height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid #1E2A4A; background: {{n.bg}}; color: {{n.fg}}; font-size: 17px; font-weight: 800; cursor: pointer">{{n.label}}</button>
-</sc-for>
-</nav>
-<div class="um-tools" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">
 <sc-if value="{{me.guest}}" hint-placeholder-val="{{ true }}">
-<button type="button" class="press" onClick="{{me.login}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid #1E2A4A; background: #FFFFFF; color: #1E2A4A; font-size: 17px; font-weight: 800; cursor: pointer">
-<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"></path><path d="M9 16l4-4-4-4"></path><path d="M13 12H4"></path></svg>
-<span>Войти</span>
-</button>
+<button type="button" class="press um-hb" onClick="{{me.login}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"></path><path d="M9 16l4-4-4-4"></path><path d="M13 12H4"></path></svg><span>Войти</span></button>
 </sc-if>
 <sc-if value="{{me.hasKid}}" hint-placeholder-val="{{ false }}">
-<button type="button" class="press" onClick="{{me.who}}" aria-label="{{me.aria}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 16px 0 8px; border-radius: 999px; border: 2px solid #1E2A4A; background: #FFFFFF; color: #1E2A4A; font-size: 17px; font-weight: 900; cursor: pointer; max-width: 220px">
-<span aria-hidden="true" style="flex: none; display: block; width: 32px; height: 32px; background: {{me.bg}}; clip-path: {{me.clip}}"></span>
-<span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{me.name}}</span>
-</button>
+<button type="button" class="press um-hb" onClick="{{me.who}}" aria-label="{{me.aria}}" style="padding-left: 6px; max-width: 170px"><span aria-hidden="true" style="flex: none; display: block; width: 28px; height: 28px; background: {{me.bg}}; clip-path: {{me.clip}}"></span><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{me.name}}</span></button>
 </sc-if>
 <sc-if value="{{me.noKid}}" hint-placeholder-val="{{ false }}">
-<button type="button" class="press" onClick="{{me.add}}" style="display: inline-flex; align-items: center; gap: 6px; min-height: 48px; padding: 0 18px; border-radius: 999px; border: 2px dashed #1E2A4A; background: #FFFFFF; color: #1E2A4A; font-size: 17px; font-weight: 800; cursor: pointer">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
-<span>Профиль ребёнка</span>
-</button>
+<button type="button" class="press um-hb" onClick="{{me.add}}" style="border-style: dashed"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg><span>Ребёнок</span></button>
 </sc-if>
-<span aria-label="{{starsAria}}" style="display: inline-flex; align-items: center; gap: 6px; min-height: 48px; padding: 0 16px; border-radius: 999px; background: #FFFFFF; font-size: 18px; font-weight: 900">
-<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="#FFB400" stroke="#E09A00" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-<span>{{totalStars}}</span>
-</span>
-<button type="button" class="press" onClick="{{toggleSound}}" aria-pressed="{{soundPressed}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 999px; border: 2px solid {{soundBd}}; background: {{soundBg}}; color: {{soundFg}}; font-size: 17px; font-weight: 800; cursor: pointer">
-<sc-if value="{{soundOn}}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M15.5 9a4.2 4.2 0 0 1 0 6"></path><path d="M18 6.5a7.6 7.6 0 0 1 0 11"></path></svg></sc-if>
-<sc-if value="{{soundOff}}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M16 9.5l5 5"></path><path d="M21 9.5l-5 5"></path></svg></sc-if>
-<span>{{soundLabel}}</span>
+<button type="button" class="press um-hb um-hb-ic" onClick="{{toggleSound}}" aria-pressed="{{soundPressed}}" aria-label="{{soundLabel}}" style="color: {{soundIc}}">
+<sc-if value="{{soundOn}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M15.5 9a4.2 4.2 0 0 1 0 6"></path><path d="M18 6.5a7.6 7.6 0 0 1 0 11"></path></svg></sc-if>
+<sc-if value="{{soundOff}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M16 9.5l5 5"></path><path d="M21 9.5l-5 5"></path></svg></sc-if>
 </button>
 </div>
+<button type="button" class="press um-hb um-hprof" onClick="{{goProfile}}" aria-label="{{profAria}}" aria-current="{{profCur}}">
+<span class="um-hstars"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="#FFB400" stroke="#E09A00" stroke-width="1.4" stroke-linejoin="round"></path></svg><span>{{totalStars}}</span></span>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="4"></circle><path d="M4.5 20.5c1.2-4 4.2-6 7.5-6s6.3 2 7.5 6"></path></svg>
+<span class="um-hprof-t">Профиль</span>
+</button>
 </header>
 
 <sc-if value="{{notice.show}}" hint-placeholder-val="{{ false }}">
@@ -568,7 +597,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <div class="um-gbar-title" style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 200px; min-width: 0">
 <span style="font-size: 22px; font-weight: 900; text-align: center">{{game.title}}</span>
 <sc-if value="{{game.hasSub}}" hint-placeholder-val="{{ false }}"><span style="font-size: 15px; font-weight: 800; color: #4A5578; text-align: center; margin-top: -4px">{{game.sub}}</span></sc-if>
-<sc-if value="{{game.hasTopics}}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="{{game.topicsAria}}" style="display: flex; align-items: center; gap: 8px; margin: 2px 0"><sc-for list="{{game.topicDots}}" as="d" hint-placeholder-count="8"><span aria-hidden="true" style="display: block; flex: none; width: {{d.size}}px; height: {{d.size}}px; border-radius: 50%; background: {{d.bg}}; box-shadow: {{d.ring}}; opacity: {{d.op}}"></span></sc-for></span></sc-if>
+<sc-if value="{{game.hasTopics}}" hint-placeholder-val="{{ false }}"><span role="group" aria-label="{{game.topicsAria}}" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 7px; margin: 4px 0"><sc-for list="{{game.topicDots}}" as="d" hint-placeholder-count="8"><button type="button" class="press um-tdot" onClick="{{d.go}}" disabled="{{d.locked}}" aria-label="{{d.aria}}" style="width: {{d.size}}px; height: {{d.size}}px; background: {{d.bg}}; box-shadow: {{d.ring}}; opacity: {{d.op}}"></button></sc-for></span></sc-if>
 <span style="display: flex; align-items: center; gap: 6px" aria-label="{{game.counter}}">
 <sc-for list="{{game.dots}}" as="d" hint-placeholder-count="5"><span aria-hidden="true" style="display: block; width: {{d.w}}px; height: 12px; border-radius: 999px; background: {{d.bg}}"></span></sc-for>
 </span>
@@ -610,6 +639,26 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </div>
 </sc-if>
 
+<sc-if value="{{game.isTrain}}" hint-placeholder-val="{{ false }}">
+<div class="um-tr-scene">
+<div class="um-train {{game.trCls}}">
+<span class="um-loco" aria-hidden="true"><span class="um-smoke"><i></i><i></i><i></i></span><svg viewBox="0 0 120 100" width="100%" height="100%"><defs><linearGradient id="lo-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF6B5E"></stop><stop offset=".55" stop-color="#E5392C"></stop><stop offset="1" stop-color="#B8261C"></stop></linearGradient><linearGradient id="lo-c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4C8DF6"></stop><stop offset="1" stop-color="#2459C7"></stop></linearGradient><linearGradient id="lo-k" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4F5C"></stop><stop offset="1" stop-color="#1E2128"></stop></linearGradient><radialGradient id="lo-w" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#5B6170"></stop><stop offset="1" stop-color="#1C1F26"></stop></radialGradient></defs><rect x="16" y="14" width="13" height="22" rx="3" fill="url(#lo-k)"></rect><rect x="12" y="10" width="21" height="7" rx="3.5" fill="#2A2E37"></rect><rect x="8" y="34" width="66" height="32" rx="14" fill="url(#lo-b)"></rect><rect x="14" y="38" width="54" height="7" rx="3.5" fill="#FFFFFF" opacity=".28"></rect><circle cx="13" cy="50" r="5" fill="#FFE27A" stroke="#C99A1E" stroke-width="1.5"></circle><rect x="68" y="18" width="42" height="48" rx="6" fill="url(#lo-c)"></rect><rect x="63" y="12" width="52" height="9" rx="4.5" fill="#FFC21A"></rect><rect x="76" y="27" width="26" height="19" rx="5" fill="#CFE9FF" stroke="#1E3F8F" stroke-width="2"></rect><path d="M79 30 h9 l-6 12 h-3 z" fill="#FFFFFF" opacity=".7"></path><rect x="4" y="64" width="110" height="9" rx="4" fill="#2A2E37"></rect><path d="M2 73 L12 64 V73 Z" fill="#FFC21A"></path><g class="um-wheel" style="transform-origin: 28px 80px"><circle cx="28" cy="80" r="13" fill="url(#lo-w)"></circle><circle cx="28" cy="80" r="9" fill="none" stroke="#C9CED8" stroke-width="2"></circle><path d="M28 71 V89 M19 80 H37" stroke="#C9CED8" stroke-width="2.4"></path><circle cx="28" cy="80" r="3" fill="#FFC21A"></circle></g><g class="um-wheel" style="transform-origin: 60px 80px"><circle cx="60" cy="80" r="13" fill="url(#lo-w)"></circle><circle cx="60" cy="80" r="9" fill="none" stroke="#C9CED8" stroke-width="2"></circle><path d="M60 71 V89 M51 80 H69" stroke="#C9CED8" stroke-width="2.4"></path><circle cx="60" cy="80" r="3" fill="#FFC21A"></circle></g><g class="um-wheel" style="transform-origin: 94px 82px"><circle cx="94" cy="82" r="11" fill="url(#lo-w)"></circle><circle cx="94" cy="82" r="7.5" fill="none" stroke="#C9CED8" stroke-width="2"></circle><path d="M94 74.5 V89.5 M86.5 82 H101.5" stroke="#C9CED8" stroke-width="2.2"></path><circle cx="94" cy="82" r="2.6" fill="#FFC21A"></circle></g><rect x="26" y="78" width="36" height="4" rx="2" fill="#9AA3B5"></rect></svg></span>
+<sc-for list="{{game.wagons}}" as="w" hint-placeholder-count="2">
+<button type="button" class="um-wagon {{w.cls}}" data-trw="{{w.i}}" onClick="{{w.put}}" aria-label="{{w.aria}}" style="--wc: {{w.hex}}; --wr: {{w.rim}}">
+<span class="um-wagon-load"><sc-for list="{{w.load}}" as="l" hint-placeholder-count="0"><img class="um-load-it" src="{{l.img}}" alt="" draggable="false" style="--n: {{l.n}}"></sc-for></span>
+<span class="um-wagon-box"></span>
+<span class="um-wagon-wheels" aria-hidden="true"><i class="um-wheel"></i><i class="um-wheel"></i></span>
+</button>
+</sc-for>
+</div>
+<div class="um-rails" aria-hidden="true"></div>
+</div>
+<div class="um-toys">
+<sc-for list="{{game.toys}}" as="o" hint-placeholder-count="6">
+<button type="button" class="press um-toy {{o.cls}}" data-tri="{{o.i}}" onClick="{{o.pick}}" disabled="{{o.off}}" aria-label="{{o.aria}}" style="visibility: {{o.vis}}; --d: -{{o.dl}}s"><img class="um-photo" src="{{o.img}}" alt="" draggable="false"></button>
+</sc-for>
+</div>
+</sc-if>
 <div role="status" aria-live="polite" style="min-height: 48px; display: flex; align-items: center; justify-content: center; padding: 0 22px; border-radius: 999px; background: {{game.fbBg}}; color: {{game.fbFg}}; font-size: 21px; font-weight: 900; text-align: center">{{game.fbText}}</div>
 
 <sc-if value="{{game.isLearn}}" hint-placeholder-val="{{ false }}">
@@ -637,13 +686,13 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 
 <sc-if value="{{isResult}}" hint-placeholder-val="{{ false }}">
 <main style="max-width: 720px; margin: 0 auto; padding: 8px 16px 0; box-sizing: border-box">
-<section class="rise" style="background: #FFFFFF; border-radius: 32px; padding: 36px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; box-shadow: 0 1px 0 rgba(30,42,74,.04), 0 22px 50px -18px rgba(43,84,160,.3)">
+<section class="rise" style="background: #FFFFFF; border-radius: 32px; padding: 24px 20px 26px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; box-shadow: 0 1px 0 rgba(30,42,74,.04), 0 22px 50px -18px rgba(43,84,160,.3)">
 <span style="font-size: 16px; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; color: #4A5578">{{res.gameTitle}}</span>
-<sc-if value="{{res.hasBadge}}" hint-placeholder-val="{{ false }}"><span class="pop" aria-hidden="true" style="display: block; width: 120px; height: 120px; border-radius: 50%; background: {{res.badge}}; box-shadow: inset 0 -10px 18px rgba(0,0,0,.18), inset 0 8px 14px rgba(255,255,255,.45), 0 14px 28px -12px rgba(30,42,74,.45)"></span></sc-if>
+<sc-if value="{{res.hasBadge}}" hint-placeholder-val="{{ false }}"><span class="pop" aria-hidden="true" style="display: block; width: 76px; height: 76px; border-radius: 50%; background: {{res.badge}}; box-shadow: inset 0 -10px 18px rgba(0,0,0,.18), inset 0 8px 14px rgba(255,255,255,.45), 0 14px 28px -12px rgba(30,42,74,.45)"></span></sc-if>
 <div role="img" aria-label="{{res.starsAria}}" style="display: flex; gap: 8px; align-items: flex-end">
 <sc-for list="{{res.stars}}" as="s" hint-placeholder-count="3"><svg class="pop" width="{{s.size}}" height="{{s.size}}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="{{s.fill}}" stroke="{{s.stroke}}" stroke-width="1.2" stroke-linejoin="round"></path></svg></sc-for>
 </div>
-<h1 style="margin: 0; font-size: 40px; font-weight: 900; line-height: 1.1">{{res.title}}</h1>
+<h1 class="um-res-h" style="margin: 0; font-size: 34px; font-weight: 900; line-height: 1.12">{{res.title}}</h1>
 <p style="margin: 0; font-size: 19px; color: #4A5578; max-width: 440px">{{res.text}}</p>
 <sc-if value="{{res.isRecord}}" hint-placeholder-val="{{ false }}"><span style="background: #FFF4D6; color: #7A5200; border-radius: 999px; padding: 8px 18px; font-size: 17px; font-weight: 900">Новый рекорд!</span></sc-if>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px">
@@ -675,8 +724,9 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <main style="max-width: 1120px; margin: 0 auto; padding: 4px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
 <section style="background: #FFFFFF; border-radius: 32px; padding: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <div style="display: flex; flex-direction: column; gap: 6px">
-<h1 style="margin: 0; font-size: 36px; font-weight: 900">Мои звёзды</h1>
-<p style="margin: 0; font-size: 18px; color: #4A5578">Лучший результат в каждой игре. Звёзды за повторную игру не теряются.</p>
+<h1 style="margin: 0; font-size: 36px; font-weight: 900">Мой профиль</h1>
+<p style="margin: 0; font-size: 18px; color: #4A5578">Мои звёзды: лучший результат в каждой игре. Звёзды за повторную игру не теряются.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px"><button type="button" class="press um-hb" onClick="{{goParents}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"></path></svg><span>Для взрослых</span></button></div>
 </div>
 <span style="display: inline-flex; align-items: center; gap: 8px; background: #FFF4D6; color: #7A5200; border-radius: 999px; padding: 10px 20px; font-size: 22px; font-weight: 900">
 <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="#FFB400" stroke="#E09A00" stroke-width="1.4" stroke-linejoin="round"></path></svg>
@@ -1665,39 +1715,49 @@ var LEARN_CARD = {
 // ===== ТЕМЫ (вариант «Б»): игра идёт непрерывно — тема за темой, без списка уроков. Пока только «Цвета» =====
 // тема: знакомство с новым (learn) и TOPIC_TASKS заданий; темы-повторения без знакомства; после последней — бесконечное повторение
 var TOPIC_TASKS = 10;
+// порядок изучения цветов (так попросил владелец): от белого до чёрного, в конце — «Разноцветие» вразброс
+var COLOR_ORDER = ['white', 'yellow', 'green', 'red', 'orange', 'blue', 'purple', 'black'];
 var TOPICS = {
-  colors: [
-    { title: 'Красный цвет', learn: ['red'], known: ['red'] },
-    { title: 'Синий цвет', learn: ['blue'], known: ['red', 'blue'] },
-    { title: 'Жёлтый цвет', learn: ['yellow'], known: ['red', 'blue', 'yellow'] },
-    { title: 'Зелёный цвет', learn: ['green'], known: ['red', 'blue', 'yellow', 'green'] },
-    { title: 'Повторяем цвета', learn: [], known: ['red', 'blue', 'yellow', 'green'] },
-    { title: 'Белый цвет', learn: ['white'], known: ['red', 'blue', 'yellow', 'green', 'white'] },
-    { title: 'Чёрный цвет', learn: ['black'], known: ['red', 'blue', 'yellow', 'green', 'white', 'black'] },
-    { title: 'Повторяем все цвета', learn: [], known: ['red', 'blue', 'yellow', 'green', 'white', 'black'] }
-  ]
+  colors: COLOR_ORDER.map(function (c, i) { return { title: C[c].m.charAt(0).toUpperCase() + C[c].m.slice(1) + ' цвет', learn: [c], known: COLOR_ORDER.slice(0, i + 1) }; })
+    .concat([{ title: 'Разноцветие', learn: [], known: COLOR_ORDER }])
 };
-var TOPIC_PALETTE = ['red', 'blue', 'yellow', 'green', 'white', 'black'];
+var TOPIC_PALETTE = COLOR_ORDER;
+// игрушки для заданий на цвет и для паровозика (есть во всех цветах; без чайника — не понравился)
+var COLOR_TOYS = ['ball', 'cube', 'car', 'balloon', 'star', 'gift', 'cup', 'umbrella', 'boat', 'flower', 'rocket', 'bus', 'lollipop', 'pencil'];
 function topicsOf(gid) { return TOPICS[gid] || null; }
 // номер темы (с 0) по прогрессу; после последней — снова последняя (повторение)
 function topicIndex(str, gid) { var n = topicsOf(gid).length, cur = lvCurrent(str); return !cur || cur > n ? n - 1 : cur - 1; }
 // задания темы «Цвета»: от простого к сложному — сначала кружки из двух цветов, потом из трёх, потом одинаковые предметы разных цветов
 function genColorTopic(top) {
   var fresh = top.learn[0], known = top.known, out = [];
-  var item = pick(EASY_RECOLOR);
+  var item = pick(COLOR_TOYS), last = null;
   for (var k = 0; k < TOPIC_TASKS; k++) {
-    var nOpts = k < 3 ? 2 : k < 6 ? 3 : 4, disc = fresh ? k < 4 : k < 2;
-    // в новой теме чаще спрашиваем новый цвет, в повторении — все знакомые по очереди
-    var c = fresh ? ([0, 1, 2, 3, 5, 7, 9].indexOf(k) >= 0 || known.length < 2 ? fresh : pick(others(known, fresh))) : known[(k + Math.floor(Math.random() * known.length)) % known.length];
+    // «Разноцветие»: всегда 4 клетки, цвета вразброс; новая тема — от двух вариантов к четырём
+    var nOpts = !fresh ? 4 : k < 3 ? 2 : k < 6 ? 3 : 4, disc = fresh ? k < 4 : k < 6;
+    var c = fresh ? ([0, 1, 2, 3, 5, 7, 9].indexOf(k) >= 0 || known.length < 2 ? fresh : pick(others(known, fresh))) : pick(others(known, last));
+    last = c;
     var pool = others(known, c).length >= nOpts - 1 ? others(known, c) : others(TOPIC_PALETTE, c);
     var cs = [c].concat(sample(pool, nOpts - 1));
-    if (k >= 6 && k % 2 === 0) item = pick(EASY_RECOLOR);
+    if (k >= 6 && k % 2 === 0) item = pick(others(COLOR_TOYS, item));
     var s = disc ? 'disc' : item;
     var options = cs.map(function (cc, i) { return { tokens: [sh(s, cc, 82)], aria: disc ? C[cc].m + ' кружок' : nameOf(s, cc), correct: i === 0 }; });
     var prompt = 'Где ' + (disc ? C[c].m : nameOf(s, c)) + '?';
     out.push({ mode: 'choose', prompt: prompt, say: prompt, audio: 'color-' + c + (!disc && info(s).fem ? '-f' : ''), display: [], hint: [sh('disc', c, 64)], hintAria: 'Подсказка: ' + C[c].m + ' цвет', options: shuffle(options), why: disc ? 'Это ' + C[c].m + ' цвет.' : 'Это ' + nameOf(s, c) + '.' });
   }
+  out.push(trainTask(top));
   return out;
+}
+// «Паровозик» в конце темы: игрушки нужно положить в вагончик своего цвета, потом поезд уезжает.
+// Новая тема: один вагончик + лишние игрушки других цветов; дальше два вагончика; «Разноцветие» — три
+function plNom(c) { return C[c].m.replace(/ий$/, 'ие').replace(/ый$/, 'ые'); }
+function trainTask(top) {
+  var fresh = top.learn[0], known = top.known;
+  var wagons = !fresh ? sample(known, 3) : known.length < 3 ? [fresh] : shuffle([fresh, pick(others(known, fresh))]);
+  var per = wagons.length === 1 ? 4 : 3, toys = shuffle(COLOR_TOYS), n = 0, items = [];
+  wagons.forEach(function (c) { for (var j = 0; j < per; j++) items.push({ s: toys[n++ % toys.length], c: c }); });
+  if (wagons.length === 1) sample(others(TOPIC_PALETTE, fresh), 3).forEach(function (c) { items.push({ s: toys[n++ % toys.length], c: c }); });
+  var prompt = wagons.length === 1 ? 'Положи ' + plNom(fresh) + ' игрушки в ' + C[fresh].m + ' вагончик' : 'Разложи игрушки по вагончикам';
+  return { mode: 'train', prompt: prompt, say: prompt + '.', audio: '', wagons: wagons, items: shuffle(items) };
 }
 var TOPIC_GEN = { colors: genColorTopic };
 function topicTasks(age, gid, i) {
@@ -2099,7 +2159,7 @@ var BACK = tx('?', { bg: 'transparent', fg: '#FFFFFF', fs: 38, size: 48 });
 function starRow(n, size) { return [0, 1, 2].map(function (i) { return { fill: i < n ? '#FFB400' : '#E6EAF5', stroke: i < n ? '#E09A00' : '#D3D9EA', size: size }; }); }
 function loadStore() { try { var raw = window.localStorage.getItem(STORE_KEY); return raw ? JSON.parse(raw) || {} : {}; } catch (e) { return {}; } }
 function saveStore(data) { try { window.localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {} }
-function fresh() { return { memoOpen: false, wrong: {}, solved: false, done: {}, step: 0, flash: -1, up: [], matched: {}, lock: false, fb: null }; }
+function fresh() { return { memoOpen: false, wrong: {}, solved: false, done: {}, step: 0, flash: -1, up: [], matched: {}, lock: false, fb: null, tr: {}, trSel: -1, trBad: -1, trBadW: -1, trGo: false }; }
 
 // SFX-BEGIN: звуки синтезируются здесь; выбраны на странице прослушки «Звуки Умняши» (2026-10-26)
 // нажатие — «Камешек», верно — «Две нотки», ошибка — «Тук-тук», звезда — «Три нотки вверх», победа — «Хрустальная лесенка»
@@ -2176,6 +2236,25 @@ var SFX = {
   ok: { bus: 'main', g: 0.64, f: function (c, o, t) { sfxSoft(c, o, t, 523, 0.35, 0.004, 0.04); sfxSoft(c, o, t + 0.08, 784, 0.35, 0.004, 0.08); } },
   bad: { bus: 'main', g: 0.67, f: function (c, o, t) { sfxModal(c, o, t, 180, WOOD, 0.4); sfxModal(c, o, t + 0.12, 180, WOOD, 0.34); } },
   reward: { bus: 'main', g: 0.83, f: function (c, o, t) { [659, 784, 1047].forEach(function (f, i) { sfxSoft(c, o, t + i * 0.07, f, 0.3, 0.004, i === 2 ? 0.12 : 0.04); }); } },
+  // паровозик: два мягких гудка «ту-ту», потом «чух-чух» (шипящий шум), всё быстрее — поезд разгоняется
+  chug: { bus: 'main', g: 0.9, f: function (c, o, t) {
+    [0, 0.42].forEach(function (d, i) { var tt = t + d, len = i ? 0.42 : 0.26;
+      [[587, 0.12], [740, 0.09], [1175, 0.025]].forEach(function (h) {
+        var osc = c.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(h[0] * 0.97, tt); osc.frequency.linearRampToValueAtTime(h[0], tt + 0.06);
+        var g = c.createGain(); g.gain.setValueAtTime(0, tt); g.gain.linearRampToValueAtTime(h[1], tt + 0.04); g.gain.setValueAtTime(h[1], tt + len); g.gain.setTargetAtTime(0, tt + len, 0.05);
+        osc.connect(g); g.connect(o); osc.start(tt); osc.stop(tt + len + 0.5); }); });
+    var sr = c.sampleRate, buf = c.createBuffer(1, Math.floor(sr * 0.5), sr), d = buf.getChannelData(0), rnd = sfxRand(7);
+    for (var i = 0; i < d.length; i++) d[i] = rnd() * 2 - 1;
+    var at = t + 1.05, gap = 0.34;
+    for (var k = 0; k < 16; k++) {
+      var src = c.createBufferSource(); src.buffer = buf;
+      var bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = k % 2 ? 1500 : 1000; bp.Q.value = 0.8;
+      var v = (k % 2 ? 0.22 : 0.4) * (k > 11 ? (16 - k) / 5 : 1), g = c.createGain();
+      g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(v, at + 0.015); g.gain.setTargetAtTime(0, at + 0.03, 0.055);
+      src.connect(bp); bp.connect(g); g.connect(o); src.start(at); src.stop(at + 0.45);
+      at += gap; gap = Math.max(0.13, gap * 0.9);
+    }
+  } },
   finish: { bus: 'bright', g: 1.1, f: function (c, o, t) { [72, 76, 79, 84, 88, 91, 96].forEach(function (m, i) { sfxFM(c, o, t + i * 0.06, hz(m), 0.15, 0.3, -0.6 + 0.2 * i); }); } }
 };
 // воспроизведение: новый «сигнал» мягко гасит предыдущий, частые нажатия не копятся
@@ -2275,6 +2354,7 @@ class Component extends DCLogic {
     this.setState({ ready: true, db: db, sound: db.sound, age: p.age, diff: p.diff, best: p.best, lv: p.lv });
     var reduce = false; try { reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
     var self = this; if (!reduce) this._deco = setInterval(function () { self.shuffleDeco(); }, 5000);
+    this.trainDrag();
     // голоса браузер подгружает не сразу; задания озвучиваем, только если есть русский голос
     try {
       var ss = window.speechSynthesis;
@@ -2425,6 +2505,53 @@ class Component extends DCLogic {
   // похвала каждый раз другая: та же не звучит два раза подряд
   newPraise() { var p = pick(others(PRAISE, this._praise)); this._praise = p; return p; }
   learnNext() { this.snd('tap'); this.nextTask(); }
+  // «Паровозик»: при одном вагончике игрушка едет в него сразу; при нескольких — сначала выбрать игрушку, потом вагончик (или перетащить пальцем)
+  trainTap(i) {
+    var st = this.state, t = st.tasks[st.ti]; if (!t || t.mode !== 'train' || st.solved || st.tr[i] || Date.now() - (this._dragEnd || 0) < 350) return;
+    if (t.wagons.length === 1) { this.trainPut(i, 0); return; }
+    this.snd('tap'); this.setState({ trSel: st.trSel === i ? -1 : i, trBad: -1, trBadW: -1 });
+  }
+  trainWagon(w) { var st = this.state; if (st.trSel >= 0) this.trainPut(st.trSel, w); }
+  trainPut(i, w) {
+    var st = this.state, t = st.tasks[st.ti], it = t && t.items[i], self = this; if (!it || t.mode !== 'train' || st.solved || st.tr[i]) return;
+    if (it.c !== t.wagons[w]) {
+      this.snd('bad'); var tryText = 'Это ' + nameOf(it.s, it.c) + '. ' + pick(TRY);
+      this.setState({ trSel: -1, trBad: i, trBadW: w, mistakes: st.mistakes + 1, fb: { kind: 'bad', text: tryText } }); this.sayFeedback(TRY_VOICE, pick(TRY));
+      this.later(function () { if (self.state.trBad === i) self.setState({ trBad: -1, trBadW: -1 }); }, 500);
+      return;
+    }
+    var tr = Object.assign({}, st.tr); tr[i] = w + 1;
+    var left = t.items.filter(function (x, k) { return !tr[k] && t.wagons.indexOf(x.c) >= 0; }).length;
+    if (left) { this.snd('ok'); this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, fb: null }); return; }
+    // все игрушки на месте: похвала, гудок — и поезд уезжает
+    var praise = this.newPraise(); this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward');
+    this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, solved: true, fb: { kind: 'ok', text: praise + ' Паровозик поехал!' } });
+    this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.snd('chug', null, false); }, 900);
+    this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, 5200);
+  }
+  // перетаскивание игрушки пальцем или мышкой к вагончику
+  trainDrag() {
+    var self = this, drag = null, hot = null; if (typeof document === 'undefined' || !document.addEventListener) return;
+    var at = function (x, y) { var el = document.elementFromPoint(x, y); return el && el.closest ? el.closest('[data-trw]') : null; };
+    var setHot = function (w) { if (hot === w) return; if (hot) hot.classList.remove('um-wagon-hot'); hot = w; if (hot) hot.classList.add('um-wagon-hot'); };
+    document.addEventListener('pointerdown', function (e) {
+      var el = e.target && e.target.closest ? e.target.closest('[data-tri]') : null; if (!el || el.disabled) return;
+      drag = { el: el, i: +el.getAttribute('data-tri'), x: e.clientX, y: e.clientY, id: e.pointerId, moved: false };
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return; var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.moved) { if (dx * dx + dy * dy < 120) return; drag.moved = true; drag.el.classList.add('um-toy-drag'); }
+      drag.el.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.15)'; setHot(at(e.clientX, e.clientY));
+    });
+    var end = function (e) {
+      if (!drag || e.pointerId !== drag.id) return; var d = drag; drag = null; setHot(null);
+      if (!d.moved) return; self._dragEnd = Date.now();
+      d.el.classList.remove('um-toy-drag'); d.el.style.transform = '';
+      var w = e.type === 'pointerup' ? at(e.clientX, e.clientY) : null;
+      if (w) self.trainPut(d.i, +w.getAttribute('data-trw'));
+    };
+    document.addEventListener('pointerup', end); document.addEventListener('pointercancel', end);
+  }
   finish() {
     var st = this.state; var stars;
     this.stopSpeech(); var memory = st.tasks.every(function (t) { return t.mode === 'memory'; });
@@ -2640,7 +2767,7 @@ class Component extends DCLogic {
       });
     }
 
-    var game = { isLearn: false, learnNext: null, shelf: [], hasShelf: false, title: '', sub: '', hasSub: false, back: 'К урокам', backGo: function () { self.openHub(st.hub); }, hasTopics: false, topicDots: [], topicsAria: '', counter: '', dots: [], prompt: '', hasDisplay: false, display: [], displayAria: '', options: [], gridMax: '100%', gap: 12, fbText: '', fbBg: 'transparent', fbFg: '#1E2A4A' };
+    var game = { isLearn: false, learnNext: null, shelf: [], hasShelf: false, title: '', sub: '', hasSub: false, back: 'К урокам', backGo: function () { self.openHub(st.hub); }, hasTopics: false, topicDots: [], topicsAria: '', isTrain: false, trCls: '', wagons: [], toys: [], counter: '', dots: [], prompt: '', hasDisplay: false, display: [], displayAria: '', options: [], gridMax: '100%', gap: 12, fbText: '', fbBg: 'transparent', fbFg: '#1E2A4A' };
     if (st.screen === 'game' && st.tasks.length) {
       var t = st.tasks[st.ti];
       if (st.level && st.level.topic) {
@@ -2648,7 +2775,10 @@ class Component extends DCLogic {
         game.title = GAME_BY[st.level.g].title; game.sub = tps[ti0].title; game.hasSub = true;
         game.back = 'Все игры'; game.backGo = function () { self.go('home'); };
         game.hasTopics = true;
-        game.topicDots = tps.map(function (tp, i) { var done = lvStar(tdone, i + 1) > 0, now = i === ti0; return { bg: topicLook(st.level.g, tp), size: now ? 22 : 14, ring: now ? '0 0 0 3px #FFFFFF, 0 0 0 5px #1E2A4A' : 'inset 0 0 0 1px rgba(30,42,74,.15)', op: done || now ? 1 : 0.28 }; });
+        var tOpen = topicIndex(tdone, st.level.g);
+        game.topicDots = tps.map(function (tp, i) { var done = lvStar(tdone, i + 1) > 0, now = i === ti0, open = i <= tOpen;
+          return { bg: topicLook(st.level.g, tp), size: now ? 32 : 26, ring: now ? '0 0 0 3px #FFFFFF, 0 0 0 5.5px #1E2A4A' : 'inset 0 0 0 1.5px rgba(30,42,74,.2)', op: open || now ? 1 : 0.28, locked: !open || now,
+            aria: tp.title + (now ? ' — сейчас' : !open ? ' — пока закрыта' : done ? ' — пройдена, повторить' : ''), go: function () { self.openTopic(st.level.g, i); } }; });
         game.topicsAria = 'Тема ' + (ti0 + 1) + ' из ' + tps.length + ': ' + tps[ti0].title;
       }
       else if (st.level) { game.title = GAME_BY[st.level.g].title; game.sub = 'Урок ' + st.level.n; game.hasSub = true; }
@@ -2673,7 +2803,21 @@ class Component extends DCLogic {
       var base = function (tokens, aria, fn, bg, bd, anim, disabled) {
         return { tokens: tokens, aria: aria, pick: fn, bg: bg, bd: bd, anim: anim, disabled: !!disabled, op: 1, badge: '', hasBadge: false, minW: sz.minW || 'min(96px, 25vw)', minH: sz.minH || 'min(96px, 25vw)', w: 'auto', h: 'auto', pad: 'min(14px, 3vw)', inner: sz.inner || 'none' };
       };
-      if (t.mode === 'learn' || (t.mode === 'choose' && memoNow)) game.options = [];
+      game.isTrain = t.mode === 'train';
+      if (game.isTrain) {
+        game.trCls = st.trGo ? 'um-tr-go' : 'um-tr-in';
+        game.wagons = t.wagons.map(function (c, w) {
+          var load = []; t.items.forEach(function (it, k) { if (st.tr[k] === w + 1) load.push({ img: 'items/' + it.s + '-' + it.c + '.avif', n: load.length }); });
+          return { i: w, hex: C[c].hex, rim: c === 'white' ? '#C3CCDD' : 'rgba(20,24,40,.22)', aria: C[c].m.charAt(0).toUpperCase() + C[c].m.slice(1) + ' вагончик', load: load, put: function () { self.trainWagon(w); },
+            cls: (st.trBadW === w ? 'shake' : '') + (st.trSel >= 0 ? ' um-wagon-ready' : '') };
+        });
+        game.toys = t.items.map(function (it, k) {
+          var placed = !!st.tr[k];
+          return { i: k, img: 'items/' + it.s + '-' + it.c + '.avif', aria: nameOf(it.s, it.c), pick: function () { self.trainTap(k); }, off: placed || st.solved, vis: placed ? 'hidden' : 'visible',
+            cls: (st.trBad === k ? 'shake' : '') + (st.trSel === k ? ' um-toy-sel' : '') + (st.solved ? ' um-toy-off' : ''), dl: (k * 0.37).toFixed(2) };
+        });
+      }
+      if (t.mode === 'learn' || game.isTrain || (t.mode === 'choose' && memoNow)) game.options = [];
       else if (t.mode === 'choose') {
         game.options = t.options.map(function (o, i) {
           var ok = st.solved && o.correct; var bad = !!st.wrong[i];
@@ -2703,7 +2847,7 @@ class Component extends DCLogic {
     var res = { hasBadge: false, badge: '', gameTitle: '', stars: [], starsAria: '', title: '', text: '', isRecord: false, nextLabel: '', hasNext: true, homeLabel: 'К урокам', homeGo: function () { self.openHub(st.hub); }, replay: null, next: null };
     if (st.screen === 'result' && st.result) {
       var r = st.result;
-      res.stars = starRow(r.stars, 72); res.stars[1].size = 92; res.starsAria = starsWord(r.stars) + ' из 3';
+      res.stars = starRow(r.stars, 58); res.stars[1].size = 74; res.starsAria = starsWord(r.stars) + ' из 3';
       res.title = r.stars === 3 ? 'Отлично!' : r.stars === 2 ? 'Хорошо!' : 'Получилось!';
       res.isRecord = r.prev > 0 && r.stars > r.prev;
       if (r.level && r.level.topic) {
@@ -2807,7 +2951,8 @@ class Component extends DCLogic {
       me: me, auth: auth, who: who, kidf: kidf, acct: acct, gate: gate, notice: notice,
       skyCls: st.screen === 'game' ? 'um-sky um-calm' : 'um-sky', headCls: st.screen === 'game' || st.screen === 'rest' ? 'um-head-off' : '', showFooter: st.screen !== 'game',
       plants: st.plants.map(function (d) { return decoVals(d, 'um-dsway'); }),
-      goHome: function () { self.go('home'); },
+      goHome: function () { self.go('home'); }, goParents: function () { self.go('parents'); }, goProfile: function () { self.go('progress'); }, showBack: st.screen !== 'home',
+      profCur: st.screen === 'progress' ? 'page' : 'false', profAria: 'Мой профиль: ' + starsWord(total), soundIc: st.sound ? '#1E2A4A' : '#9AA6C4',
       nav: nav, navCls: st.screen === 'game' ? 'um-hide' : '', ages: ages, cats: cats, games: games, needAge: !age, hasAge: !!age,
       cells: cells, lvl: lvl,
       totalStars: total, starsAria: 'Всего: ' + starsWord(total), totalOf: total + ' из ' + AGES.reduce(function (s2, x) { return s2 + stepsFor(x.id); }, 0) * 3,
