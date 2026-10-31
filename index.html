@@ -191,6 +191,39 @@ button:disabled{cursor:default}
 .um-onb-age{aspect-ratio:1.15;border:0;border-radius:28px;background:#E4DDFF;color:#2E2560;font-size:clamp(32px,9vw,44px);font-weight:900;cursor:pointer;box-shadow:inset 0 -4px 0 rgba(90,60,200,.12);animation:um-tile .45s cubic-bezier(.3,1.6,.5,1) both;animation-delay:var(--d)}
 .um-onb-age.on{background:linear-gradient(180deg,#8C6CFF,#6E4DF0);color:#FFFFFF;box-shadow:0 5px 0 #4F33C4}
 @media (min-width: 900px){.um-onb > *{max-width:560px}}
+/* ===== игра как в детских приложениях: круглые кнопки, название темы, конфетти ===== */
+.um-xbtn{width:56px!important;height:56px!important;min-height:0!important;padding:0!important;justify-content:center;border-radius:50%!important;border:3px solid #FFFFFF!important;background:linear-gradient(180deg,#5AA2FF,#2F6FE0)!important;color:#FFFFFF!important;box-shadow:0 5px 0 #1E4FB0,0 10px 18px -8px rgba(30,80,180,.6)}
+.um-rbtn{width:56px!important;height:56px!important;min-height:0!important;padding:0!important;justify-content:center;border-radius:50%!important;border:3px solid #FFFFFF!important;background:linear-gradient(180deg,#FFE082,#FFB020)!important;color:#5A3A00!important;box-shadow:0 5px 0 #C98500,0 10px 18px -8px rgba(200,140,0,.6)}
+.um-rbtn span{display:none}
+.um-gsound{border:3px solid #FFFFFF!important;background:linear-gradient(180deg,#7DE3B0,#22B573)!important;color:#FFFFFF!important;box-shadow:0 5px 0 #138A52,0 10px 18px -8px rgba(20,140,80,.6);width:56px!important;height:56px!important}
+.um-sec-fin{background:transparent!important;box-shadow:none!important;padding:4px 0 8px!important}
+.um-sec-fin h1{text-shadow:0 2px 0 #FFFFFF,0 0 14px rgba(255,255,255,.9)}
+.um-sec-fin .um-fin{max-width:min(760px,max(300px,calc((100vh - 250px) * 4 / 3)));border-radius:28px;box-shadow:0 18px 36px -18px rgba(30,60,140,.55),inset 0 0 0 3px rgba(255,255,255,.7)}
+.um-intro{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 45%,#5FD0FF 0,#1EA7F5 45%,#1279D8 100%);cursor:pointer;animation:um-introfade 1.9s ease forwards}
+@keyframes um-introfade{0%,82%{opacity:1}100%{opacity:0;visibility:hidden}}
+.um-intro-rays{position:absolute;left:50%;top:45%;width:220vmax;height:220vmax;margin:-110vmax 0 0 -110vmax;background:repeating-conic-gradient(rgba(255,255,255,.13) 0 9deg,rgba(255,255,255,0) 9deg 18deg);animation:um-spin2 24s linear infinite}
+@keyframes um-spin2{to{transform:rotate(360deg)}}
+.um-intro-mid{position:relative;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 16px;text-align:center}
+.um-intro-t{display:flex;flex-wrap:wrap;justify-content:center;font-size:clamp(46px,14vw,86px);font-weight:900;line-height:1.05;max-width:92vw}
+.um-intro-t span{display:inline-block;white-space:pre;color:#FFE14D;-webkit-text-stroke:3px #7A3B00;paint-order:stroke fill;text-shadow:0 6px 0 #7A3B00,0 10px 16px rgba(0,30,80,.35);animation:um-letter .55s cubic-bezier(.3,1.7,.5,1) both}
+@keyframes um-letter{0%{transform:translateY(-60px) scale(.3) rotate(-18deg);opacity:0}100%{transform:none;opacity:1}}
+.um-intro-sub{display:flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,.95);color:#1E2A4A;font-size:clamp(18px,5vw,24px);font-weight:900;box-shadow:0 6px 0 rgba(0,40,100,.25);animation:um-popin2 .5s cubic-bezier(.3,1.6,.5,1) .5s both}
+.um-intro-sub i{display:block;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(30,42,74,.15)}
+@keyframes um-popin2{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+.um-intro-dots{display:flex;gap:10px}
+.um-intro-dots i{display:block;width:14px;height:14px;border-radius:50%;background:#FFFFFF;animation:um-dot2 1s ease-in-out infinite}
+.um-intro-dots i:nth-child(2){animation-delay:.15s;background:#FFE14D}.um-intro-dots i:nth-child(3){animation-delay:.3s;background:#FF8A8A}
+@keyframes um-dot2{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.um-confetti{position:fixed;left:50%;top:42%;width:0;height:0;z-index:70;pointer-events:none}
+.um-confetti i{position:absolute;left:-5px;top:-8px;border-radius:2px;animation:um-conf 1s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes um-conf{0%{transform:translate(0,0) rotate(0) scale(.4);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 120px)) rotate(var(--r)) scale(1);opacity:0}}
+/* «вставь в силуэт» */
+.um-fin-hive{background:linear-gradient(180deg,#8ED2FF 0%,#E3F6D8 62%,#9ADB7F 62%,#6DBF5C 100%)}
+.um-hive{aspect-ratio:auto;height:86%;border-radius:46% 46% 40% 40%/30% 30% 26% 26%;background:radial-gradient(circle at 35% 25%,#FFE38A,#FFC21A 55%,#E59A00);box-shadow:inset 0 -10px 0 rgba(150,90,0,.18),0 12px 24px -12px rgba(120,70,0,.6)}
+.um-hive::before{content:'';position:absolute;inset:0;border-radius:inherit;background:repeating-linear-gradient(180deg,transparent 0 15%,rgba(160,100,0,.22) 15% 17%)}
+.um-sil-slot > img{filter:brightness(0) opacity(.55)}
+.um-tray{border-radius:22px;background:rgba(255,255,255,.9);box-shadow:0 8px 18px -10px rgba(30,42,74,.5),inset 0 0 0 3px #FFC21A}
+.um-tray > img{width:80%;height:80%;margin:10%}
 .um-tdot{display:block;flex:none;padding:0;border:0;border-radius:50%;cursor:pointer}
 .um-tdot:disabled{cursor:default}
 /* «Паровозик» */
@@ -771,12 +804,22 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </main>
 </sc-if>
 
+<sc-if value="{{intro.show}}" hint-placeholder-val="{{ false }}">
+<div class="um-intro" onClick="{{intro.skip}}" role="status" aria-label="{{intro.aria}}">
+<div class="um-intro-rays"></div>
+<div class="um-intro-mid">
+<div class="um-intro-t"><sc-for list="{{intro.letters}}" as="l" hint-placeholder-count="5"><span style="animation-delay: {{l.d}}s">{{l.ch}}</span></sc-for></div>
+<div class="um-intro-sub"><i style="background: {{intro.look}}"></i>{{intro.sub}}</div>
+<div class="um-intro-dots"><i></i><i></i><i></i></div>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{confetti}}" hint-placeholder-val="{{ false }}"><div class="um-confetti" aria-hidden="true"><i style="--dx: 198px; --dy: -30px; --r: 347deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 182px; --dy: 37px; --r: 182deg; background: #FFC93C; width: 8px; height: 20px"></i><i style="--dx: 202px; --dy: 54px; --r: 304deg; background: #3D8BFD; width: 8px; height: 15px"></i><i style="--dx: 144px; --dy: 42px; --r: -108deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 80px; --dy: 51px; --r: -105deg; background: #A855F7; width: 8px; height: 19px"></i><i style="--dx: 76px; --dy: 81px; --r: 38deg; background: #FF8A3D; width: 9px; height: 20px"></i><i style="--dx: 13px; --dy: 85px; --r: 272deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 2px; --dy: 85px; --r: -355deg; background: #FFC93C; width: 9px; height: 20px"></i><i style="--dx: -25px; --dy: 186px; --r: -190deg; background: #3D8BFD; width: 10px; height: 16px"></i><i style="--dx: -103px; --dy: 100px; --r: 334deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -87px; --dy: 58px; --r: 347deg; background: #A855F7; width: 9px; height: 17px"></i><i style="--dx: -111px; --dy: 64px; --r: -191deg; background: #FF8A3D; width: 9px; height: 16px"></i><i style="--dx: -118px; --dy: 45px; --r: 257deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -178px; --dy: -5px; --r: -14deg; background: #FFC93C; width: 8px; height: 16px"></i><i style="--dx: -146px; --dy: -31px; --r: 353deg; background: #3D8BFD; width: 10px; height: 15px"></i><i style="--dx: -190px; --dy: -81px; --r: -302deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -209px; --dy: -116px; --r: 6deg; background: #A855F7; width: 11px; height: 14px"></i><i style="--dx: -123px; --dy: -142px; --r: 25deg; background: #FF8A3D; width: 12px; height: 20px"></i><i style="--dx: -88px; --dy: -114px; --r: -175deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -87px; --dy: -246px; --r: -239deg; background: #FFC93C; width: 9px; height: 20px"></i><i style="--dx: -7px; --dy: -191px; --r: 3deg; background: #3D8BFD; width: 12px; height: 16px"></i><i style="--dx: 13px; --dy: -162px; --r: 16deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 41px; --dy: -146px; --r: -267deg; background: #A855F7; width: 9px; height: 16px"></i><i style="--dx: 67px; --dy: -177px; --r: -209deg; background: #FF8A3D; width: 10px; height: 16px"></i><i style="--dx: 130px; --dy: -156px; --r: -41deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 121px; --dy: -122px; --r: -280deg; background: #FFC93C; width: 9px; height: 19px"></i><i style="--dx: 213px; --dy: -123px; --r: -195deg; background: #3D8BFD; width: 8px; height: 14px"></i><i style="--dx: 173px; --dy: -45px; --r: 55deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i></div></sc-if>
 <sc-if value="{{isGame}}" hint-placeholder-val="{{ false }}">
 <main style="max-width: 980px; margin: 0 auto; padding: 4px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
 <div class="um-gbar" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
-<button type="button" class="press" onClick="{{game.backGo}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 20px 0 14px; border-radius: 999px; border: 2px solid #1E2A4A; background: #FFFFFF; color: #1E2A4A; font-size: 18px; font-weight: 900; cursor: pointer">
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
-<span>{{game.back}}</span>
+<button type="button" class="press um-xbtn" onClick="{{game.backGo}}" aria-label="{{game.back}}" style="display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 20px 0 14px; border-radius: 999px; border: 2px solid #1E2A4A; background: #FFFFFF; color: #1E2A4A; font-size: 18px; font-weight: 900; cursor: pointer">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>
 </button>
 <div class="um-gbar-title" style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 200px; min-width: 0">
 <span style="font-size: 22px; font-weight: 900; text-align: center">{{game.title}}</span>
@@ -788,7 +831,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <span style="font-size: 15px; font-weight: 800; color: #4A5578">{{game.counter}}</span>
 </div>
 <div style="display: flex; gap: 8px; align-items: center">
-<button type="button" class="press um-restart" onClick="{{restart}}" aria-label="Заново" style="display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 2px solid #C9D3EE; background: #FFFFFF; color: #1E2A4A; font-size: 17px; font-weight: 800; cursor: pointer">
+<button type="button" class="press um-restart um-rbtn" onClick="{{restart}}" aria-label="Заново" style="display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 2px solid #C9D3EE; background: #FFFFFF; color: #1E2A4A; font-size: 17px; font-weight: 800; cursor: pointer">
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7"></path><path d="M4 4v4.5h4.5"></path></svg>
 <span>Заново</span>
 </button>
@@ -2583,11 +2626,25 @@ var FIN = {
     answer: function (t, fs) { return 'f' + t.rounds[fs.r].f; }
   }
 };
+FIN.slots = {
+  make: function () { var kinds = sample(['car', 'star', 'ball', 'balloon', 'cup', 'house', 'rocket', 'umbrella', 'gift', 'apple'], 4); return { mode: 'fin', kind: 'slots', items: kinds.map(function (x) { return { s: x, c: rndCol(x) }; }), order: shuffle([0, 1, 2, 3]) }; },
+  start: function () { return { r: 0 }; },
+  view: function (t, fs) {
+    var P = [[27, 32], [53, 32], [27, 70], [53, 70]], acts = [{ id: 'hive', cls: 'um-hive', x: 40, y: 51, w: 60, z: 1 }], done = fs.r >= 4;
+    t.items.forEach(function (it, k) { var on = t.order.indexOf(k) < fs.r;
+      acts.push({ id: 's' + k, img: itemImg(it.s, it.c), x: P[k][0], y: P[k][1], w: 21, z: 2, cls: on ? 'um-pop-in' : 'um-sil-slot', tap: !on && !done, aria: 'Тень ' + (k + 1) }); });
+    if (!done) { var cur = t.items[t.order[fs.r]]; acts.push({ id: 'tray', img: itemImg(cur.s, cur.c), x: 86, y: 50, w: 22, z: 3, cls: 'um-tray um-bob' }); }
+    return { scene: 'hive', prompt: done ? 'Все фигурки на месте!' : 'Нажми на тень: ' + info(t.items[t.order[fs.r]].s).nom, actors: acts };
+  },
+  tap: function (t, fs, id) { if (fs.r >= 4) return null; var k = +String(id).slice(1); if (t.order.indexOf(k) < fs.r) return null; if (k !== t.order[fs.r]) return { bad: true }; return { fs: { r: fs.r + 1 }, done: fs.r + 1 >= 4 }; },
+  answer: function (t, fs) { return 's' + t.order[fs.r]; }
+};
+var FINALE_ALT = { shadow: 'slots' };   // у «Теней» финалы чередуются: фонарик и «вставь в силуэт»
 var FINALE_OF = { items: 'fish', first: 'fish', find: 'pop', letters: 'pop', sort: 'tower', shadow: 'flash', compare: 'scales', odd: 'air', gone: 'bush', pairs: 'puzzle', count: 'rocket', next: 'beads', math: 'mathpop', shelf: 'lift' };
-var FIN_TITLE = { fish: 'Рыбалка', pop: 'Пузыри', tower: 'Башня', flash: 'Фонарик', scales: 'Весы', air: 'Воздушный шар', bush: 'Прятки', puzzle: 'Пазл', rocket: 'Ракета', beads: 'Бусы', mathpop: 'Пузыри с ответом', lift: 'Лифт' };
+var FIN_TITLE = { slots: 'Вставь в силуэт', fish: 'Рыбалка', pop: 'Пузыри', tower: 'Башня', flash: 'Фонарик', scales: 'Весы', air: 'Воздушный шар', bush: 'Прятки', puzzle: 'Пазл', rocket: 'Ракета', beads: 'Бусы', mathpop: 'Пузыри с ответом', lift: 'Лифт' };
 var TOPIC_FINALE = {};
 Object.keys(FINALE_OF).forEach(function (gid) {
-  TOPIC_FINALE[gid] = function (top, age, les) { var F = FIN[FINALE_OF[gid]], t = F.make(top, age, les, gid); t.prompt = F.view(t, F.start(t)).prompt; t.say = t.prompt + '.'; t.audio = ''; return t; };
+  TOPIC_FINALE[gid] = function (top, age, les) { var F = FIN[FINALE_ALT[gid] && top.n % 2 === 0 ? FINALE_ALT[gid] : FINALE_OF[gid]], t = F.make(top, age, les, gid); t.prompt = F.view(t, F.start(t)).prompt; t.say = t.prompt + '.'; t.audio = ''; return t; };
 });
 GAMES.forEach(function (g) { if (!TOPICS[g.id]) TOPICS[g.id] = genericTopics(g.id); if (!TOPIC_GEN[g.id]) TOPIC_GEN[g.id] = genGenericTopic(g.id); });
 // у каждого возраста свои игры: малышам 3–4 лет — без цифр и чтения, буквы — с 5 лет
@@ -2819,7 +2876,7 @@ function decoVals(d, move) {
 // ===== ФОН-END
 
 class Component extends DCLogic {
-  state =Object.assign({ onb: 0, onbAge: null, ready: false, screen: 'home', age: null, cat: 'all', sound: true, best: {}, lv: {}, diff: 0, hub: null, agePick: false, heroItems: makeHeroItems(), level: null, gameId: null, tasks: [], ti: 0, mistakes: 0, result: null, confirmReset: false, resetDone: false, db: null, auth: freshAuth('login'), gate: null, kidForm: freshKidForm(null), acctAsk: '', notice: '', plants: makeGround(), ruVoice: false, restLeft: 0 }, fresh());
+  state =Object.assign({ intro: null, confetti: false, onb: 0, onbAge: null, ready: false, screen: 'home', age: null, cat: 'all', sound: true, best: {}, lv: {}, diff: 0, hub: null, agePick: false, heroItems: makeHeroItems(), level: null, gameId: null, tasks: [], ti: 0, mistakes: 0, result: null, confirmReset: false, resetDone: false, db: null, auth: freshAuth('login'), gate: null, kidForm: freshKidForm(null), acctAsk: '', notice: '', plants: makeGround(), ruVoice: false, restLeft: 0 }, fresh());
 
   componentDidMount() {
     var db = loadDb(), p = playerOf(db);
@@ -2828,7 +2885,7 @@ class Component extends DCLogic {
     var self = this; if (!reduce) this._deco = setInterval(function () { self.shuffleDeco(); }, 5000);
     this.trainDrag();
     // для проверки: ?demo=<игра> открывает сразу финал её первой темы
-    try { var dm = /[?&]demo=([a-z]+)/.exec(window.location.search); if (dm && GAME_BY[dm[1]]) { var me2 = this; setTimeout(function () { if (!me2.state.age) return; me2.openTopic(dm[1], 0); var s3 = me2.state, last = s3.tasks.length - 1; me2.setState({ ti: last }); me2.finInit(s3.tasks[last]); }, 50); } } catch (e) {}
+    try { var dm = /[?&]demo=([a-z]+)/.exec(window.location.search); if (dm && GAME_BY[dm[1]]) { var me2 = this; setTimeout(function () { if (!me2.state.age) return; var dt = /[?&]t=(\d+)/.exec(window.location.search); me2.openTopic(dm[1], dt ? +dt[1] : 0); me2.setState({ intro: null }); var s3 = me2.state, last = s3.tasks.length - 1; me2.setState({ ti: last }); me2.finInit(s3.tasks[last]); }, 50); } } catch (e) {}
     // голоса браузер подгружает не сразу; задания озвучиваем, только если есть русский голос
     try {
       var ss = window.speechSynthesis;
@@ -2962,8 +3019,11 @@ class Component extends DCLogic {
     if (i == null) i = cur; if (i < 0 || i > cur) return;
     this.clearTimers(); this.stopSpeech(); this.snd('tap');
     var tasks = topicTasks(st.age, gid, i);
-    this.setState(Object.assign({ screen: 'game', hub: gid, gameId: gid, level: { g: gid, d: 't', n: i + 1, topic: true }, tasks: tasks, ti: 0, mistakes: 0, result: null }, fresh()));
-    this._lvStart = Date.now(); this.autoSay(tasks[0]); this.startMemo(tasks[0]);
+    // перед темой — большое название игры и темы (как экран загрузки); задание озвучивается после него
+    var top = topicsOf(gid)[i], self = this;
+    this.setState(Object.assign({ screen: 'game', hub: gid, gameId: gid, level: { g: gid, d: 't', n: i + 1, topic: true }, tasks: tasks, ti: 0, mistakes: 0, result: null, intro: { title: GAME_BY[gid].title, sub: top.title, look: topicLook(gid, top) } }, fresh()));
+    this._lvStart = Date.now();
+    this.later(function () { if (self.state.tasks === tasks) { self.setState({ intro: null }); self.autoSay(tasks[0]); self.startMemo(tasks[0]); } }, 1900);
     this.top();
   }
   openLevel(gid, d, n) {
@@ -2982,6 +3042,9 @@ class Component extends DCLogic {
   // похвала каждый раз другая: та же не звучит два раза подряд
   newPraise() { var p = pick(others(PRAISE, this._praise)); this._praise = p; return p; }
   learnNext() { this.snd('tap'); this.nextTask(); }
+  // салют из конфетти за верный ответ
+  burst() { var self = this; if (this.state.confetti) this.setState({ confetti: false }); setTimeout(function () { self.setState({ confetti: true }); }, 30); this.later(function () { self.setState({ confetti: false }); }, 1100); }
+  skipIntro() { var st = this.state; if (!st.intro) return; this.setState({ intro: null }); this.autoSay(st.tasks[st.ti]); this.startMemo(st.tasks[st.ti]); }
   // финал темы: мини-игра (см. FIN)
   finInit(t) {
     if (!t || t.mode !== 'fin') return; var F = FIN[t.kind], self = this; this.setState({ fin: F.start(t) });
@@ -2996,6 +3059,7 @@ class Component extends DCLogic {
       this.later(function () { if (self.state.finBad === id) self.setState({ finBad: null }); }, 500); return;
     }
     if (r.after) this.later(function () { if (self.state.tasks[self.state.ti] === t) self.setState({ fin: r.after.fs, finLock: false }); }, r.after.ms);
+    this.burst();
     if (r.done) {
       var p = this.newPraise(); this.sayFeedback(PRAISE_VOICE, p); this.snd('finish');
       this.setState({ fin: r.fs, solved: true, finBad: null, fb: { kind: 'ok', text: p } });
@@ -3022,7 +3086,7 @@ class Component extends DCLogic {
     var left = t.items.filter(function (x, k) { return !tr[k] && trainFits(t, x); }).length;
     if (left) { this.snd('ok'); this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, fb: null }); return; }
     // все игрушки на месте: похвала, гудок — и поезд уезжает
-    var praise = this.newPraise(); this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward');
+    var praise = this.newPraise(); this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst();
     this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, solved: true, fb: { kind: 'ok', text: praise + ' Паровозик поехал!' } });
     this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.snd('chug', null, false); }, 900);
     this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, 5200);
@@ -3087,7 +3151,7 @@ class Component extends DCLogic {
     if (t.memo && !st.memoOpen) return;
     if (o.correct) {
       var praise = this.newPraise(), voiced = this.sayFeedback(PRAISE_VOICE, praise);
-      this.snd('ok'); this.setState({ solved: true, fb: { kind: 'ok', text: praise + (t.why ? ' ' + t.why : '') } });
+      this.snd('ok'); this.burst(); this.setState({ solved: true, fb: { kind: 'ok', text: praise + (t.why ? ' ' + t.why : '') } });
       this.later(function () { self.nextTask(); }, t.why ? 1900 : voiced ? 1600 : 1100);
     } else {
       this.snd('bad'); if (st.wrong[i]) return;
@@ -3483,7 +3547,9 @@ class Component extends DCLogic {
       gamesLine: age ? gamesWord(gamesFor(age).length) + ' · играем тема за темой' : '',
       accent: accent,
       isLoading: !st.ready, isReady: st.ready,
-      isOnb: st.ready && st.screen === 'home' && !age, onb: onbView,
+      isOnb: st.ready && st.screen === 'home' && !age, onb: onbView, confetti: !!st.confetti && st.screen === 'game',
+      intro: st.intro && st.screen === 'game' ? { show: true, look: st.intro.look, sub: st.intro.sub, aria: st.intro.title + '. ' + st.intro.sub, skip: function () { self.skipIntro(); },
+        letters: st.intro.title.split('').map(function (ch, i) { return { ch: ch, d: (i * .06).toFixed(2) }; }) } : { show: false, letters: [] },
       isHome: st.ready && st.screen === 'home' && !!age, isGame: st.ready && st.screen === 'game', isResult: st.ready && st.screen === 'result', isRest: st.ready && st.screen === 'rest',
       rest: { left: st.restLeft > 0 ? 'Ещё ' + st.restLeft + ' с' : 'Можно продолжать!', wait: st.restLeft > 0, bg: st.restLeft > 0 ? '#B4BEDA' : accent, go: function () { self.restDone(); } }, isProgress: st.ready && st.screen === 'progress', isParents: st.ready && st.screen === 'parents', showIntro: !age || st.agePick, showGames: !!age && !st.agePick, canCancelAge: !!age && st.agePick, ageLabel: age ? ageText(age) : '', heroItems: st.heroItems,
       parentsOpen: !!st.parentsOpen, parentsAria: st.parentsOpen ? 'true' : 'false', parentsCh: st.parentsOpen ? 'um-open' : '', toggleParents: function () { self.snd('tap'); self.setState({ parentsOpen: !self.state.parentsOpen }); },
