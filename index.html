@@ -248,14 +248,14 @@ button:disabled{cursor:default}
 .um-gbar-mid{flex:1 1 auto;min-width:0;padding:0 2px}
 .um-gtrack{height:20px;border-radius:999px;background:#FFFFFF;box-shadow:inset 0 2px 4px rgba(30,42,74,.16),0 0 0 3px #FFFFFF,0 6px 14px -6px rgba(30,60,120,.4);overflow:hidden}
 .um-gtrack i{display:block;height:100%;border-radius:999px;background:linear-gradient(180deg,#7DE3B0,#22B573);box-shadow:inset 0 4px 0 rgba(255,255,255,.35);transition:width .5s ease}
-.um-topicbtn{flex:none;width:56px;height:56px;padding:0;border-radius:50%;border:3px solid #FFFFFF;cursor:pointer;box-shadow:0 5px 0 rgba(30,42,74,.28),0 10px 18px -8px rgba(30,42,74,.5)}
+.um-topicbtn{flex:none;width:56px;height:56px;padding:0;border-radius:50%;border:3px solid #FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#FFD84D,#FFB400);color:#FFFFFF;box-shadow:0 5px 0 #D08A00,0 10px 18px -8px rgba(200,130,0,.6)}
 .um-tsheet{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:16px;box-sizing:border-box;background:rgba(20,30,60,.45)}
 .um-tsheet.um-on{display:flex}
 .um-tsheet-box{width:100%;max-width:460px;max-height:84vh;overflow:auto;box-sizing:border-box;padding:20px;border-radius:30px;background:#FFFFFF;display:flex;flex-direction:column;gap:14px;text-align:center}
 .um-tsheet-h{font-size:26px;font-weight:900}
 .um-tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
 .um-titem{min-width:0;border:3px solid transparent;border-radius:20px;padding:10px 6px;background:#F2F7FF;color:#1E2A4A;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:14px;font-weight:800;line-height:1.15}
-.um-titem i{display:block;width:46px;height:46px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(30,42,74,.14)}
+.um-titem i{width:46px;height:46px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(30,42,74,.14);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:22px;font-weight:900;color:#7A4B00}
 .um-titem:disabled{opacity:.35;cursor:default}.um-titem-now{border-color:#1E2A4A}
 .um-tsheet-again{min-height:60px;border:0;border-radius:999px;background:#FFC21A;color:#1E2A4A;font-size:20px;font-weight:900;cursor:pointer;box-shadow:inset 0 -5px 0 #E09A00}
 /* «Паровозик» */
@@ -990,7 +990,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </button>
 <div class="um-gbar-mid"><div class="um-gtrack" role="progressbar" aria-label="{{game.counter}}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{game.pct}}"><i style="width: {{game.pct}}%"></i></div></div>
 <div style="display: flex; gap: 8px; align-items: center; flex: none">
-<button type="button" class="press um-topicbtn" onClick="{{game.sheetOpen}}" aria-label="Темы и «Заново»" style="background: {{game.look}}"></button>
+<button type="button" class="press um-topicbtn" onClick="{{game.sheetOpen}}" aria-label="Темы и «Заново»"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2.4"></rect><rect x="13" y="3" width="8" height="8" rx="2.4"></rect><rect x="3" y="13" width="8" height="8" rx="2.4"></rect><rect x="13" y="13" width="8" height="8" rx="2.4"></rect></svg></button>
 <button type="button" class="press um-gsound" onClick="{{toggleSound}}" aria-pressed="{{soundPressed}}" aria-label="{{soundLabel}}" style="width: 52px; height: 52px; border-radius: 999px; border: 2px solid {{soundBd}}; background: {{soundBg}}; color: {{soundFg}}; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0">
 <sc-if value="{{soundOn}}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M15.5 9a4.2 4.2 0 0 1 0 6"></path><path d="M18 6.5a7.6 7.6 0 0 1 0 11"></path></svg></sc-if>
 <sc-if value="{{soundOff}}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M16 9.5l5 5"></path><path d="M21 9.5l-5 5"></path></svg></sc-if>
@@ -999,7 +999,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <div class="um-tsheet {{game.sheetCls}}" onClick="{{game.sheetClose}}">
 <div class="um-tsheet-box">
 <strong class="um-tsheet-h">{{game.title}}</strong>
-<sc-if value="{{game.hasTopics}}" hint-placeholder-val="{{ false }}"><div class="um-tgrid"><sc-for list="{{game.topicAll}}" as="d" hint-placeholder-count="8"><button type="button" class="press um-titem {{d.cls}}" onClick="{{d.go}}" disabled="{{d.locked}}" aria-label="{{d.aria}}"><i style="background: {{d.bg}}"></i><span>{{d.title}}</span></button></sc-for></div></sc-if>
+<sc-if value="{{game.hasTopics}}" hint-placeholder-val="{{ false }}"><div class="um-tgrid"><sc-for list="{{game.topicAll}}" as="d" hint-placeholder-count="8"><button type="button" class="press um-titem {{d.cls}}" onClick="{{d.go}}" disabled="{{d.locked}}" aria-label="{{d.aria}}"><i style="background: {{d.bg}}">{{d.num}}</i><span>{{d.title}}</span></button></sc-for></div></sc-if>
 <button type="button" class="press um-tsheet-again" onClick="{{restart}}">Начать заново</button>
 </div>
 </div>
@@ -2169,7 +2169,7 @@ function trainTask(wagons, fresh) {
 // Сначала по одному вагончику (каждый раз новый цвет, среди игрушек есть лишние), потом вагончиков больше
 var TRAIN_BASE = ['red', 'blue', 'yellow', 'green'];
 TOPICS.train = [
-  { title: 'Один вагончик', learn: [], known: TRAIN_BASE, wag: 1, n: 5, look: 'conic-gradient(#EF4444 0 25%, #3B82F6 25% 50%, #FACC15 50% 75%, #22C55E 75% 100%)' },
+  { title: 'Один вагончик', learn: [], known: TRAIN_BASE, wag: 1, n: 5 },
   { title: 'Новые цвета', learn: [], known: COLOR_ORDER, wag: 1, n: 6 },
   { title: 'Два вагончика', learn: [], known: TRAIN_BASE, wag: 2, n: 5 },
   { title: 'Три вагончика', learn: [], known: COLOR_ORDER, wag: 3, n: 5 },
@@ -2196,11 +2196,12 @@ function topicTasks(age, gid, i) {
   return top.learn.map(function (k) { return LEARN_CARD[gid](k, age); }).concat(tasks);
 }
 // кружок темы в шапке и на экране награды: цвет темы; у повторения — все её цвета
+var TOPIC_GOLD = '#FFC21A';   // смешанная тема: один спокойный цвет вместо разноцветного круга (не понравился владельцу)
 function topicLook(gid, top) {
-  if (top.look === 'mix') return 'conic-gradient(' + TOPIC_LOOK.map(function (h, i) { return h + ' ' + Math.round(i * 100 / TOPIC_LOOK.length) + '% ' + Math.round((i + 1) * 100 / TOPIC_LOOK.length) + '%'; }).join(', ') + ')';
+  if (top.look === 'mix') return TOPIC_GOLD;
   if (top.look) return top.look;
   var cols = top.learn.length ? top.learn : top.known;
-  return cols.length === 1 ? C[cols[0]].hex : 'conic-gradient(' + cols.map(function (c, i) { return C[c].hex + ' ' + Math.round(i * 100 / cols.length) + '% ' + Math.round((i + 1) * 100 / cols.length) + '%'; }).join(', ') + ')';
+  return cols.length === 1 ? C[cols[0]].hex : TOPIC_GOLD;
 }
 // ===== ОБУЧЕНИЕ-END
 
@@ -3599,7 +3600,7 @@ class Component extends DCLogic {
         game.topicsAria = 'Тема ' + (ti0 + 1) + ' из ' + tps.length + ': ' + tps[ti0].title;
         game.look = topicLook(st.level.g, tps[ti0]);
         game.topicAll = tps.map(function (tp, i) { var open = i <= tOpen, now = i === ti0;
-          return { bg: topicLook(st.level.g, tp), title: tp.title, cls: now ? 'um-titem-now' : '', locked: !open, aria: tp.title + (now ? ' — сейчас' : !open ? ' — пока закрыта' : ''), go: function () { self.openTopic(st.level.g, i); } }; });
+          var lk = topicLook(st.level.g, tp); return { bg: lk, num: lk === TOPIC_GOLD ? i + 1 : '', title: tp.title, cls: now ? 'um-titem-now' : '', locked: !open, aria: tp.title + (now ? ' — сейчас' : !open ? ' — пока закрыта' : ''), go: function () { self.openTopic(st.level.g, i); } }; });
       }
       else if (st.level) { game.title = GAME_BY[st.level.g].title; game.sub = 'Урок ' + st.level.n; game.hasSub = true; }
       else game.title = GAME_BY[st.gameId].title;
