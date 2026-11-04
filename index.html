@@ -326,6 +326,10 @@ button:disabled{cursor:default}
 @media (min-aspect-ratio: 4/3){.um-sec-train .um-toys{--t:calc((100vh - 92px) * .17)}}
 @media (max-height: 500px) and (orientation: landscape){.um-sec-train .um-toys{--t:calc((100vh - 92px) * .2)}.um-sec-train h1{font-size:16px!important}}
 .um-train{will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+/* пока идёт карточка с названием, поезд ждёт за краем и выезжает один раз, когда она исчезнет. Карточка — постоянный элемент: если её вставлять и убирать, движок пересоздаёт блок игры, и поезд сбрасывается */
+.um-intro:not(.um-on){display:none!important}
+.um-tr-wait{transform:translate3d(106%,0,0)}
+.um-toys-wait .um-toy{opacity:0}
 .um-tr-in{animation:um-tr-in 2.2s cubic-bezier(.33,.2,.2,1) both}
 .um-tr-go{animation:um-tr-go 2.8s cubic-bezier(.5,.02,.8,.55) both}
 @keyframes um-tr-in{from{transform:translate3d(106%,0,0)}to{transform:translate3d(0,0,0)}}
@@ -1014,8 +1018,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </main>
 </sc-if>
 
-<sc-if value="{{intro.show}}" hint-placeholder-val="{{ false }}">
-<div class="um-intro" onClick="{{intro.skip}}" role="status" aria-label="{{intro.aria}}">
+<div class="um-intro {{intro.cls}}" onClick="{{intro.skip}}" role="status" aria-label="{{intro.aria}}">
 <div class="um-intro-rays"></div>
 <div class="um-intro-mid">
 <div class="um-intro-t"><sc-for list="{{intro.letters}}" as="l" hint-placeholder-count="5"><span style="animation-delay: {{l.d}}s">{{l.ch}}</span></sc-for></div>
@@ -1023,7 +1026,6 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <div class="um-intro-dots"><i></i><i></i><i></i></div>
 </div>
 </div>
-</sc-if>
 <div class="um-confetti {{confettiCls}}" aria-hidden="true"><i style="--dx: 198px; --dy: -30px; --r: 347deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 182px; --dy: 37px; --r: 182deg; background: #FFC93C; width: 8px; height: 20px"></i><i style="--dx: 202px; --dy: 54px; --r: 304deg; background: #3D8BFD; width: 8px; height: 15px"></i><i style="--dx: 144px; --dy: 42px; --r: -108deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 80px; --dy: 51px; --r: -105deg; background: #A855F7; width: 8px; height: 19px"></i><i style="--dx: 76px; --dy: 81px; --r: 38deg; background: #FF8A3D; width: 9px; height: 20px"></i><i style="--dx: 13px; --dy: 85px; --r: 272deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 2px; --dy: 85px; --r: -355deg; background: #FFC93C; width: 9px; height: 20px"></i><i style="--dx: -25px; --dy: 186px; --r: -190deg; background: #3D8BFD; width: 10px; height: 16px"></i><i style="--dx: -103px; --dy: 100px; --r: 334deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -87px; --dy: 58px; --r: 347deg; background: #A855F7; width: 9px; height: 17px"></i><i style="--dx: -111px; --dy: 64px; --r: -191deg; background: #FF8A3D; width: 9px; height: 16px"></i><i style="--dx: -118px; --dy: 45px; --r: 257deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -178px; --dy: -5px; --r: -14deg; background: #FFC93C; width: 8px; height: 16px"></i><i style="--dx: -146px; --dy: -31px; --r: 353deg; background: #3D8BFD; width: 10px; height: 15px"></i><i style="--dx: -190px; --dy: -81px; --r: -302deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -209px; --dy: -116px; --r: 6deg; background: #A855F7; width: 11px; height: 14px"></i><i style="--dx: -123px; --dy: -142px; --r: 25deg; background: #FF8A3D; width: 12px; height: 20px"></i><i style="--dx: -88px; --dy: -114px; --r: -175deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: -87px; --dy: -246px; --r: -239deg; background: #FFC93C; width: 9px; height: 20px"></i><i style="--dx: -7px; --dy: -191px; --r: 3deg; background: #3D8BFD; width: 12px; height: 16px"></i><i style="--dx: 13px; --dy: -162px; --r: 16deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 41px; --dy: -146px; --r: -267deg; background: #A855F7; width: 9px; height: 16px"></i><i style="--dx: 67px; --dy: -177px; --r: -209deg; background: #FF8A3D; width: 10px; height: 16px"></i><i style="--dx: 130px; --dy: -156px; --r: -41deg; background: #FF4D6D; border-radius: 50%; width: 10px; height: 10px"></i><i style="--dx: 121px; --dy: -122px; --r: -280deg; background: #FFC93C; width: 9px; height: 19px"></i><i style="--dx: 213px; --dy: -123px; --r: -195deg; background: #3D8BFD; width: 8px; height: 14px"></i><i style="--dx: 173px; --dy: -45px; --r: 55deg; background: #2BC48A; border-radius: 50%; width: 10px; height: 10px"></i></div>
 <sc-if value="{{isGame}}" hint-placeholder-val="{{ false }}">
 <main style="max-width: 980px; margin: 0 auto; padding: 4px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
@@ -3798,7 +3800,7 @@ class Component extends DCLogic {
         game.tc = {}; game.tp = {}; ['brush', 'crayon', 'glitter', 'rainbow', 'fill', 'eraser'].forEach(function (k) { game.tc[k] = 'um-tool-' + k + (k === ptool ? ' um-tool-on' : ''); game.tp[k] = function () { self.snd('tap'); self.setState({ paintTool: k }); }; });
       }
       if (game.isTrain) {
-        game.secCls = 'um-sec-train'; game.trCls = st.trGo ? 'um-tr-go' : 'um-tr-in'; game.toysCls = st.ti % 2 ? 'um-toys-a' : 'um-toys-b'; var bgv = TRAIN_BG || t.bg || '1'; game.bg1 = bgv === '1'; game.bg2 = bgv === '2'; game.bg3 = bgv === '3';
+        game.secCls = 'um-sec-train'; game.trCls = st.intro ? 'um-tr-wait' : st.trGo ? 'um-tr-go' : 'um-tr-in'; game.toysCls = st.intro ? 'um-toys-wait' : st.ti % 2 ? 'um-toys-a' : 'um-toys-b'; var bgv = TRAIN_BG || t.bg || '1'; game.bg1 = bgv === '1'; game.bg2 = bgv === '2'; game.bg3 = bgv === '3';
         game.wagons = t.wagons.map(function (c, w) {
           var load = []; t.items.forEach(function (it, k) { if (st.tr[k] === w + 1) load.push({ img: 'items/' + it.s + '-' + it.c + '.svg', n: load.length }); });
           return { i: w, hasSign: !!t.kinds, sign: t.kinds ? 'items/' + t.kinds[w] + '-' + t.signCol[w] + '.svg' : '', hex: C[c].hex, rim: c === 'white' ? '#C3CCDD' : 'rgba(20,24,40,.22)', inner: c === 'white' ? '#C9D0DC' : 'color-mix(in srgb, ' + C[c].hex + ' 62%, #000000)', top: c === 'white' ? '#FFFFFF' : 'color-mix(in srgb, ' + C[c].hex + ' 78%, #FFFFFF)', aria: C[c].m.charAt(0).toUpperCase() + C[c].m.slice(1) + ' вагончик', load: load, put: function () { self.trainWagon(w); },
@@ -3980,8 +3982,8 @@ class Component extends DCLogic {
       accent: accent,
       isLoading: !st.ready, isReady: st.ready,
       isOnb: st.ready && st.screen === 'home' && !age, onb: onbView, confettiCls: st.confetti && st.screen === 'game' ? 'um-on' : '',
-      intro: st.intro && st.screen === 'game' ? { show: true, look: st.intro.look, sub: st.intro.sub, aria: st.intro.title + '. ' + st.intro.sub, skip: function () { self.skipIntro(); },
-        letters: st.intro.title.split('').map(function (ch, i) { return { ch: ch, d: (i * .06).toFixed(2) }; }) } : { show: false, letters: [] },
+      intro: st.intro && st.screen === 'game' ? { show: true, cls: 'um-on', look: st.intro.look, sub: st.intro.sub, aria: st.intro.title + '. ' + st.intro.sub, skip: function () { self.skipIntro(); },
+        letters: st.intro.title.split('').map(function (ch, i) { return { ch: ch, d: (i * .06).toFixed(2) }; }) } : { show: false, cls: '', look: '', sub: '', aria: '', letters: [] },
       isHome: st.ready && st.screen === 'home' && !!age, isGame: st.ready && st.screen === 'game', isResult: st.ready && st.screen === 'result', isRest: st.ready && st.screen === 'rest',
       rest: { left: st.restLeft > 0 ? 'Ещё ' + st.restLeft + ' с' : 'Можно продолжать!', wait: st.restLeft > 0, bg: st.restLeft > 0 ? '#B4BEDA' : accent, go: function () { self.restDone(); } }, isProgress: st.ready && st.screen === 'progress', isParents: st.ready && st.screen === 'parents', showIntro: !age || st.agePick, showGames: !!age && !st.agePick, canCancelAge: !!age && st.agePick, ageLabel: age ? ageText(age) : '', heroItems: st.heroItems,
       parentsOpen: !!st.parentsOpen, parentsAria: st.parentsOpen ? 'true' : 'false', parentsCh: st.parentsOpen ? 'um-open' : '', toggleParents: function () { self.snd('tap'); self.setState({ parentsOpen: !self.state.parentsOpen }); },
