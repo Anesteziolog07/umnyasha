@@ -70,6 +70,7 @@ button:disabled{cursor:default}
 .um-sec-fin h1{font-size:24px!important}
 .um-sec-fin .um-say{width:42px!important;height:42px!important}
 .um-sec-fin [role=status]{min-height:40px!important;font-size:18px!important}
+@media (max-height: 500px) and (orientation: landscape){.um-sec-fin{padding:4px 10px!important;gap:4px!important}.um-sec-fin [role=status]{min-height:0!important;font-size:15px!important}.um-sec-fin [role=status]:empty{display:none}}
 .um-fin{position:relative;width:100%;max-width:min(640px,max(300px,calc((100vh - 300px) * 4 / 3)));aspect-ratio:4/3;border-radius:24px;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);touch-action:manipulation}
 .um-act{position:absolute;aspect-ratio:1;transform:translate(-50%,-50%) rotate(var(--r,0deg));padding:0;border:0;background:transparent;display:block;transition:left .7s cubic-bezier(.3,1.25,.5,1),top .7s cubic-bezier(.3,1.25,.5,1),width .5s ease,opacity .5s ease,filter .5s ease,transform .6s cubic-bezier(.3,1.4,.5,1)}
 .um-act:disabled{cursor:default}
@@ -127,7 +128,8 @@ button:disabled{cursor:default}
 .um-board{background:#FFFFFF;border-radius:16px;box-shadow:inset 0 0 0 3px #E9C99B}
 .um-board > img{opacity:.14;filter:grayscale(1)}
 .um-board-done > img{opacity:1;filter:none}
-.um-slot{border-radius:12px;border:3px dashed #FF8A3D;animation:um-pulse 1.2s ease-in-out infinite}
+@keyframes um-slotpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,138,61,.45)}50%{box-shadow:0 0 0 7px rgba(255,138,61,0)}}
+.um-slot{border-radius:12px;border:3px dashed #FF8A3D;animation:um-slotpulse 1.2s ease-in-out infinite}
 .um-slot-round{border-radius:50%;border-color:#B8C4DE}
 .um-piece{overflow:hidden;border-radius:10px;background:#FFFFFF;box-shadow:0 6px 12px -6px rgba(30,42,74,.5)}
 .um-piece > img{position:absolute;width:200%;height:200%;filter:none}
@@ -267,7 +269,7 @@ button:disabled{cursor:default}
 }
 /* телефон боком: задание слева, ответы справа — всё на одном экране */
 @media (max-height: 500px) and (orientation: landscape){
-.um-sec-task{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;justify-items:center;gap:4px 14px!important;padding:8px 12px!important}
+.um-sec-task{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;justify-items:center;gap:4px 14px!important;padding:6px 12px 4px!important}
 .um-sec-task > *{grid-column:1;max-width:100%}
 .um-sec-task > .um-opts{grid-column:2;grid-row:1 / span 4;max-width:100%!important;gap:8px!important}
 .um-sec-task > [role=status]{min-height:0!important;font-size:15px!important}
@@ -1512,7 +1514,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #33405F">Играть можно без входа. Если создать аккаунт родителя (кнопка «Войти» вверху), внутри него появятся профили детей, у каждого свои звёзды и уроки. Звёзды, собранные без входа, перейдут в первый созданный профиль. Добавлять и менять профили можно только после примера «для взрослых».</p>
 <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #33405F">Сейчас вход работает в демо-режиме: аккаунт, профили, возраст, уроки, звёзды и настройка звука хранятся только в этом браузере на этом устройстве и никуда не отправляются, пароль не сохраняется. Если браузер не разрешает сохранять данные (например, в приватном режиме), игры работают, но звёзды пропадут после закрытия страницы.</p>
 <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #33405F">Звуки короткие и включаются только после нажатия. Кнопка «Звук» вверху выключает их совсем; для 3–4 лет задание звучит само, для 5–6 лет — по кнопке с динамиком рядом с заданием. Задания озвучены записанным голосом (озвучка создана в сервисе elevenlabs.io). После ответа малышей голосом хвалят или подбадривают. Если звук выключен, вместо голоса появляется подсказка-картинка.</p>
-<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4A5578">Картинки: Microsoft Fluent Emoji (лицензия MIT) и Google Noto Emoji (лицензия Apache 2.0).</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4A5578">Картинки: Microsoft Fluent Emoji (лицензия MIT).</p>
 </section>
 <section style="background: #FFFFFF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 12px">
 <h2 style="margin: 0; font-size: 24px; font-weight: 900">Сбросить прогресс</h2>
@@ -2881,7 +2883,7 @@ var FIN = {
     view: function (t, fs) {
       var S = [[14, 22], [36, 14], [64, 16], [86, 24], [12, 52], [30, 40], [72, 42], [88, 56]], done = fs.r >= t.n;
       var acts = [{ id: 'rk', img: itemImg('rocket', 'red'), x: 50, y: done ? -30 : 78 - fs.r * 2, w: 20, z: 2, cls: done ? 'um-launch' : '' }];
-      for (var k = 0; k < t.n; k++) acts.push({ id: k, img: itemImg('star', k < fs.r ? 'yellow' : 'white'), text: String(k + 1), x: S[t.spots[k]][0], y: S[t.spots[k]][1], w: 15, z: 3, cls: 'um-numstar' + (k < fs.r ? ' um-lit' : ' um-bob'), tap: k >= fs.r, aria: 'Звезда ' + (k + 1), d: k * .3 });
+      for (var k = 0; k < t.n; k++) acts.push({ id: k, img: itemImg('star', k < fs.r ? 'yellow' : 'white'), text: String(k + 1), x: S[t.spots[k]][0], y: S[t.spots[k]][1], w: 19, z: 3, cls: 'um-numstar' + (k < fs.r ? ' um-lit' : ' um-bob'), tap: k >= fs.r, aria: 'Звезда ' + (k + 1), d: k * .3 });
       return { scene: 'space', prompt: done ? 'Ракета полетела!' : !fs.r ? 'Нажимай звёзды по порядку: 1, 2, 3…' : 'Теперь ' + (fs.r + 1), audio: !fs.r ? 'fin-rocket' : '', actors: acts };
     },
     tap: function (t, fs, id) { if (id < fs.r || fs.r >= t.n) return null; if (id !== fs.r) return { bad: true }; return { fs: { r: fs.r + 1 }, done: fs.r + 1 >= t.n }; },
