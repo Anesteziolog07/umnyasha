@@ -65,6 +65,108 @@ button:disabled{cursor:default}
 @media (max-height: 500px) and (orientation: landscape){
 }
 /* телефон боком: экран низкий — поезд и игрушки меньше, чтобы всё влезло */
+/* ===== аватарки и профиль ===== */
+.um-ava{position:relative;display:flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box;border-radius:50%;overflow:hidden}
+.um-ava img{display:block;width:76%;height:76%;object-fit:contain}
+.um-ava-ph img{width:100%;height:100%;object-fit:cover}
+.um-hprof .um-ava{width:100%;height:100%}
+.um-pf{max-width:760px;margin:0 auto;padding:4px 16px 8px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.um-pf-hero{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:12px;padding:22px 18px 20px;border-radius:34px;text-align:center;color:#FFFFFF;background:radial-gradient(circle at 50% 24%,#A98BFF,#6D3FE0 72%);box-shadow:inset 0 -6px 0 rgba(30,20,90,.22),0 18px 34px -18px rgba(70,40,170,.7)}
+.um-pf-hero::before{content:'';position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 24%,rgba(255,255,255,.1) 0 10deg,transparent 10deg 22deg);pointer-events:none}
+.um-pf-avabtn{position:relative;flex:none;padding:0;border:0;background:transparent;cursor:pointer;border-radius:50%}
+.um-pf-avabtn .um-ava{width:136px;height:136px;border:5px solid #FFFFFF;box-shadow:0 7px 0 rgba(30,20,90,.28)}
+.um-pf-pen{position:absolute;right:0;bottom:2px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:3px solid #FFFFFF;background:#FFC21A;color:#1E2A4A;box-shadow:0 3px 0 rgba(30,20,90,.28)}
+.um-pf-who{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;max-width:100%}
+.um-pf-nick{display:inline-flex;align-items:center;gap:8px;max-width:100%;min-height:48px;padding:0 6px;border:0;background:transparent;color:#FFFFFF;cursor:pointer;font-size:32px;font-weight:900;line-height:1.1;text-shadow:0 3px 0 rgba(20,20,60,.22)}
+.um-pf-nick span{min-width:0;overflow-wrap:anywhere}
+.um-pf-nick svg{flex:none;opacity:.85}
+.um-pf-nick.um-empty{font-size:25px}
+.um-pf-id{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:rgba(255,255,255,.2);color:#FFFFFF;cursor:pointer;font-size:16px;font-weight:900;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+.um-pf-id.um-done{background:#FFFFFF;color:#128A4E;letter-spacing:0}
+.um-pf-sub{font-size:16px;font-weight:800;opacity:.95}
+.um-pf-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.um-pf-stat{min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 6px 12px;border-radius:24px;background:#FFFFFF;text-align:center;box-shadow:0 12px 24px -18px rgba(43,84,160,.5)}
+.um-pf-stat img{width:42px;height:42px}
+.um-pf-stat strong{font-size:27px;font-weight:900;line-height:1.1;color:#1E2A4A}
+.um-pf-stat span{font-size:14px;font-weight:800;color:#4A5578;line-height:1.15}
+.um-pf-acts{display:flex;flex-wrap:wrap;gap:10px}
+.um-pf-btn{flex:1 1 130px;min-height:58px;padding:0 12px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;border-radius:999px;border:0;cursor:pointer;font-size:17px;font-weight:900;color:#1E2A4A;background:#FFFFFF;box-shadow:inset 0 -5px 0 #DCE4F4}
+.um-pf-btn-main{flex-basis:100%;background:#FFC21A;box-shadow:inset 0 -5px 0 #E09A00}
+.um-pf-card{display:flex;flex-direction:column;gap:10px;padding:18px 16px;border-radius:28px;background:#FFFFFF;box-shadow:0 12px 24px -18px rgba(43,84,160,.5)}
+.um-pf-card h2{margin:0 2px;font-size:23px;font-weight:900}
+.um-pf-note{margin:0 2px;font-size:16px;font-weight:700;color:#4A5578}
+.um-pf-rows{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.um-pf-row{min-width:0;display:flex;align-items:center;gap:12px;min-height:72px;padding:8px 14px 8px 8px;border:0;border-radius:20px;background:#F4F7FF;color:#1E2A4A;cursor:pointer;text-align:left}
+.um-pf-row img{flex:none;width:54px;height:54px}
+.um-pf-rt{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:4px}
+.um-pf-rh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.um-pf-rh b{min-width:0;font-size:18px;font-weight:900;line-height:1.15}
+.um-pf-rh i{flex:none;font-style:normal;font-size:15px;font-weight:900;color:#8A5A00}
+.um-pf-bar{display:block;height:9px;border-radius:999px;background:#DCE2F2;overflow:hidden}
+.um-pf-bar span{display:block;height:100%;border-radius:999px;background:#2FBF71}
+.um-pf-rs{font-size:14px;font-weight:700;color:#4A5578}
+.um-kidava{display:flex;align-items:center;gap:14px;padding:0;border:0;background:transparent;color:#1E2A4A;cursor:pointer;text-align:left}
+.um-kidava .um-ava{width:96px;height:96px;border:4px solid #FFFFFF;box-shadow:0 0 0 2px #D5DDF2}
+.um-kidava-t{align-self:flex-start;display:inline-flex;align-items:center;min-height:48px;margin-top:4px;padding:0 16px;border:0;border-radius:999px;background:#FFC21A;color:#1E2A4A;cursor:pointer;white-space:nowrap;font-size:16px;font-weight:900;box-shadow:inset 0 -4px 0 #E09A00}
+/* окно выбора: снизу на телефоне, по центру на большом экране */
+.um-pfs{position:fixed;inset:0;z-index:90;display:none;align-items:flex-end;justify-content:center;box-sizing:border-box;background:rgba(20,30,60,.5)}
+.um-pfs.um-on{display:flex}
+.um-pfs-box{position:relative;width:100%;max-width:560px;max-height:94vh;max-height:94dvh;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;border-radius:30px 30px 0 0;background:#FFFFFF;color:#1E2A4A}
+.um-pfs-top{flex:none;display:flex;align-items:center;gap:12px;padding:14px 14px 10px 16px}
+.um-pfs-top .um-ava{width:72px;height:72px;border:3px solid #FFFFFF;box-shadow:0 0 0 2px #D5DDF2}
+.um-pfs-name{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px}
+.um-pfs-name label{font-size:14px;font-weight:900;color:#4A5578}
+.um-pfs-name input{width:100%;box-sizing:border-box;min-height:48px;padding:0 14px;border-radius:14px;border:2px solid #C9D3EE;background:#FFFFFF;color:#1E2A4A;font:inherit;font-size:19px;font-weight:800}
+.um-pfs-title{flex:1 1 auto;font-size:23px;font-weight:900}
+.um-pfs-x{flex:none;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:0;border-radius:50%;background:#EEF2FB;color:#1E2A4A;cursor:pointer}
+.um-pfs-mid{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:12px;padding:2px 16px 12px}
+.um-pfs-tabs{flex:none;display:flex;gap:6px;overflow-x:auto;margin:0 -16px;padding:2px 16px;scrollbar-width:none}
+.um-pfs-tabs::-webkit-scrollbar{display:none}
+.um-pfs-tab{flex:none;min-height:46px;padding:0 15px;border:0;border-radius:999px;background:#EEF2FB;color:#1E2A4A;cursor:pointer;font-size:16px;font-weight:900}
+.um-pfs-tab[aria-pressed="true"]{background:#1E2A4A;color:#FFFFFF}
+.um-pfs-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.um-pfs-it{position:relative;min-width:0;aspect-ratio:1;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer}
+.um-pfs-it .um-ava{width:100%;height:100%}
+.um-pfs-it[aria-pressed="true"] .um-ava{box-shadow:0 0 0 3px #FFFFFF,0 0 0 6px #1E2A4A}
+.um-pfs-h{margin:0;font-size:16px;font-weight:900}
+.um-pfs-bgs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.um-pfs-bg{min-width:0;height:46px;padding:0;border:3px solid #FFFFFF;border-radius:999px;cursor:pointer;box-shadow:0 0 0 2px #D5DDF2}
+.um-pfs-bg[aria-pressed="true"]{box-shadow:0 0 0 3px #1E2A4A}
+.um-pfs-up{display:flex;align-items:center;justify-content:center;gap:9px;min-height:56px;padding:0 14px;box-sizing:border-box;border-radius:20px;border:3px dashed #B9C6E6;background:#F8FAFF;color:#1E2A4A;cursor:pointer;font-size:17px;font-weight:900;text-align:center}
+.um-pfs-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.um-pfs-file:focus-visible + .um-pfs-up{outline:4px solid #1E2A4A;outline-offset:2px}
+.um-pfs-small{margin:-6px 2px 0;font-size:14px;font-weight:700;color:#4A5578;text-align:center}
+.um-pfs-err{margin:0 0 8px;padding:10px 12px;border-radius:14px;background:#FEECEB;color:#A11A12;font-size:15px;font-weight:800}
+.um-pfs-off{display:none!important}
+.um-lock,.um-lock body{overflow:hidden}
+.um-pfs-gate{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:20px;background:#FFF4D6;font-size:16px;font-weight:800}
+.um-pfs-gq{display:flex;align-items:center;gap:8px}
+.um-pfs-gq b{flex:none;font-size:22px;font-weight:900}
+.um-pfs-gq input{flex:1 1 40px;min-width:0;min-height:48px;box-sizing:border-box;padding:0 10px;border-radius:14px;border:2px solid #C9D3EE;background:#FFFFFF;color:#1E2A4A;font:inherit;font-size:20px;font-weight:900;text-align:center}
+.um-pfs-gq button{flex:none;min-height:48px;padding:0 16px;border:0;border-radius:999px;background:#1E2A4A;color:#FFFFFF;cursor:pointer;font-size:16px;font-weight:900}
+.um-pfs-gate em{font-style:normal;font-size:15px;color:#A11A12}
+.um-pfs-bot{flex:none;padding:10px 16px 14px;padding-bottom:max(14px,env(safe-area-inset-bottom));border-top:2px solid #EEF1F8}
+.um-pfs-bot .um-pf-btn{width:100%;background:#2FBF71;color:#FFFFFF;box-shadow:inset 0 -5px 0 #1F9A58}
+@media (min-width: 640px){
+.um-pf-hero{flex-direction:row;justify-content:flex-start;gap:24px;padding:24px 30px;text-align:left;background:radial-gradient(circle at 16% 40%,#A98BFF,#6D3FE0 72%)}
+.um-pf-hero::before{background:repeating-conic-gradient(from 0deg at 16% 40%,rgba(255,255,255,.1) 0 10deg,transparent 10deg 22deg)}
+.um-pf-who{align-items:flex-start}
+.um-pfs{align-items:center;padding:16px}
+.um-pfs-box{max-height:92vh;border-radius:30px}
+.um-pfs-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+.um-pfs-bgs{grid-template-columns:repeat(8,minmax(0,1fr))}
+}
+@media (max-height: 500px) and (orientation: landscape){
+.um-pfs{padding:6px 16px;align-items:center}
+.um-pfs-box{max-width:720px;max-height:100%;border-radius:22px}
+.um-pfs-top{padding:8px 12px 6px 14px}
+.um-pfs-top .um-ava{width:48px;height:48px}
+.um-pfs-grid{grid-template-columns:repeat(8,minmax(0,1fr))}
+.um-pfs-bot{padding:6px 14px 8px}
+.um-pfs-bot .um-pf-btn{min-height:48px}
+.um-pf-hero{padding:14px 24px}
+.um-pf-avabtn .um-ava{width:104px;height:104px}
+}
 /* ===== финалы тем: сцены и «актёры» ===== */
 .um-sec-fin{padding:14px 10px 14px!important;gap:10px!important}
 .um-sec-fin h1{font-size:24px!important}
@@ -625,7 +727,7 @@ button:disabled{cursor:default}
 .um-hside{display:flex;align-items:center;gap:10px;min-width:0}
 .um-hr{justify-content:flex-end}
 .um-hb{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:52px;padding:0 15px;box-sizing:border-box;border-radius:999px;border:3px solid #FFFFFF;background:#FFFFFF;color:#1E2A4A;font-size:16px;font-weight:800;cursor:pointer}
-.um-hb-ic{width:52px;padding:0;border-radius:50%}
+.um-hb-ic{flex:none;width:52px;padding:0;border-radius:50%}
 .um-login2{background:linear-gradient(135deg,#6C8CFF,#9B6CFF);color:#FFFFFF;border-color:#FFFFFF}
 .um-hb-back{background:linear-gradient(180deg,#5AA2FF,#2F6FE0);color:#FFFFFF;box-shadow:0 5px 0 #1E4FB0,0 10px 18px -8px rgba(30,80,180,.6)}
 .um-hprof{background:linear-gradient(180deg,#FF9AC2,#F0578F);color:#FFFFFF;box-shadow:0 5px 0 #C2386C,0 10px 18px -8px rgba(200,60,110,.6)}
@@ -636,6 +738,7 @@ button:disabled{cursor:default}
 .um-hlogo{display:flex;align-items:center;gap:8px;background:transparent;border:0;padding:4px;cursor:pointer;justify-self:center}
 .um-logo-shapes{display:none}
 .um-logo-text{font-size:34px;font-weight:900;letter-spacing:-0.01em;line-height:1;background:linear-gradient(90deg,#EF4444,#F97316 30%,#EAB308 50%,#22C55E 70%,#3B82F6);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-stroke:0}
+@media (max-width: 640px){.um-hchip{display:none!important}}
 @media (max-width: 520px){.um-head{width:auto;margin:8px 12px 12px;gap:4px}.um-logo-text{font-size:26px}.um-hb{height:46px}.um-hb-ic{width:46px}.um-hstarbtn{height:46px;font-size:17px;padding:0 10px 0 8px}.um-hside{gap:6px}}
 @media (max-width: 360px){.um-logo-text{font-size:21px}}
 .um-chip{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;background:#F2F7FF;border:1.5px solid #D7E5FA;font-size:15px;font-weight:800;color:#1E2A4A}
@@ -780,12 +883,12 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <header class="um-head {{headCls}}">
 <div class="um-hside um-hl">
 <sc-if value="{{showBack}}" hint-placeholder-val="{{ false }}"><button type="button" class="press um-hb um-hb-ic um-hb-back" onClick="{{goHome}}" aria-label="К играм"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button></sc-if>
-<button type="button" class="press um-hb um-hb-ic um-hprof" onClick="{{goProfile}}" aria-label="{{profAria}}" aria-current="{{profCur}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="4"></circle><path d="M4.5 20.5c1.2-4 4.2-6 7.5-6s6.3 2 7.5 6"></path></svg></button>
+<button type="button" class="press um-hb um-hb-ic um-hprof" onClick="{{goProfile}}" aria-label="{{profAria}}" aria-current="{{profCur}}"><span class="um-ava {{meAva.cls}}" style="background: {{meAva.bg}}" aria-hidden="true"><img src="{{meAva.src}}" alt="" draggable="false"></span></button>
 <sc-if value="{{me.hasKid}}" hint-placeholder-val="{{ false }}">
-<button type="button" class="press um-hb" onClick="{{me.who}}" aria-label="{{me.aria}}" style="padding-left: 6px; max-width: 170px"><span aria-hidden="true" style="flex: none; display: block; width: 28px; height: 28px; background: {{me.bg}}; clip-path: {{me.clip}}"></span><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{me.name}}</span></button>
+<button type="button" class="press um-hb um-hchip" onClick="{{me.who}}" aria-label="{{me.aria}}" style="padding-left: 6px; max-width: 170px"><span class="um-ava {{meAva.cls}}" aria-hidden="true" style="width: 34px; height: 34px; background: {{meAva.bg}}"><img src="{{meAva.src}}" alt=""></span><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{me.name}}</span></button>
 </sc-if>
 <sc-if value="{{me.noKid}}" hint-placeholder-val="{{ false }}">
-<button type="button" class="press um-hb" onClick="{{me.add}}" style="border-style: dashed"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg><span>Ребёнок</span></button>
+<button type="button" class="press um-hb um-hchip" onClick="{{me.add}}" style="border-style: dashed"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg><span>Ребёнок</span></button>
 </sc-if>
 </div>
 <button type="button" class="press um-hlogo" onClick="{{goHome}}" aria-label="Умняша, на главную">
@@ -1182,65 +1285,33 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </sc-if>
 
 <sc-if value="{{isProgress}}" hint-placeholder-val="{{ false }}">
-<main style="max-width: 1120px; margin: 0 auto; padding: 4px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
-<section style="background: #FFFFFF; border-radius: 32px; padding: 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<h1 style="margin: 0; font-size: 36px; font-weight: 900">Мой профиль</h1>
-<p style="margin: 0; font-size: 18px; color: #4A5578">Мои звёзды: лучший результат в каждой игре. Звёзды за повторную игру не теряются.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px"><sc-if value="{{me.guest}}" hint-placeholder-val="{{ true }}"><button type="button" class="press um-hb um-login2" onClick="{{me.login}}">Войти</button></sc-if><button type="button" class="press um-hb" onClick="{{goParents}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"></path></svg><span>Для взрослых</span></button></div>
+<main class="um-pf">
+<section class="um-pf-hero">
+<button type="button" class="press um-pf-avabtn" onClick="{{pf.edit}}" aria-label="Сменить аватарку"><span class="um-ava {{pf.ava.cls}}" style="background: {{pf.ava.bg}}"><img src="{{pf.ava.src}}" alt=""></span><span class="um-pf-pen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.8z"></path><path d="M14.5 6l3 3"></path></svg></span></button>
+<div class="um-pf-who">
+<button type="button" class="press um-pf-nick {{pf.nickCls}}" onClick="{{pf.editNick}}" aria-label="{{pf.nickAria}}"><span>{{pf.nick}}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.8z"></path><path d="M14.5 6l3 3"></path></svg></button>
+<button type="button" class="press um-pf-id {{pf.idCls}}" onClick="{{pf.copy}}" aria-label="{{pf.idAria}}"><span>{{pf.idText}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"></rect><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"></path></svg></button>
+<span class="um-pf-sub">{{pf.sub}}</span>
 </div>
-<span style="display: inline-flex; align-items: center; gap: 8px; background: #FFF4D6; color: #7A5200; border-radius: 999px; padding: 10px 20px; font-size: 22px; font-weight: 900">
-<svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="#FFB400" stroke="#E09A00" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-<span>{{totalOf}}</span>
-</span>
 </section>
-<sc-if value="{{noProgress}}" hint-placeholder-val="{{ false }}">
-<section style="background: #FFFFFF; border-radius: 28px; padding: 44px 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; border: 3px dashed #C9D3EE">
-<div aria-hidden="true" style="display: flex; gap: 10px">
-<svg width="44" height="44" viewBox="0 0 24 24"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="#E6EAF5" stroke="#D3D9EA" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-<svg width="44" height="44" viewBox="0 0 24 24"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="#E6EAF5" stroke="#D3D9EA" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-<svg width="44" height="44" viewBox="0 0 24 24"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="#E6EAF5" stroke="#D3D9EA" stroke-width="1.4" stroke-linejoin="round"></path></svg>
-</div>
-<p style="margin: 0; font-size: 24px; font-weight: 900">Пока звёзд нет</p>
-<p style="margin: 0; font-size: 17px; color: #4A5578; max-width: 420px">Сыграй в любую игру — и здесь появятся звёзды.</p>
-<button type="button" class="press" onClick="{{goHome}}" style="min-height: 56px; padding: 0 26px; border-radius: 999px; border: 0; background: {{accent}}; color: #FFFFFF; font-size: 19px; font-weight: 900; cursor: pointer">К играм</button>
+<section class="um-pf-stats" aria-label="Мои успехи">
+<sc-for list="{{pf.stats}}" as="s" hint-placeholder-count="3"><div class="um-pf-stat"><img src="{{s.img}}" alt=""><strong>{{s.n}}</strong><span>{{s.label}}</span></div></sc-for>
 </section>
-</sc-if>
-<sc-if value="{{hasProgress}}" hint-placeholder-val="{{ false }}">
-<sc-for list="{{progAges}}" as="pa" hint-placeholder-count="3">
-<section style="background: #FFFFFF; border-radius: 28px; padding: 22px; display: flex; flex-direction: column; gap: 14px">
-<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px">
-<h2 style="margin: 0; font-size: 24px; font-weight: 900">{{pa.title}}</h2>
-<span style="font-size: 17px; font-weight: 800; color: #4A5578">{{pa.sum}}</span>
+<div class="um-pf-acts">
+<button type="button" class="press um-pf-btn um-pf-btn-main" onClick="{{pf.edit}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.8z"></path><path d="M14.5 6l3 3"></path></svg>Изменить профиль</button>
+<sc-if value="{{me.guest}}" hint-placeholder-val="{{ true }}"><button type="button" class="press um-pf-btn" onClick="{{me.login}}">Войти</button></sc-if>
+<sc-if value="{{pf.canSwitch}}" hint-placeholder-val="{{ false }}"><button type="button" class="press um-pf-btn" onClick="{{pf.switchGo}}">{{pf.switchText}}</button></sc-if>
+<button type="button" class="press um-pf-btn" onClick="{{goParents}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"></path></svg>Для взрослых</button>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px">
-<sc-for list="{{pa.levels}}" as="pl" hint-placeholder-count="3">
-<div aria-label="{{pl.aria}}" style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 18px; background: #F4F7FF">
-<span style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px">
-<span style="font-size: 17px; font-weight: 900">Уровни: {{pl.title}}</span>
-<span style="font-size: 14px; font-weight: 800; color: #4A5578; white-space: nowrap">★ {{pl.stars}}</span>
-</span>
-<span aria-hidden="true" style="display: block; height: 10px; border-radius: 999px; background: #DCE2F2; overflow: hidden"><span style="display: block; height: 100%; width: {{pl.pct}}; background: {{pl.color}}; border-radius: 999px"></span></span>
-<span style="font-size: 14px; font-weight: 700; color: #4A5578">{{pl.status}}</span>
-</div>
-</sc-for>
-</div>
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px">
-<sc-for list="{{pa.games}}" as="pg" hint-placeholder-count="8">
-<div aria-label="{{pg.aria}}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px; border-radius: 18px; background: {{pg.bg}}">
-<span style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
-<span style="font-size: 17px; font-weight: 900">{{pg.title}}</span>
-<span style="font-size: 14px; font-weight: 700; color: #4A5578">{{pg.status}}</span>
-</span>
-<span aria-hidden="true" style="display: flex; gap: 1px; flex: none">
-<sc-for list="{{pg.stars}}" as="s" hint-placeholder-count="3"><svg width="{{s.size}}" height="{{s.size}}" viewBox="0 0 24 24"><path d="M12 2.6l2.85 6 6.55.8-4.85 4.55 1.3 6.5L12 17.25 6.15 20.45l1.3-6.5L2.6 9.4l6.55-.8z" fill="{{s.fill}}" stroke="{{s.stroke}}" stroke-width="1.4" stroke-linejoin="round"></path></svg></sc-for>
-</span>
-</div>
+<section class="um-pf-card">
+<h2>Мои игры</h2>
+<sc-if value="{{noProgress}}" hint-placeholder-val="{{ false }}"><p class="um-pf-note">Сыграй в любую игру, и здесь появятся звёзды.</p></sc-if>
+<div class="um-pf-rows">
+<sc-for list="{{pf.games}}" as="g" hint-placeholder-count="6">
+<button type="button" class="press um-pf-row" onClick="{{g.go}}" aria-label="{{g.aria}}"><img src="{{g.img}}" alt=""><span class="um-pf-rt"><span class="um-pf-rh"><b>{{g.title}}</b><i>★ {{g.stars}}</i></span><span class="um-pf-bar"><span style="width: {{g.pct}}"></span></span><span class="um-pf-rs">{{g.status}}</span></span></button>
 </sc-for>
 </div>
 </section>
-</sc-for>
-</sc-if>
 </main>
 </sc-if>
 
@@ -1322,12 +1393,12 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <section style="background: #FFFFFF; border-radius: 32px; padding: 28px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 1px 0 rgba(30,42,74,.04), 0 22px 50px -18px rgba(43,84,160,.3)">
 <div style="display: flex; flex-direction: column; gap: 6px; text-align: center">
 <h1 style="margin: 0; font-size: 36px; font-weight: 900">Кто играет?</h1>
-<p style="margin: 0; font-size: 18px; color: #4A5578">Нажми на свой значок.</p>
+<p style="margin: 0; font-size: 18px; color: #4A5578">Нажми на свою аватарку.</p>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px">
 <sc-for list="{{who.kids}}" as="k" hint-placeholder-count="2">
 <button type="button" class="press" onClick="{{k.pick}}" aria-label="{{k.aria}}" style="min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 12px 16px; border-radius: 26px; border: 3px solid {{k.bd}}; box-shadow: {{k.ring}}; background: #FFFFFF; color: #1E2A4A; cursor: pointer">
-<span aria-hidden="true" style="display: block; width: 84px; height: 84px; background: {{k.bg}}; clip-path: {{k.clip}}"></span>
+<span class="um-ava {{k.ava.cls}}" aria-hidden="true" style="width: 92px; height: 92px; background: {{k.ava.bg}}"><img src="{{k.ava.src}}" alt=""></span>
 <span style="max-width: 100%; font-size: 22px; font-weight: 900; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{k.name}}</span>
 <span style="font-size: 15px; font-weight: 800; color: #4A5578">{{k.age}} · ★ {{k.stars}}</span>
 </button>
@@ -1349,10 +1420,11 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <main style="max-width: 640px; margin: 0 auto; padding: 4px 16px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 16px">
 <section style="background: #FFFFFF; border-radius: 32px; padding: 28px; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 1px 0 rgba(30,42,74,.04), 0 22px 50px -18px rgba(43,84,160,.3)">
 <div style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap">
-<span aria-hidden="true" style="flex: none; display: block; width: 88px; height: 88px; background: {{kidf.prevBg}}; clip-path: {{kidf.prevClip}}"></span>
+<button type="button" class="press um-kidava" onClick="{{kidf.pickAva}}" aria-label="Выбрать аватарку"><span class="um-ava {{kidf.ava.cls}}" style="background: {{kidf.ava.bg}}"><img src="{{kidf.ava.src}}" alt=""></span></button>
 <div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 4px">
 <span style="font-size: 14px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; color: #4A5578">{{kidf.title}}</span>
 <span style="font-size: 30px; font-weight: 900; line-height: 1.15; overflow-wrap: anywhere">{{kidf.prevName}}</span>
+<button type="button" class="press um-kidava-t" onClick="{{kidf.pickAva}}">Выбрать аватарку</button>
 </div>
 </div>
 <form onSubmit="{{kidf.save}}" style="display: flex; flex-direction: column; gap: 20px">
@@ -1369,24 +1441,6 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <span style="font-size: 24px; font-weight: 900; line-height: 1">{{ka.label}}</span>
 <span style="font-size: 14px; font-weight: 800">{{ka.unit}}</span>
 </button>
-</sc-for>
-</div>
-</fieldset>
-<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
-<legend style="padding: 0; margin-bottom: 8px; font-size: 16px; font-weight: 800">Значок</legend>
-<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
-<sc-for list="{{kidf.shapes}}" as="ks" hint-placeholder-count="6">
-<button type="button" class="press" onClick="{{ks.pick}}" aria-pressed="{{ks.pressed}}" aria-label="{{ks.aria}}" style="min-width: 0; aspect-ratio: 1; max-width: 100%; border-radius: 18px; border: 3px solid {{ks.bd}}; background: #F8FAFF; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 8px">
-<span aria-hidden="true" style="display: block; width: 70%; height: 70%; background: {{ks.bg}}; clip-path: {{ks.clip}}"></span>
-</button>
-</sc-for>
-</div>
-</fieldset>
-<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; min-width: 0">
-<legend style="padding: 0; margin-bottom: 8px; font-size: 16px; font-weight: 800">Цвет</legend>
-<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
-<sc-for list="{{kidf.colors}}" as="kc" hint-placeholder-count="6">
-<button type="button" class="press" onClick="{{kc.pick}}" aria-pressed="{{kc.pressed}}" aria-label="{{kc.aria}}" style="min-width: 0; aspect-ratio: 1; max-width: 100%; border-radius: 999px; border: 4px solid {{kc.bd}}; box-shadow: 0 0 0 2px #D5DDF2; background: {{kc.bg}}; cursor: pointer"></button>
 </sc-for>
 </div>
 </fieldset>
@@ -1430,7 +1484,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <div style="display: flex; flex-direction: column; gap: 10px">
 <sc-for list="{{acct.kids}}" as="ak" hint-placeholder-count="2">
 <div style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 20px; background: #F4F7FF; flex-wrap: wrap">
-<span aria-hidden="true" style="flex: none; display: block; width: 48px; height: 48px; background: {{ak.bg}}; clip-path: {{ak.clip}}"></span>
+<span class="um-ava {{ak.ava.cls}}" aria-hidden="true" style="width: 54px; height: 54px; background: {{ak.ava.bg}}"><img src="{{ak.ava.src}}" alt=""></span>
 <div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 2px">
 <span style="font-size: 19px; font-weight: 900; overflow-wrap: anywhere">{{ak.name}}</span>
 <span style="font-size: 14px; font-weight: 700; color: #4A5578">{{ak.info}}</span>
@@ -1511,7 +1565,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </section>
 <section style="background: #FFFFFF; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
 <h2 style="margin: 0; font-size: 24px; font-weight: 900">Данные и звук</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.5; color: #33405F">Играть можно без входа. Если создать аккаунт родителя (кнопка «Войти» вверху), внутри него появятся профили детей, у каждого свои звёзды и уроки. Звёзды, собранные без входа, перейдут в первый созданный профиль. Добавлять и менять профили можно только после примера «для взрослых».</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.5; color: #33405F">Играть можно без входа. Если создать аккаунт родителя (кнопка «Войти» в профиле), внутри него появятся профили детей, у каждого свой номер, звёзды и уроки. Звёзды, собранные без входа, перейдут в первый созданный профиль. Ник и готовую аватарку ребёнок меняет сам. Добавлять и удалять профили и загружать свою картинку можно только после примера «для взрослых». Своя картинка хранится только на этом устройстве.</p>
 <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #33405F">Сейчас вход работает в демо-режиме: аккаунт, профили, возраст, уроки, звёзды и настройка звука хранятся только в этом браузере на этом устройстве и никуда не отправляются, пароль не сохраняется. Если браузер не разрешает сохранять данные (например, в приватном режиме), игры работают, но звёзды пропадут после закрытия страницы.</p>
 <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #33405F">Звуки короткие и включаются только после нажатия. Кнопка «Звук» вверху выключает их совсем; для 3–4 лет задание звучит само, для 5–6 лет — по кнопке с динамиком рядом с заданием. Задания озвучены записанным голосом (озвучка создана в сервисе elevenlabs.io). После ответа малышей голосом хвалят или подбадривают. Если звук выключен, вместо голоса появляется подсказка-картинка.</p>
 <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4A5578">Картинки: Microsoft Fluent Emoji (лицензия MIT).</p>
@@ -1535,6 +1589,34 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </section>
 </main>
 </sc-if>
+<div class="um-pfs {{ed.cls}}" onClick="{{ed.backdrop}}">
+<div class="um-pfs-box" role="dialog" aria-modal="true" aria-label="{{ed.title}}">
+<div class="um-pfs-top">
+<span class="um-ava {{ed.ava.cls}}" style="background: {{ed.ava.bg}}" aria-hidden="true"><img src="{{ed.ava.src}}" alt=""></span>
+<div class="um-pfs-name {{ed.nameCls}}"><label for="um-nick">Ник</label><input id="um-nick" class="um-input" type="text" autoComplete="off" maxLength="20" placeholder="Придумай ник" value="{{ed.nick}}" onChange="{{ed.onNick}}"></div>
+<strong class="um-pfs-title {{ed.titleCls}}">{{ed.title}}</strong>
+<button type="button" class="press um-pfs-x" onClick="{{ed.close}}" aria-label="Закрыть без сохранения"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<div class="um-pfs-mid">
+<div class="um-pfs-tabs">
+<sc-for list="{{ed.tabs}}" as="t" hint-placeholder-count="5"><button type="button" class="press um-pfs-tab" onClick="{{t.go}}" aria-pressed="{{t.on}}">{{t.title}}</button></sc-for>
+</div>
+<div class="um-pfs-grid">
+<sc-for list="{{ed.items}}" as="i" hint-placeholder-count="0"><button type="button" class="press um-pfs-it" onClick="{{i.pick}}" aria-pressed="{{i.on}}" aria-label="{{i.name}}"><span class="um-ava" style="background: {{i.bg}}"><img src="{{i.src}}" alt=""></span></button></sc-for>
+</div>
+<p class="um-pfs-h {{ed.bgCls}}">Цвет фона</p>
+<div class="um-pfs-bgs {{ed.bgCls}}">
+<sc-for list="{{ed.bgs}}" as="b" hint-placeholder-count="8"><button type="button" class="press um-pfs-bg" onClick="{{b.pick}}" aria-pressed="{{b.on}}" aria-label="{{b.name}}" style="background: {{b.bg}}"></button></sc-for>
+</div>
+<button type="button" class="press um-pfs-up {{ed.upAsk}}" onClick="{{ed.gateAsk}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"></path></svg>Своя картинка (для взрослых)</button>
+<div class="um-pfs-gate {{ed.gateCls}}"><span>Картинку выбирает взрослый. Решите пример:</span><div class="um-pfs-gq"><b>{{ed.gateQ}}</b><input class="um-input" type="text" inputMode="numeric" autoComplete="off" maxLength="3" aria-label="Ответ на пример" value="{{ed.gateAns}}" onChange="{{ed.gateOn}}"><button type="button" class="press" onClick="{{ed.gateGo}}">Дальше</button></div><em class="{{ed.gateErrCls}}">{{ed.gateErr}}</em></div>
+<input id="um-avafile" class="um-pfs-file {{ed.upOk}}" type="file" accept="image/*" onChange="{{ed.onFile}}" aria-label="Загрузить свою картинку">
+<label class="press um-pfs-up {{ed.upOk}}" for="um-avafile"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M5 17.5l4.5-4 3 2.5 3-3 4 3.5"></path></svg>{{ed.upLabel}}</label>
+<p class="um-pfs-small">Своя картинка хранится только на этом устройстве.</p>
+</div>
+<div class="um-pfs-bot"><p class="um-pfs-err {{ed.errCls}}" role="alert">{{ed.err}}</p><button type="button" class="press um-pf-btn" onClick="{{ed.done}}">Готово</button></div>
+</div>
+</div>
 <sc-if value="{{showFooter}}" hint-placeholder-val="{{ true }}">
 <footer style="margin-top: 56px">
 <div aria-hidden="true" style="position: relative; height: 180px; overflow: hidden">
@@ -2595,7 +2677,7 @@ var VOICE = {
 var PRAISE_VOICE = { 'Верно!': 'praise-1', 'Отлично!': 'praise-2', 'Молодец!': 'praise-3', 'Здорово!': 'praise-4', 'Умница!': 'praise-5', 'Правильно!': 'praise-6', 'Так держать!': 'praise-7', 'Прекрасно!': 'praise-8', 'Супер!': 'praise-9', 'Великолепно!': 'praise-10', 'Вот это да!': 'praise-11', 'Замечательно!': 'praise-12', 'Ура, получилось!': 'praise-13', 'Отличная работа!': 'praise-14', 'Точно!': 'praise-15', 'Как здорово!': 'praise-16' };
 var TRY_VOICE = { 'Попробуй ещё раз': 'try-1', 'Почти! Ещё попытка': 'try-2', 'Подумай ещё': 'try-3' };
 // VOICE-AUTO-BEGIN: озвучка мини-игр и паровозика — записи добавляет design/tools/tts.py, руками не править
-Object.assign(VOICE, {'learn-color-orange': 'voice/learn-color-orange.mp3', 'learn-color-purple': 'voice/learn-color-purple.mp3', 'train-mix': 'voice/train-mix.mp3', 'learn-color-pink': 'voice/learn-color-pink.mp3', 'learn-color-lime': 'voice/learn-color-lime.mp3', 'learn-color-sky': 'voice/learn-color-sky.mp3', 'learn-color-grey': 'voice/learn-color-grey.mp3', 'learn-color-brown': 'voice/learn-color-brown.mp3', 'paint-apple': 'voice/paint-apple.mp3', 'paint-pear': 'voice/paint-pear.mp3', 'paint-strawberry': 'voice/paint-strawberry.mp3', 'paint-cherry': 'voice/paint-cherry.mp3', 'paint-orange': 'voice/paint-orange.mp3', 'paint-lemon': 'voice/paint-lemon.mp3', 'paint-grapes': 'voice/paint-grapes.mp3', 'paint-watermelon': 'voice/paint-watermelon.mp3', 'paint-pineapple': 'voice/paint-pineapple.mp3', 'paint-mango': 'voice/paint-mango.mp3', 'paint-kiwi': 'voice/paint-kiwi.mp3', 'paint-avocado': 'voice/paint-avocado.mp3', 'paint-carrot': 'voice/paint-carrot.mp3', 'paint-tomato': 'voice/paint-tomato.mp3', 'paint-eggplant': 'voice/paint-eggplant.mp3', 'paint-corn': 'voice/paint-corn.mp3', 'paint-pepper': 'voice/paint-pepper.mp3', 'paint-hotpepper': 'voice/paint-hotpepper.mp3', 'paint-mushroom': 'voice/paint-mushroom.mp3', 'paint-balloon': 'voice/paint-balloon.mp3', 'paint-flower': 'voice/paint-flower.mp3', 'paint-tulip': 'voice/paint-tulip.mp3', 'paint-umbrella': 'voice/paint-umbrella.mp3', 'paint-gift': 'voice/paint-gift.mp3', 'paint-boot': 'voice/paint-boot.mp3', 'paint-tree': 'voice/paint-tree.mp3', 'paint-house': 'voice/paint-house.mp3', 'paint-car': 'voice/paint-car.mp3', 'paint-bus': 'voice/paint-bus.mp3', 'paint-taxi': 'voice/paint-taxi.mp3', 'paint-tractor': 'voice/paint-tractor.mp3', 'paint-firetruck': 'voice/paint-firetruck.mp3', 'paint-truck': 'voice/paint-truck.mp3', 'paint-helicopter': 'voice/paint-helicopter.mp3', 'paint-rocket': 'voice/paint-rocket.mp3', 'paint-boat': 'voice/paint-boat.mp3', 'where-red-disc': 'voice/where-red-disc.mp3', 'where-red-ball': 'voice/where-red-ball.mp3', 'where-red-balloon': 'voice/where-red-balloon.mp3', 'where-red-cube': 'voice/where-red-cube.mp3', 'where-red-star': 'voice/where-red-star.mp3', 'where-red-flower': 'voice/where-red-flower.mp3', 'where-red-tulip': 'voice/where-red-tulip.mp3', 'where-red-lollipop': 'voice/where-red-lollipop.mp3', 'where-red-boat': 'voice/where-red-boat.mp3', 'where-red-pencil': 'voice/where-red-pencil.mp3', 'where-red-car': 'voice/where-red-car.mp3', 'where-red-umbrella': 'voice/where-red-umbrella.mp3', 'where-red-cup': 'voice/where-red-cup.mp3', 'where-red-mitten': 'voice/where-red-mitten.mp3', 'where-red-house': 'voice/where-red-house.mp3', 'where-red-tshirt': 'voice/where-red-tshirt.mp3', 'where-red-gift': 'voice/where-red-gift.mp3', 'where-red-candy': 'voice/where-red-candy.mp3', 'where-red-rocket': 'voice/where-red-rocket.mp3', 'where-red-bus': 'voice/where-red-bus.mp3', 'where-red-truck': 'voice/where-red-truck.mp3', 'where-red-plane': 'voice/where-red-plane.mp3', 'where-red-helicopter': 'voice/where-red-helicopter.mp3', 'where-red-teapot': 'voice/where-red-teapot.mp3', 'where-red-pan': 'voice/where-red-pan.mp3', 'where-red-hat': 'voice/where-red-hat.mp3', 'where-red-boot': 'voice/where-red-boot.mp3', 'where-blue-disc': 'voice/where-blue-disc.mp3', 'where-blue-ball': 'voice/where-blue-ball.mp3', 'where-blue-balloon': 'voice/where-blue-balloon.mp3', 'where-blue-cube': 'voice/where-blue-cube.mp3', 'where-blue-star': 'voice/where-blue-star.mp3', 'where-blue-flower': 'voice/where-blue-flower.mp3', 'where-blue-tulip': 'voice/where-blue-tulip.mp3', 'where-blue-lollipop': 'voice/where-blue-lollipop.mp3', 'where-blue-boat': 'voice/where-blue-boat.mp3', 'where-blue-pencil': 'voice/where-blue-pencil.mp3', 'where-blue-car': 'voice/where-blue-car.mp3', 'where-blue-umbrella': 'voice/where-blue-umbrella.mp3', 'where-blue-cup': 'voice/where-blue-cup.mp3', 'where-blue-mitten': 'voice/where-blue-mitten.mp3', 'where-blue-house': 'voice/where-blue-house.mp3', 'where-blue-tshirt': 'voice/where-blue-tshirt.mp3', 'where-blue-gift': 'voice/where-blue-gift.mp3', 'where-blue-candy': 'voice/where-blue-candy.mp3', 'where-blue-rocket': 'voice/where-blue-rocket.mp3', 'where-blue-bus': 'voice/where-blue-bus.mp3', 'where-blue-truck': 'voice/where-blue-truck.mp3', 'where-blue-plane': 'voice/where-blue-plane.mp3', 'where-blue-helicopter': 'voice/where-blue-helicopter.mp3', 'where-blue-teapot': 'voice/where-blue-teapot.mp3', 'where-blue-pan': 'voice/where-blue-pan.mp3', 'where-blue-hat': 'voice/where-blue-hat.mp3', 'where-blue-boot': 'voice/where-blue-boot.mp3', 'where-yellow-disc': 'voice/where-yellow-disc.mp3', 'where-yellow-ball': 'voice/where-yellow-ball.mp3', 'where-yellow-balloon': 'voice/where-yellow-balloon.mp3', 'where-yellow-cube': 'voice/where-yellow-cube.mp3', 'where-yellow-star': 'voice/where-yellow-star.mp3', 'where-yellow-flower': 'voice/where-yellow-flower.mp3', 'where-yellow-tulip': 'voice/where-yellow-tulip.mp3', 'where-yellow-lollipop': 'voice/where-yellow-lollipop.mp3', 'where-yellow-boat': 'voice/where-yellow-boat.mp3', 'where-yellow-pencil': 'voice/where-yellow-pencil.mp3', 'where-yellow-car': 'voice/where-yellow-car.mp3', 'where-yellow-umbrella': 'voice/where-yellow-umbrella.mp3', 'where-yellow-cup': 'voice/where-yellow-cup.mp3', 'where-yellow-mitten': 'voice/where-yellow-mitten.mp3', 'where-yellow-house': 'voice/where-yellow-house.mp3', 'where-yellow-tshirt': 'voice/where-yellow-tshirt.mp3', 'where-yellow-gift': 'voice/where-yellow-gift.mp3', 'where-yellow-candy': 'voice/where-yellow-candy.mp3', 'where-yellow-rocket': 'voice/where-yellow-rocket.mp3', 'where-yellow-bus': 'voice/where-yellow-bus.mp3', 'where-yellow-truck': 'voice/where-yellow-truck.mp3', 'where-yellow-plane': 'voice/where-yellow-plane.mp3', 'where-yellow-helicopter': 'voice/where-yellow-helicopter.mp3', 'where-yellow-teapot': 'voice/where-yellow-teapot.mp3', 'where-yellow-pan': 'voice/where-yellow-pan.mp3', 'where-yellow-hat': 'voice/where-yellow-hat.mp3', 'where-yellow-boot': 'voice/where-yellow-boot.mp3', 'where-green-disc': 'voice/where-green-disc.mp3', 'where-green-ball': 'voice/where-green-ball.mp3', 'where-green-balloon': 'voice/where-green-balloon.mp3', 'where-green-cube': 'voice/where-green-cube.mp3', 'where-green-star': 'voice/where-green-star.mp3', 'where-green-flower': 'voice/where-green-flower.mp3', 'where-green-tulip': 'voice/where-green-tulip.mp3', 'where-green-lollipop': 'voice/where-green-lollipop.mp3', 'where-green-boat': 'voice/where-green-boat.mp3', 'where-green-pencil': 'voice/where-green-pencil.mp3', 'where-green-car': 'voice/where-green-car.mp3', 'where-green-umbrella': 'voice/where-green-umbrella.mp3', 'where-green-cup': 'voice/where-green-cup.mp3', 'where-green-mitten': 'voice/where-green-mitten.mp3', 'where-green-house': 'voice/where-green-house.mp3', 'where-green-tshirt': 'voice/where-green-tshirt.mp3', 'where-green-gift': 'voice/where-green-gift.mp3', 'where-green-candy': 'voice/where-green-candy.mp3', 'where-green-rocket': 'voice/where-green-rocket.mp3', 'where-green-bus': 'voice/where-green-bus.mp3', 'where-green-truck': 'voice/where-green-truck.mp3', 'where-green-plane': 'voice/where-green-plane.mp3', 'where-green-helicopter': 'voice/where-green-helicopter.mp3', 'where-green-teapot': 'voice/where-green-teapot.mp3', 'where-green-pan': 'voice/where-green-pan.mp3', 'where-green-hat': 'voice/where-green-hat.mp3', 'where-green-boot': 'voice/where-green-boot.mp3', 'where-orange-disc': 'voice/where-orange-disc.mp3', 'where-orange-ball': 'voice/where-orange-ball.mp3', 'where-orange-balloon': 'voice/where-orange-balloon.mp3', 'where-orange-cube': 'voice/where-orange-cube.mp3', 'where-orange-star': 'voice/where-orange-star.mp3', 'where-orange-flower': 'voice/where-orange-flower.mp3', 'where-orange-tulip': 'voice/where-orange-tulip.mp3', 'where-orange-lollipop': 'voice/where-orange-lollipop.mp3', 'where-orange-boat': 'voice/where-orange-boat.mp3', 'where-orange-pencil': 'voice/where-orange-pencil.mp3', 'where-orange-car': 'voice/where-orange-car.mp3', 'where-orange-umbrella': 'voice/where-orange-umbrella.mp3', 'where-orange-cup': 'voice/where-orange-cup.mp3', 'where-orange-mitten': 'voice/where-orange-mitten.mp3', 'where-orange-house': 'voice/where-orange-house.mp3', 'where-orange-tshirt': 'voice/where-orange-tshirt.mp3', 'where-orange-gift': 'voice/where-orange-gift.mp3', 'where-orange-candy': 'voice/where-orange-candy.mp3', 'where-orange-rocket': 'voice/where-orange-rocket.mp3', 'where-orange-bus': 'voice/where-orange-bus.mp3', 'where-orange-truck': 'voice/where-orange-truck.mp3', 'where-orange-plane': 'voice/where-orange-plane.mp3', 'where-orange-helicopter': 'voice/where-orange-helicopter.mp3', 'where-orange-teapot': 'voice/where-orange-teapot.mp3', 'where-orange-pan': 'voice/where-orange-pan.mp3', 'where-orange-hat': 'voice/where-orange-hat.mp3', 'where-orange-boot': 'voice/where-orange-boot.mp3', 'where-purple-disc': 'voice/where-purple-disc.mp3', 'where-purple-ball': 'voice/where-purple-ball.mp3', 'where-purple-balloon': 'voice/where-purple-balloon.mp3', 'where-purple-cube': 'voice/where-purple-cube.mp3', 'where-purple-star': 'voice/where-purple-star.mp3', 'where-purple-flower': 'voice/where-purple-flower.mp3', 'where-purple-tulip': 'voice/where-purple-tulip.mp3', 'where-purple-lollipop': 'voice/where-purple-lollipop.mp3', 'where-purple-boat': 'voice/where-purple-boat.mp3', 'where-purple-pencil': 'voice/where-purple-pencil.mp3', 'where-purple-car': 'voice/where-purple-car.mp3', 'where-purple-umbrella': 'voice/where-purple-umbrella.mp3', 'where-purple-cup': 'voice/where-purple-cup.mp3', 'where-purple-mitten': 'voice/where-purple-mitten.mp3', 'where-purple-house': 'voice/where-purple-house.mp3', 'where-purple-tshirt': 'voice/where-purple-tshirt.mp3', 'where-purple-gift': 'voice/where-purple-gift.mp3', 'where-purple-candy': 'voice/where-purple-candy.mp3', 'where-purple-rocket': 'voice/where-purple-rocket.mp3', 'where-purple-bus': 'voice/where-purple-bus.mp3', 'where-purple-truck': 'voice/where-purple-truck.mp3', 'where-purple-plane': 'voice/where-purple-plane.mp3', 'where-purple-helicopter': 'voice/where-purple-helicopter.mp3', 'where-purple-teapot': 'voice/where-purple-teapot.mp3', 'where-purple-pan': 'voice/where-purple-pan.mp3', 'where-purple-hat': 'voice/where-purple-hat.mp3', 'where-purple-boot': 'voice/where-purple-boot.mp3', 'where-white-disc': 'voice/where-white-disc.mp3', 'where-white-ball': 'voice/where-white-ball.mp3', 'where-white-balloon': 'voice/where-white-balloon.mp3', 'where-white-cube': 'voice/where-white-cube.mp3', 'where-white-star': 'voice/where-white-star.mp3', 'where-white-flower': 'voice/where-white-flower.mp3', 'where-white-tulip': 'voice/where-white-tulip.mp3', 'where-white-lollipop': 'voice/where-white-lollipop.mp3', 'where-white-boat': 'voice/where-white-boat.mp3', 'where-white-pencil': 'voice/where-white-pencil.mp3', 'where-white-car': 'voice/where-white-car.mp3', 'where-white-umbrella': 'voice/where-white-umbrella.mp3', 'where-white-cup': 'voice/where-white-cup.mp3', 'where-white-mitten': 'voice/where-white-mitten.mp3', 'where-white-house': 'voice/where-white-house.mp3', 'where-white-tshirt': 'voice/where-white-tshirt.mp3', 'where-white-gift': 'voice/where-white-gift.mp3', 'where-white-candy': 'voice/where-white-candy.mp3', 'where-white-rocket': 'voice/where-white-rocket.mp3', 'where-white-bus': 'voice/where-white-bus.mp3', 'where-white-truck': 'voice/where-white-truck.mp3', 'where-white-plane': 'voice/where-white-plane.mp3', 'where-white-helicopter': 'voice/where-white-helicopter.mp3', 'where-white-teapot': 'voice/where-white-teapot.mp3', 'where-white-pan': 'voice/where-white-pan.mp3', 'where-white-hat': 'voice/where-white-hat.mp3', 'where-white-boot': 'voice/where-white-boot.mp3', 'where-black-disc': 'voice/where-black-disc.mp3', 'where-black-ball': 'voice/where-black-ball.mp3', 'where-black-balloon': 'voice/where-black-balloon.mp3', 'where-black-cube': 'voice/where-black-cube.mp3', 'where-black-star': 'voice/where-black-star.mp3', 'where-black-flower': 'voice/where-black-flower.mp3', 'where-black-tulip': 'voice/where-black-tulip.mp3', 'where-black-lollipop': 'voice/where-black-lollipop.mp3', 'where-black-boat': 'voice/where-black-boat.mp3', 'where-black-pencil': 'voice/where-black-pencil.mp3', 'where-black-car': 'voice/where-black-car.mp3', 'where-black-umbrella': 'voice/where-black-umbrella.mp3', 'where-black-cup': 'voice/where-black-cup.mp3', 'where-black-mitten': 'voice/where-black-mitten.mp3', 'where-black-house': 'voice/where-black-house.mp3', 'where-black-tshirt': 'voice/where-black-tshirt.mp3', 'where-black-gift': 'voice/where-black-gift.mp3', 'where-black-candy': 'voice/where-black-candy.mp3', 'where-black-rocket': 'voice/where-black-rocket.mp3', 'where-black-bus': 'voice/where-black-bus.mp3', 'where-black-truck': 'voice/where-black-truck.mp3', 'where-black-plane': 'voice/where-black-plane.mp3', 'where-black-helicopter': 'voice/where-black-helicopter.mp3', 'where-black-teapot': 'voice/where-black-teapot.mp3', 'where-black-pan': 'voice/where-black-pan.mp3', 'where-black-hat': 'voice/where-black-hat.mp3', 'where-black-boot': 'voice/where-black-boot.mp3', 'train-red': 'voice/train-red.mp3', 'train-blue': 'voice/train-blue.mp3', 'train-yellow': 'voice/train-yellow.mp3', 'train-green': 'voice/train-green.mp3', 'train-orange': 'voice/train-orange.mp3', 'train-purple': 'voice/train-purple.mp3', 'train-white': 'voice/train-white.mp3', 'train-black': 'voice/train-black.mp3', 'fin-pop': 'voice/fin-pop.mp3', 'fin-tower': 'voice/fin-tower.mp3', 'fin-tower-next': 'voice/fin-tower-next.mp3', 'fin-scales': 'voice/fin-scales.mp3', 'fin-air': 'voice/fin-air.mp3', 'fin-bush': 'voice/fin-bush.mp3', 'fin-puzzle': 'voice/fin-puzzle.mp3', 'fin-rocket': 'voice/fin-rocket.mp3', 'fin-beads': 'voice/fin-beads.mp3', 'fin-fish-ball': 'voice/fin-fish-ball.mp3', 'fin-fish-balloon': 'voice/fin-fish-balloon.mp3', 'fin-fish-cube': 'voice/fin-fish-cube.mp3', 'fin-fish-star': 'voice/fin-fish-star.mp3', 'fin-fish-flower': 'voice/fin-fish-flower.mp3', 'fin-fish-tulip': 'voice/fin-fish-tulip.mp3', 'fin-fish-lollipop': 'voice/fin-fish-lollipop.mp3', 'fin-fish-boat': 'voice/fin-fish-boat.mp3', 'fin-fish-pencil': 'voice/fin-fish-pencil.mp3', 'fin-fish-car': 'voice/fin-fish-car.mp3', 'fin-fish-umbrella': 'voice/fin-fish-umbrella.mp3', 'fin-fish-cup': 'voice/fin-fish-cup.mp3', 'fin-fish-mitten': 'voice/fin-fish-mitten.mp3', 'fin-fish-house': 'voice/fin-fish-house.mp3', 'fin-fish-tshirt': 'voice/fin-fish-tshirt.mp3', 'fin-fish-gift': 'voice/fin-fish-gift.mp3', 'fin-fish-candy': 'voice/fin-fish-candy.mp3', 'fin-fish-rocket': 'voice/fin-fish-rocket.mp3', 'fin-fish-apple': 'voice/fin-fish-apple.mp3', 'fin-fish-pear': 'voice/fin-fish-pear.mp3', 'fin-fish-banana': 'voice/fin-fish-banana.mp3', 'fin-fish-orange': 'voice/fin-fish-orange.mp3', 'fin-fish-lemon': 'voice/fin-fish-lemon.mp3', 'fin-fish-strawberry': 'voice/fin-fish-strawberry.mp3', 'fin-fish-cherry': 'voice/fin-fish-cherry.mp3', 'fin-fish-grapes': 'voice/fin-fish-grapes.mp3', 'fin-fish-carrot': 'voice/fin-fish-carrot.mp3', 'fin-fish-tomato': 'voice/fin-fish-tomato.mp3', 'fin-fish-cucumber': 'voice/fin-fish-cucumber.mp3', 'fin-fish-corn': 'voice/fin-fish-corn.mp3', 'fin-fish-eggplant': 'voice/fin-fish-eggplant.mp3', 'fin-fish-pepper': 'voice/fin-fish-pepper.mp3', 'fin-fish-tree': 'voice/fin-fish-tree.mp3', 'fin-fish-leaf': 'voice/fin-fish-leaf.mp3', 'fin-fish-sun': 'voice/fin-fish-sun.mp3', 'fin-fish-cloud': 'voice/fin-fish-cloud.mp3', 'fin-fish-bus': 'voice/fin-fish-bus.mp3', 'fin-fish-truck': 'voice/fin-fish-truck.mp3', 'fin-fish-plane': 'voice/fin-fish-plane.mp3', 'fin-fish-helicopter': 'voice/fin-fish-helicopter.mp3', 'fin-fish-teapot': 'voice/fin-fish-teapot.mp3', 'fin-fish-pan': 'voice/fin-fish-pan.mp3', 'fin-fish-hat': 'voice/fin-fish-hat.mp3', 'fin-fish-boot': 'voice/fin-fish-boot.mp3', 'fin-flash-ball': 'voice/fin-flash-ball.mp3', 'fin-bush-ball': 'voice/fin-bush-ball.mp3', 'fin-lift-ball-0': 'voice/fin-lift-ball-0.mp3', 'fin-lift-ball-1': 'voice/fin-lift-ball-1.mp3', 'fin-lift-ball-2': 'voice/fin-lift-ball-2.mp3', 'fin-flash-cube': 'voice/fin-flash-cube.mp3', 'fin-bush-cube': 'voice/fin-bush-cube.mp3', 'fin-lift-cube-0': 'voice/fin-lift-cube-0.mp3', 'fin-lift-cube-1': 'voice/fin-lift-cube-1.mp3', 'fin-lift-cube-2': 'voice/fin-lift-cube-2.mp3', 'fin-flash-car': 'voice/fin-flash-car.mp3', 'fin-bush-car': 'voice/fin-bush-car.mp3', 'fin-lift-car-0': 'voice/fin-lift-car-0.mp3', 'fin-lift-car-1': 'voice/fin-lift-car-1.mp3', 'fin-lift-car-2': 'voice/fin-lift-car-2.mp3', 'fin-flash-balloon': 'voice/fin-flash-balloon.mp3', 'fin-bush-balloon': 'voice/fin-bush-balloon.mp3', 'fin-lift-balloon-0': 'voice/fin-lift-balloon-0.mp3', 'fin-lift-balloon-1': 'voice/fin-lift-balloon-1.mp3', 'fin-lift-balloon-2': 'voice/fin-lift-balloon-2.mp3', 'fin-flash-star': 'voice/fin-flash-star.mp3', 'fin-bush-star': 'voice/fin-bush-star.mp3', 'fin-lift-star-0': 'voice/fin-lift-star-0.mp3', 'fin-lift-star-1': 'voice/fin-lift-star-1.mp3', 'fin-lift-star-2': 'voice/fin-lift-star-2.mp3', 'fin-flash-gift': 'voice/fin-flash-gift.mp3', 'fin-bush-gift': 'voice/fin-bush-gift.mp3', 'fin-lift-gift-0': 'voice/fin-lift-gift-0.mp3', 'fin-lift-gift-1': 'voice/fin-lift-gift-1.mp3', 'fin-lift-gift-2': 'voice/fin-lift-gift-2.mp3', 'fin-flash-cup': 'voice/fin-flash-cup.mp3', 'fin-bush-cup': 'voice/fin-bush-cup.mp3', 'fin-lift-cup-0': 'voice/fin-lift-cup-0.mp3', 'fin-lift-cup-1': 'voice/fin-lift-cup-1.mp3', 'fin-lift-cup-2': 'voice/fin-lift-cup-2.mp3', 'fin-flash-umbrella': 'voice/fin-flash-umbrella.mp3', 'fin-bush-umbrella': 'voice/fin-bush-umbrella.mp3', 'fin-lift-umbrella-0': 'voice/fin-lift-umbrella-0.mp3', 'fin-lift-umbrella-1': 'voice/fin-lift-umbrella-1.mp3', 'fin-lift-umbrella-2': 'voice/fin-lift-umbrella-2.mp3', 'fin-flash-boat': 'voice/fin-flash-boat.mp3', 'fin-bush-boat': 'voice/fin-bush-boat.mp3', 'fin-lift-boat-0': 'voice/fin-lift-boat-0.mp3', 'fin-lift-boat-1': 'voice/fin-lift-boat-1.mp3', 'fin-lift-boat-2': 'voice/fin-lift-boat-2.mp3', 'fin-flash-flower': 'voice/fin-flash-flower.mp3', 'fin-bush-flower': 'voice/fin-bush-flower.mp3', 'fin-lift-flower-0': 'voice/fin-lift-flower-0.mp3', 'fin-lift-flower-1': 'voice/fin-lift-flower-1.mp3', 'fin-lift-flower-2': 'voice/fin-lift-flower-2.mp3', 'fin-flash-rocket': 'voice/fin-flash-rocket.mp3', 'fin-bush-rocket': 'voice/fin-bush-rocket.mp3', 'fin-lift-rocket-0': 'voice/fin-lift-rocket-0.mp3', 'fin-lift-rocket-1': 'voice/fin-lift-rocket-1.mp3', 'fin-lift-rocket-2': 'voice/fin-lift-rocket-2.mp3', 'fin-flash-bus': 'voice/fin-flash-bus.mp3', 'fin-bush-bus': 'voice/fin-bush-bus.mp3', 'fin-lift-bus-0': 'voice/fin-lift-bus-0.mp3', 'fin-lift-bus-1': 'voice/fin-lift-bus-1.mp3', 'fin-lift-bus-2': 'voice/fin-lift-bus-2.mp3', 'fin-flash-lollipop': 'voice/fin-flash-lollipop.mp3', 'fin-bush-lollipop': 'voice/fin-bush-lollipop.mp3', 'fin-lift-lollipop-0': 'voice/fin-lift-lollipop-0.mp3', 'fin-lift-lollipop-1': 'voice/fin-lift-lollipop-1.mp3', 'fin-lift-lollipop-2': 'voice/fin-lift-lollipop-2.mp3', 'fin-flash-pencil': 'voice/fin-flash-pencil.mp3', 'fin-bush-pencil': 'voice/fin-bush-pencil.mp3', 'fin-lift-pencil-0': 'voice/fin-lift-pencil-0.mp3', 'fin-lift-pencil-1': 'voice/fin-lift-pencil-1.mp3', 'fin-lift-pencil-2': 'voice/fin-lift-pencil-2.mp3', 'fin-slots-car': 'voice/fin-slots-car.mp3', 'fin-slots-star': 'voice/fin-slots-star.mp3', 'fin-slots-ball': 'voice/fin-slots-ball.mp3', 'fin-slots-balloon': 'voice/fin-slots-balloon.mp3', 'fin-slots-cup': 'voice/fin-slots-cup.mp3', 'fin-slots-house': 'voice/fin-slots-house.mp3', 'fin-slots-rocket': 'voice/fin-slots-rocket.mp3', 'fin-slots-umbrella': 'voice/fin-slots-umbrella.mp3', 'fin-slots-gift': 'voice/fin-slots-gift.mp3', 'fin-slots-apple': 'voice/fin-slots-apple.mp3', 'fin-letter-a': 'voice/fin-letter-a.mp3', 'fin-first-a': 'voice/fin-first-a.mp3', 'fin-letter-o': 'voice/fin-letter-o.mp3', 'fin-first-o': 'voice/fin-first-o.mp3', 'fin-letter-u': 'voice/fin-letter-u.mp3', 'fin-first-u': 'voice/fin-first-u.mp3', 'fin-letter-i': 'voice/fin-letter-i.mp3', 'fin-first-i': 'voice/fin-first-i.mp3', 'fin-letter-e': 'voice/fin-letter-e.mp3', 'fin-first-e': 'voice/fin-first-e.mp3', 'fin-letter-ya': 'voice/fin-letter-ya.mp3', 'fin-first-ya': 'voice/fin-first-ya.mp3', 'fin-letter-ye': 'voice/fin-letter-ye.mp3', 'fin-first-ye': 'voice/fin-first-ye.mp3', 'fin-letter-yu': 'voice/fin-letter-yu.mp3', 'fin-first-yu': 'voice/fin-first-yu.mp3', 'fin-letter-m': 'voice/fin-letter-m.mp3', 'fin-first-m': 'voice/fin-first-m.mp3', 'fin-letter-s': 'voice/fin-letter-s.mp3', 'fin-first-s': 'voice/fin-first-s.mp3', 'fin-letter-n': 'voice/fin-letter-n.mp3', 'fin-first-n': 'voice/fin-first-n.mp3', 'fin-letter-l': 'voice/fin-letter-l.mp3', 'fin-first-l': 'voice/fin-first-l.mp3', 'fin-letter-t': 'voice/fin-letter-t.mp3', 'fin-first-t': 'voice/fin-first-t.mp3', 'fin-letter-r': 'voice/fin-letter-r.mp3', 'fin-first-r': 'voice/fin-first-r.mp3', 'fin-letter-k': 'voice/fin-letter-k.mp3', 'fin-first-k': 'voice/fin-first-k.mp3', 'fin-letter-p': 'voice/fin-letter-p.mp3', 'fin-first-p': 'voice/fin-first-p.mp3', 'fin-letter-d': 'voice/fin-letter-d.mp3', 'fin-first-d': 'voice/fin-first-d.mp3', 'fin-letter-v': 'voice/fin-letter-v.mp3', 'fin-first-v': 'voice/fin-first-v.mp3', 'fin-letter-b': 'voice/fin-letter-b.mp3', 'fin-first-b': 'voice/fin-first-b.mp3', 'fin-letter-g': 'voice/fin-letter-g.mp3', 'fin-first-g': 'voice/fin-first-g.mp3', 'fin-letter-z': 'voice/fin-letter-z.mp3', 'fin-first-z': 'voice/fin-first-z.mp3', 'fin-letter-sh': 'voice/fin-letter-sh.mp3', 'fin-first-sh': 'voice/fin-first-sh.mp3', 'fin-letter-zh': 'voice/fin-letter-zh.mp3', 'fin-first-zh': 'voice/fin-first-zh.mp3', 'fin-letter-ch': 'voice/fin-letter-ch.mp3', 'fin-first-ch': 'voice/fin-first-ch.mp3', 'fin-letter-ts': 'voice/fin-letter-ts.mp3', 'fin-first-ts': 'voice/fin-first-ts.mp3', 'fin-letter-f': 'voice/fin-letter-f.mp3', 'fin-first-f': 'voice/fin-first-f.mp3', 'fin-letter-h': 'voice/fin-letter-h.mp3', 'fin-first-h': 'voice/fin-first-h.mp3', 'fin-letter-sch': 'voice/fin-letter-sch.mp3', 'fin-first-sch': 'voice/fin-first-sch.mp3', 'fin-letter-ikr': 'voice/fin-letter-ikr.mp3', 'fin-first-ikr': 'voice/fin-first-ikr.mp3', 'fin-math-1-1': 'voice/fin-math-1-1.mp3', 'fin-math-1-2': 'voice/fin-math-1-2.mp3', 'fin-math-1-3': 'voice/fin-math-1-3.mp3', 'fin-math-1-4': 'voice/fin-math-1-4.mp3', 'fin-math-1-5': 'voice/fin-math-1-5.mp3', 'fin-math-1-6': 'voice/fin-math-1-6.mp3', 'fin-math-1-7': 'voice/fin-math-1-7.mp3', 'fin-math-1-8': 'voice/fin-math-1-8.mp3', 'fin-math-1-9': 'voice/fin-math-1-9.mp3', 'fin-math-2-1': 'voice/fin-math-2-1.mp3', 'fin-math-2-2': 'voice/fin-math-2-2.mp3', 'fin-math-2-3': 'voice/fin-math-2-3.mp3', 'fin-math-2-4': 'voice/fin-math-2-4.mp3', 'fin-math-2-5': 'voice/fin-math-2-5.mp3', 'fin-math-2-6': 'voice/fin-math-2-6.mp3', 'fin-math-2-7': 'voice/fin-math-2-7.mp3', 'fin-math-2-8': 'voice/fin-math-2-8.mp3', 'fin-math-3-1': 'voice/fin-math-3-1.mp3', 'fin-math-3-2': 'voice/fin-math-3-2.mp3', 'fin-math-3-3': 'voice/fin-math-3-3.mp3', 'fin-math-3-4': 'voice/fin-math-3-4.mp3', 'fin-math-3-5': 'voice/fin-math-3-5.mp3', 'fin-math-3-6': 'voice/fin-math-3-6.mp3', 'fin-math-3-7': 'voice/fin-math-3-7.mp3', 'fin-math-4-1': 'voice/fin-math-4-1.mp3', 'fin-math-4-2': 'voice/fin-math-4-2.mp3', 'fin-math-4-3': 'voice/fin-math-4-3.mp3', 'fin-math-4-4': 'voice/fin-math-4-4.mp3', 'fin-math-4-5': 'voice/fin-math-4-5.mp3', 'fin-math-4-6': 'voice/fin-math-4-6.mp3', 'fin-math-5-1': 'voice/fin-math-5-1.mp3', 'fin-math-5-2': 'voice/fin-math-5-2.mp3', 'fin-math-5-3': 'voice/fin-math-5-3.mp3', 'fin-math-5-4': 'voice/fin-math-5-4.mp3', 'fin-math-5-5': 'voice/fin-math-5-5.mp3', 'fin-math-6-1': 'voice/fin-math-6-1.mp3', 'fin-math-6-2': 'voice/fin-math-6-2.mp3', 'fin-math-6-3': 'voice/fin-math-6-3.mp3', 'fin-math-6-4': 'voice/fin-math-6-4.mp3', 'fin-math-7-1': 'voice/fin-math-7-1.mp3', 'fin-math-7-2': 'voice/fin-math-7-2.mp3', 'fin-math-7-3': 'voice/fin-math-7-3.mp3', 'fin-math-8-1': 'voice/fin-math-8-1.mp3', 'fin-math-8-2': 'voice/fin-math-8-2.mp3', 'fin-math-9-1': 'voice/fin-math-9-1.mp3'});
+Object.assign(VOICE, {'learn-color-orange': 'voice/learn-color-orange.mp3', 'learn-color-purple': 'voice/learn-color-purple.mp3', 'train-mix': 'voice/train-mix.mp3', 'say-who': 'voice/say-who.mp3', 'say-ava': 'voice/say-ava.mp3', 'learn-color-pink': 'voice/learn-color-pink.mp3', 'learn-color-lime': 'voice/learn-color-lime.mp3', 'learn-color-sky': 'voice/learn-color-sky.mp3', 'learn-color-grey': 'voice/learn-color-grey.mp3', 'learn-color-brown': 'voice/learn-color-brown.mp3', 'paint-apple': 'voice/paint-apple.mp3', 'paint-pear': 'voice/paint-pear.mp3', 'paint-strawberry': 'voice/paint-strawberry.mp3', 'paint-cherry': 'voice/paint-cherry.mp3', 'paint-orange': 'voice/paint-orange.mp3', 'paint-lemon': 'voice/paint-lemon.mp3', 'paint-grapes': 'voice/paint-grapes.mp3', 'paint-watermelon': 'voice/paint-watermelon.mp3', 'paint-pineapple': 'voice/paint-pineapple.mp3', 'paint-mango': 'voice/paint-mango.mp3', 'paint-kiwi': 'voice/paint-kiwi.mp3', 'paint-avocado': 'voice/paint-avocado.mp3', 'paint-carrot': 'voice/paint-carrot.mp3', 'paint-tomato': 'voice/paint-tomato.mp3', 'paint-eggplant': 'voice/paint-eggplant.mp3', 'paint-corn': 'voice/paint-corn.mp3', 'paint-pepper': 'voice/paint-pepper.mp3', 'paint-hotpepper': 'voice/paint-hotpepper.mp3', 'paint-mushroom': 'voice/paint-mushroom.mp3', 'paint-balloon': 'voice/paint-balloon.mp3', 'paint-flower': 'voice/paint-flower.mp3', 'paint-tulip': 'voice/paint-tulip.mp3', 'paint-umbrella': 'voice/paint-umbrella.mp3', 'paint-gift': 'voice/paint-gift.mp3', 'paint-boot': 'voice/paint-boot.mp3', 'paint-tree': 'voice/paint-tree.mp3', 'paint-house': 'voice/paint-house.mp3', 'paint-car': 'voice/paint-car.mp3', 'paint-bus': 'voice/paint-bus.mp3', 'paint-taxi': 'voice/paint-taxi.mp3', 'paint-tractor': 'voice/paint-tractor.mp3', 'paint-firetruck': 'voice/paint-firetruck.mp3', 'paint-truck': 'voice/paint-truck.mp3', 'paint-helicopter': 'voice/paint-helicopter.mp3', 'paint-rocket': 'voice/paint-rocket.mp3', 'paint-boat': 'voice/paint-boat.mp3', 'where-red-disc': 'voice/where-red-disc.mp3', 'where-red-ball': 'voice/where-red-ball.mp3', 'where-red-balloon': 'voice/where-red-balloon.mp3', 'where-red-cube': 'voice/where-red-cube.mp3', 'where-red-star': 'voice/where-red-star.mp3', 'where-red-flower': 'voice/where-red-flower.mp3', 'where-red-tulip': 'voice/where-red-tulip.mp3', 'where-red-lollipop': 'voice/where-red-lollipop.mp3', 'where-red-boat': 'voice/where-red-boat.mp3', 'where-red-pencil': 'voice/where-red-pencil.mp3', 'where-red-car': 'voice/where-red-car.mp3', 'where-red-umbrella': 'voice/where-red-umbrella.mp3', 'where-red-cup': 'voice/where-red-cup.mp3', 'where-red-mitten': 'voice/where-red-mitten.mp3', 'where-red-house': 'voice/where-red-house.mp3', 'where-red-tshirt': 'voice/where-red-tshirt.mp3', 'where-red-gift': 'voice/where-red-gift.mp3', 'where-red-candy': 'voice/where-red-candy.mp3', 'where-red-rocket': 'voice/where-red-rocket.mp3', 'where-red-bus': 'voice/where-red-bus.mp3', 'where-red-truck': 'voice/where-red-truck.mp3', 'where-red-plane': 'voice/where-red-plane.mp3', 'where-red-helicopter': 'voice/where-red-helicopter.mp3', 'where-red-teapot': 'voice/where-red-teapot.mp3', 'where-red-pan': 'voice/where-red-pan.mp3', 'where-red-hat': 'voice/where-red-hat.mp3', 'where-red-boot': 'voice/where-red-boot.mp3', 'where-blue-disc': 'voice/where-blue-disc.mp3', 'where-blue-ball': 'voice/where-blue-ball.mp3', 'where-blue-balloon': 'voice/where-blue-balloon.mp3', 'where-blue-cube': 'voice/where-blue-cube.mp3', 'where-blue-star': 'voice/where-blue-star.mp3', 'where-blue-flower': 'voice/where-blue-flower.mp3', 'where-blue-tulip': 'voice/where-blue-tulip.mp3', 'where-blue-lollipop': 'voice/where-blue-lollipop.mp3', 'where-blue-boat': 'voice/where-blue-boat.mp3', 'where-blue-pencil': 'voice/where-blue-pencil.mp3', 'where-blue-car': 'voice/where-blue-car.mp3', 'where-blue-umbrella': 'voice/where-blue-umbrella.mp3', 'where-blue-cup': 'voice/where-blue-cup.mp3', 'where-blue-mitten': 'voice/where-blue-mitten.mp3', 'where-blue-house': 'voice/where-blue-house.mp3', 'where-blue-tshirt': 'voice/where-blue-tshirt.mp3', 'where-blue-gift': 'voice/where-blue-gift.mp3', 'where-blue-candy': 'voice/where-blue-candy.mp3', 'where-blue-rocket': 'voice/where-blue-rocket.mp3', 'where-blue-bus': 'voice/where-blue-bus.mp3', 'where-blue-truck': 'voice/where-blue-truck.mp3', 'where-blue-plane': 'voice/where-blue-plane.mp3', 'where-blue-helicopter': 'voice/where-blue-helicopter.mp3', 'where-blue-teapot': 'voice/where-blue-teapot.mp3', 'where-blue-pan': 'voice/where-blue-pan.mp3', 'where-blue-hat': 'voice/where-blue-hat.mp3', 'where-blue-boot': 'voice/where-blue-boot.mp3', 'where-yellow-disc': 'voice/where-yellow-disc.mp3', 'where-yellow-ball': 'voice/where-yellow-ball.mp3', 'where-yellow-balloon': 'voice/where-yellow-balloon.mp3', 'where-yellow-cube': 'voice/where-yellow-cube.mp3', 'where-yellow-star': 'voice/where-yellow-star.mp3', 'where-yellow-flower': 'voice/where-yellow-flower.mp3', 'where-yellow-tulip': 'voice/where-yellow-tulip.mp3', 'where-yellow-lollipop': 'voice/where-yellow-lollipop.mp3', 'where-yellow-boat': 'voice/where-yellow-boat.mp3', 'where-yellow-pencil': 'voice/where-yellow-pencil.mp3', 'where-yellow-car': 'voice/where-yellow-car.mp3', 'where-yellow-umbrella': 'voice/where-yellow-umbrella.mp3', 'where-yellow-cup': 'voice/where-yellow-cup.mp3', 'where-yellow-mitten': 'voice/where-yellow-mitten.mp3', 'where-yellow-house': 'voice/where-yellow-house.mp3', 'where-yellow-tshirt': 'voice/where-yellow-tshirt.mp3', 'where-yellow-gift': 'voice/where-yellow-gift.mp3', 'where-yellow-candy': 'voice/where-yellow-candy.mp3', 'where-yellow-rocket': 'voice/where-yellow-rocket.mp3', 'where-yellow-bus': 'voice/where-yellow-bus.mp3', 'where-yellow-truck': 'voice/where-yellow-truck.mp3', 'where-yellow-plane': 'voice/where-yellow-plane.mp3', 'where-yellow-helicopter': 'voice/where-yellow-helicopter.mp3', 'where-yellow-teapot': 'voice/where-yellow-teapot.mp3', 'where-yellow-pan': 'voice/where-yellow-pan.mp3', 'where-yellow-hat': 'voice/where-yellow-hat.mp3', 'where-yellow-boot': 'voice/where-yellow-boot.mp3', 'where-green-disc': 'voice/where-green-disc.mp3', 'where-green-ball': 'voice/where-green-ball.mp3', 'where-green-balloon': 'voice/where-green-balloon.mp3', 'where-green-cube': 'voice/where-green-cube.mp3', 'where-green-star': 'voice/where-green-star.mp3', 'where-green-flower': 'voice/where-green-flower.mp3', 'where-green-tulip': 'voice/where-green-tulip.mp3', 'where-green-lollipop': 'voice/where-green-lollipop.mp3', 'where-green-boat': 'voice/where-green-boat.mp3', 'where-green-pencil': 'voice/where-green-pencil.mp3', 'where-green-car': 'voice/where-green-car.mp3', 'where-green-umbrella': 'voice/where-green-umbrella.mp3', 'where-green-cup': 'voice/where-green-cup.mp3', 'where-green-mitten': 'voice/where-green-mitten.mp3', 'where-green-house': 'voice/where-green-house.mp3', 'where-green-tshirt': 'voice/where-green-tshirt.mp3', 'where-green-gift': 'voice/where-green-gift.mp3', 'where-green-candy': 'voice/where-green-candy.mp3', 'where-green-rocket': 'voice/where-green-rocket.mp3', 'where-green-bus': 'voice/where-green-bus.mp3', 'where-green-truck': 'voice/where-green-truck.mp3', 'where-green-plane': 'voice/where-green-plane.mp3', 'where-green-helicopter': 'voice/where-green-helicopter.mp3', 'where-green-teapot': 'voice/where-green-teapot.mp3', 'where-green-pan': 'voice/where-green-pan.mp3', 'where-green-hat': 'voice/where-green-hat.mp3', 'where-green-boot': 'voice/where-green-boot.mp3', 'where-orange-disc': 'voice/where-orange-disc.mp3', 'where-orange-ball': 'voice/where-orange-ball.mp3', 'where-orange-balloon': 'voice/where-orange-balloon.mp3', 'where-orange-cube': 'voice/where-orange-cube.mp3', 'where-orange-star': 'voice/where-orange-star.mp3', 'where-orange-flower': 'voice/where-orange-flower.mp3', 'where-orange-tulip': 'voice/where-orange-tulip.mp3', 'where-orange-lollipop': 'voice/where-orange-lollipop.mp3', 'where-orange-boat': 'voice/where-orange-boat.mp3', 'where-orange-pencil': 'voice/where-orange-pencil.mp3', 'where-orange-car': 'voice/where-orange-car.mp3', 'where-orange-umbrella': 'voice/where-orange-umbrella.mp3', 'where-orange-cup': 'voice/where-orange-cup.mp3', 'where-orange-mitten': 'voice/where-orange-mitten.mp3', 'where-orange-house': 'voice/where-orange-house.mp3', 'where-orange-tshirt': 'voice/where-orange-tshirt.mp3', 'where-orange-gift': 'voice/where-orange-gift.mp3', 'where-orange-candy': 'voice/where-orange-candy.mp3', 'where-orange-rocket': 'voice/where-orange-rocket.mp3', 'where-orange-bus': 'voice/where-orange-bus.mp3', 'where-orange-truck': 'voice/where-orange-truck.mp3', 'where-orange-plane': 'voice/where-orange-plane.mp3', 'where-orange-helicopter': 'voice/where-orange-helicopter.mp3', 'where-orange-teapot': 'voice/where-orange-teapot.mp3', 'where-orange-pan': 'voice/where-orange-pan.mp3', 'where-orange-hat': 'voice/where-orange-hat.mp3', 'where-orange-boot': 'voice/where-orange-boot.mp3', 'where-purple-disc': 'voice/where-purple-disc.mp3', 'where-purple-ball': 'voice/where-purple-ball.mp3', 'where-purple-balloon': 'voice/where-purple-balloon.mp3', 'where-purple-cube': 'voice/where-purple-cube.mp3', 'where-purple-star': 'voice/where-purple-star.mp3', 'where-purple-flower': 'voice/where-purple-flower.mp3', 'where-purple-tulip': 'voice/where-purple-tulip.mp3', 'where-purple-lollipop': 'voice/where-purple-lollipop.mp3', 'where-purple-boat': 'voice/where-purple-boat.mp3', 'where-purple-pencil': 'voice/where-purple-pencil.mp3', 'where-purple-car': 'voice/where-purple-car.mp3', 'where-purple-umbrella': 'voice/where-purple-umbrella.mp3', 'where-purple-cup': 'voice/where-purple-cup.mp3', 'where-purple-mitten': 'voice/where-purple-mitten.mp3', 'where-purple-house': 'voice/where-purple-house.mp3', 'where-purple-tshirt': 'voice/where-purple-tshirt.mp3', 'where-purple-gift': 'voice/where-purple-gift.mp3', 'where-purple-candy': 'voice/where-purple-candy.mp3', 'where-purple-rocket': 'voice/where-purple-rocket.mp3', 'where-purple-bus': 'voice/where-purple-bus.mp3', 'where-purple-truck': 'voice/where-purple-truck.mp3', 'where-purple-plane': 'voice/where-purple-plane.mp3', 'where-purple-helicopter': 'voice/where-purple-helicopter.mp3', 'where-purple-teapot': 'voice/where-purple-teapot.mp3', 'where-purple-pan': 'voice/where-purple-pan.mp3', 'where-purple-hat': 'voice/where-purple-hat.mp3', 'where-purple-boot': 'voice/where-purple-boot.mp3', 'where-white-disc': 'voice/where-white-disc.mp3', 'where-white-ball': 'voice/where-white-ball.mp3', 'where-white-balloon': 'voice/where-white-balloon.mp3', 'where-white-cube': 'voice/where-white-cube.mp3', 'where-white-star': 'voice/where-white-star.mp3', 'where-white-flower': 'voice/where-white-flower.mp3', 'where-white-tulip': 'voice/where-white-tulip.mp3', 'where-white-lollipop': 'voice/where-white-lollipop.mp3', 'where-white-boat': 'voice/where-white-boat.mp3', 'where-white-pencil': 'voice/where-white-pencil.mp3', 'where-white-car': 'voice/where-white-car.mp3', 'where-white-umbrella': 'voice/where-white-umbrella.mp3', 'where-white-cup': 'voice/where-white-cup.mp3', 'where-white-mitten': 'voice/where-white-mitten.mp3', 'where-white-house': 'voice/where-white-house.mp3', 'where-white-tshirt': 'voice/where-white-tshirt.mp3', 'where-white-gift': 'voice/where-white-gift.mp3', 'where-white-candy': 'voice/where-white-candy.mp3', 'where-white-rocket': 'voice/where-white-rocket.mp3', 'where-white-bus': 'voice/where-white-bus.mp3', 'where-white-truck': 'voice/where-white-truck.mp3', 'where-white-plane': 'voice/where-white-plane.mp3', 'where-white-helicopter': 'voice/where-white-helicopter.mp3', 'where-white-teapot': 'voice/where-white-teapot.mp3', 'where-white-pan': 'voice/where-white-pan.mp3', 'where-white-hat': 'voice/where-white-hat.mp3', 'where-white-boot': 'voice/where-white-boot.mp3', 'where-black-disc': 'voice/where-black-disc.mp3', 'where-black-ball': 'voice/where-black-ball.mp3', 'where-black-balloon': 'voice/where-black-balloon.mp3', 'where-black-cube': 'voice/where-black-cube.mp3', 'where-black-star': 'voice/where-black-star.mp3', 'where-black-flower': 'voice/where-black-flower.mp3', 'where-black-tulip': 'voice/where-black-tulip.mp3', 'where-black-lollipop': 'voice/where-black-lollipop.mp3', 'where-black-boat': 'voice/where-black-boat.mp3', 'where-black-pencil': 'voice/where-black-pencil.mp3', 'where-black-car': 'voice/where-black-car.mp3', 'where-black-umbrella': 'voice/where-black-umbrella.mp3', 'where-black-cup': 'voice/where-black-cup.mp3', 'where-black-mitten': 'voice/where-black-mitten.mp3', 'where-black-house': 'voice/where-black-house.mp3', 'where-black-tshirt': 'voice/where-black-tshirt.mp3', 'where-black-gift': 'voice/where-black-gift.mp3', 'where-black-candy': 'voice/where-black-candy.mp3', 'where-black-rocket': 'voice/where-black-rocket.mp3', 'where-black-bus': 'voice/where-black-bus.mp3', 'where-black-truck': 'voice/where-black-truck.mp3', 'where-black-plane': 'voice/where-black-plane.mp3', 'where-black-helicopter': 'voice/where-black-helicopter.mp3', 'where-black-teapot': 'voice/where-black-teapot.mp3', 'where-black-pan': 'voice/where-black-pan.mp3', 'where-black-hat': 'voice/where-black-hat.mp3', 'where-black-boot': 'voice/where-black-boot.mp3', 'train-red': 'voice/train-red.mp3', 'train-blue': 'voice/train-blue.mp3', 'train-yellow': 'voice/train-yellow.mp3', 'train-green': 'voice/train-green.mp3', 'train-orange': 'voice/train-orange.mp3', 'train-purple': 'voice/train-purple.mp3', 'train-white': 'voice/train-white.mp3', 'train-black': 'voice/train-black.mp3', 'fin-pop': 'voice/fin-pop.mp3', 'fin-tower': 'voice/fin-tower.mp3', 'fin-tower-next': 'voice/fin-tower-next.mp3', 'fin-scales': 'voice/fin-scales.mp3', 'fin-air': 'voice/fin-air.mp3', 'fin-bush': 'voice/fin-bush.mp3', 'fin-puzzle': 'voice/fin-puzzle.mp3', 'fin-rocket': 'voice/fin-rocket.mp3', 'fin-beads': 'voice/fin-beads.mp3', 'fin-fish-ball': 'voice/fin-fish-ball.mp3', 'fin-fish-balloon': 'voice/fin-fish-balloon.mp3', 'fin-fish-cube': 'voice/fin-fish-cube.mp3', 'fin-fish-star': 'voice/fin-fish-star.mp3', 'fin-fish-flower': 'voice/fin-fish-flower.mp3', 'fin-fish-tulip': 'voice/fin-fish-tulip.mp3', 'fin-fish-lollipop': 'voice/fin-fish-lollipop.mp3', 'fin-fish-boat': 'voice/fin-fish-boat.mp3', 'fin-fish-pencil': 'voice/fin-fish-pencil.mp3', 'fin-fish-car': 'voice/fin-fish-car.mp3', 'fin-fish-umbrella': 'voice/fin-fish-umbrella.mp3', 'fin-fish-cup': 'voice/fin-fish-cup.mp3', 'fin-fish-mitten': 'voice/fin-fish-mitten.mp3', 'fin-fish-house': 'voice/fin-fish-house.mp3', 'fin-fish-tshirt': 'voice/fin-fish-tshirt.mp3', 'fin-fish-gift': 'voice/fin-fish-gift.mp3', 'fin-fish-candy': 'voice/fin-fish-candy.mp3', 'fin-fish-rocket': 'voice/fin-fish-rocket.mp3', 'fin-fish-apple': 'voice/fin-fish-apple.mp3', 'fin-fish-pear': 'voice/fin-fish-pear.mp3', 'fin-fish-banana': 'voice/fin-fish-banana.mp3', 'fin-fish-orange': 'voice/fin-fish-orange.mp3', 'fin-fish-lemon': 'voice/fin-fish-lemon.mp3', 'fin-fish-strawberry': 'voice/fin-fish-strawberry.mp3', 'fin-fish-cherry': 'voice/fin-fish-cherry.mp3', 'fin-fish-grapes': 'voice/fin-fish-grapes.mp3', 'fin-fish-carrot': 'voice/fin-fish-carrot.mp3', 'fin-fish-tomato': 'voice/fin-fish-tomato.mp3', 'fin-fish-cucumber': 'voice/fin-fish-cucumber.mp3', 'fin-fish-corn': 'voice/fin-fish-corn.mp3', 'fin-fish-eggplant': 'voice/fin-fish-eggplant.mp3', 'fin-fish-pepper': 'voice/fin-fish-pepper.mp3', 'fin-fish-tree': 'voice/fin-fish-tree.mp3', 'fin-fish-leaf': 'voice/fin-fish-leaf.mp3', 'fin-fish-sun': 'voice/fin-fish-sun.mp3', 'fin-fish-cloud': 'voice/fin-fish-cloud.mp3', 'fin-fish-bus': 'voice/fin-fish-bus.mp3', 'fin-fish-truck': 'voice/fin-fish-truck.mp3', 'fin-fish-plane': 'voice/fin-fish-plane.mp3', 'fin-fish-helicopter': 'voice/fin-fish-helicopter.mp3', 'fin-fish-teapot': 'voice/fin-fish-teapot.mp3', 'fin-fish-pan': 'voice/fin-fish-pan.mp3', 'fin-fish-hat': 'voice/fin-fish-hat.mp3', 'fin-fish-boot': 'voice/fin-fish-boot.mp3', 'fin-flash-ball': 'voice/fin-flash-ball.mp3', 'fin-bush-ball': 'voice/fin-bush-ball.mp3', 'fin-lift-ball-0': 'voice/fin-lift-ball-0.mp3', 'fin-lift-ball-1': 'voice/fin-lift-ball-1.mp3', 'fin-lift-ball-2': 'voice/fin-lift-ball-2.mp3', 'fin-flash-cube': 'voice/fin-flash-cube.mp3', 'fin-bush-cube': 'voice/fin-bush-cube.mp3', 'fin-lift-cube-0': 'voice/fin-lift-cube-0.mp3', 'fin-lift-cube-1': 'voice/fin-lift-cube-1.mp3', 'fin-lift-cube-2': 'voice/fin-lift-cube-2.mp3', 'fin-flash-car': 'voice/fin-flash-car.mp3', 'fin-bush-car': 'voice/fin-bush-car.mp3', 'fin-lift-car-0': 'voice/fin-lift-car-0.mp3', 'fin-lift-car-1': 'voice/fin-lift-car-1.mp3', 'fin-lift-car-2': 'voice/fin-lift-car-2.mp3', 'fin-flash-balloon': 'voice/fin-flash-balloon.mp3', 'fin-bush-balloon': 'voice/fin-bush-balloon.mp3', 'fin-lift-balloon-0': 'voice/fin-lift-balloon-0.mp3', 'fin-lift-balloon-1': 'voice/fin-lift-balloon-1.mp3', 'fin-lift-balloon-2': 'voice/fin-lift-balloon-2.mp3', 'fin-flash-star': 'voice/fin-flash-star.mp3', 'fin-bush-star': 'voice/fin-bush-star.mp3', 'fin-lift-star-0': 'voice/fin-lift-star-0.mp3', 'fin-lift-star-1': 'voice/fin-lift-star-1.mp3', 'fin-lift-star-2': 'voice/fin-lift-star-2.mp3', 'fin-flash-gift': 'voice/fin-flash-gift.mp3', 'fin-bush-gift': 'voice/fin-bush-gift.mp3', 'fin-lift-gift-0': 'voice/fin-lift-gift-0.mp3', 'fin-lift-gift-1': 'voice/fin-lift-gift-1.mp3', 'fin-lift-gift-2': 'voice/fin-lift-gift-2.mp3', 'fin-flash-cup': 'voice/fin-flash-cup.mp3', 'fin-bush-cup': 'voice/fin-bush-cup.mp3', 'fin-lift-cup-0': 'voice/fin-lift-cup-0.mp3', 'fin-lift-cup-1': 'voice/fin-lift-cup-1.mp3', 'fin-lift-cup-2': 'voice/fin-lift-cup-2.mp3', 'fin-flash-umbrella': 'voice/fin-flash-umbrella.mp3', 'fin-bush-umbrella': 'voice/fin-bush-umbrella.mp3', 'fin-lift-umbrella-0': 'voice/fin-lift-umbrella-0.mp3', 'fin-lift-umbrella-1': 'voice/fin-lift-umbrella-1.mp3', 'fin-lift-umbrella-2': 'voice/fin-lift-umbrella-2.mp3', 'fin-flash-boat': 'voice/fin-flash-boat.mp3', 'fin-bush-boat': 'voice/fin-bush-boat.mp3', 'fin-lift-boat-0': 'voice/fin-lift-boat-0.mp3', 'fin-lift-boat-1': 'voice/fin-lift-boat-1.mp3', 'fin-lift-boat-2': 'voice/fin-lift-boat-2.mp3', 'fin-flash-flower': 'voice/fin-flash-flower.mp3', 'fin-bush-flower': 'voice/fin-bush-flower.mp3', 'fin-lift-flower-0': 'voice/fin-lift-flower-0.mp3', 'fin-lift-flower-1': 'voice/fin-lift-flower-1.mp3', 'fin-lift-flower-2': 'voice/fin-lift-flower-2.mp3', 'fin-flash-rocket': 'voice/fin-flash-rocket.mp3', 'fin-bush-rocket': 'voice/fin-bush-rocket.mp3', 'fin-lift-rocket-0': 'voice/fin-lift-rocket-0.mp3', 'fin-lift-rocket-1': 'voice/fin-lift-rocket-1.mp3', 'fin-lift-rocket-2': 'voice/fin-lift-rocket-2.mp3', 'fin-flash-bus': 'voice/fin-flash-bus.mp3', 'fin-bush-bus': 'voice/fin-bush-bus.mp3', 'fin-lift-bus-0': 'voice/fin-lift-bus-0.mp3', 'fin-lift-bus-1': 'voice/fin-lift-bus-1.mp3', 'fin-lift-bus-2': 'voice/fin-lift-bus-2.mp3', 'fin-flash-lollipop': 'voice/fin-flash-lollipop.mp3', 'fin-bush-lollipop': 'voice/fin-bush-lollipop.mp3', 'fin-lift-lollipop-0': 'voice/fin-lift-lollipop-0.mp3', 'fin-lift-lollipop-1': 'voice/fin-lift-lollipop-1.mp3', 'fin-lift-lollipop-2': 'voice/fin-lift-lollipop-2.mp3', 'fin-flash-pencil': 'voice/fin-flash-pencil.mp3', 'fin-bush-pencil': 'voice/fin-bush-pencil.mp3', 'fin-lift-pencil-0': 'voice/fin-lift-pencil-0.mp3', 'fin-lift-pencil-1': 'voice/fin-lift-pencil-1.mp3', 'fin-lift-pencil-2': 'voice/fin-lift-pencil-2.mp3', 'fin-slots-car': 'voice/fin-slots-car.mp3', 'fin-slots-star': 'voice/fin-slots-star.mp3', 'fin-slots-ball': 'voice/fin-slots-ball.mp3', 'fin-slots-balloon': 'voice/fin-slots-balloon.mp3', 'fin-slots-cup': 'voice/fin-slots-cup.mp3', 'fin-slots-house': 'voice/fin-slots-house.mp3', 'fin-slots-rocket': 'voice/fin-slots-rocket.mp3', 'fin-slots-umbrella': 'voice/fin-slots-umbrella.mp3', 'fin-slots-gift': 'voice/fin-slots-gift.mp3', 'fin-slots-apple': 'voice/fin-slots-apple.mp3', 'fin-letter-a': 'voice/fin-letter-a.mp3', 'fin-first-a': 'voice/fin-first-a.mp3', 'fin-letter-o': 'voice/fin-letter-o.mp3', 'fin-first-o': 'voice/fin-first-o.mp3', 'fin-letter-u': 'voice/fin-letter-u.mp3', 'fin-first-u': 'voice/fin-first-u.mp3', 'fin-letter-i': 'voice/fin-letter-i.mp3', 'fin-first-i': 'voice/fin-first-i.mp3', 'fin-letter-e': 'voice/fin-letter-e.mp3', 'fin-first-e': 'voice/fin-first-e.mp3', 'fin-letter-ya': 'voice/fin-letter-ya.mp3', 'fin-first-ya': 'voice/fin-first-ya.mp3', 'fin-letter-ye': 'voice/fin-letter-ye.mp3', 'fin-first-ye': 'voice/fin-first-ye.mp3', 'fin-letter-yu': 'voice/fin-letter-yu.mp3', 'fin-first-yu': 'voice/fin-first-yu.mp3', 'fin-letter-m': 'voice/fin-letter-m.mp3', 'fin-first-m': 'voice/fin-first-m.mp3', 'fin-letter-s': 'voice/fin-letter-s.mp3', 'fin-first-s': 'voice/fin-first-s.mp3', 'fin-letter-n': 'voice/fin-letter-n.mp3', 'fin-first-n': 'voice/fin-first-n.mp3', 'fin-letter-l': 'voice/fin-letter-l.mp3', 'fin-first-l': 'voice/fin-first-l.mp3', 'fin-letter-t': 'voice/fin-letter-t.mp3', 'fin-first-t': 'voice/fin-first-t.mp3', 'fin-letter-r': 'voice/fin-letter-r.mp3', 'fin-first-r': 'voice/fin-first-r.mp3', 'fin-letter-k': 'voice/fin-letter-k.mp3', 'fin-first-k': 'voice/fin-first-k.mp3', 'fin-letter-p': 'voice/fin-letter-p.mp3', 'fin-first-p': 'voice/fin-first-p.mp3', 'fin-letter-d': 'voice/fin-letter-d.mp3', 'fin-first-d': 'voice/fin-first-d.mp3', 'fin-letter-v': 'voice/fin-letter-v.mp3', 'fin-first-v': 'voice/fin-first-v.mp3', 'fin-letter-b': 'voice/fin-letter-b.mp3', 'fin-first-b': 'voice/fin-first-b.mp3', 'fin-letter-g': 'voice/fin-letter-g.mp3', 'fin-first-g': 'voice/fin-first-g.mp3', 'fin-letter-z': 'voice/fin-letter-z.mp3', 'fin-first-z': 'voice/fin-first-z.mp3', 'fin-letter-sh': 'voice/fin-letter-sh.mp3', 'fin-first-sh': 'voice/fin-first-sh.mp3', 'fin-letter-zh': 'voice/fin-letter-zh.mp3', 'fin-first-zh': 'voice/fin-first-zh.mp3', 'fin-letter-ch': 'voice/fin-letter-ch.mp3', 'fin-first-ch': 'voice/fin-first-ch.mp3', 'fin-letter-ts': 'voice/fin-letter-ts.mp3', 'fin-first-ts': 'voice/fin-first-ts.mp3', 'fin-letter-f': 'voice/fin-letter-f.mp3', 'fin-first-f': 'voice/fin-first-f.mp3', 'fin-letter-h': 'voice/fin-letter-h.mp3', 'fin-first-h': 'voice/fin-first-h.mp3', 'fin-letter-sch': 'voice/fin-letter-sch.mp3', 'fin-first-sch': 'voice/fin-first-sch.mp3', 'fin-letter-ikr': 'voice/fin-letter-ikr.mp3', 'fin-first-ikr': 'voice/fin-first-ikr.mp3', 'fin-math-1-1': 'voice/fin-math-1-1.mp3', 'fin-math-1-2': 'voice/fin-math-1-2.mp3', 'fin-math-1-3': 'voice/fin-math-1-3.mp3', 'fin-math-1-4': 'voice/fin-math-1-4.mp3', 'fin-math-1-5': 'voice/fin-math-1-5.mp3', 'fin-math-1-6': 'voice/fin-math-1-6.mp3', 'fin-math-1-7': 'voice/fin-math-1-7.mp3', 'fin-math-1-8': 'voice/fin-math-1-8.mp3', 'fin-math-1-9': 'voice/fin-math-1-9.mp3', 'fin-math-2-1': 'voice/fin-math-2-1.mp3', 'fin-math-2-2': 'voice/fin-math-2-2.mp3', 'fin-math-2-3': 'voice/fin-math-2-3.mp3', 'fin-math-2-4': 'voice/fin-math-2-4.mp3', 'fin-math-2-5': 'voice/fin-math-2-5.mp3', 'fin-math-2-6': 'voice/fin-math-2-6.mp3', 'fin-math-2-7': 'voice/fin-math-2-7.mp3', 'fin-math-2-8': 'voice/fin-math-2-8.mp3', 'fin-math-3-1': 'voice/fin-math-3-1.mp3', 'fin-math-3-2': 'voice/fin-math-3-2.mp3', 'fin-math-3-3': 'voice/fin-math-3-3.mp3', 'fin-math-3-4': 'voice/fin-math-3-4.mp3', 'fin-math-3-5': 'voice/fin-math-3-5.mp3', 'fin-math-3-6': 'voice/fin-math-3-6.mp3', 'fin-math-3-7': 'voice/fin-math-3-7.mp3', 'fin-math-4-1': 'voice/fin-math-4-1.mp3', 'fin-math-4-2': 'voice/fin-math-4-2.mp3', 'fin-math-4-3': 'voice/fin-math-4-3.mp3', 'fin-math-4-4': 'voice/fin-math-4-4.mp3', 'fin-math-4-5': 'voice/fin-math-4-5.mp3', 'fin-math-4-6': 'voice/fin-math-4-6.mp3', 'fin-math-5-1': 'voice/fin-math-5-1.mp3', 'fin-math-5-2': 'voice/fin-math-5-2.mp3', 'fin-math-5-3': 'voice/fin-math-5-3.mp3', 'fin-math-5-4': 'voice/fin-math-5-4.mp3', 'fin-math-5-5': 'voice/fin-math-5-5.mp3', 'fin-math-6-1': 'voice/fin-math-6-1.mp3', 'fin-math-6-2': 'voice/fin-math-6-2.mp3', 'fin-math-6-3': 'voice/fin-math-6-3.mp3', 'fin-math-6-4': 'voice/fin-math-6-4.mp3', 'fin-math-7-1': 'voice/fin-math-7-1.mp3', 'fin-math-7-2': 'voice/fin-math-7-2.mp3', 'fin-math-7-3': 'voice/fin-math-7-3.mp3', 'fin-math-8-1': 'voice/fin-math-8-1.mp3', 'fin-math-8-2': 'voice/fin-math-8-2.mp3', 'fin-math-9-1': 'voice/fin-math-9-1.mp3'});
 // VOICE-AUTO-END
 var LETTER_FILE = { 'А': 'a', 'Б': 'b', 'В': 'v', 'Г': 'g', 'Д': 'd', 'Е': 'ye', 'Ж': 'zh', 'З': 'z', 'И': 'i', 'Й': 'ikr', 'К': 'k', 'Л': 'l', 'М': 'm', 'Н': 'n', 'О': 'o', 'П': 'p', 'Р': 'r', 'С': 's', 'Т': 't', 'У': 'u', 'Ф': 'f', 'Х': 'h', 'Ц': 'ts', 'Ч': 'ch', 'Ш': 'sh', 'Щ': 'sch', 'Э': 'e', 'Ю': 'yu', 'Я': 'ya' };
 // ===== ГОЛОС-END
@@ -2692,7 +2774,7 @@ var SLOT_KINDS = ['car', 'star', 'ball', 'balloon', 'cup', 'house', 'rocket', 'u
 function voicePhrases() {
   var out = [], add = function (n, t) { out.push({ name: n, text: t }); };
   add('learn-color-orange', 'Это оранжевый цвет.'); add('learn-color-purple', 'Это фиолетовый цвет.');
-  add('train-mix', 'Разложи игрушки по вагончикам.'); add('learn-color-pink', 'Это розовый цвет.'); add('learn-color-lime', 'Это салатовый цвет.'); add('learn-color-sky', 'Это голубой цвет.'); add('learn-color-grey', 'Это серый цвет.'); add('learn-color-brown', 'Это коричневый цвет.');
+  add('train-mix', 'Разложи игрушки по вагончикам.'); add('say-who', 'Кто играет? Нажми на свою аватарку.'); add('say-ava', 'Выбери картинку для своего профиля.'); add('learn-color-pink', 'Это розовый цвет.'); add('learn-color-lime', 'Это салатовый цвет.'); add('learn-color-sky', 'Это голубой цвет.'); add('learn-color-grey', 'Это серый цвет.'); add('learn-color-brown', 'Это коричневый цвет.');
   Object.keys(PAINT).forEach(function (k) { add('paint-' + k, 'Раскрась ' + PAINT[k] + '.'); });
   Object.keys(C).forEach(function (c) { add('where-' + c + '-disc', 'Где ' + C[c].m + ' кружок?'); RECOLOR.forEach(function (s) { add('where-' + c + '-' + s, 'Где ' + nameOf(s, c) + '?'); }); });
   Object.keys(C).forEach(function (c) { add('train-' + c, 'Положи ' + plNom(c) + ' игрушки в ' + C[c].m + ' вагончик.'); });
@@ -3115,19 +3197,43 @@ function sfxPlay(st, ctx, buses, name, arg, when) {
 // настоящая проверка появится, когда подключим сервер.
 var STORE2_KEY = 'umnyasha.v2';
 var KID_SHAPES = ['star', 'circle', 'square', 'triangle', 'rhombus', 'hexagon'];
+// аватарки: только неживые предметы из общего набора фигурок; у каждой свой цвет фона
+var AVA_GROUPS = [
+  { id: 'toys', title: 'Игрушки', list: [['ball-red', 'мяч'], ['balloon-purple', 'шарик'], ['cube-green', 'кубик'], ['gift-blue', 'подарок'], ['star-yellow', 'звезда'], ['ball-blue', 'синий мяч'], ['balloon-red', 'красный шарик'], ['cube-orange', 'оранжевый кубик']] },
+  { id: 'ride', title: 'Транспорт', list: [['rocket-red', 'ракета'], ['car-blue', 'машинка'], ['bus-yellow', 'автобус'], ['truck-green', 'грузовик'], ['plane-white', 'самолёт'], ['helicopter-orange', 'вертолёт'], ['boat-purple', 'кораблик'], ['car-red', 'красная машинка']] },
+  { id: 'art', title: 'Рисуем', list: [['palette-art', 'палитра'], ['crayon-art', 'мелок'], ['paintbrush-art', 'кисточка'], ['pencil-yellow', 'карандаш']] },
+  { id: 'food', title: 'Вкусное', list: [['apple-red', 'яблоко'], ['pear-green', 'груша'], ['banana-yellow', 'банан'], ['orange-orange', 'апельсин'], ['strawberry-red', 'клубника'], ['cherry-red', 'вишня'], ['grapes-purple', 'виноград'], ['lemon-yellow', 'лимон'], ['carrot-orange', 'морковка'], ['tomato-red', 'помидор'], ['corn-yellow', 'кукуруза'], ['pepper-red', 'перец'], ['lollipop-orange', 'леденец'], ['candy-red', 'конфета']] },
+  { id: 'things', title: 'Вещи', list: [['house-red', 'домик'], ['teapot-blue', 'чайник'], ['cup-orange', 'чашка'], ['tshirt-green', 'футболка'], ['hat-purple', 'шапка'], ['mitten-red', 'перчатка'], ['boot-blue', 'сапожок'], ['bucket-blue', 'ведёрко'], ['magnifier-white', 'лупа'], ['umbrella-purple', 'зонтик']] },
+  { id: 'nature', title: 'Природа', list: [['sun-yellow', 'солнце'], ['cloud-white', 'облако'], ['flower-red', 'цветок'], ['tulip-purple', 'тюльпан'], ['tree-green', 'дерево'], ['leaf-green', 'листик']] }
+];
+var AVA_SET = {}; AVA_GROUPS.forEach(function (g) { g.list.forEach(function (x) { AVA_SET[x[0]] = g.id; }); });
+var AVA_BGS = [['sky', 'голубой', '#BDE6FF', '#7CC4FF'], ['mint', 'мятный', '#C6F5DC', '#7FE0AE'], ['sun', 'жёлтый', '#FFF0B3', '#FFD35C'], ['peach', 'персиковый', '#FFE0C7', '#FFB787'], ['pink', 'розовый', '#FFD9E8', '#FF9FC4'], ['lilac', 'сиреневый', '#E7DCFF', '#BFA5FF'], ['white', 'белый', '#FFFFFF', '#E3EAF7'], ['night', 'тёмно-синий', '#56639A', '#2B3563']];
+var AVA_BG = {}; AVA_BGS.forEach(function (b) { AVA_BG[b[0]] = 'linear-gradient(160deg, ' + b[2] + ', ' + b[3] + ')'; });
+var UID_RE = /^UM-[2-9A-HJ-NP-Z]{6}$/;
+function defaultAva(p) { return p && p.color ? 'ball-' + p.color : 'rocket-red'; }
+function avaOf(p) { p = p || {}; if (p.photo) return { src: p.photo, bg: '#FFFFFF', cls: 'um-ava-ph' }; return { src: 'items/' + (AVA_SET[p.ava] ? p.ava : defaultAva(p)) + '.svg', bg: AVA_BG[p.avaBg] || AVA_BG.sky, cls: '' }; }
+function cleanLook(p, r) { r.uid = UID_RE.test(p.uid) ? p.uid : null; r.ava = AVA_SET[p.ava] ? p.ava : ''; r.avaBg = AVA_BG[p.avaBg] ? p.avaBg : ''; r.photo = typeof p.photo === 'string' && p.photo.indexOf('data:image/') === 0 && p.photo.length < 300000 ? p.photo : ''; return r; }
+// у каждого игрока свой номер: 6 знаков без похожих букв и цифр (0 и O, 1 и I). Пока сервера нет, он случайный и проверяется на этом устройстве
+function allPlayers(db) { var r = [db.guest]; Object.keys(db.accounts || {}).forEach(function (e) { r = r.concat(db.accounts[e].kids || []); }); return r; }
+function newUid(db) {
+  var A = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ', used = {}, id; allPlayers(db).forEach(function (p) { if (p && p.uid) used[p.uid] = true; });
+  do { var b = new Uint8Array(6), s = ''; try { window.crypto.getRandomValues(b); } catch (e) { for (var j = 0; j < 6; j++) b[j] = Math.floor(Math.random() * 256); } for (var i = 0; i < 6; i++) s += A[b[i] % 32]; id = 'UM-' + s; } while (used[id]);
+  return id;
+}
+function giveIds(db) { var n = 0; allPlayers(db).forEach(function (p) { if (p && !p.uid) { p.uid = newUid(db); n++; } }); return n; }
 var KID_COLORS = ['orange', 'red', 'yellow', 'green', 'blue', 'purple'];
 var GATE_MS = 5 * 60 * 1000;
 var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 function objOr(x) { return x && typeof x === 'object' && !Array.isArray(x) ? x : {}; }
-function cleanPlayer(p) { p = objOr(p); return { age: p.age && SET[p.age] ? p.age : null, diff: p.diff === 1 || p.diff === 2 ? p.diff : 0, best: objOr(p.best), lv: cleanLv(p.lv) }; }
+function cleanPlayer(p) { p = objOr(p); return cleanLook(p, { age: p.age && SET[p.age] ? p.age : null, diff: p.diff === 1 || p.diff === 2 ? p.diff : 0, best: objOr(p.best), lv: cleanLv(p.lv), nick: typeof p.nick === 'string' ? p.nick.slice(0, 20) : '' }); }
 function cleanKid(k) {
   k = objOr(k); if (!k.id || typeof k.name !== 'string' || !k.name.trim()) return null; var p = cleanPlayer(k);
-  return { id: String(k.id), name: k.name.slice(0, 20), age: p.age || '5-6', diff: p.diff, best: p.best, lv: p.lv, shape: S[k.shape] ? k.shape : 'star', color: C[k.color] ? k.color : 'orange' };
+  return cleanLook(k, { id: String(k.id), name: k.name.slice(0, 20), age: p.age || '5-6', diff: p.diff, best: p.best, lv: p.lv, shape: S[k.shape] ? k.shape : 'star', color: C[k.color] ? k.color : 'orange' });
 }
 // хранилище v2; при первом запуске переносит прогресс из v1 (старые данные не стираются)
 function loadDb() {
   var raw = null; try { raw = JSON.parse(window.localStorage.getItem(STORE2_KEY) || 'null'); } catch (e) {}
-  if (!raw || raw.v !== 2) { var old = loadStore(); return { v: 2, sound: old.sound !== false, session: null, guest: cleanPlayer(old), accounts: {} }; }
+  if (!raw || raw.v !== 2) { var old = loadStore(), fresh2 = { v: 2, sound: old.sound !== false, session: null, guest: cleanPlayer(old), accounts: {} }; giveIds(fresh2); saveDb(fresh2); return fresh2; }
   var db = { v: 2, sound: raw.sound !== false, session: null, guest: cleanPlayer(raw.guest), accounts: {} };
   Object.keys(objOr(raw.accounts)).forEach(function (email) {
     var a = objOr(raw.accounts[email]); var kids = (Array.isArray(a.kids) ? a.kids : []).map(cleanKid).filter(Boolean);
@@ -3135,6 +3241,7 @@ function loadDb() {
       cur: kids.some(function (k) { return k.id === a.cur; }) ? a.cur : (kids[0] ? kids[0].id : null) };
   });
   if (raw.session && db.accounts[raw.session]) db.session = raw.session;
+  if (giveIds(db)) saveDb(db);
   return db;
 }
 function saveDb(db) { try { window.localStorage.setItem(STORE2_KEY, JSON.stringify(db)); } catch (e) {} }
@@ -3146,7 +3253,6 @@ function holderOf(db) { var acc = accOf(db); return (acc && kidOf(acc, acc.cur))
 function playerOf(db) { var h = holderOf(db); return { age: h.age, diff: h.diff, best: h.best, lv: h.lv }; }
 function playerStars(p) { var b = p.best || {}; return Object.keys(b).reduce(function (s, k) { return s + (b[k] || 0); }, 0) + lvTotal(p.lv); }
 function ageText(id) { var a = AGES.filter(function (x) { return x.id === id; })[0]; return a ? a.label + ' ' + a.unit : ''; }
-function avatarOf(shape, color) { return { clip: S[shape] ? S[shape].clip : S.star.clip, bg: C[color] ? C[color].hex : C.orange.hex }; }
 function passProblem(p) {
   if (p.length < 8) return 'Пароль слишком короткий: нужно минимум 8 символов.';
   if (!/[A-Za-zА-Яа-яЁё]/.test(p) || !/\d/.test(p)) return 'В пароле должны быть и буквы, и цифры.';
@@ -3154,7 +3260,7 @@ function passProblem(p) {
 }
 function freshAuth(mode, email) { return { mode: mode || 'login', email: email || '', pass: '', pass2: '', name: '', agree: false, show: false, err: '', ok: '' }; }
 function newGate(next) { return { a: 6 + Math.floor(Math.random() * 4), b: 6 + Math.floor(Math.random() * 4), ans: '', err: '', next: next }; }
-function freshKidForm(k) { return k ? { id: k.id, name: k.name, age: k.age, shape: k.shape, color: k.color, err: '', confirmDel: false } : { id: null, name: '', age: null, shape: 'star', color: 'orange', err: '', confirmDel: false }; }
+function freshKidForm(k) { return k ? { id: k.id, name: k.name, age: k.age, shape: k.shape, color: k.color, ava: k.ava || defaultAva(k), avaBg: k.avaBg || 'sky', photo: k.photo || '', avaSet: true, err: '', confirmDel: false } : { id: null, name: '', age: null, shape: 'star', color: 'orange', ava: 'rocket-red', avaBg: 'sky', photo: '', avaSet: false, err: '', confirmDel: false }; }
 function stop(e) { if (e && e.preventDefault) e.preventDefault(); }
 function sinceText(iso) {
   var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ''); if (!m) return '';
@@ -3314,7 +3420,7 @@ class Component extends DCLogic {
 
   // из игры возвращаемся в тот раздел главной, где она лежит («Игры» или «Развивашки»); с главной — к выбору раздела
   go(screen) { var st0 = this.state, tab = screen === 'home' && (st0.screen === 'game' || st0.screen === 'result' || st0.screen === 'hub') && GAME_BY[st0.hub] ? (PLAY_GAMES[st0.hub] ? 'play' : 'learn') : '';
-    this.clearTimers(); this.stopSpeech(); this.snd('tap'); this.setState(Object.assign({ screen: screen, confirmReset: false, resetDone: false, agePick: false, homeTab: tab }, fresh())); this.top(); }
+    this.clearTimers(); this.stopSpeech(); this.snd('tap'); this.setState(Object.assign({ screen: screen, confirmReset: false, resetDone: false, agePick: false, homeTab: tab }, fresh())); this.top(); if (screen === 'who' && this.state.sound && VOICE['say-who']) this.playVoice('say-who'); }
   // знакомство: слайды 0–2, потом выбор возраста (3)
   onbGo(n) { this.snd('tap'); this.setState({ onb: Math.max(0, Math.min(3, n)) }); }
   onbDone() { var a = this.state.onbAge; if (!a) return; this.pickAge(a <= 4 ? '3-4' : '5-6'); }
@@ -3414,7 +3520,7 @@ class Component extends DCLogic {
     // все игрушки на месте: похвала, гудок — и поезд уезжает
     var praise = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst();
     this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, solved: true, fb: { kind: 'ok', text: praise + ' Паровозик поехал!' } });
-    this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.snd('chug', null, false); }, 500);
+    this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.trainSfx(); }, 500);
     this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, this.fbWait(3700, said));
   }
   // раскраска как в детских приложениях: контур на белом листе, рисуем пальцем, цвет не выходит за линии части, с которой начали.
@@ -3638,7 +3744,11 @@ class Component extends DCLogic {
   }
   enterParent(next) {
     var acc = accOf(this.state.db);
-    if (next.screen === 'kid') this.setState(Object.assign({ screen: 'kid', kidForm: freshKidForm(next.id ? kidOf(acc, next.id) : null) }, fresh()));
+    if (next.screen === 'parents') this.setState(Object.assign({ screen: 'parents' }, fresh()));
+    else if (next.screen === 'kid') { var kf = freshKidForm(next.id ? kidOf(acc, next.id) : null), gs = this.state.db.guest;
+      // первому ребёнку сразу показываем то, что он заберёт у игрока без входа
+      if (!next.id && acc && !acc.kids.length) { kf.name = gs.nick || ''; if (gs.ava || gs.photo) { kf.ava = gs.ava || kf.ava; kf.avaBg = gs.avaBg || kf.avaBg; kf.photo = gs.photo; kf.avaSet = true; } }
+      this.setState(Object.assign({ screen: 'kid', kidForm: kf }, fresh())); }
     else this.setState(Object.assign({ screen: 'account', acctAsk: '' }, fresh()));
     this.top();
   }
@@ -3652,6 +3762,72 @@ class Component extends DCLogic {
     acc.cur = id; this.clearTimers(); this.stopSpeech(); this.snd('tap');
     this.commitDb(db, Object.assign({ screen: 'home', notice: '' }, fresh())); this.top();
   }
+  // звук отъезда: пока владелец выбирает на слух, запись берётся из страницы zvuki-poezda.html (выбор хранится на этом устройстве); без выбора — прежний звук
+  trainSfx() {
+    var p = null, self = this; try { p = JSON.parse(window.localStorage.getItem('umnyasha.trainsfx') || 'null'); } catch (e) {}
+    if (!p || !(p.n >= 1 && p.n <= 12) || !(p.g > 0 && p.g <= 4)) { this.snd('chug', null, false); return; }
+    if (!this.state.sound) return; var ac = this.ensureAudio(); if (!ac) return;
+    this.voiceBuf('zvuki-poezda/' + Math.floor(p.n) + '.mp3').then(function (buf) {
+      var s = ac.createBufferSource(), g = ac.createGain(), t = ac.currentTime, end = t + Math.min(buf.duration, 3.1);
+      g.gain.setValueAtTime(p.g, t); g.gain.setValueAtTime(p.g, end - .35); g.gain.linearRampToValueAtTime(0, end); s.buffer = buf; s.connect(g); g.connect(ac.destination); s.start(t); s.stop(end + .02);
+    }).catch(function () { self.snd('chug', null, false); });
+  }
+  // окно аватарки: для своего профиля (с ником) или для формы ребёнка
+  openAva(target, focusNick) {
+    this.avaLock(true);
+    if (focusNick) setTimeout(function () { var n = document.getElementById('um-nick'); if (n) n.focus(); }, 60);
+    if (this.state.sound && VOICE['say-ava']) this.playVoice('say-ava');
+    var st = this.state, p = target === 'form' ? st.kidForm : holderOf(st.db), acc = accOf(st.db), kid = acc && kidOf(acc, acc.cur), ava = AVA_SET[p.ava] ? p.ava : '';
+    this.snd('tap'); this.setState({ avaEd: { target: target, nick: target === 'form' ? '' : kid ? kid.name : st.db.guest.nick || '', ava: ava || defaultAva(p), color: p.color, avaBg: p.avaBg || 'sky', photo: p.photo || '', tab: AVA_SET[ava || defaultAva(p)] || 'toys', gate: null, err: '' } });
+  }
+  setAvaEd(p) { if (!this.state.avaEd) return; this.setState({ avaEd: Object.assign({}, this.state.avaEd, { err: '' }, p) }); }
+  // пока окно открыто, страница за ним не ездит, а Esc его закрывает
+  avaLock(on) {
+    var self = this; try {
+      document.documentElement.classList.toggle('um-lock', on);
+      if (this._esc) { document.removeEventListener('keydown', this._esc); this._esc = null; }
+      if (on) { this._esc = function (e) { if (e.key === 'Escape') self.avaClose(); }; document.addEventListener('keydown', this._esc); }
+    } catch (e) {}
+  }
+  avaClose() { this.avaLock(false); this.stopSpeech(); this.snd('tap'); this.setState({ avaEd: null }); }
+  // свою картинку выбирает взрослый: сначала пример, как у остальных взрослых разделов
+  avaGateOpen() { this.snd('tap'); this.setAvaEd({ gate: newGate(null) }); }
+  avaGateGo() {
+    var e = this.state.avaEd, g = e && e.gate; if (!g) return;
+    if (parseInt(g.ans, 10) === g.a * g.b) { this.gateAt = Date.now(); this.snd('ok'); this.setAvaEd({ gate: null }); return; }
+    this.snd('bad'); var ng = newGate(null); ng.err = 'Неверно. Попробуйте ещё раз.'; this.setAvaEd({ gate: ng });
+  }
+  avaDone() {
+    var st = this.state, e = st.avaEd; if (!e) return;
+    if (e.target === 'form') { this.avaLock(false); this.snd('tap'); this.setState({ avaEd: null, kidForm: Object.assign({}, st.kidForm, { ava: e.ava, avaBg: e.avaBg, photo: e.photo, avaSet: true, err: '' }) }); return; }
+    var nick = (e.nick || '').trim().replace(/\s+/g, ' '), db = cloneDb(st.db), h = holderOf(db), isKid = h !== db.guest;
+    if (isKid && !nick) { this.snd('bad'); this.setAvaEd({ err: 'Напиши ник.' }); return; }
+    if (isKid) h.name = nick; else h.nick = nick;
+    h.ava = AVA_SET[e.ava] ? e.ava : ''; h.avaBg = e.avaBg; h.photo = e.photo; this.avaLock(false); this.snd('ok'); this.commitDb(db, { avaEd: null });
+  }
+  // своя картинка: обрезаем по центру в квадрат и уменьшаем, она хранится только на этом устройстве
+  avaFile(ev) {
+    var input = ev.target, file = input.files && input.files[0], self = this; if (!file) return;
+    var fail = function () { self.snd('bad'); self.setAvaEd({ err: 'Эта картинка не открылась. Попробуй другую.' }); };
+    if (file.type && file.type.indexOf('image/') !== 0) { input.value = ''; fail(); return; }
+    var url = URL.createObjectURL(file), im = new Image();
+    im.onload = function () {
+      if (!self.state.avaEd) { URL.revokeObjectURL(url); input.value = ''; return; }   // окно уже закрыли
+      try {
+        var n = 224, c = document.createElement('canvas'), x = c.getContext('2d'), w = im.naturalWidth, h = im.naturalHeight, m = Math.min(w, h); c.width = n; c.height = n;
+        x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, n, n); x.drawImage(im, (w - m) / 2, (h - m) / 2, m, m, 0, 0, n, n);
+        self.snd('ok'); self.setAvaEd({ photo: c.toDataURL('image/jpeg', .82) });
+      } catch (e) { fail(); }
+      URL.revokeObjectURL(url); input.value = '';
+    };
+    im.onerror = function () { URL.revokeObjectURL(url); input.value = ''; fail(); };
+    im.src = url;
+  }
+  copyId(uid) {
+    var self = this, done = function () { self.snd('ok'); self.setState({ idCopied: true }); clearTimeout(self._idT); self._idT = setTimeout(function () { self.setState({ idCopied: false }); }, 1800); };
+    var old = function () { try { var t = document.createElement('textarea'); t.value = uid; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select(); t.setSelectionRange(0, 99); var ok = document.execCommand('copy'); document.body.removeChild(t); if (ok) done(); } catch (e) {} };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(uid).then(done, old); else old(); } catch (e) { old(); }
+  }
   setKidForm(p) { this.setState({ kidForm: Object.assign({}, this.state.kidForm, p, { err: '' }) }); }
   kidSave(e) {
     stop(e); var st = this.state, f = st.kidForm, self = this, name = f.name.trim().replace(/\s+/g, ' ');
@@ -3660,15 +3836,17 @@ class Component extends DCLogic {
     if (name.length > 20) return fail('Слишком длинно: до 20 символов.');
     if (!f.age) return fail('Выберите возраст.');
     var db = cloneDb(st.db), acc = accOf(db); if (!acc) return; var notice = '';
-    if (f.id) { var k = kidOf(acc, f.id); if (!k) return; k.name = name; k.age = f.age; k.shape = f.shape; k.color = f.color; }
+    if (f.id) { var k = kidOf(acc, f.id); if (!k) return; k.name = name; k.age = f.age; k.ava = f.ava; k.avaBg = f.avaBg; k.photo = f.photo; }
     else {
-      var kid = { id: 'k' + Date.now().toString(36) + Math.floor(Math.random() * 1000), name: name, age: f.age, shape: f.shape, color: f.color, diff: 0, best: {}, lv: {} };
+      var kid = { id: 'k' + Date.now().toString(36) + Math.floor(Math.random() * 1000), uid: newUid(db), name: name, age: f.age, shape: f.shape, color: f.color, ava: f.ava, avaBg: f.avaBg, photo: f.photo, diff: 0, best: {}, lv: {} };
+      // первый ребёнок забирает номер и аватарку игрока без входа
+      if (!acc.kids.length) { kid.uid = db.guest.uid || kid.uid; if (!f.avaSet && (db.guest.ava || db.guest.photo)) { kid.ava = db.guest.ava; kid.avaBg = db.guest.avaBg; kid.photo = db.guest.photo; } db.guest.uid = null; db.guest.ava = ''; db.guest.avaBg = ''; db.guest.photo = ''; db.guest.nick = ''; }
       // первый ребёнок забирает звёзды, собранные без входа
       if (!acc.kids.length && playerStars(db.guest) > 0) {
         kid.best = db.guest.best; kid.lv = db.guest.lv; kid.diff = db.guest.diff; db.guest = cleanPlayer({});
         notice = 'Звёзды, собранные без входа, перенесены в профиль «' + name + '».';
       }
-      acc.kids.push(kid); acc.cur = kid.id;
+      acc.kids.push(kid); acc.cur = kid.id; giveIds(db);
     }
     this.snd('ok'); this.commitDb(db, Object.assign({ screen: f.id ? 'account' : 'who', notice: notice }, fresh())); this.top();
   }
@@ -3925,9 +4103,30 @@ class Component extends DCLogic {
 
     // ===== аккаунт и профили: значения для экранов =====
     var db = st.db || { accounts: {}, guest: {} }, acc = accOf(db), curKid = acc ? kidOf(acc, acc.cur) : null;
-    var me = { guest: !acc, hasKid: !!curKid, noKid: !!acc && !curKid, name: '', clip: '', bg: '', aria: '',
+    var me = { guest: !acc, hasKid: !!curKid, noKid: !!acc && !curKid, name: '', aria: '',
       login: function () { self.openAuth('login'); }, who: function () { self.clearTimers(); self.stopSpeech(); self.go('who'); }, add: function () { self.parentGo({ screen: 'kid' }); } };
-    if (curKid) { var av = avatarOf(curKid.shape, curKid.color); me.name = curKid.name; me.clip = av.clip; me.bg = av.bg; me.aria = 'Сейчас играет ' + curKid.name + '. Сменить игрока'; }
+    if (curKid) { me.name = curKid.name; me.aria = 'Сейчас играет ' + curKid.name + '. Сменить игрока'; }
+    var holder = curKid || db.guest || {}, meAva = avaOf(holder), myName = curKid ? curKid.name : holder.nick || '', ageNow = st.age || holder.age;
+    var myGames = ageNow ? gamesFor(ageNow).map(function (g, i) {
+      var gl = gameLv(st.lv, ageNow, g.id), n = gameSteps(g.id), toys = GAME_TOYS[g.id] || ['star-yellow'];
+      return { i: i, passed: gl.passed, title: g.title, img: 'items/' + (g.id === 'paint' ? 'palette-art' : toys[0]) + '.svg', stars: gl.stars, pct: Math.round(gl.passed * 100 / n) + '%', status: gl.passed ? 'Пройдено ' + gl.passed + ' из ' + n : 'Ещё не играли', aria: g.title + ': пройдено ' + gl.passed + ' из ' + n + ', ' + starsWord(gl.stars), go: function () { self.snd('tap'); self.openHub(g.id); } };
+    }).sort(function (x, y) { return y.passed - x.passed || x.i - y.i; }) : [];
+    var topicsDone = myGames.reduce(function (s2, g) { return s2 + g.passed; }, 0), gamesDone = myGames.filter(function (g) { return g.passed > 0; }).length;
+    var pf = { ava: meAva, nick: myName || 'Придумай ник', nickCls: myName ? '' : 'um-empty', nickAria: myName ? 'Ник: ' + myName + '. Изменить' : 'Придумать ник', uid: holder.uid || '',
+      idText: st.idCopied ? 'Скопировано!' : 'ID ' + (holder.uid || ''), idCls: st.idCopied ? 'um-done' : '', idAria: 'Мой номер ' + (holder.uid || '') + '. Скопировать', sub: (curKid ? '' : acc ? 'Профиль ребёнка не выбран · ' : '') + (ageNow ? ageText(ageNow) : ''),
+      stats: [{ img: 'items/star-yellow.svg', n: total, label: plural(total, ['звезда', 'звезды', 'звёзд']) }, { img: 'items/gift-purple.svg', n: topicsDone, label: plural(topicsDone, ['тема пройдена', 'темы пройдены', 'тем пройдено']) }, { img: 'items/rocket-red.svg', n: gamesDone, label: plural(gamesDone, ['игра начата', 'игры начаты', 'игр начато']) }],
+      games: myGames, canSwitch: !!acc, switchText: curKid ? 'Сменить игрока' : 'Добавить ребёнка', switchGo: curKid ? me.who : me.add, edit: function () { self.openAva('me'); }, editNick: function () { self.openAva('me', true); }, copy: function () { self.copyId(holder.uid || ''); } };
+    var e0 = st.avaEd, eTab = e0 ? e0.tab : 'toys', eBg = e0 ? e0.avaBg : 'sky', eForm = !!e0 && e0.target === 'form', eGroup = AVA_GROUPS.filter(function (g) { return g.id === eTab; })[0] || AVA_GROUPS[0];
+    var eg = e0 && e0.gate, upOk = !!this.gateAt && Date.now() - this.gateAt < GATE_MS;
+    var ed = { upOk: upOk ? '' : 'um-pfs-off', upAsk: upOk || eg ? 'um-pfs-off' : '', gateCls: eg ? '' : 'um-pfs-off', bgCls: e0 && e0.photo ? 'um-pfs-off' : '', gateQ: eg ? eg.a + ' × ' + eg.b + ' = ?' : '', gateAns: eg ? eg.ans : '', gateErr: eg ? eg.err : '', gateErrCls: eg && eg.err ? '' : 'um-pfs-off',
+      gateAsk: function () { self.avaGateOpen(); }, gateOn: function (e) { var cur = self.state.avaEd; if (cur && cur.gate) self.setAvaEd({ gate: Object.assign({}, cur.gate, { ans: e.target.value.replace(/\D/g, '').slice(0, 3), err: '' }) }); }, gateGo: function () { self.avaGateGo(); },
+      cls: e0 ? 'um-on' : '', ava: e0 ? avaOf(e0) : meAva, nick: e0 ? e0.nick : '', title: eForm ? 'Выбери аватарку' : 'Мой профиль', nameCls: eForm ? 'um-pfs-off' : '', titleCls: eForm ? '' : 'um-pfs-off', err: e0 ? e0.err : '', errCls: e0 && e0.err ? '' : 'um-pfs-off',
+      upLabel: e0 && e0.photo ? 'Загрузить другую картинку' : 'Загрузить свою картинку',
+      tabs: AVA_GROUPS.map(function (g) { return { title: g.title, on: g.id === eGroup.id ? 'true' : 'false', go: function () { self.snd('tap'); self.setAvaEd({ tab: g.id }); } }; }),
+      items: e0 ? eGroup.list.map(function (x) { return { src: 'items/' + x[0] + '.svg', name: x[1], bg: AVA_BG[eBg] || AVA_BG.sky, on: !e0.photo && e0.ava === x[0] ? 'true' : 'false', pick: function () { self.snd('tap'); self.setAvaEd({ ava: x[0], photo: '' }); } }; }) : [],
+      bgs: AVA_BGS.map(function (b) { return { name: 'Фон ' + b[1], bg: AVA_BG[b[0]], on: b[0] === eBg ? 'true' : 'false', pick: function () { self.snd('tap'); self.setAvaEd({ avaBg: b[0] }); } }; }),
+      onNick: function (e) { self.setAvaEd({ nick: e.target.value }); }, onFile: function (e) { self.avaFile(e); }, done: function () { self.avaDone(); }, close: function () { self.avaClose(); },
+      backdrop: function (e) { if (e.target.classList && e.target.classList.contains('um-pfs')) self.avaClose(); } };
     var a = st.auth, isSignup = a.mode === 'signup', isForgot = a.mode === 'forgot', isLogin = a.mode === 'login';
     var auth = {
       isLogin: isLogin, isSignup: isSignup, isForgot: isForgot, showTabs: !isForgot, needPass: !isForgot,
@@ -3945,26 +4144,24 @@ class Component extends DCLogic {
     };
     var who = { hasKids: !!acc && acc.kids.length > 0, noKids: !!acc && !acc.kids.length,
       kids: (acc ? acc.kids : []).map(function (k) {
-        var av = avatarOf(k.shape, k.color), sel = !!curKid && curKid.id === k.id, n = playerStars(k);
-        return { name: k.name, age: ageText(k.age), stars: n, clip: av.clip, bg: av.bg, pick: function () { self.pickKid(k.id); },
+        var sel = !!curKid && curKid.id === k.id, n = playerStars(k);
+        return { name: k.name, age: ageText(k.age), stars: n, ava: avaOf(k), pick: function () { self.pickKid(k.id); },
           bd: sel ? accent : '#D5DDF2', ring: sel ? '0 0 0 4px ' + accent + '33' : 'none', aria: k.name + ', ' + ageText(k.age) + ', ' + starsWord(n) + (sel ? ', играет сейчас' : '') };
       }),
       add: function () { self.parentGo({ screen: 'kid' }); }, account: function () { self.parentGo({ screen: 'account' }); } };
-    var f = st.kidForm, fav = avatarOf(f.shape, f.color);
-    var kidf = { isNew: !f.id, title: f.id ? 'Профиль ребёнка' : 'Новый профиль', name: f.name, prevName: f.name.trim() || 'Имя', prevClip: fav.clip, prevBg: fav.bg,
+    var f = st.kidForm;
+    var kidf = { isNew: !f.id, title: f.id ? 'Профиль ребёнка' : 'Новый профиль', name: f.name, prevName: f.name.trim() || 'Имя', ava: avaOf(f), pickAva: function () { self.openAva('form'); },
       err: f.err, hasErr: !!f.err, canDelete: !!f.id, showDelAsk: !!f.id && !f.confirmDel, confirmDel: !!f.id && f.confirmDel,
       onName: function (e) { self.setKidForm({ name: e.target.value }); },
       ages: AGES.map(function (x) { var sel = x.id === f.age; return { label: x.label, unit: x.unit, aria: x.aria, pressed: sel ? 'true' : 'false', bg: sel ? '#1E2A4A' : '#FFFFFF', fg: sel ? '#FFFFFF' : '#1E2A4A', bd: sel ? '#1E2A4A' : '#D5DDF2', pick: function () { self.snd('tap'); self.setKidForm({ age: x.id }); } }; }),
-      shapes: KID_SHAPES.map(function (s) { var sel = s === f.shape; return { clip: S[s].clip, bg: C[f.color].hex, aria: S[s].nom, pressed: sel ? 'true' : 'false', bd: sel ? '#1E2A4A' : '#D5DDF2', pick: function () { self.snd('tap'); self.setKidForm({ shape: s }); } }; }),
-      colors: KID_COLORS.map(function (c) { var sel = c === f.color; return { bg: C[c].hex, aria: C[c].m, pressed: sel ? 'true' : 'false', bd: sel ? '#1E2A4A' : '#FFFFFF', pick: function () { self.snd('tap'); self.setKidForm({ color: c }); } }; }),
       save: function (e) { self.kidSave(e); }, cancel: function () { self.snd('tap'); self.setState({ screen: f.id ? 'account' : acc && acc.kids.length ? 'who' : 'home' }); self.top(); },
       askDel: function () { self.snd('tap'); self.setState({ kidForm: Object.assign({}, self.state.kidForm, { confirmDel: true }) }); },
       cancelDel: function () { self.snd('tap'); self.setState({ kidForm: Object.assign({}, self.state.kidForm, { confirmDel: false }) }); },
       doDel: function () { self.kidDelete(); } };
     var acct = { email: db.session || '', title: acc && acc.name ? acc.name : 'Ваш аккаунт', since: acc && acc.since ? 'Аккаунт создан ' + sinceText(acc.since) : '', hasSince: !!(acc && acc.since),
       kids: (acc ? acc.kids : []).map(function (k) {
-        var av = avatarOf(k.shape, k.color), n = playerStars(k), done = DIFFS.map(function (x, i) { return diffPassed(k.lv, k.age, i); });
-        return { name: k.name, clip: av.clip, bg: av.bg, info: ageText(k.age) + ' · ★ ' + n + ' · уроки: ' + done.join(' / ') + ' из ' + stepsFor(k.age), edit: function () { self.parentGo({ screen: 'kid', id: k.id }); }, editAria: 'Изменить профиль ' + k.name };
+        var n = playerStars(k), done = DIFFS.map(function (x, i) { return diffPassed(k.lv, k.age, i); });
+        return { name: k.name, ava: avaOf(k), info: 'ID ' + k.uid + ' · ' + ageText(k.age) + ' · ★ ' + n + ' · уроки: ' + done.join(' / ') + ' из ' + stepsFor(k.age), edit: function () { self.parentGo({ screen: 'kid', id: k.id }); }, editAria: 'Изменить профиль ' + k.name };
       }),
       hasKids: !!acc && acc.kids.length > 0, add: function () { self.parentGo({ screen: 'kid' }); },
       showAsk: !st.acctAsk, askOut: st.acctAsk === 'out', askDel: st.acctAsk === 'del',
@@ -4005,7 +4202,7 @@ class Component extends DCLogic {
       me: me, auth: auth, who: who, kidf: kidf, acct: acct, gate: gate, notice: notice,
       skyCls: st.screen === 'game' ? 'um-sky um-calm' : 'um-sky', headCls: st.screen === 'game' || st.screen === 'rest' || (st.screen === 'home' && !age) ? 'um-head-off' : '', showFooter: st.screen !== 'game',
       plants: st.plants.map(function (d) { return decoVals(d, 'um-dsway'); }),
-      goHome: function () { self.go('home'); }, goParents: function () { self.go('parents'); }, goProfile: function () { self.go('progress'); }, showBack: st.screen !== 'home' || !!st.homeTab,
+      goHome: function () { self.go('home'); }, goParents: function () { self.parentGo({ screen: 'parents' }); }, goProfile: function () { self.go('progress'); }, showBack: st.screen !== 'home' || !!st.homeTab,
       profCur: st.screen === 'progress' ? 'page' : 'false', profAria: 'Мой профиль: ' + starsWord(total), soundIc: st.sound ? '#1E2A4A' : '#9AA6C4', soundCls: st.sound ? '' : 'um-hb-mute',
       nav: nav, navCls: st.screen === 'game' ? 'um-hide' : '', ages: ages, cats: cats, games: games, needAge: !age, hasAge: !!age,
       cells: cells, lvl: lvl,
@@ -4016,7 +4213,7 @@ class Component extends DCLogic {
       game: game, canSpeak: st.sound && (speechOk || !!(st.screen === 'game' && st.tasks[st.ti] && VOICE[st.tasks[st.ti].audio])), speak: function () { self.speak(); },
       restart: function () { if (st.level && st.level.topic) self.openTopic(st.level.g, st.level.n - 1); else if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
       res: res,
-      progAges: progAges, hasProgress: total > 0, noProgress: total === 0,
+      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, meAva: meAva,
       ageInfo: [
         { label: '3–4', text: 'Без цифр и без чтения: каждое задание звучит голосом само. Цвета и названия предметов, один и много, тени, что пропало, большой и маленький, где больше и где меньше, найти такой же, что лишнее, простые пары.' },
         { label: '5–6', text: 'Первые буквы: найти букву по звуку и первую букву слова. Счёт до 15, узоры и закономерности, «больше — меньше», что лишнее, примеры до 10 и чуть дальше.' }
