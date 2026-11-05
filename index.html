@@ -14,22 +14,36 @@
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
-#boot{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 45%,#5FD0FF 0,#1EA7F5 45%,#1279D8 100%);font-family:'Nunito',system-ui,-apple-system,sans-serif;transition:opacity .5s ease,transform .5s ease}
-#boot.out{opacity:0;transform:scale(1.06);pointer-events:none}
-.bt-rays{position:absolute;left:50%;top:45%;width:220vmax;height:220vmax;margin:-110vmax 0 0 -110vmax;background:repeating-conic-gradient(rgba(255,255,255,.13) 0 9deg,rgba(255,255,255,0) 9deg 18deg);animation:bt-spin 24s linear infinite}
-.bt-mid{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px}
-.bt-name{display:flex;gap:2px;font-size:clamp(46px,13vw,84px);font-weight:900;line-height:1;letter-spacing:.01em}
-.bt-name span{display:inline-block;color:#FFE14D;-webkit-text-stroke:3px #7A3B00;paint-order:stroke fill;text-shadow:0 6px 0 #7A3B00,0 10px 16px rgba(0,30,80,.35);animation:bt-pop .6s cubic-bezier(.3,1.7,.5,1) both}
-.bt-sub{font-size:clamp(17px,4.6vw,22px);font-weight:900;color:#FFFFFF;text-shadow:0 2px 0 rgba(0,40,100,.35);animation:bt-fade .6s ease .9s both}
-.bt-dots{display:flex;gap:10px;margin-top:6px}
-.bt-dots i{display:block;width:14px;height:14px;border-radius:50%;background:#FFFFFF;box-shadow:0 2px 0 rgba(0,40,100,.3);animation:bt-dot 1s ease-in-out infinite}
-.bt-dots i:nth-child(2){animation-delay:.15s;background:#FFE14D}.bt-dots i:nth-child(3){animation-delay:.3s;background:#FF8A8A}
-.bt-fly{position:absolute;width:clamp(54px,14vw,96px);animation:bt-float 3.2s ease-in-out infinite;filter:drop-shadow(0 8px 10px rgba(0,30,80,.3))}
-@keyframes bt-pop{0%{transform:translateY(40px) scale(.2) rotate(-12deg);opacity:0}100%{transform:none;opacity:1}}
-@keyframes bt-fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes bt-dot{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@keyframes bt-float{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-16px) rotate(6deg)}}
+#boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#A9E1FF 0%,#D4F1FF 42%,#F4FBFF 62%);transition:opacity .55s ease,transform .55s ease;cursor:pointer}
+#boot.out{opacity:0;transform:scale(1.05);pointer-events:none}
+.bt-sun{position:absolute;right:7%;top:7%;width:clamp(84px,20vmin,150px);height:clamp(84px,20vmin,150px);animation:bt-in .9s ease .1s both}
+.bt-sun svg{display:block;width:100%;height:100%;animation:bt-spin 16s linear infinite}
+.bt-cl{position:absolute;display:block;width:clamp(110px,26vmin,210px);animation:bt-drift 9s ease-in-out infinite alternate}
+.bt-cl svg{display:block;width:100%;height:auto;overflow:visible}
+.bt-hills{position:absolute;left:0;right:0;bottom:0;height:46%;width:100%;display:block}
+.bt-rail{position:absolute;left:0;right:0;bottom:19%;height:6px;background:#8A6A4B;box-shadow:0 7px 0 -2px rgba(90,60,30,.25)}
+.bt-train{position:absolute;left:50%;bottom:calc(19% + 3px);display:flex;align-items:flex-end;gap:4px;width:min(84vw,640px,calc(46vh + 120px));margin-left:calc(min(84vw,640px,calc(46vh + 120px)) / -2);animation:bt-ride 5.2s cubic-bezier(.4,.05,.2,1) both}
+.bt-eng{position:relative;flex:0 0 36%}
+.bt-eng svg{display:block;width:100%;height:auto;overflow:visible}
+.bt-eng i{position:absolute;left:21%;top:-4%;width:14%;aspect-ratio:1;border-radius:50%;background:#FFFFFF;opacity:0;animation:bt-puff 1.5s ease-out infinite}
+.bt-eng i:nth-child(2){animation-delay:.5s}.bt-eng i:nth-child(3){animation-delay:1s}
+.bt-car{position:relative;flex:1 1 0;aspect-ratio:1.25;display:block}
+.bt-car svg{position:absolute;left:0;right:0;bottom:0;display:block;width:100%;height:auto}
+.bt-car img{position:absolute;bottom:40%;left:50%;width:62%;margin-left:-31%;animation:bt-bob .9s ease-in-out infinite}
+.bt-mid{position:absolute;left:0;right:0;top:15%;display:flex;flex-direction:column;align-items:center;gap:8px;transform-origin:50% 50%;animation:bt-fly 1.5s cubic-bezier(.2,.9,.3,1.25) .35s both}
+.bt-name{display:flex;gap:1px;font-size:clamp(50px,14vmin,104px);font-weight:900;line-height:1;letter-spacing:.01em}
+.bt-name span{display:inline-block;-webkit-text-stroke:7px #FFFFFF;paint-order:stroke fill;text-shadow:0 6px 0 rgba(30,60,120,.2);animation:bt-wave 2.6s ease-in-out 1.9s infinite}
+.bt-sub{font-size:clamp(19px,5vmin,30px);font-weight:900;color:#1E4E8C;animation:bt-fade .6s ease 1.5s both}
+@keyframes bt-fly{0%{transform:translateY(46vh) scale(.08);opacity:0}25%{opacity:1}100%{transform:none;opacity:1}}
+@keyframes bt-ride{0%{transform:translateX(-125vw)}32%{transform:translateX(0)}82%{transform:translateX(0)}100%{transform:translateX(125vw)}}
+@keyframes bt-puff{0%{transform:translate(0,0) scale(.5);opacity:.9}100%{transform:translate(-90%,-260%) scale(2.4);opacity:0}}
+@keyframes bt-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5%)}}
+@keyframes bt-wave{0%,100%{transform:translateY(0)}12%{transform:translateY(-7%)}24%{transform:translateY(0)}}
+@keyframes bt-drift{from{transform:translateX(-14px)}to{transform:translateX(26px)}}
+@keyframes bt-in{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes bt-fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes bt-spin{to{transform:rotate(360deg)}}
+@media (max-aspect-ratio: 1/1){.bt-mid{top:24%}.bt-sun{top:4%}}
 @media (prefers-reduced-motion: reduce){#boot *{animation:none!important}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&amp;display=swap">
@@ -331,44 +345,48 @@ button:disabled{cursor:default}
 .um-tray > img{width:80%;height:80%;margin:10%}
 .um-opts-eq > button{--cell:min(calc((100vw - 92px) / 3),124px);width:var(--cell)!important;height:var(--cell)!important;min-width:0!important;min-height:0!important;padding:0!important;flex:none}
 .um-opts-eq > button .um-item{width:calc(var(--cell) * .74)!important;height:calc(var(--cell) * .74)!important}
-/* раскраска: белый лист с контуром, инструменты и краски рядом */
-.um-sec-paint{background:transparent!important;box-shadow:none!important;padding:0!important;gap:6px!important}
-.um-sec-paint h1{font-size:21px!important}
-.um-sec-paint .um-say{width:40px!important;height:40px!important}
-.um-sec-paint [role=status]{display:none!important}
-.um-paint{width:100%;display:flex;flex-direction:column;align-items:center;gap:8px}
-.um-paper{position:relative;width:min(100%,max(220px,calc(100vh - 440px)));width:min(100%,max(220px,calc(100dvh - 440px)));aspect-ratio:1;flex:none;border-radius:24px;background:#FFFFFF;box-shadow:0 0 0 4px #FFFFFF,0 14px 30px -14px rgba(30,60,120,.45);overflow:hidden}
-.um-paper canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.um-pl{pointer-events:none}
+/* раскраска: весь экран, лист посередине, инструменты-предметы по бокам */
+.um-sec-paint{background:transparent!important;box-shadow:none!important;padding:0!important}
+.um-sec-paint h1,.um-sec-paint [role=status],.um-sec-paint .um-say{display:none!important}
+.um-pw{position:fixed;inset:0;z-index:60;display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:8px;box-sizing:border-box;padding:8px;padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right));padding-bottom:max(8px,env(safe-area-inset-bottom));background:linear-gradient(160deg,#74C8FF,#5AB4F5 60%,#7FD0FF);touch-action:none;overflow:hidden}
+.um-pw-left{display:flex;flex-direction:column;justify-content:space-between;gap:6px;min-height:0}
+.um-pw-b{flex:none;position:relative;width:54px;height:54px;padding:0;border:0;border-radius:16px;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 -5px 0 rgba(10,30,70,.22),0 3px 6px rgba(10,40,90,.25)}
+.um-pw-b-x{background:linear-gradient(180deg,#6FB4FF,#2F7BEA)}.um-pw-b-undo{background:linear-gradient(180deg,#B48BFF,#7E4BE0)}.um-pw-b-bin{background:linear-gradient(180deg,#FF7D7D,#E23A3A)}.um-pw-b-cam{background:linear-gradient(180deg,#8FE08A,#3DB64A)}
+.um-pw-b-size{background:#FFFFFF}.um-pw-b-size i{display:block;border-radius:50%}
+.um-pw-b-ok{background:linear-gradient(180deg,#FFD84D,#FFB400);color:#1E2A4A;box-shadow:inset 0 -5px 0 #D98E00,0 3px 6px rgba(10,40,90,.25)}.um-pw-b-ok.um-off{opacity:.45}
+.um-pw-paper{position:relative;min-width:0;min-height:0;container-type:size;display:flex;align-items:center;justify-content:center}
+.um-pw-sheet{position:relative;width:100%;height:100%;box-sizing:border-box;background:#FFFFFF;border-radius:20px;overflow:hidden;box-shadow:0 0 0 4px #2CC3E8,0 8px 18px -8px rgba(10,50,110,.5)}
+@supports (width:1cqw){.um-pw-sheet{width:min(100cqw,calc(100cqh * var(--pa)));height:auto;aspect-ratio:var(--pa)}}
+.um-pw-sheet canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.um-pc{pointer-events:none}
 .um-pline{touch-action:none;cursor:crosshair}
-.um-paint-win{animation:um-pwin .7s ease}
-@keyframes um-pwin{0%,100%{transform:none}40%{transform:scale(1.04) rotate(-1.2deg)}}
-.um-paint-side{width:100%;max-width:440px;display:flex;flex-direction:column;gap:7px}
-.um-tools{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
-.um-tool{height:56px;padding:0;border:3px solid #FFFFFF;border-radius:16px;color:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(30,42,74,.22)}
-.um-tool-brush{background:linear-gradient(180deg,#5AA2FF,#2F6FE0)}.um-tool-crayon{background:linear-gradient(180deg,#FFB05A,#F0781E)}.um-tool-glitter{background:linear-gradient(180deg,#C79AFF,#8F4DE8)}
-.um-tool-rainbow{background:linear-gradient(90deg,#F2354F,#FF8A1F,#FFD126,#22A85C,#2F6FE0,#9F4CED)}.um-tool-fill{background:linear-gradient(180deg,#5FD58F,#22B573)}.um-tool-eraser{background:linear-gradient(180deg,#FF9AC2,#F0578F)}.um-tool-undo{background:linear-gradient(180deg,#C3CCDF,#8E9AB5)}
-.um-undo{height:52px}
-.um-tool-on{transform:translateY(-3px) scale(1.06);border-color:#1E2A4A;box-shadow:0 7px 0 rgba(30,42,74,.28)}
-.um-sizes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-.um-size{height:52px;padding:0;border:0;border-radius:14px;background:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 2px #DCE4F4}
-.um-size i{display:block;border-radius:50%}
-.um-size-on{box-shadow:inset 0 0 0 3px #1E2A4A}
-.um-paints{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;justify-items:center}
-.um-pcolor{width:100%;height:50px;padding:0;border:3px solid #FFFFFF;border-radius:14px;cursor:pointer;background:var(--c);box-shadow:inset 0 -5px 0 rgba(20,20,60,.18),0 3px 8px -3px rgba(30,42,74,.4)}
-.um-pcolor-on{transform:scale(1.1);border-color:#1E2A4A}
-.um-paint-next{width:100%;min-height:58px;border:0;border-radius:999px;background:linear-gradient(180deg,#5FD58F,#22B573);color:#FFFFFF;font-size:22px;font-weight:900;cursor:pointer;box-shadow:inset 0 -5px 0 #138A52;visibility:hidden}
-.um-paint-next.um-on{visibility:visible}
-@media (min-aspect-ratio: 5/4){
-.um-paint{flex-direction:row;justify-content:center;align-items:stretch;gap:18px}
-.um-paper{width:calc(100vh - 134px);width:calc(100dvh - 134px)}
-.um-paint-side{width:360px;flex:none;justify-content:center;gap:8px}
+.um-pw-win .um-pw-sheet{animation:um-pwin .7s ease}
+@keyframes um-pwin{0%,100%{transform:none}40%{transform:scale(1.03) rotate(-1deg)}70%{transform:scale(1.03) rotate(1deg)}}
+.um-pw-flash{position:absolute;inset:0;background:#FFFFFF;opacity:0;pointer-events:none}
+.um-pw-flash.um-on{animation:um-pflash .45s ease-out}
+@keyframes um-pflash{0%{opacity:.95}100%{opacity:0}}
+.um-pw-col{min-height:0;min-width:0;width:70px;padding:6px 0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:6px;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;scrollbar-width:none;touch-action:pan-y;border-radius:18px;background:#FFE7C2;box-shadow:inset 0 0 0 3px rgba(255,255,255,.65)}
+.um-pw-col::-webkit-scrollbar{display:none}
+.um-pw-sw{flex:none;position:relative;width:54px;height:54px;padding:0;border:0;border-radius:50%;background-color:var(--c,#FFFFFF);background-size:auto;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:inset -4px -6px 9px rgba(0,0,0,.18),inset 4px 5px 8px rgba(255,255,255,.5),0 2px 4px rgba(90,60,20,.3)}
+.um-pw-sw::after{content:'';position:absolute;left:22%;top:16%;width:26%;height:16%;border-radius:50%;background:rgba(255,255,255,.75);transform:rotate(-24deg)}
+.um-pw-sw.um-plain{border-radius:14px;background-color:#FFFFFF;box-shadow:0 2px 4px rgba(90,60,20,.3)}.um-pw-sw.um-plain::after{display:none}
+.um-pw-sw.um-pat{border-radius:12px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.8),0 2px 4px rgba(90,60,20,.3)}.um-pw-sw.um-pat::after{display:none}
+.um-pw-sw.um-rb{background-image:linear-gradient(135deg,#F2354F 0 17%,#FF8A1F 17% 34%,#FFD126 34% 50%,#22A85C 50% 67%,#2F6FE0 67% 84%,#9F4CED 84%)}
+.um-pw-sw img{width:80%;height:80%;object-fit:contain;pointer-events:none}
+.um-pw-sw[aria-pressed="true"]{outline:4px solid #1E2A4A;outline-offset:1px}
+.um-pw-t{flex:none;width:60px;height:60px;padding:0;border:0;border-radius:16px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease}
+.um-pw-t img{width:92%;height:92%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 3px 2px rgba(90,60,20,.35))}
+.um-pw-t[aria-pressed="true"]{background:#FFFFFF;transform:scale(1.08);box-shadow:0 0 0 3px #1E2A4A}
+@media (max-aspect-ratio: 1/1){
+.um-pw{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;padding-top:max(8px,env(safe-area-inset-top))}
+.um-pw-left{flex-direction:row}
+.um-pw-col{flex-direction:row;width:auto;height:70px;padding:0 6px;overflow-x:auto;overflow-y:hidden;touch-action:pan-x}
 }
-@media (max-height: 500px) and (orientation: landscape){
-.um-paper{width:calc(100vh - 110px);width:calc(100dvh - 110px)}
-.um-sec-paint h1{font-size:16px!important}
-.um-tool{height:48px}.um-size{height:38px}.um-pcolor{height:36px}.um-paint-next{min-height:44px;font-size:18px}.um-paint-side{width:min(380px,calc(100vw - 100vh + 70px));gap:4px}.um-paints{gap:4px}
-}
+@media (max-height: 400px) and (min-aspect-ratio: 1/1){.um-pw-b{width:50px;height:50px;border-radius:14px}.um-pw-left{gap:3px}.um-pw-col{width:64px}.um-pw-sw{width:50px;height:50px}.um-pw-t{width:56px;height:56px}}
+.um-pf-art{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.um-pf-art button{padding:0;border:0;border-radius:14px;overflow:hidden;background:#F4F7FF;cursor:pointer;aspect-ratio:1;box-shadow:inset 0 0 0 2px #E3E9F7}
+.um-pf-art img{display:block;width:100%;height:100%;object-fit:cover}
+.um-artbig{width:100%;max-height:62vh;object-fit:contain;border-radius:18px;background:#FFFFFF}
 /* телефон боком: задание слева, ответы справа — всё на одном экране */
 @media (max-height: 500px) and (orientation: landscape){
 .um-sec-task{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;justify-items:center;gap:4px 14px!important;padding:6px 12px 4px!important}
@@ -830,16 +848,12 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </head>
 <body>
 <div id="boot" aria-hidden="true">
-<div class="bt-rays"></div>
-<img class="bt-fly" src="items/ball-red.svg" alt="" style="left:8%;top:14%">
-<img class="bt-fly" src="items/star-yellow.svg" alt="" style="right:9%;top:12%;animation-delay:-.8s">
-<img class="bt-fly" src="items/balloon-green.svg" alt="" style="left:12%;bottom:14%;animation-delay:-1.6s">
-<img class="bt-fly" src="items/car-blue.svg" alt="" style="right:10%;bottom:16%;animation-delay:-2.4s">
-<div class="bt-mid">
-<div class="bt-name"><span style="animation-delay:0.00s">У</span><span style="animation-delay:0.08s">М</span><span style="animation-delay:0.16s">Н</span><span style="animation-delay:0.24s">Я</span><span style="animation-delay:0.32s">Ш</span><span style="animation-delay:0.40s">А</span></div>
-<div class="bt-sub">Играем и учимся</div>
-<div class="bt-dots"><i></i><i></i><i></i></div>
-</div>
+<div class="bt-sun"><svg viewBox="0 0 100 100"><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(0 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(30 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(60 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(90 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(120 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(150 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(180 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(210 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(240 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(270 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(300 50 50)"/><rect x="46" y="1" width="8" height="17" rx="4" fill="#FFC21A" transform="rotate(330 50 50)"/><circle cx="50" cy="50" r="27" fill="#FFD84D"/><circle cx="50" cy="50" r="27" fill="none" stroke="#FFC21A" stroke-width="3"/></svg></div>
+<span class="bt-cl" style="left:5%;top:8%"><svg viewBox="0 0 200 90"><path d="M42 84C14 84 6 50 36 42C38 12 84 4 104 28C124 6 170 14 172 46C198 50 196 84 168 84Z" fill="#FFFFFF"/></svg></span><span class="bt-cl" style="right:24%;top:27%;width:clamp(70px,16vmin,130px);opacity:.85;animation-delay:-3s"><svg viewBox="0 0 200 90"><path d="M42 84C14 84 6 50 36 42C38 12 84 4 104 28C124 6 170 14 172 46C198 50 196 84 168 84Z" fill="#FFFFFF"/></svg></span><span class="bt-cl" style="left:12%;top:42%;width:clamp(60px,13vmin,110px);opacity:.7;animation-delay:-6s"><svg viewBox="0 0 200 90"><path d="M42 84C14 84 6 50 36 42C38 12 84 4 104 28C124 6 170 14 172 46C198 50 196 84 168 84Z" fill="#FFFFFF"/></svg></span>
+<svg class="bt-hills" viewBox="0 0 800 300" preserveAspectRatio="none"><path d="M0 120C120 40 260 40 400 110S660 170 800 80V300H0Z" fill="#BEEBA9"/><path d="M0 170C160 110 300 130 440 170S680 200 800 150V300H0Z" fill="#8EDB86"/><path d="M0 205C200 175 560 185 800 200V300H0Z" fill="#62C46C"/></svg>
+<div class="bt-rail"></div>
+<div class="bt-train"><span class="bt-eng"><i></i><i></i><i></i><svg viewBox="0 0 120 100" ><defs><linearGradient id="bt-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8A7A"></stop><stop offset=".45" stop-color="#F0443A"></stop><stop offset="1" stop-color="#B9241B"></stop></linearGradient><linearGradient id="bt-c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6FB0FF"></stop><stop offset=".5" stop-color="#3D84F0"></stop><stop offset="1" stop-color="#2459C7"></stop></linearGradient><linearGradient id="bt-k" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2A2E37"></stop><stop offset=".5" stop-color="#5A6070"></stop><stop offset="1" stop-color="#2A2E37"></stop></linearGradient><linearGradient id="bt-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE27A"></stop><stop offset="1" stop-color="#F2A500"></stop></linearGradient><radialGradient id="bt-w" cx=".4" cy=".35" r=".75"><stop offset="0" stop-color="#FF7A6E"></stop><stop offset="1" stop-color="#C42A20"></stop></radialGradient><radialGradient id="bt-l" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FFF8C8"></stop><stop offset="1" stop-color="#FFF8C8" stop-opacity="0"></stop></radialGradient></defs><rect x="6" y="62" width="110" height="10" rx="4" fill="#2A2E37"></rect><path d="M1 76 L15 62 V76 Z" fill="url(#bt-g)" stroke="#C98500" stroke-width="1.5" stroke-linejoin="round"></path><rect x="13" y="34" width="62" height="30" rx="14" fill="url(#bt-b)" stroke="#9E1F16" stroke-width="1.6"></rect><rect x="20" y="38" width="48" height="6" rx="3" fill="#FFFFFF" opacity=".35"></rect><rect x="36" y="34" width="5" height="30" fill="url(#bt-g)"></rect><rect x="56" y="34" width="5" height="30" fill="url(#bt-g)"></rect><ellipse cx="14" cy="49" rx="6" ry="14" fill="#3A3F4B" stroke="#1E2A4A" stroke-width="1.4"></ellipse><circle cx="8" cy="43" r="11" fill="url(#bt-l)"></circle><circle cx="9" cy="43" r="5" fill="#FFE27A" stroke="#C98500" stroke-width="1.5"></circle><circle cx="7.6" cy="41.6" r="1.6" fill="#FFFFFF"></circle><path d="M23 35 L25 21 L19 11 H39 L33 21 L35 35 Z" fill="url(#bt-k)" stroke="#1E2A4A" stroke-width="1.4" stroke-linejoin="round"></path><rect x="17" y="8" width="24" height="5" rx="2.5" fill="url(#bt-g)" stroke="#C98500" stroke-width="1"></rect><path d="M45 35 C 45 24, 57 24, 57 35 Z" fill="url(#bt-g)" stroke="#C98500" stroke-width="1.4"></path><ellipse cx="49" cy="28" rx="1.8" ry="2.6" fill="#FFFFFF" opacity=".7"></ellipse><rect x="72" y="20" width="42" height="44" rx="6" fill="url(#bt-c)" stroke="#1E3F8F" stroke-width="1.6"></rect><rect x="66" y="12" width="53" height="10" rx="5" fill="url(#bt-b)" stroke="#9E1F16" stroke-width="1.4"></rect><rect x="79" y="27" width="27" height="19" rx="7" fill="#DDF0FF" stroke="#1E3F8F" stroke-width="2.2"></rect><path d="M83 30 h9 l-6 13 h-4 z" fill="#FFFFFF" opacity=".8"></path><rect x="72" y="52" width="42" height="5" fill="url(#bt-g)"></rect><circle cx="78" cy="58" r="1.6" fill="#1E3F8F"></circle><circle cx="108" cy="58" r="1.6" fill="#1E3F8F"></circle><g class="um-wheel" style="transform-origin: 24px 82px"><circle cx="24" cy="82" r="10" fill="url(#bt-w)" stroke="#1E2A4A" stroke-width="2.4"></circle><circle cx="24" cy="82" r="6" fill="none" stroke="#FFD86B" stroke-width="1.6" opacity=".9"></circle><path d="M24 82 L31.0 82.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M24 82 L17.0 82.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M24 82 L24.0 89.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M24 82 L24.0 75.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><circle cx="24" cy="82" r="3.0" fill="#FFC21A" stroke="#B8860B" stroke-width="1.2"></circle></g><g class="um-wheel" style="transform-origin: 52px 80px"><circle cx="52" cy="80" r="13" fill="url(#bt-w)" stroke="#1E2A4A" stroke-width="2.4"></circle><circle cx="52" cy="80" r="9" fill="none" stroke="#FFD86B" stroke-width="1.6" opacity=".9"></circle><path d="M52 80 L62.0 80.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M52 80 L42.0 80.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M52 80 L52.0 90.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M52 80 L52.0 70.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M52 80 L59.0 87.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M52 80 L45.0 73.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M52 80 L59.0 73.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M52 80 L45.0 87.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><circle cx="52" cy="80" r="3.9" fill="#FFC21A" stroke="#B8860B" stroke-width="1.2"></circle></g><g class="um-wheel" style="transform-origin: 88px 80px"><circle cx="88" cy="80" r="13" fill="url(#bt-w)" stroke="#1E2A4A" stroke-width="2.4"></circle><circle cx="88" cy="80" r="9" fill="none" stroke="#FFD86B" stroke-width="1.6" opacity=".9"></circle><path d="M88 80 L98.0 80.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M88 80 L78.0 80.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M88 80 L88.0 90.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M88 80 L88.0 70.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M88 80 L95.0 87.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M88 80 L81.0 73.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M88 80 L95.0 73.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><path d="M88 80 L81.0 87.0" stroke="#FFE7A3" stroke-width="2.2" stroke-linecap="round"></path><circle cx="88" cy="80" r="3.9" fill="#FFC21A" stroke="#B8860B" stroke-width="1.2"></circle></g><rect x="50" y="77.5" width="40" height="4.5" rx="2.2" fill="#D6DCE6" stroke="#6B7385" stroke-width="1"></rect></svg></span><span class="bt-car"><svg viewBox="0 0 100 60"><rect x="4" y="6" width="92" height="34" rx="8" fill="#2F7BEA"/><rect x="4" y="6" width="92" height="9" rx="4.500" fill="#FFFFFF" opacity=".35"/><circle cx="26" cy="46" r="11" fill="#2B2F45"/><circle cx="26" cy="46" r="4.500" fill="#E8EDF8"/><circle cx="74" cy="46" r="11" fill="#2B2F45"/><circle cx="74" cy="46" r="4.500" fill="#E8EDF8"/></svg><img src="items/ball-red.svg" alt=""></span><span class="bt-car"><svg viewBox="0 0 100 60"><rect x="4" y="6" width="92" height="34" rx="8" fill="#2BB673"/><rect x="4" y="6" width="92" height="9" rx="4.500" fill="#FFFFFF" opacity=".35"/><circle cx="26" cy="46" r="11" fill="#2B2F45"/><circle cx="26" cy="46" r="4.500" fill="#E8EDF8"/><circle cx="74" cy="46" r="11" fill="#2B2F45"/><circle cx="74" cy="46" r="4.500" fill="#E8EDF8"/></svg><img src="items/star-yellow.svg" alt=""></span></div>
+<div class="bt-mid"><div class="bt-name"><span style="color:#F2485E;animation-delay:1.90s">У</span><span style="color:#FF8A1F;animation-delay:1.99s">м</span><span style="color:#F2B600;animation-delay:2.08s">н</span><span style="color:#2BB673;animation-delay:2.17s">я</span><span style="color:#2F7BEA;animation-delay:2.26s">ш</span><span style="color:#9F4CED;animation-delay:2.35s">а</span></div><div class="bt-sub">Играем и учимся</div></div>
 </div>
 <div id="app"></div>
 <script>window.__bootT = Date.now();</script>
@@ -1187,14 +1201,18 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </div>
 </sc-if>
 <sc-if value="{{game.isPaint}}" hint-placeholder-val="{{ false }}">
-<div class="um-paint">
-<div class="um-paper {{game.paintCls}}"><canvas class="um-pl" width="512" height="512"></canvas><canvas class="um-pl" width="512" height="512"></canvas><canvas class="um-pl" width="512" height="512"></canvas><canvas class="um-pl" width="512" height="512"></canvas><canvas class="um-pl" width="512" height="512"></canvas><canvas class="um-pline" width="512" height="512" aria-label="{{game.prompt}}"></canvas></div>
-<div class="um-paint-side">
-<div class="um-tools"><button type="button" class="press um-tool {{game.tc.brush}}" onClick="{{game.tp.brush}}" aria-label="Кисть"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M20.7 3.3a2 2 0 0 0-2.8 0l-8 8 2.8 2.8 8-8a2 2 0 0 0 0-2.8z"></path><path d="M8.6 12.9c-2.2 0-3.3 1.5-3.6 3.2-.2 1.3-.9 2.2-2 2.6 1.3 1.3 3.6 2 5.8 1.3 2-.6 3.2-2.3 2.6-4.3z"></path></svg></button><button type="button" class="press um-tool {{game.tc.crayon}}" onClick="{{game.tp.crayon}}" aria-label="Мелок"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M4 20l1.5-5.5L15.8 4.2a2.2 2.2 0 0 1 3.1 0l.9.9a2.2 2.2 0 0 1 0 3.1L9.5 18.5z"></path><rect x="3" y="20.4" width="18" height="2" rx="1"></rect></svg></button><button type="button" class="press um-tool {{game.tc.glitter}}" onClick="{{game.tp.glitter}}" aria-label="Блёстки"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"></path><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"></path></svg></button><button type="button" class="press um-tool {{game.tc.rainbow}}" onClick="{{game.tp.rainbow}}" aria-label="Радуга"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M2 18a10 10 0 0 1 20 0h-3a7 7 0 0 0-14 0z"></path><path d="M8 18a4 4 0 0 1 8 0z" opacity=".65"></path></svg></button><button type="button" class="press um-tool {{game.tc.fill}}" onClick="{{game.tp.fill}}" aria-label="Заливка"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M11 3L3.5 10.5a2 2 0 0 0 0 2.8l6.2 6.2a2 2 0 0 0 2.8 0L20 12z"></path><path d="M20.5 15s-2 2.4-2 3.8a2 2 0 0 0 4 0c0-1.4-2-3.8-2-3.8z"></path></svg></button><button type="button" class="press um-tool {{game.tc.eraser}}" onClick="{{game.tp.eraser}}" aria-label="Ластик"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M15 3.6a2 2 0 0 1 2.8 0l3.6 3.6a2 2 0 0 1 0 2.8L12 19.4H7.4l-4-4a2 2 0 0 1 0-2.8z"></path><rect x="10" y="19.4" width="11" height="2" rx="1"></rect></svg></button></div>
-<div class="um-sizes"><sc-for list="{{game.sizes}}" as="z" hint-placeholder-count="3"><button type="button" class="press um-size {{z.cls}}" onClick="{{z.pick}}" aria-label="{{z.aria}}"><i style="width: {{z.d}}px; height: {{z.d}}px; background: {{game.selHex}}"></i></button></sc-for><button type="button" class="press um-tool um-tool-undo um-undo" onClick="{{game.paintUndo}}" aria-label="Отменить"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true"><path d="M9 5L3.5 10.5 9 16v-3.8c4.5 0 7.6 1.2 10 5-.6-5.6-4-9.5-10-10z"></path></svg></button></div>
-<div class="um-paints" role="group" aria-label="Краски"><sc-for list="{{game.palette}}" as="c" hint-placeholder-count="12"><button type="button" class="press um-pcolor {{c.cls}}" onClick="{{c.pick}}" aria-label="{{c.aria}}" aria-pressed="{{c.on}}" style="--c: {{c.hex}}"></button></sc-for></div>
-<button type="button" class="press um-paint-next {{game.nextCls}}" onClick="{{game.paintNext}}">Готово!</button>
+<div class="um-pw {{game.pwCls}}">
+<div class="um-pw-left">
+<button type="button" class="press um-pw-b um-pw-b-x" onClick="{{game.paintExit}}" aria-label="Выйти"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+<button type="button" class="press um-pw-b um-pw-b-undo" onClick="{{game.paintUndo}}" aria-label="Отменить"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 5L3.5 10.5 9 16v-3.8c4.500 0 7.600 1.200 10 5-.6-5.600-4-9.500-10-10z"></path></svg></button>
+<button type="button" class="press um-pw-b um-pw-b-bin" onClick="{{game.paintClear}}" aria-label="Стереть всё"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"></path><path d="M9 7V4.500h6V7"></path><path d="M6.500 7l1 13h9l1-13"></path><path d="M10 11v5M14 11v5"></path></svg></button>
+<button type="button" class="press um-pw-b um-pw-b-cam" onClick="{{game.paintPhoto}}" aria-label="Сохранить рисунок в профиль"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 4.500L7.600 7H5a2.500 2.500 0 0 0-2.500 2.500v8A2.500 2.500 0 0 0 5 20h14a2.500 2.500 0 0 0 2.500-2.500v-8A2.500 2.500 0 0 0 19 7h-2.600L15 4.500z"></path><circle cx="12" cy="13.200" r="3.700" fill="#3DB64A"></circle></svg></button>
+<button type="button" class="press um-pw-b um-pw-b-size" onClick="{{game.sizeGo}}" aria-label="Толщина"><i style="width: {{game.sizeDot}}px; height: {{game.sizeDot}}px; background: {{game.selHex}}"></i></button>
+<button type="button" class="press um-pw-b um-pw-b-ok {{game.nextCls}}" onClick="{{game.paintNext}}" aria-label="Готово"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.500 12.500l5 5 10-11"></path></svg></button>
 </div>
+<div class="um-pw-paper"><div class="um-pw-sheet" style="--pa: {{game.pAspect}}"><canvas class="um-pc" width="{{game.pw}}" height="{{game.ph}}"></canvas><canvas class="um-pline" width="{{game.pw}}" height="{{game.ph}}" aria-label="{{game.prompt}}"></canvas><div class="um-pw-flash {{game.flashCls}}"></div></div></div>
+<div class="um-pw-col" role="group" aria-label="Выбор"><sc-for list="{{game.swatches}}" as="c" hint-placeholder-count="12"><button type="button" class="press um-pw-sw {{c.cls}}" onClick="{{c.pick}}" aria-label="{{c.aria}}" aria-pressed="{{c.on}}" style="{{c.st}}"><sc-if value="{{c.img}}" hint-placeholder-val="{{ false }}"><img src="{{c.img}}" alt=""></sc-if></button></sc-for></div>
+<div class="um-pw-col" role="group" aria-label="Инструменты"><sc-for list="{{game.tools}}" as="t" hint-placeholder-count="9"><button type="button" class="press um-pw-t" onClick="{{t.pick}}" aria-label="{{t.aria}}" aria-pressed="{{t.on}}"><img src="{{t.img}}" alt=""></button></sc-for></div>
 </div>
 </sc-if>
 <sc-if value="{{game.isTrain}}" hint-placeholder-val="{{ false }}">
@@ -1302,6 +1320,15 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <sc-if value="{{me.guest}}" hint-placeholder-val="{{ true }}"><button type="button" class="press um-pf-btn" onClick="{{me.login}}">Войти</button></sc-if>
 <sc-if value="{{pf.canSwitch}}" hint-placeholder-val="{{ false }}"><button type="button" class="press um-pf-btn" onClick="{{pf.switchGo}}">{{pf.switchText}}</button></sc-if>
 <button type="button" class="press um-pf-btn" onClick="{{goParents}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"></rect><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"></path></svg>Для взрослых</button>
+</div>
+<sc-if value="{{pf.hasArt}}" hint-placeholder-val="{{ false }}">
+<section class="um-pf-card">
+<h2>Мои рисунки</h2>
+<div class="um-pf-art"><sc-for list="{{pf.art}}" as="a" hint-placeholder-count="3"><button type="button" class="press" onClick="{{a.open}}" aria-label="Открыть рисунок"><img src="{{a.d}}" alt=""></button></sc-for></div>
+</section>
+</sc-if>
+<div class="um-tsheet {{pf.artCls}}" onClick="{{pf.artClose}}">
+<div class="um-tsheet-box"><img class="um-artbig" src="{{pf.artBig}}" alt="Мой рисунок"><button type="button" class="press um-tsheet-again" onClick="{{pf.artShut}}">Закрыть</button><button type="button" class="press um-pf-btn" onClick="{{pf.artDel}}">Удалить рисунок</button></div>
 </div>
 <section class="um-pf-card">
 <h2>Мои игры</h2>
@@ -2327,19 +2354,40 @@ function genTrainTopic(top) {
   var bg = pick(['1', '2', '3']); out.forEach(function (t) { t.bg = bg; });
   return out;
 }
-// «Раскраска»: настоящие объёмные картинки набора, разбитые на области (design/art/paint.py). Картинки выпадают случайно
+// «Раскраска»: контурные рисунки (design/art/lineart.py → paint/lines.json) со сценой вокруг, всё рисуется на холсте. Картинки выпадают случайно
 var PAINT = { apple: 'яблоко', pear: 'грушу', strawberry: 'клубнику', cherry: 'вишню', orange: 'апельсин', lemon: 'лимон', grapes: 'виноград', watermelon: 'арбуз', pineapple: 'ананас', mango: 'манго', kiwi: 'киви', avocado: 'авокадо',
   carrot: 'морковку', tomato: 'помидор', eggplant: 'баклажан', corn: 'кукурузу', pepper: 'перец', hotpepper: 'острый перчик', mushroom: 'грибок',
   balloon: 'шарик', flower: 'цветок', tulip: 'тюльпан', umbrella: 'зонтик', gift: 'подарок', boot: 'сапожок', tree: 'дерево', house: 'домик',
   car: 'машинку', bus: 'автобус', taxi: 'такси', tractor: 'трактор', firetruck: 'пожарную машину', truck: 'грузовик', helicopter: 'вертолёт', rocket: 'ракету', boat: 'кораблик' };
-var PAINT_COLORS = [['red', '#F2354F', 'Красный'], ['orange', '#FF8A1F', 'Оранжевый'], ['yellow', '#FFD126', 'Жёлтый'], ['lime', '#9BD93C', 'Салатовый'], ['green', '#22A85C', 'Зелёный'], ['sky', '#6CCBFF', 'Голубой'], ['blue', '#2F6FE0', 'Синий'], ['purple', '#9F4CED', 'Фиолетовый'], ['pink', '#FF8FB6', 'Розовый'], ['brown', '#A9713F', 'Коричневый'], ['grey', '#A7AFBF', 'Серый'], ['black', '#2B2F3A', 'Чёрный']];
-var PAINT_SIZES = [[14, 12, 'Тонкая'], [28, 20, 'Средняя'], [48, 30, 'Толстая']];
+var PAINT_COLORS = [['red', '#F2354F', 'Красный'], ['orange', '#FF8A1F', 'Оранжевый'], ['yellow', '#FFD126', 'Жёлтый'], ['lime', '#9BD93C', 'Салатовый'], ['green', '#22A85C', 'Зелёный'], ['mint', '#4FD8C2', 'Мятный'], ['sky', '#6CCBFF', 'Голубой'], ['blue', '#2F6FE0', 'Синий'], ['purple', '#9F4CED', 'Фиолетовый'], ['magenta', '#E04FD0', 'Сиреневый'], ['pink', '#FF8FB6', 'Розовый'], ['peach', '#FFC9A3', 'Персиковый'], ['brown', '#A9713F', 'Коричневый'], ['gray', '#9AA6B8', 'Серый'], ['white', '#FFFFFF', 'Белый'], ['black', '#2A2B36', 'Чёрный']];
+var PAINT_SIZES = [[14, 14, 'Тонкая'], [28, 22, 'Средняя'], [50, 32, 'Толстая']];
+var PAINT_TOOLS = [['fill', 'Ведёрко', 'items/bucket-blue.svg'], ['brush', 'Кисть', 'items/paintbrush-art.svg'], ['pencil', 'Карандаш', 'items/pencil-yellow.svg'], ['crayon', 'Мелок', 'items/crayon-art.svg'], ['roller', 'Валик', 'paint/ui/roller.svg'], ['tape', 'Узоры', 'paint/ui/tape.svg'], ['sticker', 'Наклейки', 'items/star-yellow.svg'], ['glitter', 'Блёстки', 'paint/ui/glitter.png'], ['eraser', 'Ластик', 'paint/ui/eraser.svg']];
+var PAINT_STICKERS = ['ball-red', 'star-yellow', 'flower-red', 'tulip-purple', 'balloon-blue', 'gift-green', 'car-red', 'rocket-red', 'boat-white', 'sun-yellow', 'cloud-white', 'apple-red', 'strawberry-red', 'lollipop-orange', 'candy-purple', 'umbrella-purple'];
+var PAINT_PATS = [['zig', 'Зигзаг'], ['cloud', 'Облачка'], ['dots', 'Горошек'], ['heart', 'Сердечки'], ['stripe', 'Полоски'], ['check', 'Клетка'], ['wave', 'Волны'], ['flower', 'Цветочки']];
+var PAINT_TILES = {};
+// плитка узора: рисуем один раз, потом ею красим и показываем её на кнопке
+function paintTile(id) {
+  if (PAINT_TILES[id]) return PAINT_TILES[id]; if (typeof document === 'undefined' || !document.createElement) return null;
+  var c = document.createElement('canvas'), n = 96; c.width = n; c.height = n; var x = c.getContext('2d'); if (!x) return null; x.lineCap = 'round'; x.lineJoin = 'round';
+  var bg = function (v) { x.fillStyle = v; x.fillRect(0, 0, n, n); };
+  if (id === 'zig') { bg('#FFFFFF'); ['#FF9CC0', '#FFC34D', '#7CCBFF'].forEach(function (col, i) { x.strokeStyle = col; x.lineWidth = 7; for (var r = 0; r < 2; r++) { var y = 16 + i * 16 + r * 48; x.beginPath(); x.moveTo(-8, y); for (var k = 0; k <= 8; k++) x.lineTo(-8 + k * 16, y + (k % 2 ? -9 : 0)); x.stroke(); } }); }
+  if (id === 'cloud') { bg('#3CC6F0'); x.fillStyle = '#FFFFFF'; [[26, 28], [74, 74]].forEach(function (q) { [[-11, 3, 8], [0, -3, 11], [11, 3, 8]].forEach(function (b) { x.beginPath(); x.arc(q[0] + b[0], q[1] + b[1], b[2], 0, 6.3); x.fill(); }); x.fillRect(q[0] - 12, q[1] + 3, 24, 8); }); }
+  if (id === 'dots') { bg('#FF8FB6'); x.fillStyle = '#FFFFFF'; [[24, 24], [72, 24], [48, 48], [0, 48], [96, 48], [24, 72], [72, 72], [48, 0], [48, 96]].forEach(function (q) { x.beginPath(); x.arc(q[0], q[1], 8, 0, 6.3); x.fill(); }); }
+  if (id === 'heart') { bg('#FFD5C2'); x.fillStyle = '#F2546E'; [[24, 28], [72, 76]].forEach(function (q) { x.beginPath(); x.moveTo(q[0], q[1] + 13); x.bezierCurveTo(q[0] - 22, q[1] - 3, q[0] - 8, q[1] - 16, q[0], q[1] - 5); x.bezierCurveTo(q[0] + 8, q[1] - 16, q[0] + 22, q[1] - 3, q[0], q[1] + 13); x.fill(); }); }
+  if (id === 'stripe') { bg('#FFFFFF'); x.strokeStyle = '#4FD8C2'; x.lineWidth = 14; for (var k = -96; k < 192; k += 48) { x.beginPath(); x.moveTo(k, n + 8); x.lineTo(k + n + 16, -8); x.stroke(); } }
+  if (id === 'check') { bg('#FFE27A'); x.fillStyle = '#FFFFFF'; [[0, 0], [48, 48]].forEach(function (q) { x.fillRect(q[0], q[1], 48, 48); }); }
+  if (id === 'wave') { bg('#B59CFF'); x.strokeStyle = '#FFFFFF'; x.lineWidth = 7; [24, 72].forEach(function (y) { x.beginPath(); x.moveTo(-6, y); x.bezierCurveTo(18, y - 22, 30, y + 22, 48, y); x.bezierCurveTo(66, y - 22, 78, y + 22, 102, y); x.stroke(); }); }
+  if (id === 'flower') { bg('#C9F2C2'); [[26, 26, '#FF8FB6'], [72, 72, '#FFC34D']].forEach(function (q) { x.fillStyle = q[2]; for (var a = 0; a < 5; a++) { x.beginPath(); x.arc(q[0] + 10 * Math.cos(a * 1.257), q[1] + 10 * Math.sin(a * 1.257), 7, 0, 6.3); x.fill(); } x.fillStyle = '#FFFFFF'; x.beginPath(); x.arc(q[0], q[1], 6, 0, 6.3); x.fill(); }); }
+  return (PAINT_TILES[id] = c);
+}
+var PAINT_ART_KEY = 'umnyasha.art';
+function loadArt() { try { var a = JSON.parse(window.localStorage.getItem(PAINT_ART_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
+function saveArtList(a) { for (var i = 0; i < 6; i++) { try { window.localStorage.setItem(PAINT_ART_KEY, JSON.stringify(a)); return true; } catch (e) { a = a.slice(0, Math.max(1, a.length - 2)); } } return false; }
 TOPICS.paint = [
-  { title: 'Фрукты', learn: [], known: [], look: '#EF4444', kinds: ['apple', 'pear', 'strawberry', 'cherry', 'orange', 'lemon', 'grapes', 'watermelon', 'pineapple', 'mango', 'kiwi', 'avocado'] },
-  { title: 'Овощи', learn: [], known: [], look: '#22C55E', kinds: ['carrot', 'tomato', 'eggplant', 'corn', 'pepper', 'hotpepper', 'mushroom'] },
-  { title: 'Игрушки и цветы', learn: [], known: [], look: '#EC4899', kinds: ['balloon', 'flower', 'tulip', 'umbrella', 'gift', 'boot', 'tree', 'house'] },
-  { title: 'Транспорт', learn: [], known: [], look: '#3B82F6', kinds: ['car', 'bus', 'taxi', 'tractor', 'firetruck', 'truck', 'helicopter', 'rocket', 'boat'] },
-  { title: 'Всё вместе', learn: [], known: [], look: 'mix', kinds: Object.keys(PAINT) }
+  { title: 'Цветы и фрукты', learn: [], known: [], look: '#EF4444', kinds: ['flower', 'tulip', 'apple', 'pear', 'cherry', 'strawberry'] },
+  { title: 'Игрушки и дом', learn: [], known: [], look: '#EC4899', kinds: ['balloon', 'umbrella', 'gift', 'house', 'tree', 'mushroom'] },
+  { title: 'Транспорт', learn: [], known: [], look: '#3B82F6', kinds: ['car', 'bus', 'truck', 'tractor', 'helicopter', 'rocket', 'boat'] },
+  { title: 'Всё вместе', learn: [], known: [], look: 'mix', kinds: ['flower', 'tulip', 'apple', 'pear', 'cherry', 'strawberry', 'balloon', 'umbrella', 'gift', 'house', 'tree', 'mushroom', 'car', 'bus', 'truck', 'tractor', 'helicopter', 'rocket', 'boat'] }
 ];
 function genPaintTopic(top) { return sample(top.kinds, 5).map(function (k) { var prompt = 'Раскрась ' + PAINT[k]; return { mode: 'paint', pic: k, prompt: prompt, say: prompt + '.', audio: 'paint-' + k }; }); }
 var TOPIC_GEN = { colors: genColorTopic, train: genTrainTopic, paint: genPaintTopic };
@@ -3153,23 +3201,20 @@ var SFX = {
   ok: { bus: 'main', g: 0.64, f: function (c, o, t) { sfxSoft(c, o, t, 523, 0.35, 0.004, 0.04); sfxSoft(c, o, t + 0.08, 784, 0.35, 0.004, 0.08); } },
   bad: { bus: 'main', g: 0.67, f: function (c, o, t) { sfxModal(c, o, t, 180, WOOD, 0.4); sfxModal(c, o, t + 0.12, 180, WOOD, 0.34); } },
   reward: { bus: 'main', g: 0.83, f: function (c, o, t) { [659, 784, 1047].forEach(function (f, i) { sfxSoft(c, o, t + i * 0.07, f, 0.3, 0.004, i === 2 ? 0.12 : 0.04); }); } },
-  // паровозик: два мягких гудка «ту-ту», потом «чух-чух» (шипящий шум), всё быстрее — поезд разгоняется
-  chug: { bus: 'main', g: 0.9, f: function (c, o, t) {
-    [0, 0.42].forEach(function (d, i) { var tt = t + d, len = i ? 0.42 : 0.26;
-      [[587, 0.12], [740, 0.09], [1175, 0.025]].forEach(function (h) {
-        var osc = c.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(h[0] * 0.97, tt); osc.frequency.linearRampToValueAtTime(h[0], tt + 0.06);
-        var g = c.createGain(); g.gain.setValueAtTime(0, tt); g.gain.linearRampToValueAtTime(h[1], tt + 0.04); g.gain.setValueAtTime(h[1], tt + len); g.gain.setTargetAtTime(0, tt + len, 0.05);
-        osc.connect(g); g.connect(o); osc.start(tt); osc.stop(tt + len + 0.5); }); });
-    var sr = c.sampleRate, buf = c.createBuffer(1, Math.floor(sr * 0.5), sr), d = buf.getChannelData(0), rnd = sfxRand(7);
+  // паровозик: мягкое тёплое «ту-ту» без высоких частот и тихий низкий «чух-чух» без шипения
+  chug: { bus: 'dry', g: 0.8, f: function (c, o, t) {
+    var lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 900; lp.Q.value = .3; lp.connect(o);
+    [[0, .3], [.46, .46]].forEach(function (n) { var tt = t + n[0], len = n[1];
+      [[294, .11], [370, .08]].forEach(function (h) { var osc = c.createOscillator(); osc.type = 'triangle'; osc.frequency.value = h[0];
+        var g = c.createGain(); g.gain.setValueAtTime(0, tt); g.gain.linearRampToValueAtTime(h[1], tt + .07); g.gain.setValueAtTime(h[1], tt + len - .1); g.gain.linearRampToValueAtTime(0, tt + len + .12);
+        osc.connect(g); g.connect(lp); osc.start(tt); osc.stop(tt + len + .15); }); });
+    var sr = c.sampleRate, buf = c.createBuffer(1, Math.floor(sr * .4), sr), d = buf.getChannelData(0), rnd = sfxRand(7);
     for (var i = 0; i < d.length; i++) d[i] = rnd() * 2 - 1;
-    var at = t + 1.05, gap = 0.34;
-    for (var k = 0; k < 9; k++) {
-      var src = c.createBufferSource(); src.buffer = buf;
-      var bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = k % 2 ? 1500 : 1000; bp.Q.value = 0.8;
-      var v = (k % 2 ? 0.22 : 0.4) * (k > 4 ? (9 - k) / 5 : 1), g = c.createGain();
-      g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(v, at + 0.015); g.gain.setTargetAtTime(0, at + 0.03, 0.055);
-      src.connect(bp); bp.connect(g); g.connect(o); src.start(at); src.stop(at + 0.45);
-      at += gap; gap = Math.max(0.13, gap * 0.9);
+    var at = t + 1.1, gap = .36;
+    for (var k = 0; k < 7; k++) {
+      var src = c.createBufferSource(); src.buffer = buf; var bp = c.createBiquadFilter(); bp.type = 'lowpass'; bp.frequency.value = 420; bp.Q.value = .4;
+      var v = .34 * (k > 3 ? (7 - k) / 4 : 1), g = c.createGain(); g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(v, at + .035); g.gain.linearRampToValueAtTime(0, at + .22);
+      src.connect(bp); bp.connect(g); g.connect(o); src.start(at); src.stop(at + .26); at += gap; gap = Math.max(.2, gap * .92);
     }
   } },
   finish: { bus: 'bright', g: 1.1, f: function (c, o, t) { [72, 76, 79, 84, 88, 91, 96].forEach(function (m, i) { sfxFM(c, o, t + i * 0.06, hz(m), 0.15, 0.3, -0.6 + 0.2 * i); }); } }
@@ -3520,69 +3565,124 @@ class Component extends DCLogic {
     // все игрушки на месте: похвала, гудок — и поезд уезжает
     var praise = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst();
     this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, solved: true, fb: { kind: 'ok', text: praise + ' Паровозик поехал!' } });
-    this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.trainSfx(); }, 500);
+    this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.snd('chug', null, false); }, 500);
     this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, this.fbWait(3700, said));
   }
-  // раскраска как в детских приложениях: контур на белом листе, рисуем пальцем, цвет не выходит за линии части, с которой начали.
-  // Файл картинки: номер области и линия контура слева, прозрачность справа (design/art/paintprep.swift). Каждая область — свой холст, кисть рисует только по нему
+  // раскраска как в детских приложениях: лист на весь экран, краска ложится куда угодно, чёрный контур всегда сверху. Ведёрко заливает область внутри контура
   paintInit(t) {
     if (typeof Image === 'undefined' || typeof document === 'undefined' || !document.createElement) return;
-    var self = this, tok = this._pt = (this._pt || 0) + 1, im = new Image(); this._p = null;
-    im.onload = function () {
-      if (tok !== self._pt) return;
-      var cvs = document.querySelectorAll('.um-pl'), ln = document.querySelector('.um-pline');
-      if (cvs.length < 5 || !ln) { setTimeout(im.onload, 60); return; }
-      var N = 512, c = document.createElement('canvas'); c.width = 2 * N; c.height = N; var x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(im, 0, 0);
-      var d = x.getImageData(0, 0, 2 * N, N).data, lab = new Uint8Array(N * N), al = new Uint8Array(N * N), ctx = [], imgs = [], L = ln.getContext('2d'), LI = L.createImageData(N, N);
-      for (var l = 0; l < 5; l++) { ctx[l] = cvs[l].getContext('2d'); ctx[l].globalCompositeOperation = 'source-over'; ctx[l].clearRect(0, 0, N, N); imgs[l] = ctx[l].createImageData(N, N); }
-      for (var j = 0; j < N; j++) for (var i = 0; i < N; i++) { var q = (j * 2 * N + i) * 4, k = j * N + i, a = d[(j * 2 * N + N + i) * 4], lb = Math.min(4, Math.round(d[q + 1] / 50)), o = k * 4; lab[k] = lb; al[k] = a;
-        if (a > 8) { var D = imgs[lb].data; D[o] = 255; D[o + 1] = 255; D[o + 2] = 255; D[o + 3] = Math.max(a, 255); }
-        var e = d[q + 2]; LI.data[o] = 42; LI.data[o + 1] = 47; LI.data[o + 2] = 69; LI.data[o + 3] = e; }
-      for (l = 0; l < 5; l++) ctx[l].putImageData(imgs[l], 0, 0);
-      L.clearRect(0, 0, N, N); L.putImageData(LI, 0, 0);
-      var color = ctx; self._p = { N: N, lab: lab, al: al, ctx: color, cvs: cvs, undo: [], pats: {}, hue: 0 };
+    var self = this, tok = this._pt = (this._pt || 0) + 1; this._p = null;
+    if (!this._artP) this._artP = fetch('paint/lines.json').then(function (r) { return r.json(); });
+    var go = function (n) {
+      if (tok !== self._pt || n > 60) return;
+      var box = document.querySelector('.um-pw-paper'), r = box && box.getBoundingClientRect();
+      if (!r || r.width < 40 || r.height < 40) { setTimeout(function () { go(n + 1); }, 50); return; }
+      var k = 1100 / Math.max(r.width, r.height), W = Math.round(r.width * k), H = Math.round(r.height * k), d = self.state.paintDims;
+      if (!d || d[0] !== W || d[1] !== H) self.setState({ paintDims: [W, H] });
+      self._artP.then(function (art) { self.paintStart(t, art[t.pic], W, H, tok, 0); }).catch(function () { delete self._artP; });
     };
-    im.src = 'paint/' + t.pic + '.png';
+    go(0);
   }
-  paintHex() { var id = this.state.paintSel || 'red'; return (PAINT_COLORS.filter(function (c) { return c[0] === id; })[0] || PAINT_COLORS[0])[1]; }
-  paintPick(id) { this.snd('tap'); this.setState({ paintSel: id, paintTool: this.state.paintTool === 'eraser' || this.state.paintTool === 'rainbow' ? 'brush' : this.state.paintTool }); if (this.state.sound && VOICE['learn-color-' + id]) this.playVoice('learn-color-' + id); }
-  // мелок: цвет с зернистой текстурой, как воск на бумаге
+  paintStart(t, art, W, H, tok, n) {
+    var self = this; if (tok !== this._pt || !art) return;
+    var pc = document.querySelector('.um-pc'), ln = document.querySelector('.um-pline');
+    if (!pc || !ln || pc.width !== W || ln.height !== H) { if (n < 60) setTimeout(function () { self.paintStart(t, art, W, H, tok, n + 1); }, 40); return; }
+    var x = pc.getContext('2d'), L = ln.getContext('2d', { willReadFrequently: true }); x.clearRect(0, 0, W, H); this.paintScene(L, W, H, art);
+    var d = L.getImageData(0, 0, W, H).data, wall = new Uint8Array(W * H); for (var i = 0; i < W * H; i++) wall[i] = d[i * 4 + 3] > 110 ? 1 : 0;
+    this._p = { W: W, H: H, x: x, pc: pc, ln: ln, wall: wall, undo: [], pats: {}, hue: 0, saved: false };
+  }
+  // сцена вокруг рисунка: земля или море, солнце, облака. Закрытая фигура стирает линии под собой, поэтому ничего не просвечивает
+  paintScene(L, W, H, art) {
+    var m = Math.min(W, H), lw = Math.max(W, H) / 1100 * 6.2, wide = W >= H, scene = art.scene;
+    L.setTransform(1, 0, 0, 1, 0, 0); L.clearRect(0, 0, W, H); L.lineCap = 'round'; L.lineJoin = 'round'; L.strokeStyle = '#22232E'; L.lineWidth = lw;
+    var shape = function (p, open) { if (!open) { L.globalCompositeOperation = 'destination-out'; L.fill(p); L.globalCompositeOperation = 'source-over'; } L.stroke(p); };
+    var wave = function (y, amp, n, ph) { var p = new Path2D(), st = (W + 80) / n; p.moveTo(-40, y); for (var i = 0; i < n; i++) { var x0 = -40 + i * st, s = (i + ph) % 2 ? 1 : -1; p.bezierCurveTo(x0 + st * .35, y + amp * s, x0 + st * .65, y + amp * s, x0 + st, y); } return p; };
+    var cloud = function (cx, cy, s) { var p = new Path2D('M-100 30C-142 30-150-22-105-28C-100-72-40-82-15-50C10-88 80-76 86-30C136-30 142 30 100 30Z'), q = new Path2D(); q.addPath(p, new DOMMatrix([s, 0, 0, s, cx, cy])); shape(q); };
+    var sun = function (cx, cy, r) { for (var i = 0; i < 10; i++) { var a = i * .628, p = new Path2D(), u = Math.cos(a), v = Math.sin(a), e = .17; p.moveTo(cx + r * 1.2 * Math.cos(a - e), cy + r * 1.2 * Math.sin(a - e)); p.lineTo(cx + r * 1.72 * u, cy + r * 1.72 * v); p.lineTo(cx + r * 1.2 * Math.cos(a + e), cy + r * 1.2 * Math.sin(a + e)); p.closePath(); shape(p); } var c = new Path2D(); c.arc(cx, cy, r, 0, 6.3); shape(c); };
+    var gy = H * (scene === 'sky' ? .9 : wide ? .86 : .84);
+    sun(wide ? W * .1 : W * .17, H * (wide ? .17 : .1), m * (wide ? .085 : .08));
+    cloud(wide ? W * .88 : W * .78, H * (wide ? .14 : .09), m / (wide ? 560 : 640));
+    if (scene === 'sky') { cloud(W * .1, H * .56, m / 760); cloud(W * .9, H * .6, m / 700); }
+    if (scene === 'ground') { if (wide) cloud(W * .68, H * .1, m / 900); L.stroke(wave(H * (wide ? .72 : .74), H * .05, 3, 1)); }
+    if (scene === 'sea') { L.stroke(wave(H * .7, H * .018, wide ? 9 : 5, 0)); L.stroke(wave(H * .85, H * .022, wide ? 7 : 4, 1)); } else L.stroke(wave(gy, H * .018, wide ? 4 : 2, 0));
+    if (scene !== 'sea') [[.07, .95], [.2, .93], [.8, .94], [.93, .96]].forEach(function (g) { var t = new Path2D(), u = W * g[0], v = H * g[1], s = m * .03; t.moveTo(u - s, v); t.quadraticCurveTo(u - s * .8, v - s, u - s * 1.2, v - s * 1.5); t.moveTo(u, v); t.lineTo(u, v - s * 1.8); t.moveTo(u + s, v); t.quadraticCurveTo(u + s * .8, v - s, u + s * 1.2, v - s * 1.5); L.stroke(t); });
+    var B = wide ? Math.min(W * .62, H * .78) : Math.min(W * .9, H * .6), cx = W / 2, top = scene === 'sky' ? H * .47 - B / 2 : scene === 'sea' ? H * .79 - B * .885 : gy - B * .985;
+    L.setTransform(B / 1000, 0, 0, B / 1000, cx - B / 2, top); art.p.forEach(function (s) { var p = new Path2D(s.d); L.lineWidth = (s.w ? s.w * .62 : 7.6) / 7.6 * lw * 1000 / B; shape(p, s.o); });
+    L.setTransform(1, 0, 0, 1, 0, 0);
+  }
+  paintHex() { var id = this.state.paintSel || 'red'; return id === 'rainbow' ? '#F2354F' : (PAINT_COLORS.filter(function (c) { return c[0] === id; })[0] || PAINT_COLORS[0])[1]; }
+  paintPick(id) { var tl = this.state.paintTool; this.snd('tap'); this.setState({ paintSel: id, paintTool: tl === 'eraser' || tl === 'tape' || tl === 'sticker' ? 'brush' : tl }); if (this.state.sound && VOICE['learn-color-' + id]) this.playVoice('learn-color-' + id); }
+  // мелок: цвет с зерном бумаги, как воск
   paintGrain(hex) {
-    var p = this._p; if (p.pats[hex]) return p.pats[hex];
-    var c = document.createElement('canvas'); c.width = 96; c.height = 96; var x = c.getContext('2d'); x.fillStyle = hex;
-    for (var i = 0; i < 2600; i++) { x.globalAlpha = .35 + Math.random() * .65; x.fillRect(Math.random() * 96, Math.random() * 96, 1 + Math.random() * 2.4, 1 + Math.random() * 2.4); }
-    return (p.pats[hex] = p.ctx[0].createPattern(c, 'repeat'));
+    var p = this._p, key = 'g' + hex; if (p.pats[key]) return p.pats[key];
+    var c = document.createElement('canvas'), n = 128; c.width = n; c.height = n; var x = c.getContext('2d'); x.fillStyle = hex; x.fillRect(0, 0, n, n); x.globalCompositeOperation = 'destination-out';
+    for (var i = 0; i < 2300; i++) { x.globalAlpha = .4 + Math.random() * .6; x.fillRect(Math.random() * n, Math.random() * n, 1 + Math.random() * 2.2, 1 + Math.random() * 2.2); }
+    return (p.pats[key] = p.x.createPattern(c, 'repeat'));
   }
-  paintXY(e) { var el = document.querySelector('.um-pline'); if (!el) return null; var b = el.getBoundingClientRect(); return { x: (e.clientX - b.left) / b.width * 512, y: (e.clientY - b.top) / b.height * 512 }; }
+  paintXY(e) { var p = this._p, el = document.querySelector('.um-pline'); if (!el || !p) return null; var b = el.getBoundingClientRect(); return { x: (e.clientX - b.left) / b.width * p.W, y: (e.clientY - b.top) / b.height * p.H }; }
+  paintSnap() { var p = this._p, s = document.createElement('canvas'); s.width = p.W; s.height = p.H; s.getContext('2d').drawImage(p.pc, 0, 0); p.undo.push(s); if (p.undo.length > 8) p.undo.shift(); p.saved = false; }
   paintDown(e) {
     var p = this._p, st = this.state, t = st.tasks && st.tasks[st.ti]; if (!p || !t || t.mode !== 'paint' || st.paintDone || this._ps) return;
-    var pt = this.paintXY(e), N = p.N, at = function (u, v) { u = Math.round(u); v = Math.round(v); return u >= 0 && v >= 0 && u < N && v < N && p.al[v * N + u] > 60 ? v * N + u : -1; }, k = at(pt.x, pt.y);
-    for (var r = 4; k < 0 && r <= 26; r += 4) for (var q = 0; q < 8 && k < 0; q++) k = at(pt.x + r * Math.cos(q * .785), pt.y + r * Math.sin(q * .785));
-    if (k < 0) return;
-    var l = p.lab[k], c = p.ctx[l], snap = document.createElement('canvas'); snap.width = N; snap.height = N; snap.getContext('2d').drawImage(p.cvs[l], 0, 0); p.undo.push({ l: l, c: snap }); if (p.undo.length > 8) p.undo.shift();
-    var tool = st.paintTool || 'brush', hex = this.paintHex();
+    var pt = this.paintXY(e), tool = st.paintTool || 'fill', hex = this.paintHex(), sz = st.paintSize == null ? 1 : st.paintSize; if (!pt) return; this.paintSnap();
     if (!st.paintTouched) this.setState({ paintTouched: true });
-    if (tool === 'fill') {
-      var self = this, t0 = Date.now(), R = 0, gt = p.grow = {}; c.globalCompositeOperation = 'source-atop'; c.fillStyle = hex; this.snd('tap');
-      var grow = function () { if (self._p !== p || p.grow !== gt) return; var u = Math.min(1, (Date.now() - t0) / 380); R = 760 * (1 - (1 - u) * (1 - u)); c.beginPath(); c.arc(pt.x, pt.y, R, 0, 6.3); c.fill(); if (u < 1) setTimeout(grow, 16); };
-      grow(); return;
-    }
-    this._ps = { id: e.pointerId, c: c, x: pt.x, y: pt.y, tool: tool, hex: hex, w: PAINT_SIZES[st.paintSize == null ? 1 : st.paintSize][0] };
+    if (tool === 'fill') { this.paintFlood(pt.x, pt.y, hex); return; }
+    var w = PAINT_SIZES[sz][0] * (tool === 'pencil' ? .5 : tool === 'roller' ? 2.4 : tool === 'tape' ? 1.9 : 1);
+    this._ps = { id: e.pointerId, x: pt.x, y: pt.y, tool: tool, hex: hex, w: w, rb: st.paintSel === 'rainbow', sx: -999, sy: -999, st: [90, 140, 200][sz], pat: tool === 'tape' ? this.paintPat(st.paintPat || 'zig') : null };
+    if (tool === 'sticker') { var id = st.paintStk || PAINT_STICKERS[0]; this._ps.im = this.paintStickerImg(id); }
     this.paintSeg(pt.x + .1, pt.y + .1);
   }
+  paintPat(id) { var p = this._p, k = 'p' + id; if (!p.pats[k]) { var t = paintTile(id); p.pats[k] = t ? p.x.createPattern(t, 'repeat') : '#FFFFFF'; } return p.pats[k]; }
+  paintStickerImg(id) { var c = this._stk || (this._stk = {}); if (!c[id]) { c[id] = new Image(); c[id].src = 'paint/st/' + id + '.png'; } return c[id]; }
   paintSeg(x, y) {
-    var s = this._ps, c = s.c, p = this._p; c.globalCompositeOperation = 'source-atop'; c.lineCap = 'round'; c.lineJoin = 'round'; c.lineWidth = s.w;
-    var st = s.tool === 'eraser' ? '#FFFFFF' : s.tool === 'crayon' ? this.paintGrain(s.hex) : s.tool === 'rainbow' ? 'hsl(' + (p.hue = (p.hue + 5) % 360) + ',90%,58%)' : s.hex;
-    c.strokeStyle = st; c.beginPath(); c.moveTo(s.x, s.y); c.lineTo(x, y); c.stroke();
-    if (s.tool === 'glitter') for (var i = 0; i < 7; i++) { var a = Math.random() * 6.3, r = Math.random() * s.w * .75, u = x + r * Math.cos(a), v = y + r * Math.sin(a), z = 1.5 + Math.random() * 3.5; c.fillStyle = i % 3 ? '#FFFFFF' : '#FFE27A'; c.beginPath(); c.moveTo(u, v - z * 2); c.lineTo(u + z * .5, v - z * .5); c.lineTo(u + z * 2, v); c.lineTo(u + z * .5, v + z * .5); c.lineTo(u, v + z * 2); c.lineTo(u - z * .5, v + z * .5); c.lineTo(u - z * 2, v); c.lineTo(u - z * .5, v - z * .5); c.fill(); }
-    s.x = x; s.y = y;
+    var s = this._ps, p = this._p, c = p.x; if (!s) return;
+    if (s.tool === 'sticker') { if (Math.hypot(x - s.sx, y - s.sy) < s.st * 1.05) return; s.sx = x; s.sy = y; var im = s.im, z = s.st, put = function () { c.drawImage(im, x - z / 2, y - z / 2, z, z); }; if (im.complete && im.naturalWidth) put(); else im.addEventListener('load', put, { once: true }); this.snd('tap'); return; }
+    c.save(); c.lineCap = s.tool === 'roller' ? 'butt' : 'round'; c.lineJoin = 'round'; c.lineWidth = s.w; c.globalCompositeOperation = s.tool === 'eraser' ? 'destination-out' : 'source-over';
+    c.strokeStyle = s.tool === 'eraser' ? '#000000' : s.pat ? s.pat : s.rb ? 'hsl(' + (p.hue = (p.hue + 4) % 360) + ',92%,58%)' : s.tool === 'crayon' ? this.paintGrain(s.hex) : s.hex;
+    if (s.tool === 'glitter') c.globalAlpha = .55;
+    c.beginPath(); c.moveTo(s.x, s.y); c.lineTo(x, y); c.stroke(); c.globalAlpha = 1;
+    if (s.tool === 'glitter') for (var i = 0; i < 6; i++) { var a = Math.random() * 6.3, r = Math.random() * s.w * .8, u = x + r * Math.cos(a), v = y + r * Math.sin(a), q = 2 + Math.random() * 5; c.fillStyle = i % 2 ? '#FFFFFF' : '#FFE27A'; c.beginPath(); c.moveTo(u, v - q * 1.8); c.lineTo(u + q * .4, v - q * .4); c.lineTo(u + q * 1.8, v); c.lineTo(u + q * .4, v + q * .4); c.lineTo(u, v + q * 1.8); c.lineTo(u - q * .4, v + q * .4); c.lineTo(u - q * 1.8, v); c.lineTo(u - q * .4, v - q * .4); c.closePath(); c.fill(); }
+    c.restore(); s.x = x; s.y = y;
   }
-  paintUndo() {
-    var p = this._p; if (!p || !p.undo.length) return; p.grow = null; var u = p.undo.pop(), c = p.ctx[u.l]; this.snd('tap');
-    c.globalCompositeOperation = 'copy'; c.drawImage(u.c, 0, 0); c.globalCompositeOperation = 'source-atop';
+  // ведёрко: заливает область до контура, краска заходит под линию и мягко блестит, как объёмная
+  paintFlood(px, py, hex) {
+    var p = this._p, W = p.W, H = p.H, wall = p.wall, ix = Math.round(px), iy = Math.round(py), self = this;
+    var ok = function (u, v) { return u >= 0 && v >= 0 && u < W && v < H && !wall[v * W + u]; };
+    if (!ok(ix, iy)) { var found = false; for (var r = 3; r <= 24 && !found; r += 3) for (var q = 0; q < 12 && !found; q++) { var u = Math.round(ix + r * Math.cos(q * .5236)), v = Math.round(iy + r * Math.sin(q * .5236)); if (ok(u, v)) { ix = u; iy = v; found = true; } } if (!found) { p.undo.pop(); return; } }
+    var seen = new Uint8Array(W * H), st = [iy * W + ix], x0 = W, x1 = 0, y0 = H, y1 = 0, cnt = 0;
+    while (st.length) {
+      var k = st.pop(); if (seen[k] || wall[k]) continue; var y = (k / W) | 0, l = k, rr = k, row = y * W;
+      while (l > row && !wall[l - 1] && !seen[l - 1]) l--; while (rr < row + W - 1 && !wall[rr + 1] && !seen[rr + 1]) rr++;
+      var up = false, dn = false;
+      for (var i = l; i <= rr; i++) { seen[i] = 1; cnt++;
+        if (y > 0) { var a = i - W, fa = !wall[a] && !seen[a]; if (fa && !up) st.push(a); up = fa; }
+        if (y < H - 1) { var b = i + W, fb = !wall[b] && !seen[b]; if (fb && !dn) st.push(b); dn = fb; } }
+      if (l - row < x0) x0 = l - row; if (rr - row > x1) x1 = rr - row; if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+    var P = 4; x0 = Math.max(0, x0 - P); y0 = Math.max(0, y0 - P); x1 = Math.min(W - 1, x1 + P); y1 = Math.min(H - 1, y1 + P);
+    // заходим под линию на 3 точки, иначе у края заливки останется белая кайма
+    for (var pass = 1; pass <= 3; pass++) for (var j = y0; j <= y1; j++) for (var ii = x0; ii <= x1; ii++) { var o = j * W + ii; if (seen[o] || !wall[o]) continue; var s1 = ii > 0 ? seen[o - 1] : 0, s2 = ii < W - 1 ? seen[o + 1] : 0, s3 = j > 0 ? seen[o - W] : 0, s4 = j < H - 1 ? seen[o + W] : 0; if ((s1 && s1 <= pass) || (s2 && s2 <= pass) || (s3 && s3 <= pass) || (s4 && s4 <= pass)) seen[o] = pass + 1; }
+    var bw = x1 - x0 + 1, bh = y1 - y0 + 1, tmp = document.createElement('canvas'); tmp.width = bw; tmp.height = bh; var t = tmp.getContext('2d'), im = t.createImageData(bw, bh), D = im.data;
+    for (var yy = 0; yy < bh; yy++) for (var xx = 0; xx < bw; xx++) if (seen[(yy + y0) * W + xx + x0]) D[(yy * bw + xx) * 4 + 3] = 255;
+    t.putImageData(im, 0, 0); t.globalCompositeOperation = 'source-in';
+    if (this.state.paintSel === 'rainbow') { var lg = t.createLinearGradient(0, 0, bw, bh); ['#F2354F', '#FF8A1F', '#FFD126', '#22A85C', '#2F6FE0', '#9F4CED'].forEach(function (c, n) { lg.addColorStop(n / 5, c); }); t.fillStyle = lg; } else t.fillStyle = hex;
+    t.fillRect(0, 0, bw, bh);
+    if (cnt < W * H * .2) { t.globalCompositeOperation = 'source-atop'; var R = Math.max(bw, bh), g = t.createRadialGradient(bw * .34, bh * .28, 0, bw * .34, bh * .28, R * .62); g.addColorStop(0, 'rgba(255,255,255,.5)'); g.addColorStop(.45, 'rgba(255,255,255,.08)'); g.addColorStop(1, 'rgba(255,255,255,0)'); t.fillStyle = g; t.fillRect(0, 0, bw, bh); var d2 = t.createLinearGradient(0, bh * .45, 0, bh); d2.addColorStop(0, 'rgba(20,20,60,0)'); d2.addColorStop(1, 'rgba(20,20,60,.16)'); t.fillStyle = d2; t.fillRect(0, 0, bw, bh); }
+    // краска растекается от места нажатия
+    var c = p.x, t0 = Date.now(), far = Math.hypot(Math.max(px - x0, x1 - px), Math.max(py - y0, y1 - py)) + 8; this.snd('tap');
+    var step = function () { if (self._p !== p) return; var u = Math.min(1, (Date.now() - t0) / 260); c.save(); c.beginPath(); c.arc(px, py, far * (1 - (1 - u) * (1 - u)), 0, 6.3); c.clip(); c.drawImage(tmp, x0, y0); c.restore(); if (u < 1) setTimeout(step, 16); };
+    step();
   }
+  paintUndo() { var p = this._p; if (!p || !p.undo.length) return; this.snd('tap'); var s = p.undo.pop(), c = p.x; c.clearRect(0, 0, p.W, p.H); c.drawImage(s, 0, 0); }
+  paintClear() { var p = this._p; if (!p) return; this.snd('tap'); this.paintSnap(); p.x.clearRect(0, 0, p.W, p.H); }
+  // рисунок сохраняется на этом устройстве и виден в профиле, наружу ничего не уходит
+  paintSave() {
+    var p = this._p; if (!p || p.saved || !this.state.paintTouched) return false; var k = 640 / Math.max(p.W, p.H), c = document.createElement('canvas'); c.width = Math.round(p.W * k); c.height = Math.round(p.H * k);
+    var x = c.getContext('2d'); x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, c.width, c.height); x.drawImage(p.pc, 0, 0, c.width, c.height); x.drawImage(p.ln, 0, 0, c.width, c.height);
+    var h = holderOf(this.state.db), a = loadArt(); a.unshift({ u: h.uid, d: c.toDataURL('image/jpeg', .78) }); p.saved = saveArtList(a.slice(0, 18)); this._artList = null; return true;
+  }
+  paintPhoto() { var self = this; this.paintSave(); this.snd('ok'); this.setState({ paintFlash: true }); setTimeout(function () { self.setState({ paintFlash: false }); }, 460); }
   paintWin() {
-    var self = this, t = this.state.tasks[this.state.ti], praise = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst(); this.setState({ paintDone: true, solved: true });
+    var self = this, t = this.state.tasks[this.state.ti], praise = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, praise); this.paintSave(); this.snd('reward'); this.burst(); this.setState({ paintDone: true, solved: true });
     this.later(function () { if (self.state.tasks[self.state.ti] === t && self.state.paintDone) self.nextTask(); }, this.fbWait(2200, said));
   }
   // перетаскивание игрушки пальцем или мышкой к вагончику
@@ -3761,16 +3861,6 @@ class Component extends DCLogic {
     var db = cloneDb(this.state.db), acc = accOf(db); if (!kidOf(acc, id)) return;
     acc.cur = id; this.clearTimers(); this.stopSpeech(); this.snd('tap');
     this.commitDb(db, Object.assign({ screen: 'home', notice: '' }, fresh())); this.top();
-  }
-  // звук отъезда: пока владелец выбирает на слух, запись берётся из страницы zvuki-poezda.html (выбор хранится на этом устройстве); без выбора — прежний звук
-  trainSfx() {
-    var p = null, self = this; try { p = JSON.parse(window.localStorage.getItem('umnyasha.trainsfx') || 'null'); } catch (e) {}
-    if (!p || !(p.n >= 1 && p.n <= 12) || !(p.g > 0 && p.g <= 4)) { this.snd('chug', null, false); return; }
-    if (!this.state.sound) return; var ac = this.ensureAudio(); if (!ac) return;
-    this.voiceBuf('zvuki-poezda/' + Math.floor(p.n) + '.mp3').then(function (buf) {
-      var s = ac.createBufferSource(), g = ac.createGain(), t = ac.currentTime, end = t + Math.min(buf.duration, 3.1);
-      g.gain.setValueAtTime(p.g, t); g.gain.setValueAtTime(p.g, end - .35); g.gain.linearRampToValueAtTime(0, end); s.buffer = buf; s.connect(g); g.connect(ac.destination); s.start(t); s.stop(end + .02);
-    }).catch(function () { self.snd('chug', null, false); });
   }
   // окно аватарки: для своего профиля (с ником) или для формы ребёнка
   openAva(target, focusNick) {
@@ -3982,12 +4072,15 @@ class Component extends DCLogic {
       };
       game.isTrain = t.mode === 'train'; game.isPaint = t.mode === 'paint';
       if (game.isPaint) {
-        var psel = st.paintSel || 'red', ptool = st.paintTool || 'brush', psz = st.paintSize == null ? 1 : st.paintSize; game.secCls = 'um-sec-paint'; game.paintCls = st.paintDone ? 'um-paint-win' : ''; game.nextCls = st.paintTouched ? 'um-on' : '';
-        game.paintNext = function () { if (self.state.paintDone) { self.snd('tap'); self.nextTask(); } else self.paintWin(); }; game.paintUndo = function () { self.paintUndo(); };
-        game.selHex = (PAINT_COLORS.filter(function (c) { return c[0] === psel; })[0] || PAINT_COLORS[0])[1];
-        game.palette = PAINT_COLORS.map(function (c) { return { hex: c[1], aria: c[2], on: c[0] === psel ? 'true' : 'false', cls: c[0] === psel ? 'um-pcolor-on' : '', pick: function () { self.paintPick(c[0]); } }; });
-        game.sizes = PAINT_SIZES.map(function (z, i) { return { d: z[1], aria: z[2] + ' кисть', cls: i === psz ? 'um-size-on' : '', pick: function () { self.snd('tap'); self.setState({ paintSize: i }); } }; });
-        game.tc = {}; game.tp = {}; ['brush', 'crayon', 'glitter', 'rainbow', 'fill', 'eraser'].forEach(function (k) { game.tc[k] = 'um-tool-' + k + (k === ptool ? ' um-tool-on' : ''); game.tp[k] = function () { self.snd('tap'); self.setState({ paintTool: k }); }; });
+        var psel = st.paintSel || 'red', ptool = st.paintTool || 'fill', psz = st.paintSize == null ? 1 : st.paintSize, dims = st.paintDims || [1024, 768]; game.secCls = 'um-sec-paint'; game.pwCls = st.paintDone ? 'um-pw-win' : ''; game.nextCls = st.paintTouched ? '' : 'um-off'; game.flashCls = st.paintFlash ? 'um-on' : '';
+        game.pw = dims[0]; game.ph = dims[1]; game.pAspect = dims[0] + ' / ' + dims[1];
+        game.paintNext = function () { if (self.state.paintDone) { self.snd('tap'); self.nextTask(); } else if (self.state.paintTouched) self.paintWin(); }; game.paintUndo = function () { self.paintUndo(); }; game.paintClear = function () { self.paintClear(); }; game.paintPhoto = function () { self.paintPhoto(); }; game.paintExit = function () { game.backGo(); };
+        game.selHex = psel === 'rainbow' ? '#9F4CED' : (PAINT_COLORS.filter(function (c) { return c[0] === psel; })[0] || PAINT_COLORS[0])[1]; game.sizeDot = PAINT_SIZES[psz][1]; game.sizeGo = function () { self.snd('tap'); self.setState({ paintSize: (psz + 1) % 3 }); };
+        game.palette = PAINT_COLORS.map(function (c) { return { st: '--c: ' + c[1], cls: '', img: '', aria: c[2], on: c[0] === psel ? 'true' : 'false', pick: function () { self.paintPick(c[0]); } }; }).concat([{ st: '', cls: 'um-rb', img: '', aria: 'Радуга', on: psel === 'rainbow' ? 'true' : 'false', pick: function () { self.paintPick('rainbow'); } }]);
+        game.tools = PAINT_TOOLS.map(function (k) { return { img: k[2], aria: k[1], on: k[0] === ptool ? 'true' : 'false', pick: function () { self.snd('tap'); self.setState({ paintTool: k[0] }); } }; });
+        var ppat = st.paintPat || 'zig', pstk = st.paintStk || PAINT_STICKERS[0];
+        game.swatches = ptool === 'tape' ? PAINT_PATS.map(function (k) { var c = paintTile(k[0]); return { st: c ? 'background-image: url(' + (c._u || (c._u = c.toDataURL())) + ')' : '', cls: 'um-pat', img: '', aria: k[1], on: k[0] === ppat ? 'true' : 'false', pick: function () { self.snd('tap'); self.setState({ paintPat: k[0] }); } }; })
+          : ptool === 'sticker' ? PAINT_STICKERS.map(function (id) { return { st: '', cls: 'um-plain', img: 'paint/st/' + id + '.png', aria: 'Наклейка', on: id === pstk ? 'true' : 'false', pick: function () { self.snd('tap'); self.paintStickerImg(id); self.setState({ paintStk: id }); } }; }) : game.palette;
       }
       if (game.isTrain) {
         game.secCls = 'um-sec-train'; game.trCls = st.intro ? 'um-tr-wait' : st.trGo ? 'um-tr-go' : 'um-tr-in'; game.toysCls = st.intro ? 'um-toys-wait' : st.ti % 2 ? 'um-toys-a' : 'um-toys-b'; var bgv = TRAIN_BG || t.bg || '1'; game.bg1 = bgv === '1'; game.bg2 = bgv === '2'; game.bg3 = bgv === '3';
@@ -4112,7 +4205,10 @@ class Component extends DCLogic {
       return { i: i, passed: gl.passed, title: g.title, img: 'items/' + (g.id === 'paint' ? 'palette-art' : toys[0]) + '.svg', stars: gl.stars, pct: Math.round(gl.passed * 100 / n) + '%', status: gl.passed ? 'Пройдено ' + gl.passed + ' из ' + n : 'Ещё не играли', aria: g.title + ': пройдено ' + gl.passed + ' из ' + n + ', ' + starsWord(gl.stars), go: function () { self.snd('tap'); self.openHub(g.id); } };
     }).sort(function (x, y) { return y.passed - x.passed || x.i - y.i; }) : [];
     var topicsDone = myGames.reduce(function (s2, g) { return s2 + g.passed; }, 0), gamesDone = myGames.filter(function (g) { return g.passed > 0; }).length;
-    var pf = { ava: meAva, nick: myName || 'Придумай ник', nickCls: myName ? '' : 'um-empty', nickAria: myName ? 'Ник: ' + myName + '. Изменить' : 'Придумать ник', uid: holder.uid || '',
+    var artAll = st.screen === 'progress' ? (this._artList || (this._artList = loadArt())) : [], myArt = artAll.filter(function (x) { return x && x.u === holder.uid && typeof x.d === 'string' && x.d.indexOf('data:image/') === 0; }), big = st.artView != null ? myArt[st.artView] : null;
+    var pf = { hasArt: myArt.length > 0, art: myArt.map(function (x, i) { return { d: x.d, open: function () { self.snd('tap'); self.setState({ artView: i }); } }; }), artCls: big ? 'um-on' : '', artBig: big ? big.d : '',
+      artShut: function () { self.snd('tap'); self.setState({ artView: null }); }, artClose: function (e) { if (e.target.classList && e.target.classList.contains('um-tsheet')) self.setState({ artView: null }); },
+      artDel: function () { var a = loadArt(), i = a.indexOf(a.filter(function (x) { return big && x.d === big.d; })[0]); if (i >= 0) a.splice(i, 1); saveArtList(a); self._artList = null; self.snd('tap'); self.setState({ artView: null }); }, ava: meAva, nick: myName || 'Придумай ник', nickCls: myName ? '' : 'um-empty', nickAria: myName ? 'Ник: ' + myName + '. Изменить' : 'Придумать ник', uid: holder.uid || '',
       idText: st.idCopied ? 'Скопировано!' : 'ID ' + (holder.uid || ''), idCls: st.idCopied ? 'um-done' : '', idAria: 'Мой номер ' + (holder.uid || '') + '. Скопировать', sub: (curKid ? '' : acc ? 'Профиль ребёнка не выбран · ' : '') + (ageNow ? ageText(ageNow) : ''),
       stats: [{ img: 'items/star-yellow.svg', n: total, label: plural(total, ['звезда', 'звезды', 'звёзд']) }, { img: 'items/gift-purple.svg', n: topicsDone, label: plural(topicsDone, ['тема пройдена', 'темы пройдены', 'тем пройдено']) }, { img: 'items/rocket-red.svg', n: gamesDone, label: plural(gamesDone, ['игра начата', 'игры начаты', 'игр начато']) }],
       games: myGames, canSwitch: !!acc, switchText: curKid ? 'Сменить игрока' : 'Добавить ребёнка', switchGo: curKid ? me.who : me.add, edit: function () { self.openAva('me'); }, editNick: function () { self.openAva('me', true); }, copy: function () { self.copyId(holder.uid || ''); } };
@@ -4228,7 +4324,9 @@ class Component extends DCLogic {
 
 DCLite.mount(Component, document.getElementById('app'), document.getElementById('tpl'), {});
 // заставка держится не меньше 1,8 с, потом плавно исчезает
-(function () { var b = document.getElementById('boot'), t0 = window.__bootT || Date.now(); setTimeout(function () { b.classList.add('out'); setTimeout(function () { b.remove(); }, 600); }, Math.max(0, 1800 - (Date.now() - t0))); })();
+(function () { var b = document.getElementById('boot'), t0 = window.__bootT || Date.now(), done = false, skip = /[?&]demo=/.test(location.search);
+  var out = function () { if (done) return; done = true; b.classList.add('out'); setTimeout(function () { b.remove(); }, 600); };
+  b.addEventListener('click', out); setTimeout(out, Math.max(skip ? 0 : 300, (skip ? 0 : 5000) - (Date.now() - t0))); })();
 if ('serviceWorker' in navigator) {
   // новая версия включается сразу; если она пришла в первые секунды (идёт заставка) — один раз перезагружаем страницу, чтобы показать свежие файлы
   var umT0 = Date.now(), umHad = !!navigator.serviceWorker.controller;
