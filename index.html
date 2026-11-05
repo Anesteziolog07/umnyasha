@@ -2848,7 +2848,7 @@ var FIN = {
   bush: {
     make: function () { var kinds = sample(COLOR_TOYS, 3); return { mode: 'fin', kind: 'bush', items: kinds.map(function (s) { return { s: s, c: pick(FIN_COLS) }; }), pos: shuffle([0, 1, 2]), asks: shuffle([0, 1, 2]) }; },
     start: function () { return { phase: 'show', r: 0 }; },
-    timerMs: 3000, timer: function (t, fs) { return { phase: 'hide', r: fs.r }; },
+    timerMs: 3600, timer: function (t, fs) { return { phase: 'hide', r: fs.r }; },
     view: function (t, fs) {
       var X = [20, 50, 80], acts = [0, 1, 2].map(function (j) { return { id: 'b' + j, img: itemImg('bush', 'green'), x: X[j], y: 74, w: 30, z: 4, tap: fs.phase === 'hide' && fs.r < 3, aria: 'Куст ' + (j + 1) }; });
       t.items.forEach(function (it, i) {
@@ -3081,10 +3081,10 @@ var SFX = {
     var sr = c.sampleRate, buf = c.createBuffer(1, Math.floor(sr * 0.5), sr), d = buf.getChannelData(0), rnd = sfxRand(7);
     for (var i = 0; i < d.length; i++) d[i] = rnd() * 2 - 1;
     var at = t + 1.05, gap = 0.34;
-    for (var k = 0; k < 16; k++) {
+    for (var k = 0; k < 9; k++) {
       var src = c.createBufferSource(); src.buffer = buf;
       var bp = c.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = k % 2 ? 1500 : 1000; bp.Q.value = 0.8;
-      var v = (k % 2 ? 0.22 : 0.4) * (k > 11 ? (16 - k) / 5 : 1), g = c.createGain();
+      var v = (k % 2 ? 0.22 : 0.4) * (k > 4 ? (9 - k) / 5 : 1), g = c.createGain();
       g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(v, at + 0.015); g.gain.setTargetAtTime(0, at + 0.03, 0.055);
       src.connect(bp); bp.connect(g); g.connect(o); src.start(at); src.stop(at + 0.45);
       at += gap; gap = Math.max(0.13, gap * 0.9);
@@ -3215,7 +3215,7 @@ class Component extends DCLogic {
   top() { try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {} }
 
   ensureAudio() {
-    if (this.ac) { if (this.ac.state === 'suspended') { try { this.ac.resume(); } catch (e) {} } return this.ac; }
+    if (this.ac) { if (this.ac.state !== 'running') { try { this.ac.resume(); } catch (e) {} } return this.ac; }   // на iPhone после звонка состояние — interrupted
     var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
     try { this.ac = new AC(); this.bus = sfxBuses(this.ac); this.sfxState = {}; } catch (e) { this.ac = null; return null; }
     // похвалу и подбадривание загружаем заранее, чтобы звучали без задержки
@@ -3229,7 +3229,9 @@ class Component extends DCLogic {
   }
   stopSpeech() {
     this._vtok = (this._vtok || 0) + 1;
-    try { if (this._vsrc) this._vsrc.stop(); } catch (e) {} this._vsrc = null;
+    // голос гасим плавно: резкая остановка на середине звука слышна как щелчок
+    var s = this._vsrc, g = this._vgain, ac = this.ac; this._vsrc = null; this._vgain = null;
+    try { if (s && g && ac) { var t = ac.currentTime; g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(g.gain.value, t); g.gain.linearRampToValueAtTime(0, t + .04); s.stop(t + .05); } else if (s) s.stop(); } catch (e) {}
     try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
   }
   // малыши 3–4 лет не читают: им задание звучит само; остальным — по кнопке с динамиком; знакомство звучит всем
@@ -3271,25 +3273,33 @@ class Component extends DCLogic {
     this.voiceBuf(url).then(function (buf) {
       if (tok !== self._vtok || !buf) return;
       var src = ac.createBufferSource(), g = ac.createGain(); g.gain.value = 1;
-      src.buffer = buf; src.connect(g); g.connect(ac.destination); src.start(0); self._vsrc = src;
+      src.buffer = buf; src.connect(g); g.connect(ac.destination);
+      // в конце записи звук мягко затихает, чтобы последний кусочек никогда не обрывался щелчком
+      var t0 = ac.currentTime, end = t0 + buf.duration; g.gain.setValueAtTime(1, Math.max(t0, end - .05)); g.gain.linearRampToValueAtTime(0, end);
+      src.start(t0); self._vsrc = src; self._vgain = g;
     }).catch(function () {});
     return true;
   }
   // загруженные и раскодированные записи храним, чтобы повтор звучал сразу
   voiceBuf(url) {
-    var cache = this._vcache || (this._vcache = {}), ac = this.ac;
+    var cache = this._vcache || (this._vcache = {}), ac = this.ac, self = this;
     if (cache[url]) return cache[url];
     if (!ac || !url) return Promise.reject(new Error('нет звука'));
     var pr = fetch(url).then(function (r) { if (!r.ok) throw new Error('нет файла'); return r.arrayBuffer(); })
-      .then(function (data) { return new Promise(function (res, rej) { ac.decodeAudioData(data, res, rej); }); });
+      .then(function (data) { return new Promise(function (res, rej) { ac.decodeAudioData(data, res, rej); }); })
+      .then(function (buf) { var d = buf.getChannelData(0), i = d.length - 1; while (i > 0 && Math.abs(d[i]) < .012) i--; (self._vlen || (self._vlen = {}))[url] = i / buf.sampleRate; return buf; });   // где кончается речь: после неё в записи бывает тишина
     cache[url] = pr; pr.catch(function () { if (cache[url] === pr) delete cache[url]; });
     return pr;
   }
   // похвала и подбадривание голосом — после короткого звука, только для 3–6 лет
   sayFeedback(map, text) {
     var name = map[text], self = this; if (!name || !this.state.sound || this.state.age === '7-9') return false;
-    this.later(function () { self.playVoice(name); }, 380); return true;
+    var len = (this._vlen || {})[VOICE[name]]; this._fbMs = 380 + Math.round((len == null ? 1.6 : len) * 1000) + 150;
+    var id = this._fbId = (this._fbId || 0) + 1;
+    this.later(function () { if (id === self._fbId && self.state.sound) self.playVoice(name); }, 380); return true;
   }
+  // сколько ждать перед следующим заданием: похвала договаривается до конца, а не обрывается на полуслове
+  fbWait(ms, voiced) { return voiced ? Math.max(ms, this._fbMs || 0) : ms; }
   speak(task) {
     var t = task || this.state.tasks[this.state.ti]; if (!t) return;
     var memoNow = t.memo && !this.state.memoOpen, a = memoNow ? t.memo.audio : t.audio;
@@ -3377,11 +3387,11 @@ class Component extends DCLogic {
     if (r.after) this.later(function () { if (self.state.tasks[self.state.ti] === t) { self.setState({ fin: r.after.fs, finLock: false }); self.finSay(t, r.after.fs); } }, r.after.ms);
     this.burst();
     if (r.done) {
-      var p = this.newPraise(); this.sayFeedback(PRAISE_VOICE, p); this.snd('finish');
+      var p = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, p); this.snd('finish');
       this.setState({ fin: r.fs, solved: true, finBad: null, fb: { kind: 'ok', text: p } });
-      this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, r.wait || 2600); return;
+      this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, this.fbWait(r.wait || 2600, said)); return;
     }
-    this.snd('ok'); this.setState({ fin: r.fs, finBad: null, fb: null, finLock: !!r.after }); var me = this; this.later(function () { me.finSay(t, r.fs); }, 700);
+    this.snd('ok'); this.setState({ fin: r.fs, finBad: null, fb: null, finLock: !!r.after }); var me = this; this.later(function () { if (me.state.fin === r.fs) me.finSay(t, r.fs); }, 700);
   }
   // «Паровозик»: при одном вагончике игрушка едет в него сразу; при нескольких — сначала выбрать игрушку, потом вагончик (или перетащить пальцем)
   trainTap(i) {
@@ -3393,8 +3403,8 @@ class Component extends DCLogic {
   trainPut(i, w) {
     var st = this.state, t = st.tasks[st.ti], it = t && t.items[i], self = this; if (!it || t.mode !== 'train' || st.solved || st.tr[i]) return;
     if (!trainMatch(t, it, w)) {
-      this.snd('bad'); var tryText = 'Это ' + nameOf(it.s, it.c) + '. ' + pick(TRY);
-      this.setState({ trSel: -1, trBad: i, trBadW: w, mistakes: st.mistakes + 1, fb: { kind: 'bad', text: tryText } }); this.sayFeedback(TRY_VOICE, pick(TRY));
+      this.snd('bad'); var tryWord = pick(TRY), tryText = 'Это ' + nameOf(it.s, it.c) + '. ' + tryWord;
+      this.setState({ trSel: -1, trBad: i, trBadW: w, mistakes: st.mistakes + 1, fb: { kind: 'bad', text: tryText } }); this.sayFeedback(TRY_VOICE, tryWord);
       this.later(function () { if (self.state.trBad === i) self.setState({ trBad: -1, trBadW: -1 }); }, 500);
       return;
     }
@@ -3402,10 +3412,10 @@ class Component extends DCLogic {
     var left = t.items.filter(function (x, k) { return !tr[k] && trainFits(t, x); }).length;
     if (left) { this.snd('ok'); this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, fb: null }); return; }
     // все игрушки на месте: похвала, гудок — и поезд уезжает
-    var praise = this.newPraise(); this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst();
+    var praise = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst();
     this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, solved: true, fb: { kind: 'ok', text: praise + ' Паровозик поехал!' } });
     this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.snd('chug', null, false); }, 500);
-    this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, 3400);
+    this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, this.fbWait(3700, said));
   }
   // раскраска как в детских приложениях: контур на белом листе, рисуем пальцем, цвет не выходит за линии части, с которой начали.
   // Файл картинки: номер области и линия контура слева, прозрачность справа (design/art/paintprep.swift). Каждая область — свой холст, кисть рисует только по нему
@@ -3466,8 +3476,8 @@ class Component extends DCLogic {
     c.globalCompositeOperation = 'copy'; c.drawImage(u.c, 0, 0); c.globalCompositeOperation = 'source-atop';
   }
   paintWin() {
-    var self = this, t = this.state.tasks[this.state.ti], praise = this.newPraise(); this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst(); this.setState({ paintDone: true, solved: true });
-    this.later(function () { if (self.state.tasks[self.state.ti] === t && self.state.paintDone) self.nextTask(); }, 2200);
+    var self = this, t = this.state.tasks[this.state.ti], praise = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst(); this.setState({ paintDone: true, solved: true });
+    this.later(function () { if (self.state.tasks[self.state.ti] === t && self.state.paintDone) self.nextTask(); }, this.fbWait(2200, said));
   }
   // перетаскивание игрушки пальцем или мышкой к вагончику
   trainDrag() {
@@ -3546,7 +3556,7 @@ class Component extends DCLogic {
     if (o.correct) {
       var praise = this.newPraise(), voiced = this.sayFeedback(PRAISE_VOICE, praise);
       this.snd('ok'); this.burst(); this.setState({ solved: true, fb: { kind: 'ok', text: praise + (t.why ? ' ' + t.why : '') } });
-      this.later(function () { self.nextTask(); }, t.why ? 1900 : voiced ? 1600 : 1100);
+      this.later(function () { self.nextTask(); }, this.fbWait(t.why ? 1900 : voiced ? 1600 : 1100, voiced));
     } else {
       this.snd('bad'); if (st.wrong[i]) return;
       var wrong = Object.assign({}, st.wrong); wrong[i] = true; var tryText = pick(TRY);
@@ -3557,7 +3567,7 @@ class Component extends DCLogic {
     var st = this.state; if (st.solved || st.done[i]) return; var t = st.tasks[st.ti]; var self = this;
     if (t.items[i].rank === st.step) {
       var done = Object.assign({}, st.done); done[i] = st.step + 1; var step = st.step + 1;
-      if (step === t.items.length) { var pr = this.newPraise(), vo = this.sayFeedback(PRAISE_VOICE, pr); this.snd('reward'); this.setState({ done: done, step: step, solved: true, flash: -1, fb: { kind: 'ok', text: pr } }); this.later(function () { self.nextTask(); }, vo ? 1600 : 1100); }
+      if (step === t.items.length) { var pr = this.newPraise(), vo = this.sayFeedback(PRAISE_VOICE, pr); this.snd('reward'); this.setState({ done: done, step: step, solved: true, flash: -1, fb: { kind: 'ok', text: pr } }); this.later(function () { self.nextTask(); }, this.fbWait(vo ? 1600 : 1100, vo)); }
       else { this.snd('step', st.step); this.setState({ done: done, step: step, flash: -1, fb: { kind: 'step', text: 'Так! Дальше' } }); }
     } else {
       this.snd('bad'); this.setState({ flash: i, mistakes: st.mistakes + 1, fb: { kind: 'bad', text: t.bad } });
