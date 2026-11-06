@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-3755a9a7fce6') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-a0ce0dde3f52') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -298,9 +298,9 @@ main{animation:um-scr .28s ease}
 .um-mt{position:fixed;inset:0;z-index:60;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%)}
 .um-mt .bt-strip,.um-mt .bt-rail i,.um-mt .um-wheel,.um-mt .bt-w,.um-mt .bt-eng,.um-mt .bt-car,.um-mt .bt-eng i{animation-play-state:paused}
 .um-mt.um-run .um-wheel,.um-mt.um-run .bt-w,.um-mt.um-run .bt-eng,.um-mt.um-run .bt-car,.um-mt.um-run .bt-eng i{animation-play-state:running}
-.um-mt-train{animation:none!important;z-index:2;transform:translateX(var(--tx,0));transition:transform var(--tt,0s) var(--te,ease)}
-.um-mt-house{position:absolute;z-index:1;left:50%;bottom:calc(21.5% + 56px);width:clamp(150px,46vmin,290px);translate:-50% 0;opacity:0;transform:scale(.92);transform-origin:50% 100%;transition:opacity .45s ease,transform .45s ease;filter:drop-shadow(0 8px 10px rgba(20,60,30,.3))}
-.um-mt-crate{--cw:min(clamp(150px,40vmin,230px),calc((21.5vh - 20px) * 1.66));position:absolute;z-index:4;left:50%;bottom:max(4px,calc(21.5% - 14px - var(--cw) * .6));width:var(--cw);translate:-50% 0;opacity:0;transition:opacity .45s ease;filter:drop-shadow(0 8px 6px rgba(20,60,30,.3))}
+.um-mt-train{--tw:min(80vw,136vh,760px);left:auto;right:3vw;margin-left:0;animation:none!important;z-index:2;transform:translateX(var(--tx,0));transition:transform var(--tt,0s) var(--te,ease)}
+.um-mt-house{position:absolute;z-index:1;left:26%;bottom:calc(21.5% + 56px);width:clamp(150px,46vmin,290px);translate:-50% 0;opacity:0;transform:scale(.92);transform-origin:50% 100%;transition:opacity .45s ease,transform .45s ease;filter:drop-shadow(0 8px 10px rgba(20,60,30,.3))}
+.um-mt-crate{--cw:min(clamp(150px,40vmin,230px),calc((21.5vh - 20px) * 1.66));position:absolute;z-index:4;left:26%;bottom:max(4px,calc(21.5% - 14px - var(--cw) * .6));width:var(--cw);translate:-50% 0;opacity:0;transition:opacity .45s ease;filter:drop-shadow(0 8px 6px rgba(20,60,30,.3))}
 .um-at .um-mt-house{opacity:1;transform:none}.um-at .um-mt-crate{opacity:1}
 .um-ph-ok .um-mt-house,.um-ph-ok .um-mt-crate{animation:um-mthop .5s ease 2}
 @keyframes um-mthop{0%,100%{translate:-50% 0}50%{translate:-50% -10px}}
@@ -314,6 +314,7 @@ main{animation:um-scr .28s ease}
 @keyframes um-mt-tip{0%{transform:none}35%{transform:rotate(-7deg) translateY(-5px)}65%{transform:rotate(5deg)}100%{transform:none}}
 .um-mt-toy.um-gone{opacity:0}
 .um-mt-toy img{animation:um-mt-in .35s cubic-bezier(.3,1.7,.5,1)}
+@media (max-width: 520px){.um-mt-train{--tw:84vw;right:-12vw}}
 @keyframes um-mt-in{from{transform:translateY(-34px) scale(.7);opacity:0}to{transform:none;opacity:1}}
 .um-mt.um-busy .um-mt-go,.um-mt.um-busy .um-mt-order,.um-mt.um-busy .um-mt-shelf{opacity:0;pointer-events:none}
 .um-mt.um-busy .um-mt-toy{pointer-events:none}
@@ -3688,24 +3689,21 @@ class Component extends DCLogic {
   mtPatch(p) { this.setState({ mt: Object.assign({}, this.state.mt, p) }); }
   mtAdd(id) { var m = this.state.mt; if (m.phase !== 'load') return; if (m.load.length >= 6) { this.snd('bad'); return; } this.snd('tap'); this.mtPatch({ load: m.load.concat([id]), msg: '' }); }
   mtOff(i) { var m = this.state.mt; if (m.phase !== 'load') return; var l = m.load.slice(); l.splice(i, 1); this.snd('tap'); this.mtPatch({ load: l }); }
-  // поездка: мир стоит, едет сам поезд. Он уезжает влево, потом приезжает справа и останавливается первым вагоном над ящиком у домика
+  // поездка: домик и ящик стоят на месте, поезд спокойно катится к ним у всех на виду, без исчезновений
   mtGo() {
     var m = this.state.mt, self = this; if (m.phase !== 'load' || !m.load.length) return; this.stopSpeech(); this.snd('chug', null, false);
-    this._mtX = [].slice.call(document.querySelectorAll('.um-mt-train .bt-car')).map(function (c) { var r = c.getBoundingClientRect(); return window.innerWidth / 2 - (r.left + r.width / 2); });
-    var first = Math.round(this._mtX[0] || 0);
-    this.mtPatch({ phase: 'go', msg: '', run: true, tx: '-130vw', tt: 1.3, te: 'cubic-bezier(.55,0,.9,.5)' });
-    this.later(function () {
-      self.mtPatch({ phase: 'arrive', tx: '130vw', tt: 0, te: 'linear' });
-      self.later(function () { self.mtPatch({ tx: first + 'px', tt: 2.6, te: 'cubic-bezier(.16,.72,.24,1)' }); }, 70);
-      self.later(function () { self.mtArrived(); }, 2750);
-    }, 1350);
+    var box = document.querySelector('.um-mt-crate').getBoundingClientRect(), cx = box.left + box.width / 2;
+    this._mtX = [].slice.call(document.querySelectorAll('.um-mt-train .bt-car')).map(function (c) { var r = c.getBoundingClientRect(); return cx - (r.left + r.width / 2); });
+    var first = Math.round(this._mtX[0] || 0), tt = Math.max(2.8, Math.min(4.6, Math.abs(first) / 70));
+    this.mtPatch({ phase: 'go', msg: '', run: true, tx: first + 'px', tt: tt, te: 'cubic-bezier(.4,.05,.3,1)' });
+    this.later(function () { self.mtArrived(); }, tt * 1000 + 120);
   }
   mtArrived() {
     var m = this.state.mt, self = this, need = {}, extra = false, lack = false; this.mtPatch({ run: false });
     m.order.need.forEach(function (x) { need[x.g[1]] = x.n; }); m.load.forEach(function (id) { if (need[id]) need[id]--; else extra = true; }); Object.keys(need).forEach(function (k) { if (need[k] > 0) lack = true; });
     if (!extra && !lack) { this.mtUnload(0); return; }
     var v = lack && extra ? 'dlv-diff' : lack ? 'dlv-more' : 'dlv-less'; this.snd('bad'); if (this.state.sound) this.playVoice(v); this.mtPatch({ phase: 'bad', msg: lack && extra ? 'Заказ был другой' : lack ? 'Чего-то не хватает' : 'Тут лишнее' });
-    this.later(function () { self.mtPatch({ phase: 'come', msg: '', run: true, tx: '0px', tt: 1.5, te: 'ease-in-out' }); self.later(function () { self.mtPatch({ phase: 'load', run: false }); }, 1550); }, 2300);
+    this.later(function () { self.mtRound(false); }, 2300);
   }
   // выгрузка: вагон за вагоном. Поезд подтягивает вагон к ящику, вагон качнётся, фрукты мягко спрыгивают вниз
   mtUnload(k) {
@@ -3725,16 +3723,23 @@ class Component extends DCLogic {
       }, 360);
     };
     if (k === 0) { tip(); return; }
-    this.mtPatch({ run: true, tx: Math.round(this._mtX[w]) + 'px', tt: .85, te: 'ease-in-out' }); this.later(tip, 900);
+    this.mtPatch({ run: true, tx: Math.round(this._mtX[w]) + 'px', tt: 1.2, te: 'ease-in-out' }); this.later(tip, 1260);
   }
   mtNext() {
     var m = this.state.mt, self = this; if (m.n >= 4) { var r = lsGet('umnyasha.rides', 0) + 1; lsSet('umnyasha.rides', r); addTime(holderOf(this.state.db).uid, Date.now() - (this._lvStart || Date.now())); this._lvStart = Date.now(); this.snd('finish'); this.burst(); if (this.state.sound) this.playVoice('dlv-done'); this.mtPatch({ phase: 'win', n: 5 }); return; }
-    this.mtPatch({ phase: 'back', msg: '', run: true, tx: '-130vw', tt: 1.1, te: 'cubic-bezier(.55,0,.9,.5)' });
+    this.mtRound(true);
+  }
+  // поезд спокойно уезжает дальше и делает круг; пока его нет, у домика меняется заказ
+  mtRound(next) {
+    var m = this.state.mt, self = this; this.mtPatch({ phase: 'back', msg: '', run: true, tx: '-135vw', tt: 2.6, te: 'cubic-bezier(.45,.05,.8,.6)' });
     this.later(function () {
-      self.setState({ mt: Object.assign(self.mtNew(m.n + 1), { phase: 'come', run: true, tx: '130vw', tt: 0, te: 'linear' }) });
-      self.later(function () { self.mtPatch({ tx: '0px', tt: 1.7, te: 'cubic-bezier(.16,.72,.24,1)' }); }, 70);
-      self.later(function () { self.mtPatch({ phase: 'load', run: false }); self.mtSay(); }, 1800);
-    }, 1150);
+      if (next) self.mtPatch({ phase: 'swap', tt: 0 });
+      self.later(function () {
+        self.setState({ mt: Object.assign(next ? self.mtNew(m.n + 1) : Object.assign({}, self.state.mt), { phase: 'come', run: true, tx: '135vw', tt: 0, te: 'linear' }) });
+        self.later(function () { self.mtPatch({ tx: '0px', tt: 2.8, te: 'cubic-bezier(.2,.6,.3,1)' }); }, 70);
+        self.later(function () { self.mtPatch({ phase: 'load', run: false }); if (next) self.mtSay(); }, 2920);
+      }, next ? 420 : 0);
+    }, 2640);
   }
   openTopic(gid, i, ti0) {
     var st = this.state; if (!st.age || !gameForAge(gid, st.age) || !topicsOf(gid)) return; if (this.overLimit()) { this.goLimit(); return; }
@@ -4501,7 +4506,7 @@ class Component extends DCLogic {
     var mtPic = []; mt0.order.need.forEach(function (x) { for (var q = 0; q < x.n; q++) mtPic.push('items/' + x.g[1] + '.svg'); });
     var toyNew = Math.min(COLLECT.length, toysN) - 1;
     var mtBusy = mt0.phase !== 'load' && mt0.phase !== 'bad' && mt0.phase !== 'win', mtCar = function (w) { return mt0.tip === w ? 'um-tip' : ''; };
-    var mt = { cls: 'um-ph-' + mt0.phase + (mtBusy ? ' um-busy' : '') + (mt0.run ? ' um-run' : '') + (mt0.phase === 'arrive' || mt0.phase === 'unload' || mt0.phase === 'ok' || mt0.phase === 'bad' || mt0.phase === 'win' ? ' um-at' : ''), tx: mt0.tx || '0px', tt: mt0.tt || 0, te: mt0.te || 'ease', c0: mtCar(0), c1: mtCar(1), c2: mtCar(2), house: 'map/' + mt0.house + '.svg', w0: mtWagon(0), w1: mtWagon(1), w2: mtWagon(2), order: mtPic, msg: mt0.msg, fly: mt0.fly || [], stepText: 'Заказ ' + Math.min(mt0.n + 1, 5) + ' из 5', beads: [0, 1, 2, 3, 4].map(function (i) { return i < mt0.n ? 'um-on' : i === mt0.n ? 'um-now' : ''; }), goCls: mt0.load.length && mt0.phase === 'load' ? '' : 'um-off', winCls: mt0.phase === 'win' ? 'um-on' : '',
+    var mt = { cls: 'um-ph-' + mt0.phase + (mtBusy ? ' um-busy' : '') + (mt0.run ? ' um-run' : '') + (mt0.phase !== 'swap' ? ' um-at' : ''), tx: mt0.tx || '0px', tt: mt0.tt || 0, te: mt0.te || 'ease', c0: mtCar(0), c1: mtCar(1), c2: mtCar(2), house: 'map/' + mt0.house + '.svg', w0: mtWagon(0), w1: mtWagon(1), w2: mtWagon(2), order: mtPic, msg: mt0.msg, fly: mt0.fly || [], stepText: 'Заказ ' + Math.min(mt0.n + 1, 5) + ' из 5', beads: [0, 1, 2, 3, 4].map(function (i) { return i < mt0.n ? 'um-on' : i === mt0.n ? 'um-now' : ''; }), goCls: mt0.load.length && mt0.phase === 'load' ? '' : 'um-off', winCls: mt0.phase === 'win' ? 'um-on' : '',
       prize: 'items/' + COLLECT[Math.max(0, toyNew)] + '.svg', prizeText: 'За рейс поезд получил новую игрушку. Посмотри её в профиле!', back: function () { self.go('home'); }, again: function () { self.snd('tap'); self.setState({ mt: self.mtNew(0) }); self.mtSay(); }, say: function () { if (st.sound && mt0.order.audio) self.playVoice(mt0.order.audio); }, goIt: function () { self.mtGo(); },
       shelf: mt0.order.shelf.map(function (g) { return { img: 'items/' + g[1] + '.svg', aria: g[2], pick: function () { self.mtAdd(g[1]); } }; }) };
     var tabNow = st.pfTab || '', tabGo = function (t) { return function () { self.snd('tap'); self.setState({ pfTab: t }); self.top(); }; };
