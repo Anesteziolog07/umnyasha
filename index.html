@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-aecb34c35945') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-6821bee512c7') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -27,10 +27,10 @@
 .bt-sun{position:absolute;right:5%;top:4%;width:clamp(88px,22vmin,170px);aspect-ratio:1;animation:bt-in 1s ease both}
 .bt-sun svg{display:block;width:100%;height:100%;overflow:visible}
 .bt-rays{transform-box:view-box;transform-origin:60px 60px;animation:bt-spin 14s linear infinite}
-.bt-sky{position:absolute;left:0;display:flex;width:max-content;will-change:transform}
-.bt-sky svg{display:block;flex:none;height:auto}
-.bt-sky1{top:9%;gap:62vw;animation:bt-sky 34s linear infinite}.bt-sky1 svg{width:clamp(120px,30vmin,240px)}
-.bt-sky2{top:30%;gap:30vw;opacity:.82;animation:bt-sky 22s linear infinite}.bt-sky2 svg{width:clamp(70px,17vmin,140px)}
+.bt-sky{position:absolute;inset:0;pointer-events:none}
+.bt-sky svg{position:absolute;left:0;top:0;display:block;height:auto;opacity:0;transform-origin:0 0;will-change:transform}
+.bt-sky1 svg{width:clamp(120px,30vmin,240px)}
+.bt-sky2 svg{width:clamp(80px,19vmin,150px)}
 .bt-air{position:absolute;left:7%;top:33%;width:clamp(44px,11vmin,92px);animation:bt-floatb 4s ease-in-out infinite}
 .bt-air svg{display:block;width:100%;height:auto}
 .bt-bal{position:absolute;bottom:-16%;width:clamp(44px,10vmin,84px);animation:bt-rise 5.4s ease-in var(--d) both}
@@ -68,7 +68,6 @@
 @keyframes bt-beam{from{opacity:0}to{opacity:1}}
 
 @keyframes bt-roll3{from{transform:translateX(calc(var(--h) * var(--k) * -1))}to{transform:none}}
-@keyframes bt-sky{from{transform:translateX(-50%)}to{transform:none}}
 @keyframes bt-ties{from{transform:translateX(-42px)}to{transform:none}}
 @keyframes bt-wheel{to{transform:rotate(-360deg)}}
 @keyframes bt-shake{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5%)}}
@@ -831,7 +830,7 @@ main{animation:um-scr .28s ease}
 .um-hs-rays{animation:um-spin 60s linear infinite}
 @keyframes um-spin{to{transform:rotate(360deg)}}
 .um-hs-cloud{animation:um-hsdrift 18s ease-in-out infinite alternate}
-.um-hs-c2{animation-duration:23s;animation-delay:-6s}.um-hs-c3{animation-duration:15s;animation-delay:-3s}
+.um-hs-c2{}.um-hs-c3{}
 @keyframes um-hsdrift{from{transform:translateX(-30px)}to{transform:translateX(40px)}}
 .um-hs-tree{transform-box:fill-box;transform-origin:50% 100%;animation:um-dsway 6s ease-in-out infinite}
 .um-hero2-body{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px 24px 8px;text-align:center}
@@ -909,14 +908,13 @@ main{animation:um-scr .28s ease}
 .um-sky{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
 .um-sun{position:absolute;top:-90px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#FFE48A 0 34%,rgba(255,228,138,.55) 35%,rgba(255,228,138,.2) 52%,rgba(255,228,138,0) 70%);animation:um-glow 7s ease-in-out infinite}
 @keyframes um-glow{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-.um-cloud{position:absolute;left:0;height:auto;animation:um-drift linear infinite;filter:drop-shadow(0 10px 18px rgba(80,130,200,.12))}
-@keyframes um-drift{from{transform:translateX(-35vw)}to{transform:translateX(110vw)}}
-.um-c1{top:7%;width:230px;animation-duration:100s;animation-delay:-18s}
-.um-c2{top:22%;width:160px;animation-duration:130s;animation-delay:-80s;opacity:.92}
-.um-c3{top:43%;width:270px;animation-duration:150s;animation-delay:-40s;opacity:.85}
-.um-c4{top:61%;width:180px;animation-duration:115s;animation-delay:-95s;opacity:.85}
-.um-c5{top:78%;width:240px;animation-duration:140s;animation-delay:-8s;opacity:.8}
-.um-c6{top:13%;width:120px;animation-duration:90s;animation-delay:-58s;opacity:.95}
+.um-cloud{position:absolute;left:0!important;top:0!important;height:auto;opacity:0;transform-origin:0 0;will-change:transform;filter:drop-shadow(0 10px 18px rgba(80,130,200,.12))}
+.um-c1{top:7%;width:230px;}
+.um-c2{top:22%;width:160px;}
+.um-c3{top:43%;width:270px;}
+.um-c4{top:61%;width:180px;}
+.um-c5{top:78%;width:240px;}
+.um-c6{top:13%;width:120px;}
 .um-fl{position:absolute;display:block;opacity:.75;animation:um-float 9s ease-in-out infinite}
 @keyframes um-float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-18px) rotate(14deg)}}
 .um-f1{top:30%;right:4%;width:26px;height:26px}
@@ -924,7 +922,7 @@ main{animation:um-scr .28s ease}
 .um-f3{top:70%;right:3%;width:22px;height:22px;animation-delay:-5s}
 .um-f4{top:40%;left:5%;width:16px;height:16px;animation-delay:-7s}
 .um-f5{top:88%;right:8%;width:18px;height:18px;animation-delay:-2s}
-.um-sky.um-calm .um-cloud{opacity:.45}
+.um-sky.um-calm{opacity:.5}
 @media (prefers-reduced-motion: reduce){
 .um-c1{left:6%}.um-c2{left:58%}.um-c3{left:24%}.um-c4{left:72%}.um-c5{left:4%}.um-c6{left:40%}
 }
@@ -1082,6 +1080,21 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   window.__bootSndOff = function () { live = false; tok++; var t = ac.currentTime; master.gain.setValueAtTime(1, t); master.gain.linearRampToValueAtTime(0, t + 1.2); setTimeout(function () { try { ac.close(); } catch (e) {} }, 1350); };
 })();</script>
 
+<script>
+// облака: у каждого свой путь. Уплыло за край, и уже за экраном получает новую высоту, размер и скорость, поэтому рисунок неба не повторяется и рывков нет
+window.__clouds = function (list) {
+  var R = Math.random, tr = function (x, y, s) { return 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + s.toFixed(3) + ')'; };
+  var fly = function (el, first) {
+    if (!document.documentElement.contains(el)) { el._cl = 0; return; }
+    var W = window.innerWidth, H = window.innerHeight, low = el.classList.contains('um-cloud'), s = .65 + R() * .75, w = parseFloat(getComputedStyle(el).width) || 160, x0 = -w * s - 30, x1 = W + 30, y = H * (low ? .04 + R() * .7 : .03 + R() * .29), dy = (R() - .5) * H * .04, v = (11 + R() * 18) * (.7 + s * .5), d = (x1 - x0) / v * 1000, op = (low ? .72 : .84) + R() * .16, old = el._ca;
+    var a = el.animate([{ transform: tr(x0, y, s), opacity: op }, { transform: tr((x0 + x1) / 2, y + dy, s), opacity: op }, { transform: tr(x1, y - dy * .4, s), opacity: op }], { duration: d, easing: 'linear', fill: 'both' });
+    if (first) a.currentTime = R() * d; el._ca = a; if (old) old.cancel();
+    a.onfinish = function () { setTimeout(function () { fly(el); }, R() * 6000); };
+  };
+  [].forEach.call(list, function (el) { if (el._cl || !el.animate) return; el._cl = 1; fly(el, true); });
+};
+window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky svg'));
+</script>
 <div id="app"></div>
 <script>window.__bootT = Date.now();</script>
 <template id="tpl">
@@ -3544,6 +3557,7 @@ class Component extends DCLogic {
   componentDidMount() {
     var db = loadDb(), p = playerOf(db);
     this.setState({ ready: true, db: db, sound: db.sound, age: p.age, diff: p.diff, best: p.best, lv: p.lv });
+    setTimeout(function () { if (window.__clouds) window.__clouds(document.querySelectorAll('.um-sky .um-cloud')); }, 300);
     var reduce = false; try { reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch (e) {}
     var self = this; if (!reduce) this._deco = setInterval(function () { self.shuffleDeco(); }, 5000);
     this.trainDrag();
@@ -3720,6 +3734,7 @@ class Component extends DCLogic {
   mtX(v) { return 'translateX(' + v.toFixed(1) + 'px)'; }
   mtSpot() { return ['.um-mt-house', '.um-mt-crate', '.um-mt-fly'].map(function (q) { return document.querySelector(q); }); }
   mtWorld() {
+    if (window.__clouds) window.__clouds(document.querySelectorAll('.um-mt .bt-sky svg'));
     var self = this, dpr = Math.min(2, window.devicePixelRatio || 1), w = { dpr: dpr, layers: [] }, jobs = [], cwid = Math.round(window.innerWidth * dpr), chei = Math.round(window.innerHeight * dpr), px = function (v) { return Math.round(v * dpr); };
     if (!document.querySelector('.um-mt .bt-near')) return;
     this.setState({ mtCw: cwid, mtCh: chei, mtCv: false });
