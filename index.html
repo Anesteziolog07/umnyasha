@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-8ce406744a85') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-463396fd1e66') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -361,6 +361,7 @@ main{animation:um-scr .28s ease}
 .um-pp-hero h1{margin:4px 0 8px;font-size:34px;font-weight:900;line-height:1.1}
 .um-pp-hero p{margin:0;font-size:18px;line-height:1.5;font-weight:700;color:#3A4665}
 .um-pp-chips{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:7px}.um-pp-chips li{padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.85);font-size:15px;font-weight:800}
+.um-pp-author{padding:22px 24px;border-radius:30px;background:linear-gradient(160deg,#FFFFFF,#FFF6E2);box-shadow:0 14px 26px -20px rgba(160,110,20,.5);color:#1E2A4A}.um-pp-author h2{margin:0 0 10px;font-size:25px;font-weight:900;line-height:1.15}.um-pp-author p{margin:0 0 10px;font-size:17px;font-weight:700;line-height:1.5;color:#3A4665}.um-pp-author strong{display:block;margin-top:2px;font-size:16px;font-weight:900;color:#B5700A}
 .um-pp-card{display:flex;flex-direction:column;gap:12px;padding:22px 20px;border-radius:30px;background:#FFFFFF;box-shadow:0 14px 26px -20px rgba(43,84,160,.5)}
 .um-pp-card h2,.um-pp-sub h2{margin:0;font-size:25px;font-weight:900;line-height:1.15}
 .um-pp-h3{margin:6px 0 0;font-size:19px;font-weight:900}
@@ -1723,6 +1724,13 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <h1>Игра, в которой ребёнок растёт</h1>
 <p>Бусинка учит цветам, счёту, буквам, памяти и вниманию через короткие игры для детей 3–6 лет. Всё озвучено, поэтому ребёнок справляется сам, даже если ещё не читает.</p>
 <ul class="um-pp-chips"><sc-for list="{{par.promises}}" as="c" hint-placeholder-count="4"><li>{{c}}</li></sc-for></ul>
+</section>
+<section class="um-pp-author">
+<h2>Почему появился этот сайт</h2>
+<p>Я врач анестезиолог-реаниматолог, работаю больше 5 лет. А ещё я папа, и этот сайт я делал прежде всего для своих детей.</p>
+<p>Мне хотелось, чтобы они занимались правильно, с научной точки зрения: по возрасту, понемногу и без перегрузки.</p>
+<p>Каждую игру мы прошли вместе с моим ребёнком. Я спрашивал, что нравится, а что нет, и переделывал, пока не становилось понятно и интересно.</p>
+<strong>Врач и папа, автор сайта</strong>
 </section>
 <section class="um-pp-card">
 <div class="um-pp-kid"><span class="um-ava {{meAva.cls}}" style="background: {{meAva.bg}}" aria-hidden="true"><img src="{{meAva.src}}" alt=""></span><div><h2>{{par.who}}</h2><p>{{par.ageText}}</p></div></div>
