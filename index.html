@@ -105,7 +105,6 @@ button:disabled{cursor:default}
 .pulse{animation:um-pulse 1.6s ease-in-out infinite}
 @keyframes um-pulse{0%,100%{box-shadow:0 0 0 0 rgba(30,42,74,.22)}50%{box-shadow:0 0 0 7px rgba(30,42,74,0)}}
 .um-lvgrid{grid-template-columns:repeat(10,minmax(0,1fr))}
-@media (max-width: 640px){.um-res-h{font-size:28px!important}}
 /* паровозик целиком на одном экране телефона: короткий заголовок, ниже сцена, игрушки 4 в ряд */
 /* паровозик: сцена и игрушки; на широком, но невысоком экране (ноутбук) игрушки встают справа от поезда — всё видно без прокрутки */
 .um-tr-wrap{width:100%;display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -262,17 +261,23 @@ main{animation:um-scr .28s ease}
 @keyframes um-scr{from{opacity:.45}to{opacity:1}}
 .press:active:not(:disabled){transform:translateY(2px) scale(.95)}
 /* экран награды */
-.um-res{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:10px;padding:26px 20px 24px;border-radius:36px;text-align:center;color:#1E2A4A;background:radial-gradient(circle at 50% 24%,#FFF2B8,#FFFFFF 62%);border:4px solid #FFFFFF;box-shadow:0 10px 24px rgba(20,70,130,.22)}
+.um-res{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 8px 28px;text-align:center}
 .um-res>*{position:relative}
-.um-res-rays{position:absolute!important;left:50%;top:26%;width:220vmax;height:220vmax;margin:-110vmax 0 0 -110vmax;border-radius:50%;background:repeating-conic-gradient(rgba(255,200,50,.13) 0 11deg,transparent 11deg 24deg);animation:bt-spin 26s linear infinite;pointer-events:none}
-.um-res-g{font-size:17px;font-weight:900;color:#4A5578}
+.um-res-rays{position:fixed!important;z-index:-1;left:50%;top:32%;width:220vmax;height:220vmax;margin:-110vmax 0 0 -110vmax;border-radius:50%;background:repeating-conic-gradient(rgba(255,255,255,.2) 0 11deg,transparent 11deg 24deg);-webkit-mask-image:radial-gradient(circle,#000 0,#000 12vmax,transparent 62vmax);mask-image:radial-gradient(circle,#000 0,#000 12vmax,transparent 62vmax);animation:bt-spin 40s linear infinite;pointer-events:none}
+.um-res-g{padding:5px 18px;border-radius:999px;background:rgba(255,255,255,.88);color:#1E4E8C;font-size:17px;font-weight:900}
+.um-res-g:empty{display:none}
 .um-res-st{display:flex;align-items:flex-end;justify-content:center;gap:2px;min-height:104px}
-.um-res-st img{animation:um-starin .7s cubic-bezier(.3,1.6,.5,1) calc(.15s + var(--i) * .22s) both;filter:drop-shadow(0 6px 4px rgba(160,110,0,.3))}
+.um-res-st img{animation:um-starin .7s cubic-bezier(.3,1.6,.5,1) calc(.15s + var(--i) * .22s) both;filter:drop-shadow(0 6px 5px rgba(20,60,130,.3))}
 .um-res-st img.um-off{opacity:.42;filter:saturate(.4)}
 @keyframes um-starin{from{opacity:0;transform:scale(0) rotate(-30deg)}to{opacity:1;transform:none}}
-.um-res-h{margin:0;font-size:33px;font-weight:900;line-height:1.12}
-.um-res-p{margin:0;max-width:440px;font-size:19px;font-weight:800;color:#4A5578}
-.um-res-toy{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 10px;border-radius:24px;background:#FFF3C4;color:#1E2A4A;font-size:16px;font-weight:900;line-height:1.15;text-align:left;animation:um-starin .6s cubic-bezier(.3,1.6,.5,1) .9s both}
+.um-res-h{margin:0;color:#1E6FE0;font-size:clamp(32px,6.4vmin,46px);font-weight:900;line-height:1.14;-webkit-text-stroke:8px #FFFFFF;paint-order:stroke fill;text-shadow:0 6px 0 rgba(20,50,120,.22)}
+.um-res-p{margin:0;max-width:calc(100vw - 40px);padding:6px 18px;box-sizing:border-box;border-radius:22px;background:rgba(255,255,255,.88);color:#1E4E8C;font-size:19px;font-weight:800}
+.um-res-p:empty{display:none}
+.um-res-bs{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:10px}
+.um-res-b{min-height:62px;padding:0 30px;border:0;border-radius:999px;background:#FFFFFF;color:#1E2A4A;font-family:inherit;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 6px 0 rgba(20,70,130,.22)}
+.um-res-b1,.um-res-bs:not(:has(.um-res-b1)) .um-res-b:last-child{background:linear-gradient(180deg,#FFD84D,#FFB01F);box-shadow:0 6px 0 #D98A00}
+@media (max-height: 500px){.um-res{gap:6px;padding:0 8px 12px}.um-res-g{display:none}.um-res-st{min-height:0}.um-res-st img{width:52px!important;height:52px!important}.um-res-h{font-size:28px;-webkit-text-stroke-width:6px}.um-res-p{padding:3px 14px;font-size:16px}.um-res-bs{margin-top:4px}.um-res-b{min-height:52px;font-size:18px}}
+.um-res-toy{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 10px;border-radius:24px;background:rgba(255,255,255,.92);color:#1E2A4A;font-size:16px;font-weight:900;line-height:1.15;text-align:left;animation:um-starin .6s cubic-bezier(.3,1.6,.5,1) .9s both}
 .um-res-toy img{width:62px;height:62px}
 .um-lim{max-width:640px;margin:0 auto;padding:8px 16px}.um-lim-i{width:120px;height:120px;animation:um-hop 2.4s ease-in-out infinite}
 /* «Доставка» */
@@ -1359,10 +1364,10 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <p class="um-res-p">{{res.text}}</p>
 <sc-if value="{{res.hasToy}}" hint-placeholder-val="{{ false }}"><div class="um-res-toy"><img src="{{res.toy}}" alt="" draggable="false"><span>Новая игрушка<br>для твоего поезда!</span></div></sc-if>
 <sc-if value="{{res.isRecord}}" hint-placeholder-val="{{ false }}"><span style="background: #FFF4D6; color: #7A5200; border-radius: 999px; padding: 8px 18px; font-size: 17px; font-weight: 900">Новый рекорд!</span></sc-if>
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px">
-<button type="button" class="press" onClick="{{res.replay}}" style="min-height: 56px; padding: 0 24px; border-radius: 999px; border: 2px solid #1E2A4A; background: #FFFFFF; color: #1E2A4A; font-size: 19px; font-weight: 900; cursor: pointer">Ещё раз</button>
-<sc-if value="{{res.hasNext}}" hint-placeholder-val="{{ true }}"><button type="button" class="press" onClick="{{res.next}}" style="min-height: 56px; padding: 0 24px; border-radius: 999px; border: 2px solid {{accent}}; background: {{accent}}; color: #FFFFFF; font-size: 19px; font-weight: 900; cursor: pointer">{{res.nextLabel}}</button></sc-if>
-<button type="button" class="press" onClick="{{res.homeGo}}" style="min-height: 56px; padding: 0 24px; border-radius: 999px; border: 2px solid #C9D3EE; background: #FFFFFF; color: #1E2A4A; font-size: 19px; font-weight: 800; cursor: pointer">{{res.homeLabel}}</button>
+<div class="um-res-bs">
+<button type="button" class="press um-res-b" onClick="{{res.replay}}">Ещё раз</button>
+<sc-if value="{{res.hasNext}}" hint-placeholder-val="{{ true }}"><button type="button" class="press um-res-b um-res-b1" onClick="{{res.next}}">{{res.nextLabel}}</button></sc-if>
+<button type="button" class="press um-res-b" onClick="{{res.homeGo}}">{{res.homeLabel}}</button>
 </div>
 </section>
 </main>
@@ -4499,7 +4504,7 @@ class Component extends DCLogic {
       isHub: st.ready && st.screen === 'hub', hub: hub,
       isAuth: st.ready && st.screen === 'auth', isWho: st.ready && st.screen === 'who', isKid: st.ready && st.screen === 'kid', isAccount: st.ready && st.screen === 'account', isGate: st.ready && st.screen === 'gate',
       me: me, auth: auth, who: who, kidf: kidf, acct: acct, gate: gate, notice: notice,
-      skyCls: st.screen === 'game' ? 'um-sky um-calm' : 'um-sky', headCls: st.screen === 'game' || st.screen === 'rest' || st.screen === 'mytrain' || (st.screen === 'home' && !age) ? 'um-head-off' : '', showFooter: st.screen !== 'game' && st.screen !== 'mytrain' && !(st.screen === 'home' && !!age),
+      skyCls: st.screen === 'game' ? 'um-sky um-calm' : 'um-sky', headCls: st.screen === 'game' || st.screen === 'rest' || st.screen === 'mytrain' || (st.screen === 'home' && !age) ? 'um-head-off' : '', showFooter: st.screen !== 'game' && st.screen !== 'mytrain' && st.screen !== 'result' && st.screen !== 'limit' && !(st.screen === 'home' && !!age),
       plants: st.plants.map(function (d) { return decoVals(d, 'um-dsway'); }),
       goHome: function () { self.go('home'); }, goParents: function () { self.paintThumbs(); self.parentGo({ screen: 'parents' }); }, goProfile: function () { self.go('progress'); }, showBack: st.screen !== 'home',
       profCur: st.screen === 'progress' ? 'page' : 'false', profAria: 'Мой профиль: ' + starsWord(total), soundIc: st.sound ? '#1E2A4A' : '#9AA6C4', soundCls: st.sound ? '' : 'um-hb-mute',
@@ -4512,7 +4517,7 @@ class Component extends DCLogic {
       game: game, canSpeak: st.sound && (speechOk || !!(st.screen === 'game' && st.tasks[st.ti] && VOICE[st.tasks[st.ti].audio])), speak: function () { self.speak(); },
       restart: function () { if (st.level && st.level.topic) self.openTopic(st.level.g, st.level.n - 1); else if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
       res: res,
-      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, rootCls: st.screen === 'home' ? 'um-root-home' : '', meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
+      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, rootCls: st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' ? 'um-root-home' : '', meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
       ageInfo: [
         { label: '3–4', text: 'Без цифр и без чтения: каждое задание звучит голосом само. Цвета и названия предметов, один и много, тени, что пропало, большой и маленький, где больше и где меньше, найти такой же, что лишнее, простые пары.' },
         { label: '5–6', text: 'Первые буквы: найти букву по звуку и первую букву слова. Счёт до 15, узоры и закономерности, «больше — меньше», что лишнее, примеры до 10 и чуть дальше.' }
