@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-e929ac778e0d') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-2eb5cb4e2d68') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -234,10 +234,11 @@ button:disabled{cursor:default}
 .um-pf-scene{position:absolute;left:0;right:0;top:0;height:46%;overflow:hidden;pointer-events:none}.um-pf-scene img{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max(100%,760px);height:auto}.um-pf-scene .um-map-rays{top:0}
 .um-pf-card2>*:not(.um-pf-scene){position:relative}
 .um-pf-card2 .um-pf-avabtn .um-ava{width:126px;height:126px;border:6px solid #FFFFFF;box-shadow:0 7px 0 rgba(20,60,40,.28)}
-.um-pf-card2 .um-pf-who{gap:4px;padding:10px 14px;border-radius:24px;background:rgba(255,255,255,.93);min-width:min(100%,260px);box-sizing:border-box}
-.um-pf-card2 .um-pf-nick{color:#1E2A4A;text-shadow:none;font-size:28px;min-height:40px}
-.um-pf-card2 .um-pf-sub{color:#4A5578;font-size:15px}
-.um-pf-card2 .um-pf-id{background:#EEF2FB;color:#1E2A4A;font-size:15px;min-height:40px}.um-pf-card2 .um-pf-id.um-done{background:#D5F5E3;color:#128A4E}
+.um-pf-card2 .um-pf-who{align-items:center;gap:6px;padding:10px 16px 14px;border-radius:24px;background:rgba(255,255,255,.93);min-width:min(100%,260px);box-sizing:border-box}
+.um-pf-tags{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}
+.um-pf-card2 .um-pf-nick{position:relative;justify-content:center;padding:0 30px;color:#1E2A4A;text-shadow:none;font-size:28px;min-height:40px}.um-pf-card2 .um-pf-nick svg{position:absolute;right:2px;top:50%;margin-top:-10px}
+.um-pf-card2 .um-pf-sub{display:inline-flex;align-items:center;min-height:32px;padding:0 14px;box-sizing:border-box;border-radius:999px;background:#FFF0BF;color:#7A5200;font-size:14px;font-weight:900;opacity:1}
+.um-pf-card2 .um-pf-id{gap:6px;min-height:32px;padding:0 11px 0 14px;background:#E3ECFF;color:#27467F;font-size:14px;letter-spacing:.03em}.um-pf-card2 .um-pf-id svg{width:14px;height:14px}.um-pf-card2 .um-pf-id.um-done{background:#D5F5E3;color:#128A4E}
 .um-pf-card2 .um-pf-stats{width:100%;margin-top:2px}
 .um-pf-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .um-pf-tile{position:relative;overflow:hidden;min-width:0;min-height:138px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:1px;padding:12px 14px;border:0;border-radius:28px;background:linear-gradient(160deg,var(--a),var(--b));color:#FFFFFF;cursor:pointer;font-family:inherit;text-align:left;box-shadow:inset 0 -6px 0 var(--s),0 14px 22px -16px var(--s)}
@@ -315,12 +316,14 @@ main{animation:um-scr .28s ease}
 .um-mt .bt-car.um-tip{animation:um-mt-tip .9s ease-in-out both!important;transform-origin:50% 100%}
 @keyframes um-mt-tip{0%{transform:none}35%{transform:rotate(-7deg) translateY(-5px)}65%{transform:rotate(5deg)}100%{transform:none}}
 .um-mt-toy.um-gone{opacity:0}
-.um-mt-toy img{animation:um-mt-in .35s cubic-bezier(.3,1.7,.5,1)}
+.um-mt-toy img{animation:um-mt-in .62s linear}
 @media (max-width: 520px){.um-mt-train{--tw:84vw;right:-12vw}}
-@keyframes um-mt-in{from{transform:translateY(-34px) scale(.7);opacity:0}to{transform:none;opacity:1}}
+@keyframes um-mt-in{0%{transform:translateY(-170%);opacity:0;animation-timing-function:cubic-bezier(.5,0,.9,.5)}14%{opacity:1}62%{transform:translateY(0);animation-timing-function:ease-out}78%{transform:translateY(-9%);animation-timing-function:ease-in}100%{transform:none}}
+.um-mt .bt-car.um-bump{animation:um-mt-bump .42s ease-out .34s both!important}
+@keyframes um-mt-bump{0%,100%{transform:none}35%{transform:translateY(4px)}70%{transform:translateY(-1px)}}
 .um-mt.um-busy .um-mt-go,.um-mt.um-busy .um-mt-order,.um-mt.um-busy .um-mt-shelf{opacity:0;pointer-events:none}
 .um-mt.um-busy .um-mt-toy{pointer-events:none}
-.um-mt-toy{position:absolute;left:calc(6% + var(--n) * 44%);top:-50%;width:46%;padding:0;border:0;background:transparent;cursor:pointer;z-index:0;transition:opacity .1s}
+.um-mt-toy{position:absolute;left:calc(6% + var(--n) * 44%);top:-30%;width:46%;padding:0;border:0;background:transparent;cursor:pointer;z-index:0;transition:opacity .1s}
 .um-mt-toy img{display:block;width:100%;height:auto}
 .um-mt .bt-car svg{pointer-events:none}
 .um-mt-x{position:absolute;z-index:5;left:max(12px,env(safe-area-inset-left));top:max(12px,env(safe-area-inset-top));width:54px;height:54px;border:0;border-radius:16px;color:#FFFFFF;background:linear-gradient(180deg,#6FB4FF,#2F7BEA);box-shadow:inset 0 -5px 0 rgba(10,30,70,.22);cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -1450,8 +1453,8 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 <button type="button" class="press um-pf-avabtn" onClick="{{pf.edit}}" aria-label="Сменить аватарку"><span class="um-ava {{pf.ava.cls}}" style="background: {{pf.ava.bg}}"><img src="{{pf.ava.src}}" alt=""></span><span class="um-pf-pen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.8z"></path><path d="M14.5 6l3 3"></path></svg></span></button>
 <div class="um-pf-who">
 <button type="button" class="press um-pf-nick {{pf.nickCls}}" onClick="{{pf.editNick}}" aria-label="{{pf.nickAria}}"><span>{{pf.nick}}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.8z"></path><path d="M14.5 6l3 3"></path></svg></button>
-<span class="um-pf-sub">{{pf.sub}}</span>
-<button type="button" class="press um-pf-id {{pf.idCls}}" onClick="{{pf.copy}}" aria-label="{{pf.idAria}}"><span>{{pf.idText}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"></rect><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"></path></svg></button>
+<div class="um-pf-tags"><span class="um-pf-sub">{{pf.sub}}</span>
+<button type="button" class="press um-pf-id {{pf.idCls}}" onClick="{{pf.copy}}" aria-label="{{pf.idAria}}"><span>{{pf.idText}}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"></rect><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"></path></svg></button></div>
 </div>
 <div class="um-pf-stats" aria-label="Мои успехи"><sc-for list="{{pf.stats}}" as="s" hint-placeholder-count="3"><div class="um-pf-stat"><img src="{{s.img}}" alt=""><strong>{{s.n}}</strong><span>{{s.label}}</span></div></sc-for></div>
 </section>
@@ -3447,6 +3450,8 @@ function avaOf(p) { p = p || {}; if (p.photo) return { src: p.photo, bg: '#FFFFF
 function cleanLook(p, r) { r.uid = UID_RE.test(p.uid) ? p.uid : null; r.ava = AVA_SET[p.ava] ? p.ava : ''; r.avaBg = AVA_BG[p.avaBg] ? p.avaBg : ''; r.photo = typeof p.photo === 'string' && p.photo.indexOf('data:image/') === 0 && p.photo.length < 300000 ? p.photo : ''; return r; }
 // у каждого игрока свой номер: 6 знаков без похожих букв и цифр (0 и O, 1 и I). Пока сервера нет, он случайный и проверяется на этом устройстве
 function allPlayers(db) { var r = [db.guest]; Object.keys(db.accounts || {}).forEach(function (e) { r = r.concat(db.accounts[e].kids || []); }); return r; }
+// номер для показа: только цифры, шесть штук; внутри у игрока остаётся прежний ключ, поэтому его рисунки и успехи не теряются
+function idDigits(uid) { var h = 7, s = String(uid || ''); for (var i = 0; i < s.length; i++) h = (h * 131 + s.charCodeAt(i)) % 2147483647; return String(100000 + h % 900000); }
 function newUid(db) {
   var A = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ', used = {}, id; allPlayers(db).forEach(function (p) { if (p && p.uid) used[p.uid] = true; });
   do { var b = new Uint8Array(6), s = ''; try { window.crypto.getRandomValues(b); } catch (e) { for (var j = 0; j < 6; j++) b[j] = Math.floor(Math.random() * 256); } for (var i = 0; i < 6; i++) s += A[b[i] % 32]; id = 'UM-' + s; } while (used[id]);
@@ -3689,7 +3694,7 @@ class Component extends DCLogic {
   mtNew(i) { var o = dlvOrder(this.state.age, i); return { n: i, order: o, load: [], phase: 'load', msg: '', fly: [], gone: [], tip: -1, run: false, house: ['house-red', 'house-blue', 'house-yellow', 'house-red', 'house-blue'][i] }; }
   mtSay() { var m = this.state.mt, self = this; if (!m || !this.state.sound) return; this.later(function () { if (self.state.mt === m || (self.state.mt && self.state.mt.order === m.order)) self.playVoice(m.order.audio); }, 450); }
   mtPatch(p) { this.setState({ mt: Object.assign({}, this.state.mt, p) }); }
-  mtAdd(id) { var m = this.state.mt; if (m.phase !== 'load') return; if (m.load.length >= 6) { this.snd('bad'); return; } this.snd('tap'); this.mtPatch({ load: m.load.concat([id]), msg: '' }); }
+  mtAdd(id) { var m = this.state.mt; if (m.phase !== 'load') return; if (m.load.length >= 6) { this.snd('bad'); return; } var self = this, w = Math.floor(m.load.length / 2); this.snd('tap'); this.mtPatch({ load: m.load.concat([id]), msg: '', bump: w }); clearTimeout(this._mtB); this._mtB = setTimeout(function () { if (self.state.mt) self.mtPatch({ bump: -1 }); }, 820); }
   mtOff(i) { var m = this.state.mt; if (m.phase !== 'load') return; var l = m.load.slice(); l.splice(i, 1); this.snd('tap'); this.mtPatch({ load: l }); }
   // ===== поездка «Доставки»: длинный мир и камера =====
   // Мир едет слоями с разной скоростью, а поезд ещё и сам смещается по экрану: сначала трогается, потом камера идёт за ним,
@@ -4526,7 +4531,7 @@ class Component extends DCLogic {
     var mt0 = st.mt || { n: 0, order: { need: [], shelf: [] }, load: [], phase: 'load', msg: '', house: 'house-red' }, mtWagon = function (i) { return mt0.load.slice(i * 2, i * 2 + 2).map(function (id, n) { return { cls: (mt0.gone || []).indexOf(i) >= 0 ? 'um-gone' : '', img: 'items/' + id + '.svg', n: n, off: function () { self.mtOff(i * 2 + n); } }; }); };
     var mtPic = []; mt0.order.need.forEach(function (x) { for (var q = 0; q < x.n; q++) mtPic.push('items/' + x.g[1] + '.svg'); });
     var toyNew = Math.min(COLLECT.length, toysN) - 1;
-    var mtBusy = mt0.phase === 'go' || mt0.phase === 'unload' || mt0.phase === 'ok' || mt0.phase === 'leave', mtCar = function (w) { return mt0.tip === w ? 'um-tip' : ''; };
+    var mtBusy = mt0.phase === 'go' || mt0.phase === 'unload' || mt0.phase === 'ok' || mt0.phase === 'leave', mtCar = function (w) { return mt0.tip === w ? 'um-tip' : mt0.bump === w ? 'um-bump' : ''; };
     var mt = { cls: 'um-ph-' + mt0.phase + (mtBusy ? ' um-busy' : '') + (mt0.run ? ' um-run' : '') + (mt0.phase !== 'load' ? ' um-at' : ''), c0: mtCar(0), c1: mtCar(1), c2: mtCar(2), house: 'map/' + mt0.house + '.svg', w0: mtWagon(0), w1: mtWagon(1), w2: mtWagon(2), order: mtPic, msg: mt0.msg, fly: mt0.fly || [], stepText: 'Заказ ' + Math.min(mt0.n + 1, 5) + ' из 5', beads: [0, 1, 2, 3, 4].map(function (i) { return i < mt0.n ? 'um-on' : i === mt0.n ? 'um-now' : ''; }), goCls: mt0.load.length && mt0.phase === 'load' ? '' : 'um-off', winCls: mt0.phase === 'win' ? 'um-on' : '',
       prize: 'items/' + COLLECT[Math.max(0, toyNew)] + '.svg', prizeText: 'За рейс поезд получил новую игрушку. Посмотри её в профиле!', back: function () { self.go('home'); }, again: function () { self.snd('tap'); self.setState({ mt: self.mtNew(0) }); self.mtSay(); }, say: function () { if (st.sound && mt0.order.audio) self.playVoice(mt0.order.audio); }, goIt: function () { self.mtGo(); },
       shelf: mt0.order.shelf.map(function (g) { return { img: 'items/' + g[1] + '.svg', aria: g[2], pick: function () { self.mtAdd(g[1]); } }; }) };
@@ -4536,9 +4541,9 @@ class Component extends DCLogic {
       toys: COLLECT.map(function (id, i) { return { img: 'items/' + id + '.svg', cls: i < toysN ? '' : 'um-lock' }; }), toyNote: toysN < COLLECT.length ? 'Пройди ещё одну тему, и в поезде появится новая игрушка.' : 'Ты собрал все игрушки!', hasArt: myArt.length > 0, art: myArt.map(function (x, i) { return { d: x.d, open: function () { self.snd('tap'); self.setState({ artView: i }); } }; }), artCls: big ? 'um-on' : '', artBig: big ? big.d : '',
       artShut: function () { self.snd('tap'); self.setState({ artView: null }); }, artClose: function (e) { if (e.target.classList && e.target.classList.contains('um-tsheet')) self.setState({ artView: null }); },
       artDel: function () { var a = loadArt(), i = a.indexOf(a.filter(function (x) { return big && x.d === big.d; })[0]); if (i >= 0) a.splice(i, 1); saveArtList(a); self._artList = null; self.snd('tap'); self.setState({ artView: null }); }, ava: meAva, nick: myName || 'Придумай ник', nickCls: myName ? '' : 'um-empty', nickAria: myName ? 'Ник: ' + myName + '. Изменить' : 'Придумать ник', uid: holder.uid || '',
-      idText: st.idCopied ? 'Скопировано!' : 'ID ' + (holder.uid || ''), idCls: st.idCopied ? 'um-done' : '', idAria: 'Мой номер ' + (holder.uid || '') + '. Скопировать', sub: (curKid ? '' : acc ? 'Профиль ребёнка не выбран · ' : '') + (ageNow ? ageText(ageNow) : ''),
+      idText: st.idCopied ? 'Скопировано!' : 'ID ' + idDigits(holder.uid).replace(/(\d{3})(\d{3})/, '$1 $2'), idCls: st.idCopied ? 'um-done' : '', idAria: 'Мой номер ' + idDigits(holder.uid) + '. Скопировать', sub: (curKid ? '' : acc ? 'Профиль ребёнка не выбран · ' : '') + (ageNow ? ageText(ageNow) : ''),
       stats: [{ img: 'items/star-yellow.svg', n: total, label: plural(total, ['звезда', 'звезды', 'звёзд']) }, { img: 'items/gift-purple.svg', n: topicsDone, label: plural(topicsDone, ['тема пройдена', 'темы пройдены', 'тем пройдено']) }, { img: 'items/rocket-red.svg', n: gamesDone, label: plural(gamesDone, ['игра начата', 'игры начаты', 'игр начато']) }],
-      games: myGames, canSwitch: !!acc, switchText: curKid ? 'Сменить игрока' : 'Добавить ребёнка', switchGo: curKid ? me.who : me.add, edit: function () { self.openAva('me'); }, editNick: function () { self.openAva('me', true); }, copy: function () { self.copyId(holder.uid || ''); } };
+      games: myGames, canSwitch: !!acc, switchText: curKid ? 'Сменить игрока' : 'Добавить ребёнка', switchGo: curKid ? me.who : me.add, edit: function () { self.openAva('me'); }, editNick: function () { self.openAva('me', true); }, copy: function () { self.copyId(idDigits(holder.uid || '')); } };
     var e0 = st.avaEd, eTab = e0 ? e0.tab : 'toys', eBg = e0 ? e0.avaBg : 'sky', eForm = !!e0 && e0.target === 'form', eGroup = AVA_GROUPS.filter(function (g) { return g.id === eTab; })[0] || AVA_GROUPS[0];
     var eg = e0 && e0.gate, upOk = !!this.gateAt && Date.now() - this.gateAt < GATE_MS;
     var ed = { upOk: upOk ? '' : 'um-pfs-off', upAsk: upOk || eg ? 'um-pfs-off' : '', gateCls: eg ? '' : 'um-pfs-off', bgCls: e0 && e0.photo ? 'um-pfs-off' : '', gateQ: eg ? eg.a + ' × ' + eg.b + ' = ?' : '', gateAns: eg ? eg.ans : '', gateErr: eg ? eg.err : '', gateErrCls: eg && eg.err ? '' : 'um-pfs-off',
