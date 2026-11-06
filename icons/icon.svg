@@ -4,7 +4,8 @@
 <linearGradient id="y" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFD95E"/><stop offset="1" stop-color="#F2AE1C"/></linearGradient>
 <linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5DB0FF"/><stop offset="1" stop-color="#2F80E8"/></linearGradient></defs>
 <rect width="512" height="512" fill="url(#bg)"/>
-<circle cx="150" cy="300" r="78" fill="url(#r)"/><circle cx="125" cy="270" r="20" fill="#fff" opacity=".55"/>
-<path d="M256 150 L338 300 L174 300 Z" fill="url(#y)" stroke="#F2AE1C" stroke-width="10" stroke-linejoin="round"/>
-<rect x="290" y="228" width="150" height="150" rx="30" fill="url(#b)"/><circle cx="325" cy="262" r="16" fill="#fff" opacity=".55"/>
+<path d="M40 190C130 370 382 370 472 190" fill="none" stroke="#7A8BB0" stroke-width="10" stroke-linecap="round"/>
+<circle cx="130" cy="272" r="82" fill="url(#r)"/><circle cx="104" cy="240" r="21" fill="#fff" opacity=".6"/>
+<circle cx="256" cy="316" r="96" fill="url(#y)"/><circle cx="226" cy="278" r="25" fill="#fff" opacity=".6"/>
+<circle cx="382" cy="272" r="82" fill="url(#b)"/><circle cx="356" cy="240" r="21" fill="#fff" opacity=".6"/>
 </svg>
