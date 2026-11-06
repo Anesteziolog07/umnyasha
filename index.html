@@ -1045,7 +1045,9 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   var play = function () { var me = ++tok; ready.then(function () { if (me !== tok) return; var t = ac.currentTime + .03; layer('birds', .17, 500, 3800, t, 1.6, 1.1); layer('breeze', 3.2, 160, 1500, t, 1.6, 0); layer('leaves', 4, 240, 2600, t, 1.6, .4); chug(t); }).catch(function () {}); };
   var live = true, unlock = function () { if (!live || tok) return; try { ac.resume(); var q = ac.createBufferSource(); q.buffer = ac.createBuffer(1, 1, 22050); q.connect(ac.destination); q.start(0); } catch (x) {} window.__bootKeep = true; if (window.__bootHold) window.__bootHold(); play(); };
   try { ac.resume(); } catch (e) {}
-  setTimeout(function () { if (ac.state === 'running') play(); else ['touchend', 'click', 'keydown'].forEach(function (t) { document.addEventListener(t, unlock, true); }); }, 200);
+  // звук стартует в ту же секунду, как браузер его разрешит: сразу, с задержкой или от первого касания
+  var auto = function () { if (live && !tok && ac.state === 'running') play(); };
+  ac.addEventListener('statechange', auto); setTimeout(auto, 200); ['touchend', 'mousedown', 'click', 'keydown'].forEach(function (t) { document.addEventListener(t, unlock, true); });
   window.__bootSndOff = function () { live = false; tok++; var t = ac.currentTime; master.gain.setValueAtTime(1, t); master.gain.linearRampToValueAtTime(0, t + 1.2); setTimeout(function () { try { ac.close(); } catch (e) {} }, 1350); };
 })();</script>
 
