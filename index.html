@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-8a1e1b804a4d') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-abb2c53bae77') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -2974,6 +2974,8 @@ function toyCount(done) { return Math.min(COLLECT.length, 3 + done + lsGet('umny
 // «Доставка»: домик присылает заказ, ребёнок считает и загружает вагоны. Названия с числами нужны для голоса
 var DLV = [['apple', 'apple-red', 'яблоко', 'яблока', 'два', 'n'], ['banana', 'banana-yellow', 'банан', 'банана', 'два', 'm'], ['carrot', 'carrot-orange', 'морковку', 'морковки', 'две', 'f'], ['tomato', 'tomato-red', 'помидор', 'помидора', 'два', 'm'], ['pear', 'pear-green', 'грушу', 'груши', 'две', 'f'], ['orange', 'orange-orange', 'апельсин', 'апельсина', 'два', 'm'], ['strawberry', 'strawberry-red', 'клубнику', 'клубники', 'две', 'f'], ['cucumber', 'cucumber-green', 'огурец', 'огурца', 'два', 'm']];
 var DLV_OK = { 'Ура! Заказ приехал!': 'dlv-ok-1', 'Спасибо, паровозик!': 'dlv-ok-2', 'Вот это доставка!': 'dlv-ok-3', 'Как вкусно! Спасибо!': 'dlv-ok-4' };
+// звук «фрукт упал в корзинку»: сухой деревянный «тук» яблока о ящик (ElevenLabs, design/tools/dropsfx.py). Мокрые «плоп» и «бульк» не брать
+var DROP_SFX = 'sfx/drop.wav', DROP_RATE = [1, 1.08, .94, 1.04];
 var DLV_PLAN = { '3-4': [[1], [1], [2], [2], [3]], '5-6': [[2], [3], [1, 1], [4], [2, 1]] };
 function dlvText(g, n) { return 'Привези ' + (n === 1 ? g[2] : (n === 2 ? g[4] : n === 3 ? 'три' : 'четыре') + ' ' + g[3]) + '!'; }
 function dlvOrder(age, i) { var kinds = shuffle(DLV.slice()), plan = (DLV_PLAN[age] || DLV_PLAN['3-4'])[i], need = plan.map(function (n, k) { return { g: kinds[k], n: n }; }); return { need: need, shelf: shuffle(kinds.slice(0, plan.length).concat(kinds.slice(plan.length, 6 - 0).slice(0, 5 - plan.length))), audio: plan.length === 1 ? 'dlv-' + need[0].g[0] + '-' + plan[0] : 'dlv-mix' }; }
@@ -3604,6 +3606,11 @@ class Component extends DCLogic {
     if (!force && !this.state.sound) return; var ac = this.ensureAudio(); if (!ac) return;
     try { sfxPlay(this.sfxState, ac, this.bus, ev, arg); } catch (e) {}
   }
+  // короткая настоящая запись вместо синтеза: rate чуть меняет высоту, чтобы подряд звучало живо
+  sndFile(url, vol, rate) {
+    if (!this.state.sound) return; var ac = this.ensureAudio(); if (!ac) return;
+    this.voiceBuf(url).then(function (buf) { var src = ac.createBufferSource(), g = ac.createGain(); g.gain.value = vol; src.buffer = buf; src.playbackRate.value = rate || 1; src.connect(g); g.connect(ac.destination); src.start(); }).catch(function () {});
+  }
   stopSpeech() {
     this._vtok = (this._vtok || 0) + 1;
     // голос гасим плавно: резкая остановка на середине звука слышна как щелчок
@@ -3778,7 +3785,7 @@ class Component extends DCLogic {
     requestAnimationFrame(function () { requestAnimationFrame(tick); });
   }
   mtGo() {
-    var m = this.state.mt, self = this; if (m.phase !== 'load' || !m.load.length) return; this.stopSpeech(); this.snd('chug', null, false); this.mtSpot().forEach(function (el) { self.mtStop(el); });
+    var m = this.state.mt, self = this; if (m.phase !== 'load' || !m.load.length) return; this.stopSpeech(); this.snd('chug', null, false); if (this.ensureAudio()) this.voiceBuf(DROP_SFX).catch(function () {}); this.mtSpot().forEach(function (el) { self.mtStop(el); });
     var box = document.querySelector('.um-mt-crate').getBoundingClientRect(), cx = box.left + box.width / 2;
     this._mtX = [].slice.call(document.querySelectorAll('.um-mt-train .bt-car')).map(function (c) { var r = c.getBoundingClientRect(); return Math.round(cx - (r.left + r.width / 2)); });
     var o1 = -this._mtX[0], T = 5, sm = this.mtSm; this._o = o1;
@@ -3805,7 +3812,7 @@ class Component extends DCLogic {
         var cur = self.state.mt, box = document.querySelector('.um-mt-crate'), c = box.getBoundingClientRect(), car = document.querySelectorAll('.um-mt-train .bt-car')[w], toys = [].slice.call(car.querySelectorAll('.um-mt-toy img')), n0 = cur.fly.length;
         var add = toys.map(function (el, i) { var r = el.getBoundingClientRect(), g = n0 + i, sz = Math.min(r.width * 1.15, c.width * .3), tx = c.left + c.width * (.05 + .31 * (g % 3)), ty = c.top - sz * .56 - Math.floor(g / 3) * sz * .36; return { img: el.getAttribute('src'), x: Math.round(r.left), y: Math.round(r.top), w: Math.round(r.width), k: (sz / r.width).toFixed(2), dx: Math.round(tx - r.left), dy: Math.round(ty - r.top), i: i }; });
         self.mtPatch({ fly: cur.fly.concat(add), gone: cur.gone.concat([w]) });
-        add.forEach(function (f, i) { self.later(function () { self.snd('step'); }, i * 300 + 620); });
+        add.forEach(function (f, i) { self.later(function () { self.sndFile(DROP_SFX, .8, DROP_RATE[(n0 + i) % DROP_RATE.length]); }, i * 300 + 630); });
         self.later(function () { self.mtPatch({ tip: -1 }); self.mtUnload(k + 1); }, add.length * 300 + 760);
       }, 360);
     };
