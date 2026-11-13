@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-5ad55f59868a') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-8698011f35e8') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -286,6 +286,30 @@ button:disabled{cursor:default}
 .um-h-big{flex-basis:calc((100% - var(--g) * (var(--cols) - 1)) / var(--cols) * 2 + var(--g))}
 .um-h-big .um-h-img{aspect-ratio:600/240}
 .um-h-big .um-h-n{font-size:clamp(20px,6vmin,26px)}
+.um-hsec{margin:0 0 18px}
+.um-hsec+.um-hsec{margin-top:10px}
+.um-hidden-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.um-hhead{--HW:min(90vw,480px);position:relative;width:var(--HW);aspect-ratio:1000/250;margin:0 auto 6px}
+.um-hhead svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.um-hth,.um-hth-sh{fill:none;stroke-linecap:round;stroke-dasharray:1100;stroke-dashoffset:1100;animation:um-hdraw .7s cubic-bezier(.4,0,.2,1) var(--d) forwards}
+.um-hth{stroke:#FFFFFF;stroke-width:8}.um-hth-sh{stroke:rgba(30,60,120,.2);stroke-width:9}
+.um-hbd{position:absolute;width:13.2%;aspect-ratio:1;padding:0;margin:0;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transform-origin:50% 50%;animation:um-hbd-in .95s linear calc(var(--d) + .3s + var(--i) * .1s) both,um-hbd-sway 4.6s ease-in-out calc(var(--d) + 1.9s + var(--i) * .35s) infinite}
+.um-hbd img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(30,50,110,.28));pointer-events:none}
+.um-hbd span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:4%;font-size:calc(var(--HW) * .07);font-weight:900;line-height:1;color:#FFFFFF;text-shadow:0 1px 0 rgba(0,0,0,.22),0 0 5px rgba(0,0,0,.18);pointer-events:none}
+.um-hbd.um-hop2{animation:um-hbd-hop .5s ease-out}
+.um-hsec .um-h-t{animation:um-h-pop .55s cubic-bezier(.2,.9,.3,1.25) calc(var(--d) + .75s + var(--i) * 60ms) backwards}
+@keyframes um-hdraw{to{stroke-dashoffset:0}}
+@keyframes um-hbd-in{0%{transform:translateY(-260%) rotate(-200deg) scale(.5);opacity:0;animation-timing-function:cubic-bezier(.45,0,.9,.6)}10%{opacity:1}52%{transform:translateY(0) rotate(0) scale(1);animation-timing-function:ease-out}60%{transform:translateY(4%) scale(1.16,.85)}70%{transform:translateY(-14%) scale(.95,1.05) rotate(-6deg);animation-timing-function:ease-in}80%{transform:translateY(0) scale(1.05,.95) rotate(5deg)}90%{transform:rotate(-2deg)}100%{transform:none;opacity:1}}
+@keyframes um-hbd-sway{0%,100%{rotate:0deg}30%{rotate:3deg}70%{rotate:-3deg}}
+@keyframes um-hbd-hop{0%{transform:none}25%{transform:translateY(4%) scale(1.14,.86)}55%{transform:translateY(-30%) scale(.94,1.06) rotate(-8deg)}80%{transform:translateY(0) scale(1.06,.94) rotate(4deg)}100%{transform:none}}
+@keyframes um-h-pop{from{opacity:0;transform:translateY(26px) scale(.86)}to{opacity:1;transform:none}}
+html:not(.um-booted) .um-hsec,html:not(.um-booted) .um-hsec *{animation-play-state:paused!important}
+html.um-hseen .um-hth,html.um-hseen .um-hth-sh{animation:none;stroke-dashoffset:0}
+html.um-hseen .um-hbd{animation:um-hbd-sway 4.6s ease-in-out calc(var(--i) * .35s) infinite}
+html.um-hseen .um-hbd.um-hop2{animation:um-hbd-hop .5s ease-out}
+html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20ms) backwards}
+@media (min-width: 1000px){.um-hsec .um-h-big{flex-basis:calc((100% - var(--g) * (var(--cols) - 1)) / var(--cols))}.um-hsec .um-h-big .um-h-img{aspect-ratio:300/240}.um-hsec .um-h-big .um-h-n{font-size:clamp(17px,4.9vmin,22px)}}
+@media (prefers-reduced-motion: reduce){.um-hsec *{animation:none!important}.um-hth,.um-hth-sh{stroke-dashoffset:0}}
 @keyframes um-h-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (min-width: 600px){.um-h{--cols:4}}
 @media (min-width: 600px) and (max-height: 500px){.um-h{--cols:5;--g:12px}}
@@ -1334,11 +1358,28 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 
 
 <sc-if value="{{showGames}}" hint-placeholder-val="{{ true }}">
+<section class="um-hsec" style="--d: 0s" aria-label="Учимся">
+<div class="um-hhead" aria-hidden="true"><svg viewBox="0 0 1000 250"><path class="um-hth-sh" d="M20 78Q500 238 980 78"></path><path class="um-hth" d="M20 70Q500 230 980 70"></path></svg>
+<sc-for list="{{learnBeads}}" as="b" hint-placeholder-count="6"><button type="button" tabindex="-1" class="um-hbd" data-hb="{{b.id}}" style="--i: {{b.i}}; left: {{b.x}}%; top: {{b.y}}%" onClick="{{b.tap}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></button></sc-for>
+</div>
+<h2 class="um-hidden-t">Учимся</h2>
 <div class="um-h">
-<sc-for list="{{tiles}}" as="w" hint-placeholder-count="8">
+<sc-for list="{{learnTiles}}" as="w" hint-placeholder-count="6">
 <button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"><span class="um-h-n">{{w.title}}</span></button>
 </sc-for>
 </div>
+</section>
+<section class="um-hsec" style="--d: 0.55s" aria-label="Играем">
+<div class="um-hhead" aria-hidden="true"><svg viewBox="0 0 1000 250"><path class="um-hth-sh" d="M20 78Q500 238 980 78"></path><path class="um-hth" d="M20 70Q500 230 980 70"></path></svg>
+<sc-for list="{{playBeads}}" as="b" hint-placeholder-count="6"><button type="button" tabindex="-1" class="um-hbd" data-hb="{{b.id}}" style="--i: {{b.i}}; left: {{b.x}}%; top: {{b.y}}%" onClick="{{b.tap}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></button></sc-for>
+</div>
+<h2 class="um-hidden-t">Играем</h2>
+<div class="um-h">
+<sc-for list="{{playTiles}}" as="w" hint-placeholder-count="6">
+<button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"><span class="um-h-n">{{w.title}}</span></button>
+</sc-for>
+</div>
+</section>
 <div class="um-pp-open"><button type="button" class="press" onClick="{{goParents}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.500" width="14" height="10" rx="2.500"></rect><path d="M8 10.500V8a4 4 0 0 1 8 0v2.500"></path></svg>Родителям</button></div>
 </sc-if>
 </main>
@@ -3104,6 +3145,9 @@ var GAME_TOYS = { colors: ['balloon-red', 'ball-yellow', 'car-blue'], train: ['c
   pairs: ['gift-green', 'ball-blue', 'gift-green'], letters: ['balloon-red', 'balloon-blue', 'balloon-green'], first: ['ball-red', 'banana-yellow', 'car-blue'] };
 // главный экран делится на «Играем» (просто игры, без уроков) и «Учимся» (развивашки с темами)
 var PLAY_GAMES = { train: true, paint: true };
+// раздел «Учимся» на главной: уроки с темами; всё остальное лежит в «Играем»
+var LEARN_IDS = { daily: true, 'daily-done': true, colors: true, items: true, sort: true, compare: true, count: true, math: true, shelf: true, letters: true, first: true };
+var HB_IMG = ['splash/bead-0-3fc93128.png', 'splash/bead-1-57e5ddee.png', 'splash/bead-2-0dc5a138.png', 'splash/bead-3-90eed79f.png', 'splash/bead-4-c8a3ab9a.png', 'splash/bead-5-6dcd2bf3.png'];
 var LAST_KEY = 'umnyasha.last', POS_KEY = 'umnyasha.pos';
 // где ребёнок остановился в игре: тема и задание
 function posAll() { try { return JSON.parse(window.localStorage.getItem(POS_KEY) || '{}') || {}; } catch (e) { return {}; } }
@@ -3716,6 +3760,11 @@ class Component extends DCLogic {
     try { sfxPlay(this.sfxState, ac, this.bus, ev, arg); } catch (e) {}
   }
   // короткая настоящая запись вместо синтеза: rate чуть меняет высоту, чтобы подряд звучало живо
+  // бусина в заголовке раздела: от нажатия подпрыгивает и мягко «пыкает»
+  beadHop(id, i) {
+    var e = document.querySelector('[data-hb="' + id + '"]'); if (e) { e.classList.remove('um-hop2'); void e.offsetWidth; e.classList.add('um-hop2'); }
+    this.sndFile('sfx/splash-bead.wav', .7, .94 + .03 * i);
+  }
   sndFile(url, vol, rate) {
     if (!this.state.sound) return; var ac = this.ensureAudio(); if (!ac) return;
     this.voiceBuf(url).then(function (buf) { var src = ac.createBufferSource(), g = ac.createGain(); g.gain.value = vol; src.buffer = buf; src.playbackRate.value = rate || 1; src.connect(g); g.connect(ac.destination); src.start(); }).catch(function () {});
@@ -4687,7 +4736,12 @@ class Component extends DCLogic {
     var artAll = st.screen === 'progress' ? (this._artList || (this._artList = loadArt())) : [], myArt = artAll.filter(function (x) { return x && x.u === holder.uid && typeof x.d === 'string' && x.d.indexOf('data:image/') === 0; }), big = st.artView != null ? myArt[st.artView] : null;
     var toysN = toyCount(topicsDone), dayDone = lsGet('umnyasha.daily', {})[holder.uid] === dayKey();
     // главная: занятие дня и все игры сразу видны большими картинками; нажал — играешь
-    var tiles = [{ id: dayDone ? 'daily-done' : 'daily', title: 'Занятие дня', cls: 'um-h-big', open: function () { self.openDaily(); } }, { id: 'delivery', title: 'Доставка', open: function () { self.openMyTrain(); } }].concat(games.map(function (g) { return { id: g.id, title: g.title, open: g.open }; })).map(function (w, i) { return { title: w.title, cls: w.cls || '', open: w.open, img: 'tiles/' + w.id + '.svg', i: i }; });
+    // главная делится на «Учимся» (уроки с темами) и «Играем» (игры на внимание, память и фантазию); над каждым разделом слово из бусин, как в заставке
+    var allT = [{ id: dayDone ? 'daily-done' : 'daily', title: 'Занятие дня', cls: 'um-h-big', open: function () { self.openDaily(); } }, { id: 'delivery', title: 'Доставка', open: function () { self.openMyTrain(); } }].concat(games.map(function (g) { return { id: g.id, title: g.title, open: g.open }; }));
+    var mkT = function (a) { return a.map(function (w, i) { return { title: w.title, cls: w.cls || '', open: w.open, img: 'tiles/' + w.id + '.svg', i: i }; }); };
+    var tiles = mkT(allT), learnTiles = mkT(allT.filter(function (w) { return LEARN_IDS[w.id]; })), playTiles = mkT(allT.filter(function (w) { return !LEARN_IDS[w.id]; }));
+    var mkB = function (key, word, cols) { return word.split('').map(function (t, i) { var x = 500 + (i - 2.5) * 160, u = (x - 20) / 960, y = 70 + 320 * u * (1 - u); return { id: key + i, i: i, t: t, img: HB_IMG[cols[i]], x: ((x - 66) / 10).toFixed(2), y: ((y - 66) / 2.5).toFixed(2), tap: function () { self.beadHop(key + i, i); } }; }); };
+    var learnBeads = mkB('l', 'Учимся', [4, 5, 0, 1, 2, 3]), playBeads = mkB('p', 'Играем', [0, 1, 2, 3, 4, 5]);
     var skillRows = SKILLS.map(function (s) { var ids = s.ids.filter(function (id) { return ageNow && gameForAge(id, ageNow); }), a = 0, b = 0; ids.forEach(function (id) { a += gameLv(st.lv, ageNow, id).passed; b += gameSteps(id); }); return { title: s.t, n: ids.length, pct: b ? Math.round(a * 100 / b) : 0, color: s.c }; }).filter(function (s) { return s.n > 0; });
     var byPct = skillRows.slice().sort(function (x, y) { return y.pct - x.pct; }), tMin = Math.round(timeOf(holder.uid, 1) / 60000), wMin = Math.round(timeOf(holder.uid, 7) / 60000), limNow = lsGet('umnyasha.limit', 0), planNow = st.plan || 'year';
     var par = { who: myName || 'Ваш ребёнок', ageText: ageNow ? ageText(ageNow) : 'Возраст не выбран',
@@ -4808,7 +4862,7 @@ class Component extends DCLogic {
       game: game, canSpeak: st.sound && (speechOk || !!(st.screen === 'game' && st.tasks[st.ti] && VOICE[st.tasks[st.ti].audio])), speak: function () { self.speak(); },
       restart: function () { if (st.level && st.level.topic) self.openTopic(st.level.g, st.level.n - 1); else if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
       res: res,
-      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, rootCls: st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' || st.screen === 'mytrain' ? 'um-root-home' : '', meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
+      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, learnTiles: learnTiles, playTiles: playTiles, learnBeads: learnBeads, playBeads: playBeads, rootCls: st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' || st.screen === 'mytrain' ? 'um-root-home' : '', meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
       ageInfo: [
         { label: '3–4', text: 'Без цифр и без чтения: каждое задание звучит голосом само. Цвета и названия предметов, один и много, тени, что пропало, большой и маленький, где больше и где меньше, найти такой же, что лишнее, простые пары.' },
         { label: '5–6', text: 'Первые буквы: найти букву по звуку и первую букву слова. Счёт до 15, узоры и закономерности, «больше — меньше», что лишнее, примеры до 10 и чуть дальше.' }
@@ -4824,7 +4878,7 @@ class Component extends DCLogic {
 DCLite.mount(Component, document.getElementById('app'), document.getElementById('tpl'), {});
 // заставка держится не меньше 1,8 с, потом плавно исчезает
 (function () { var b = document.getElementById('boot'), t0 = window.__bootT || Date.now(), done = false, skip = /[?&]demo=/.test(location.search);
-  var out = function () { if (done) return; done = true; if (window.__bootSndOff) window.__bootSndOff(); b.classList.add('out'); setTimeout(function () { b.remove(); }, 600); };
+  var out = function () { if (done) return; done = true; var de = document.documentElement; de.classList.add('um-booted'); setTimeout(function () { de.classList.add('um-hseen'); }, 4500); if (window.__bootSndOff) window.__bootSndOff(); b.classList.add('out'); setTimeout(function () { b.remove(); }, 600); };
   var tm = 0; window.__bootArm = function (ms) { clearTimeout(tm); tm = setTimeout(out, ms); };
   if (!window.__bootWait) window.__bootArm(Math.max(skip ? 0 : 300, (skip ? 0 : 5600) - (Date.now() - t0)));
   b.addEventListener('click', function () { if (window.__bootWait) return; if (window.__bootKeep) { window.__bootKeep = false; return; } out(); }); })();
