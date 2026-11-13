@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-bbcf636492cb') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-504ee96cf837') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -1076,7 +1076,6 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </div>
 <script>(function () {
   var b = document.getElementById('boot');
-  // звук: на каждую бусину — короткий сухой деревянный «тук» (sfx/drop.wav), чуть выше с каждой бусиной. Больше ничего не звучит
   try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
   var C = window.AudioContext || window.webkitAudioContext, on = true; try { var d = JSON.parse(localStorage.getItem('umnyasha.v2') || 'null'); if (d && d.sound === false) on = false; } catch (e) {}
   var ac; if (C && on && !/[?&]demo=/.test(location.search)) try { ac = new C(); } catch (e) {}
@@ -1084,10 +1083,12 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   window.__bootWait = true;
   var go = function () { b.classList.remove('bt-hold', 'bt-tap'); window.__bootWait = false; window.__bootT = Date.now(); if (window.__bootArm) window.__bootArm(5600); };
   var tok = 0, bufs = {}, master = ac.createGain(); master.connect(ac.destination);
-  var ready = fetch('sfx/drop.wav').then(function (r) { return r.arrayBuffer(); }).then(function (x) { return new Promise(function (ok, no) { ac.decodeAudioData(x, ok, no); }); }).then(function (v) { bufs.tok = v; });
-  var tick = function (at, rate, gain) { var q = ac.createBufferSource(), g = ac.createGain(); q.buffer = bufs.tok; q.playbackRate.value = rate; g.gain.value = gain; q.connect(g); g.connect(master); q.start(at); };
-  // бусина падает .75 с и касается нитки на 70 % пути: .8 + .2·i + .52
-  var play = function () { var me = ++tok; ready.then(function () { if (me !== tok) return; var t = ac.currentTime + .02; for (var i = 0; i < 6; i++) tick(t + .8 + .2 * i + .52, .9 + .04 * i, .5); }).catch(function () {}); };
+  // звуки выбраны в «интервью звуками» (claude.ai/artifact/Dt6E1sXx2Cwm9jg12TxUD7): на бусину — «сухой поп» Mixkit (4★), финал — «мерцающие искры» Mixkit (4★, «понравился»)
+  var load = function (n, u) { return fetch(u).then(function (r) { return r.arrayBuffer(); }).then(function (x) { return new Promise(function (ok, no) { ac.decodeAudioData(x, ok, no); }); }).then(function (v) { bufs[n] = v; }); };
+  var ready = Promise.all([load('pop', 'sfx/bead-pop.wav'), load('fin', 'sfx/splash-fin.m4a')]);
+  var tick = function (n, at, rate, gain) { var q = ac.createBufferSource(), g = ac.createGain(); q.buffer = bufs[n]; q.playbackRate.value = rate; g.gain.value = gain; q.connect(g); g.connect(master); q.start(at); };
+  // бусина падает .75 с и касается нитки на 70 % пути: .8 + .2·i + .52; финал — когда по бусинам бежит блик (2,55 с)
+  var play = function () { var me = ++tok; ready.then(function () { if (me !== tok) return; var t = ac.currentTime + .02; for (var i = 0; i < 6; i++) tick('pop', t + .8 + .2 * i + .52, .94 + .03 * i, .75); tick('fin', t + 2.5, 1, .85); }).catch(function () {}); };
   var live = true, unlock = function () { if (!live || tok) return; try { ac.resume(); var q = ac.createBufferSource(); q.buffer = ac.createBuffer(1, 1, 22050); q.connect(ac.destination); q.start(0); } catch (x) {} window.__bootKeep = true; go(); play(); };
   try { ac.resume(); } catch (e) {}
   // если браузер разрешил звук сам, кнопка не нужна: заставка сразу идёт дальше
