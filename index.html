@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-7fce3a279a34') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-ed8b01403d6d') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -405,9 +405,16 @@ html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20
 @media (hover:hover){.um-hsec .um-h-t:hover{transform:translateY(-3px)}}
 .um-hsec .um-h-t:active{transform:scale(.95)}
 .um-hhead{--HW:min(68vw,330px);margin-bottom:0}
-html.um-hseen .um-hsec .um-h-img{animation:um-wig 11s ease-in-out calc(2s + var(--i) * 1.9s) infinite;transform-origin:50% 90%}
-@keyframes um-wig{0%,6%,100%{transform:none}1.5%{transform:rotate(-2.2deg) scale(1.02)}3%{transform:rotate(2deg) scale(1.02)}4.5%{transform:rotate(-1deg)}}
-@media (prefers-reduced-motion: reduce){html.um-hseen .um-hsec .um-h-img{animation:none}}
+/* превьюшки 14.11: карточка стоит на месте, а картинка внутри медленно «дышит» и плывёт, как живая; иногда по ней проходит мягкий блик */
+.um-h-pic{position:relative;display:block;overflow:hidden;border-radius:20px;isolation:isolate}
+.um-h-pic .um-h-img{display:block;width:100%}
+.um-h-pic::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);opacity:0}
+html.um-hseen .um-hsec .um-h-img{animation:um-drift 16s ease-in-out calc(var(--i) * -2.7s) infinite alternate;transform-origin:50% 60%}
+html.um-hseen .um-hsec .um-h-pic::after{animation:um-shine 9s ease-in-out calc(3s + var(--i) * 1.3s) infinite}
+@keyframes um-drift{0%{transform:scale(1.03) translate(0,0)}33%{transform:scale(1.08) translate(-1.5%,-1%)}66%{transform:scale(1.06) translate(1.5%,-.5%)}100%{transform:scale(1.1) translate(0,-1.5%)}}
+@keyframes um-shine{0%,72%{transform:translateX(-120%);opacity:0}74%{opacity:1}92%{transform:translateX(120%);opacity:1}93%,100%{transform:translateX(120%);opacity:0}}
+@media (prefers-reduced-motion: reduce){html.um-hseen .um-hsec .um-h-img,html.um-hseen .um-hsec .um-h-pic::after{animation:none}}
+@media (max-width: 520px){.um-h-pic{border-radius:17px}}
 .um-root-home .um-hsec{position:relative}
 .um-home-veil{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.28) 30%,rgba(255,255,255,.42) 100%)}
 .um-me{min-height:50px;padding:3px 12px 3px 4px;border-radius:999px;box-shadow:0 6px 16px -8px rgba(60,40,150,.45)}
@@ -1633,7 +1640,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 <h2 class="um-hidden-t">Учимся</h2>
 <div class="um-h">
 <sc-for list="{{learnTiles}}" as="w" hint-placeholder-count="6">
-<button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"><span class="um-h-n">{{w.title}}</span></button>
+<button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><span class="um-h-pic"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"></span><span class="um-h-n">{{w.title}}</span></button>
 </sc-for>
 </div>
 </section>
@@ -1643,7 +1650,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 <h2 class="um-hidden-t">Играем</h2>
 <div class="um-h">
 <sc-for list="{{playTiles}}" as="w" hint-placeholder-count="6">
-<button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"><span class="um-h-n">{{w.title}}</span></button>
+<button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><span class="um-h-pic"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"></span><span class="um-h-n">{{w.title}}</span></button>
 </sc-for>
 </div>
 </section>
@@ -2967,6 +2974,12 @@ var PAINT_TOOLS = [['fill', 'Ведёрко', 'items/bucket-blue.svg'], ['brush'
 var PAINT_STICKERS = ['ball-red', 'star-yellow', 'flower-red', 'tulip-purple', 'balloon-blue', 'gift-green', 'car-red', 'rocket-red', 'boat-white', 'sun-yellow', 'cloud-white', 'apple-red', 'strawberry-red', 'lollipop-orange', 'candy-purple', 'umbrella-purple'];
 var PAINT_PATS = [['zig', 'Зигзаг'], ['cloud', 'Облачка'], ['dots', 'Горошек'], ['heart', 'Сердечки'], ['stripe', 'Полоски'], ['check', 'Клетка'], ['wave', 'Волны'], ['flower', 'Цветочки']];
 var PAINT_TILES = {}, PAINT_THUMBS = {};
+// рисунки из ChatGPT (paint/pic/*.png, design/art/gpt_lineart.py): грузим заранее, чтобы холст рисовал их сразу
+function paintArtLoad() {
+  return fetch('paint/lines.json').then(function (r) { return r.json(); }).then(function (art) {
+    return Promise.all(Object.keys(art).map(function (k) { var a = art[k]; if (!a.img) return null; return new Promise(function (ok) { var im = new Image(); im.onload = function () { a.im = im; ok(); }; im.onerror = function () { ok(); }; im.src = a.img; }); })).then(function () { return art; });
+  });
+}
 // плитка узора: рисуем один раз, потом ею красим и показываем её на кнопке
 function paintTile(id) {
   if (PAINT_TILES[id]) return PAINT_TILES[id]; if (typeof document === 'undefined' || !document.createElement) return null;
@@ -4321,7 +4334,7 @@ class Component extends DCLogic {
   paintInit(t) {
     if (typeof Image === 'undefined' || typeof document === 'undefined' || !document.createElement) return;
     var self = this, tok = this._pt = (this._pt || 0) + 1; this._p = null; this.paintThumbs();
-    if (!this._artP) this._artP = fetch('paint/lines.json').then(function (r) { return r.json(); });
+    if (!this._artP) this._artP = paintArtLoad();
     var go = function (n) {
       if (tok !== self._pt || n > 60) return;
       var box = document.querySelector('.um-pw-paper'), r = box && box.getBoundingClientRect();
@@ -4347,7 +4360,7 @@ class Component extends DCLogic {
     var shape = function (p, open) { if (!open) { L.globalCompositeOperation = 'destination-out'; L.fill(p); L.globalCompositeOperation = 'source-over'; } L.stroke(p); };
     var wave = function (y, amp, n, ph) { var p = new Path2D(), st = (W + 80) / n; p.moveTo(-40, y); for (var i = 0; i < n; i++) { var x0 = -40 + i * st, s = (i + ph) % 2 ? 1 : -1; p.bezierCurveTo(x0 + st * .35, y + amp * s, x0 + st * .65, y + amp * s, x0 + st, y); } return p; };
     var cloud = function (cx, cy, s) { var p = new Path2D('M-100 30C-142 30-150-22-105-28C-100-72-40-82-15-50C10-88 80-76 86-30C136-30 142 30 100 30Z'), q = new Path2D(); q.addPath(p, new DOMMatrix([s, 0, 0, s, cx, cy])); shape(q); };
-    var sun = function (cx, cy, r) { for (var i = 0; i < 10; i++) { var a = i * .628, p = new Path2D(), u = Math.cos(a), v = Math.sin(a), e = .17; p.moveTo(cx + r * 1.2 * Math.cos(a - e), cy + r * 1.2 * Math.sin(a - e)); p.lineTo(cx + r * 1.72 * u, cy + r * 1.72 * v); p.lineTo(cx + r * 1.2 * Math.cos(a + e), cy + r * 1.2 * Math.sin(a + e)); p.closePath(); shape(p); } var c = new Path2D(); c.arc(cx, cy, r, 0, 6.3); shape(c); };
+    var sun = function (cx, cy, r) { for (var i = 0; i < 8; i++) { var a = i * Math.PI / 4 + .2, p = new Path2D(), w = r * .16, u = Math.cos(a), v = Math.sin(a), h = Math.PI / 2; p.arc(cx + r * 1.62 * u, cy + r * 1.62 * v, w, a - h, a + h); p.arc(cx + r * 1.3 * u, cy + r * 1.3 * v, w, a + h, a + 3 * h); p.closePath(); shape(p); } var c = new Path2D(); c.arc(cx, cy, r, 0, 6.3); shape(c); };   /* лучи-капельки с круглыми концами */
     var gy = H * (scene === 'sky' ? .9 : wide ? .86 : .84);
     sun(wide ? W * .1 : W * .17, H * (wide ? .17 : .1), m * (wide ? .085 : .08));
     cloud(wide ? W * .88 : W * .78, H * (wide ? .14 : .09), m / (wide ? 560 : 640));
@@ -4356,13 +4369,16 @@ class Component extends DCLogic {
     if (scene === 'sea') { L.stroke(wave(H * .7, H * .018, wide ? 9 : 5, 0)); L.stroke(wave(H * .85, H * .022, wide ? 7 : 4, 1)); } else L.stroke(wave(gy, H * .018, wide ? 4 : 2, 0));
     if (scene !== 'sea') [[.07, .95], [.2, .93], [.8, .94], [.93, .96]].forEach(function (g) { var t = new Path2D(), u = W * g[0], v = H * g[1], s = m * .03; t.moveTo(u - s, v); t.quadraticCurveTo(u - s * .8, v - s, u - s * 1.2, v - s * 1.5); t.moveTo(u, v); t.lineTo(u, v - s * 1.8); t.moveTo(u + s, v); t.quadraticCurveTo(u + s * .8, v - s, u + s * 1.2, v - s * 1.5); L.stroke(t); });
     var B = wide ? Math.min(W * .62, H * .78) : Math.min(W * .9, H * .6), cx = W / 2, top = scene === 'sky' ? H * .47 - B / 2 : scene === 'sea' ? H * .79 - B * .885 : gy - B * .985;
-    L.setTransform(B / 1000, 0, 0, B / 1000, cx - B / 2, top); art.p.forEach(function (s) { var p = new Path2D(s.d); L.lineWidth = (s.w ? s.w * .62 : 7.6) / 7.6 * lw * 1000 / B; shape(p, s.o); });
+    L.setTransform(B / 1000, 0, 0, B / 1000, cx - B / 2, top); if (art.im) {   // картинка: белое нутро стирает линии сцены, потом всё белое становится прозрачным, остаются только чернила
+      L.globalCompositeOperation = 'destination-out'; L.drawImage(art.im, 0, 0, 1000, 1000); L.globalCompositeOperation = 'source-over'; L.drawImage(art.im, 0, 0, 1000, 1000); L.setTransform(1, 0, 0, 1, 0, 0);
+      var g = L.getImageData(0, 0, W, H), q = g.data; for (var i = 0; i < q.length; i += 4) { if (!q[i + 3]) continue; var ink = Math.min(255, (255 - Math.min(q[i], q[i + 1], q[i + 2])) * 1.15); q[i + 3] = q[i + 3] * ink / 255; q[i] = 34; q[i + 1] = 35; q[i + 2] = 46; } L.putImageData(g, 0, 0);
+    } else art.p.forEach(function (s) { var p = new Path2D(s.d); L.lineWidth = (s.w ? s.w * .62 : 7.6) / 7.6 * lw * 1000 / B; shape(p, s.o); });
     L.setTransform(1, 0, 0, 1, 0, 0);
   }
   // значки рисунков для галереи и печати: рисуем один раз
   paintThumbs() {
     var self = this; if (this._thumbsGo || typeof document === 'undefined' || !document.createElement) return; this._thumbsGo = true;
-    if (!this._artP) this._artP = fetch('paint/lines.json').then(function (r) { return r.json(); });
+    if (!this._artP) this._artP = paintArtLoad();
     // по одному рисунку за раз, чтобы экран не замирал на телефоне
     this._artP.then(function (art) { self._art = art; var keys = Object.keys(art), i = 0, c = document.createElement('canvas'); c.width = 320; c.height = 240; var x = c.getContext('2d'), d = document.createElement('canvas'); d.width = 320; d.height = 240; var y = d.getContext('2d');
       var one = function () { if (i >= keys.length) { self.setState({ thumbs: Date.now() }); return; } var k = keys[i++]; self.paintScene(x, 320, 240, art[k]); y.fillStyle = '#FFFFFF'; y.fillRect(0, 0, 320, 240); y.drawImage(c, 0, 0); PAINT_THUMBS[k] = d.toDataURL('image/jpeg', .8); if (i % 5 === 0) self.setState({ thumbs: Date.now() }); setTimeout(one, 12); }; one();
