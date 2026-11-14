@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-06f0d294b1a9') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-75988122e5b6') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -3882,7 +3882,7 @@ FIN.wash = {
   },
   tap: function (t, fs, id) {
     if (id === 'scrubbed' && fs.ph === 0) return { fs: { ph: 1 } };
-    if (id === 'rinsed' && fs.ph === 1) return { fs: { ph: 2 }, done: true, wait: 3800 };
+    if (id === 'rinsed' && fs.ph === 1) return { fs: { ph: 2 }, done: true, wait: 3800, sfx: 'sfx/w-shine.m4a' };
     return null;
   },
   answer: function (t, fs) { return fs.ph === 0 ? 'scrubbed' : 'rinsed'; }
@@ -3972,7 +3972,7 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
     T.g.style.transform = 'translate3d(' + (T.x - T.w * .5) + 'px,' + (T.y - T.w * .55) + 'px,0) scaleX(-1) rotate(-25deg)';
     var nx = T.x - T.w * .42, ny = T.y - T.w * .35, hx = nx - T.w * .55, hy = ny + T.w * .75;
     if (Date.now() - T.last > 30) { T.last = Date.now(); for (var k = 0; k < 3; k++) spawn(nx + (Math.random() - .5) * 6, ny, hx - nx + (Math.random() - .5) * 20, hy - ny + (Math.random() - .5) * 20); }
-    if (W.ph === 1) { rinse(hx, hy); rinse((nx + hx * 2) / 3, (ny + hy * 2) / 3); }
+    if (W.ph === 1) { rinse(hx, hy); rinse((nx + hx * 2) / 3, (ny + hy * 2) / 3); if (FX.app && Date.now() - (T.snd || 0) > 1200) { T.snd = Date.now(); FX.app.sndFile('sfx/w-rinse.m4a', .8); } }   // шум воды, пока льём
   };
   document.addEventListener('pointermove', move);
   setInterval(function () { if (T && T.kind === 'hose') move({ pointerId: T.id, clientX: T.x, clientY: T.y }); }, 50);   // шланг поливает и когда палец стоит
@@ -4761,7 +4761,7 @@ class Component extends DCLogic {
   }
   // перетаскивание игрушки пальцем или мышкой к вагончику
   trainDrag() {
-    var self = this, drag = null, hot = null; if (typeof document === 'undefined' || !document.addEventListener) return;
+    var self = this, drag = null, hot = null; FX.app = this;   // звуки из слоёв вне игры (шланг автомойки) if (typeof document === 'undefined' || !document.addEventListener) return;
     // игрушку тащит её копия поверх всего экрана: перерисовка игры ей не мешает. Палец не обязан попасть точно в вагончик — достаточно попасть на поезд, берётся ближайший вагончик
     var at = function (x, y) {
       var sc = document.querySelector('.um-train'); if (!sc) return null; var r = sc.getBoundingClientRect();
