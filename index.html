@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-ed8b01403d6d') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-0c99606a393c') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -367,10 +367,20 @@ html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20
 .um-gate-t img{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 2px rgba(30,50,110,.3))}
 .um-gate-t span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:6%;color:#FFFFFF;font-weight:900;font-size:clamp(14px,4.2vw,24px);text-shadow:0 1px 0 rgba(0,0,0,.25)}
 @keyframes um-dbead{0%,70%,100%{transform:none}78%{transform:translateY(-22%) rotate(-8deg)}86%{transform:translateY(0) scale(1.08,.92)}92%{transform:translateY(-6%)}}
-.um-gates:not(.um-gates-sm) .um-gate{animation:um-gate-in .7s cubic-bezier(.2,1.4,.4,1) both,um-gate-bob 3.2s ease-in-out .8s infinite}
-.um-gates:not(.um-gates-sm) .um-gate-p{animation-delay:.12s,2.4s}
+.um-gates:not(.um-gates-sm) .um-gate{animation:um-gate-in .7s cubic-bezier(.2,1.4,.4,1) both}
+.um-gates:not(.um-gates-sm) .um-gate-p{animation-delay:.12s}
 @keyframes um-gate-in{from{opacity:0;transform:translateY(40px) scale(.85)}to{opacity:1;transform:none}}
 @keyframes um-gate-bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-.8deg)}}
+/* большие двери 14.11: сама дверь стоит, а картинка внутри живёт — медленно приближается и плывёт, по ней пробегает блик и мерцают искорки */
+.um-gates:not(.um-gates-sm) .um-gate-pic{position:relative;isolation:isolate}
+.um-gates:not(.um-gates-sm) .um-gate-pic img{animation:um-gpic 14s ease-in-out infinite alternate;transform-origin:50% 35%}
+.um-gates:not(.um-gates-sm) .um-gate-p .um-gate-pic img{animation-delay:-7s}
+.um-gates:not(.um-gates-sm) .um-gate-pic::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%);transform:translateX(-120%);animation:um-shine 7s ease-in-out 1.5s infinite}
+.um-gates:not(.um-gates-sm) .um-gate-p .um-gate-pic::after{animation-delay:5s}
+.um-gates:not(.um-gates-sm) .um-gate-pic::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 18% 22%,#FFFFFF 0 3px,rgba(255,255,255,.5) 4px,transparent 9px),radial-gradient(circle at 82% 16%,#FFF6C2 0 3px,rgba(255,240,170,.5) 4px,transparent 10px),radial-gradient(circle at 70% 64%,#FFFFFF 0 2px,rgba(255,255,255,.5) 3px,transparent 8px),radial-gradient(circle at 28% 74%,#FFF6C2 0 2px,rgba(255,240,170,.5) 3px,transparent 8px);animation:um-gspark 3.6s ease-in-out infinite}
+.um-gates:not(.um-gates-sm) .um-gate-p .um-gate-pic::before{animation-delay:-1.8s;background-position:6% -4%}
+@keyframes um-gpic{0%{transform:scale(1.02) translate(0,0)}50%{transform:scale(1.08) translate(-1.5%,1%)}100%{transform:scale(1.05) translate(1.5%,-.5%)}}
+@keyframes um-gspark{0%,100%{opacity:0;transform:scale(.6)}45%,55%{opacity:1;transform:scale(1)}}
 @media (hover:hover){.um-gate:hover .um-gate-pic img{transform:scale(1.06)}.um-gate:hover{transform:translateY(-4px)}}
 .um-gate:active{transform:scale(.95)}
 /* после выбора: компактные вкладки */
@@ -438,6 +448,9 @@ main{animation:um-scr .28s ease}
 @keyframes um-scr{from{opacity:.45}to{opacity:1}}
 .press:active:not(:disabled){transform:translateY(2px) scale(.95)}
 /* экран награды */
+.um-fx{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
+.um-fx-st{position:absolute;display:block;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
+.um-fx-bd{position:absolute;display:block;height:auto;filter:drop-shadow(0 3px 3px rgba(0,0,0,.2))}
 .um-res{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 8px 28px;text-align:center}
 .um-res>*{position:relative}
 .um-res-rays{position:fixed!important;z-index:-1;left:50%;top:32%;width:220vmax;height:220vmax;margin:-110vmax 0 0 -110vmax;border-radius:50%;background:repeating-conic-gradient(rgba(255,255,255,.2) 0 11deg,transparent 11deg 24deg);-webkit-mask-image:radial-gradient(circle,#000 0,#000 12vmax,transparent 62vmax);mask-image:radial-gradient(circle,#000 0,#000 12vmax,transparent 62vmax);animation:bt-spin 40s linear infinite;pointer-events:none}
@@ -898,7 +911,7 @@ body:has(.um-root-game) #um-scene{display:none}
 .um-tr-stars i{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#FFFFFF;box-shadow:0 0 6px #FFFFFF;animation:um-twk 2.4s ease-in-out var(--d) infinite}
 @keyframes um-twk{0%,100%{opacity:.35}50%{opacity:1}}
 .um-tr-sun{z-index:1;left:9%;top:4%;width:clamp(90px,24%,190px);height:auto;transition:top 1.6s ease,left 1.6s ease,filter 1.6s ease,opacity 1.2s ease;animation:um-sun-pulse 4s ease-in-out infinite}
-@media (max-aspect-ratio: 3/4){.um-tr-sun{top:20%;left:5%;width:24%}.um-st2 .um-tr-sun{top:25%;left:9%}.um-tr-moon{top:calc(20% + 6vw);left:12%}.um-tr-rainbow{top:24%}}
+@media (max-aspect-ratio: 3/4){.um-tr-sun{top:20%;left:5%;width:24%}.um-tr-moon{top:calc(20% + 6vw);left:12%}.um-tr-rainbow{top:24%}}
 @keyframes um-sun-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 .um-tr-moon{z-index:4;left:16%;top:calc(4% + clamp(20px,6vw,50px));width:clamp(44px,10%,80px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 36% 38%,#FFF8CF,#FFE680 70%);-webkit-mask:radial-gradient(circle at 72% 34%,transparent 39%,#000 40%);mask:radial-gradient(circle at 72% 34%,transparent 39%,#000 40%);filter:drop-shadow(0 0 10px rgba(255,240,170,.8));opacity:0;transform:scale(.8);transition:opacity 1.6s ease,transform 1.6s ease}
 .um-tr-rainbow{z-index:1;left:8%;right:30%;top:22%;aspect-ratio:2/1;border-radius:999px 999px 0 0;background:radial-gradient(circle at 50% 100%,transparent 52%,rgba(155,123,255,.55) 53%,rgba(79,178,245,.55) 57%,rgba(107,214,107,.55) 61%,rgba(255,225,77,.55) 65%,rgba(255,170,72,.55) 69%,rgba(255,107,138,.55) 73%,transparent 74%);-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 92%);mask-image:linear-gradient(180deg,#000 55%,transparent 92%);opacity:0;transition:opacity 1.6s ease}
@@ -912,11 +925,15 @@ body:has(.um-root-game) #um-scene{display:none}
 .um-tr-rail-deco{left:0;right:0;top:calc(var(--sky) + 1.5%);height:100%;z-index:4;transition:filter 1.4s ease}
 .um-tr-rail-deco img{bottom:auto;top:0}
 @keyframes um-trwind{0%,100%{transform:rotate(-4deg) skewX(2deg)}45%{transform:rotate(5deg) skewX(-4deg)}70%{transform:rotate(1.5deg) skewX(-1deg)}}
-/* 2: радуга */
-.um-st1 .um-tr-rainbow{opacity:1}
-/* 3: золотой вечер */
-.um-st2 .um-tr-tint{opacity:1;background:linear-gradient(180deg,rgba(255,170,60,.42),rgba(255,200,110,.22) 60%,rgba(255,190,90,.14))}
-.um-st2 .um-tr-sun{top:16%;left:16%;filter:saturate(1.2) hue-rotate(-8deg)}
+/* 1: ранний рассвет — солнца ещё нет, только розовое зарево над холмами и гаснущие звёзды; со следующим поездом солнце поднимается из-за холмов */
+.um-st0 .um-tr-tint{opacity:1;background:linear-gradient(180deg,rgba(70,80,170,.55),rgba(160,130,210,.38) 30%,rgba(255,150,170,.36) 48%,rgba(255,205,160,.38) 60%,rgba(90,90,140,.2) 70%,rgba(40,60,80,.22))}
+.um-st0 .um-tr-sun{--sw:clamp(90px,24vw,190px);width:var(--sw);top:calc(63.5% - .215 * max(100%, 66.67vw) + var(--sw) * .2);left:18%;opacity:.9;filter:hue-rotate(-20deg) saturate(1.3)}
+.um-st0 .um-tr-stars{opacity:.4}
+.um-st0 .um-tr-cloud{filter:sepia(.3) hue-rotate(-50deg) saturate(1.4) brightness(.92)}
+.um-st0 .um-tr-meadow,.um-st0 .um-tr-rail-deco{filter:brightness(.82) saturate(.9)}
+.um-st0 .um-train{filter:brightness(.95)}
+/* 2: солнечный день (по умолчанию). 3: радуга */
+.um-st2 .um-tr-rainbow{opacity:1}
 /* 4: закат */
 .um-st3 .um-tr-tint{opacity:1;background:linear-gradient(180deg,rgba(120,70,200,.45),rgba(255,110,90,.42) 38%,rgba(255,170,90,.3) 58%,rgba(120,60,40,.18))}
 .um-st3 .um-tr-sun{--sw:clamp(90px,24vw,190px);width:var(--sw);top:calc(63.5% - .215 * max(100%, 66.67vw) - var(--sw) * .52);left:18%;filter:hue-rotate(-28deg) saturate(1.5) brightness(1.05)}
@@ -2974,6 +2991,46 @@ var PAINT_TOOLS = [['fill', 'Ведёрко', 'items/bucket-blue.svg'], ['brush'
 var PAINT_STICKERS = ['ball-red', 'star-yellow', 'flower-red', 'tulip-purple', 'balloon-blue', 'gift-green', 'car-red', 'rocket-red', 'boat-white', 'sun-yellow', 'cloud-white', 'apple-red', 'strawberry-red', 'lollipop-orange', 'candy-purple', 'umbrella-purple'];
 var PAINT_PATS = [['zig', 'Зигзаг'], ['cloud', 'Облачка'], ['dots', 'Горошек'], ['heart', 'Сердечки'], ['stripe', 'Полоски'], ['check', 'Клетка'], ['wave', 'Волны'], ['flower', 'Цветочки']];
 var PAINT_TILES = {}, PAINT_THUMBS = {};
+// живые реакции 14.11: правильный ответ — предмет подпрыгивает и разлетаются звёздочки, ошибка — мягко качается, конец игры — салют из бусин.
+// Всё рисуется в отдельном слое поверх страницы и ничего не меняет в разметке игры
+var FX_BEADS = ['splash/bead-0-3fc93128.png', 'splash/bead-1-57e5ddee.png', 'splash/bead-2-0dc5a138.png', 'splash/bead-3-90eed79f.png', 'splash/bead-4-c8a3ab9a.png', 'splash/bead-5-6dcd2bf3.png'];
+var FX_COLS = ['#FFD126', '#FF8A1F', '#F2354F', '#4FD8C2', '#6CCBFF', '#9F4CED', '#9BD93C'];
+var FX = { tap: null, layer: null, calm: false };
+if (typeof document !== 'undefined' && document.addEventListener) {
+  document.addEventListener('pointerdown', function (e) { var el = e.target && e.target.closest ? e.target.closest('button, .um-toy, .um-wagon') : null; FX.tap = { x: e.clientX, y: e.clientY, el: el, t: Date.now() }; }, true);
+  try { FX.calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+}
+function fxLayer() { if (FX.layer && FX.layer.isConnected) return FX.layer; var d = document.createElement('div'); d.className = 'um-fx'; d.setAttribute('aria-hidden', 'true'); document.body.appendChild(d); return (FX.layer = d); }
+function fxAnim(el, kf, o) { try { return el.animate(kf, o); } catch (e) { return null; } }
+function fxStars(x, y, n, big) {
+  var L = fxLayer();
+  for (var i = 0; i < n; i++) {
+    var s = document.createElement('i'), a = Math.PI * 2 * i / n + Math.random() * .5, d = (big ? 90 : 60) + Math.random() * (big ? 70 : 40), z = (big ? 22 : 16) + Math.random() * 10;
+    s.className = 'um-fx-st'; s.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + z + 'px;height:' + z + 'px;background:' + FX_COLS[i % FX_COLS.length]; L.appendChild(s);
+    var an = fxAnim(s, [{ transform: 'translate(-50%,-50%) scale(.2) rotate(0deg)', opacity: 1 }, { transform: 'translate(calc(-50% + ' + Math.cos(a) * d + 'px),calc(-50% + ' + Math.sin(a) * d + 'px)) scale(1) rotate(' + (120 + Math.random() * 120) + 'deg)', opacity: 1, offset: .6 }, { transform: 'translate(calc(-50% + ' + Math.cos(a) * d * 1.15 + 'px),calc(-50% + ' + (Math.sin(a) * d * 1.15 + 30) + 'px)) scale(.4) rotate(260deg)', opacity: 0 }], { duration: 750 + Math.random() * 250, easing: 'cubic-bezier(.2,.8,.3,1)' });
+    (function (s) { if (an) an.onfinish = function () { s.remove(); }; else setTimeout(function () { s.remove(); }, 900); })(s);
+  }
+}
+function fxBeads(x, y, n, spread) {   // салют: бусины взлетают и падают дугой
+  var L = fxLayer();
+  for (var i = 0; i < n; i++) {
+    var b = document.createElement('img'), a = -Math.PI / 2 + (Math.random() - .5) * spread, v = 160 + Math.random() * 200, z = 20 + Math.random() * 18;
+    b.src = FX_BEADS[i % FX_BEADS.length]; b.className = 'um-fx-bd'; b.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + z + 'px'; L.appendChild(b);
+    var dx = Math.cos(a) * v, dy = Math.sin(a) * v;
+    var an = fxAnim(b, [{ transform: 'translate(-50%,-50%) scale(.3)', opacity: 0 }, { transform: 'translate(calc(-50% + ' + dx * .6 + 'px),calc(-50% + ' + dy * .8 + 'px)) scale(1)', opacity: 1, offset: .35 }, { transform: 'translate(calc(-50% + ' + dx + 'px),calc(-50% + ' + (dy + 40) + 'px)) scale(1) rotate(180deg)', opacity: 1, offset: .7 }, { transform: 'translate(calc(-50% + ' + dx * 1.2 + 'px),calc(-50% + ' + (dy + 260) + 'px)) scale(.8) rotate(320deg)', opacity: 0 }], { duration: 1500 + Math.random() * 500, easing: 'cubic-bezier(.25,.7,.4,1)' });
+    (function (b) { if (an) an.onfinish = function () { b.remove(); }; else setTimeout(function () { b.remove(); }, 2000); })(b);
+  }
+}
+function fxJoy(el) { if (el) fxAnim(el, [{ transform: 'none' }, { transform: 'scale(1.14,.86)', offset: .18 }, { transform: 'translateY(-16px) scale(.94,1.08)', offset: .45 }, { transform: 'scale(1.05,.95)', offset: .75 }, { transform: 'none' }], { duration: 620, easing: 'ease-out', composite: 'add' }); }
+function fxNope(el) { if (el) fxAnim(el, [{ transform: 'none' }, { transform: 'translateX(-9px) rotate(-3deg)', offset: .2 }, { transform: 'translateX(8px) rotate(2.5deg)', offset: .45 }, { transform: 'translateX(-5px) rotate(-1.5deg)', offset: .7 }, { transform: 'none' }], { duration: 480, easing: 'ease-in-out', composite: 'add' }); }
+function fxEvent(ev) {
+  if (FX.calm || typeof document === 'undefined' || !document.body) return;
+  var t = FX.tap && Date.now() - FX.tap.t < 1500 ? FX.tap : null, x = t ? t.x : innerWidth / 2, y = t ? t.y : innerHeight / 2, el = t && t.el && t.el.isConnected && !t.el.closest('.um-hb, .um-gtop, .um-pw-col, .um-pw-tools') ? t.el : null;
+  if (ev === 'ok' || ev === 'step') { fxJoy(el); fxStars(x, y, ev === 'ok' ? 10 : 7, false); }
+  else if (ev === 'reward') { fxJoy(el); fxStars(x, y, 14, true); setTimeout(function () { fxBeads(innerWidth / 2, innerHeight * .75, 16, 1.6); }, 250); }
+  else if (ev === 'bad') fxNope(el);
+  else if (ev === 'finish') { [0, 450, 900, 1400].forEach(function (d, k) { setTimeout(function () { fxBeads(innerWidth * [.5, .25, .75, .5][k], innerHeight * [.7, .6, .6, .5][k], 22, 1.9); }, d + 300); }); }
+}
 // рисунки из ChatGPT (paint/pic/*.png, design/art/gpt_lineart.py): грузим заранее, чтобы холст рисовал их сразу
 function paintArtLoad() {
   return fetch('paint/lines.json').then(function (r) { return r.json(); }).then(function (art) {
@@ -4015,6 +4072,7 @@ class Component extends DCLogic {
     return this.ac;
   }
   snd(ev, arg, force) {
+    if (!force || ev === 'finish') fxEvent(ev);
     if (!force && !this.state.sound) return; var ac = this.ensureAudio(); if (!ac) return;
     try { sfxPlay(this.sfxState, ac, this.bus, ev, arg); } catch (e) {}
   }
@@ -4312,6 +4370,19 @@ class Component extends DCLogic {
     if (t.wagons.length === 1) { this.trainPut(i, 0); return; }
     this.snd('tap'); this.setState({ trSel: st.trSel === i ? -1 : i, trBad: -1, trBadW: -1 });
   }
+  // игрушка летит в вагон по дуге и опускается внутрь, вагончик чуть приседает под ней
+  trainFly(i, w) {
+    if (FX.calm || typeof document === 'undefined') return; var te = document.querySelector('.um-sec-train [data-tri="' + i + '"] img'); if (!te) return;
+    var r0 = te.getBoundingClientRect(), src = te.getAttribute('src');
+    var go = function (n) {
+      var wg = document.querySelector('.um-sec-train [data-trw="' + w + '"]'), its = wg ? [].slice.call(wg.querySelectorAll('.um-load-it')).filter(function (x) { return x.getAttribute('src') === src; }) : [], el = its[its.length - 1];
+      if (!el) { if (n < 6) requestAnimationFrame(function () { go(n + 1); }); return; }
+      var r1 = el.getBoundingClientRect(); if (!r1.width) return; var dx = r0.left + r0.width / 2 - (r1.left + r1.width / 2), dy = r0.top + r0.height / 2 - (r1.top + r1.height / 2), k = r0.width / r1.width, up = Math.min(dy, 0) - 90;
+      fxAnim(el, [{ transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + k + ')', zIndex: 9 }, { transform: 'translate(' + dx * .45 + 'px,' + up + 'px) scale(' + (k * .9 + .2) + ') rotate(-12deg)', offset: .5 }, { transform: 'translate(0,-12px) scale(1.05) rotate(4deg)', offset: .82 }, { transform: 'none' }], { duration: 560, easing: 'cubic-bezier(.3,.6,.4,1)' });
+      setTimeout(function () { var im = wg.querySelector('.um-wagon-front') || wg; fxAnim(wg, [{ transform: 'none' }, { transform: 'translateY(4px) scaleY(.94)' }, { transform: 'translateY(-2px) scaleY(1.02)' }, { transform: 'none' }], { duration: 380, easing: 'ease-out', composite: 'add' }); }, 470);
+    };
+    requestAnimationFrame(function () { go(0); });
+  }
   trainWagon(w) { var st = this.state; if (st.trSel >= 0) this.trainPut(st.trSel, w); }
   trainPut(i, w) {
     var st = this.state, t = st.tasks[st.ti], it = t && t.items[i], self = this; if (!it || t.mode !== 'train' || st.solved || st.tr[i]) return;
@@ -4322,6 +4393,7 @@ class Component extends DCLogic {
       return;
     }
     var tr = Object.assign({}, st.tr); tr[i] = w + 1;
+    this.trainFly(i, w);
     var left = t.items.filter(function (x, k) { return !tr[k] && trainFits(t, x); }).length;
     if (left) { this.snd('ok'); this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, fb: null }); return; }
     // все игрушки на месте: похвала, гудок — и поезд уезжает
@@ -4869,7 +4941,7 @@ class Component extends DCLogic {
           : ptool === 'sticker' ? PAINT_STICKERS.map(function (id) { return { st: '', cls: 'um-plain', img: 'paint/st/' + id + '.png', aria: 'Наклейка', on: id === pstk ? 'true' : 'false', pick: function () { self.snd('tap'); self.paintStickerImg(id); self.setState({ paintStk: id }); } }; }) : game.palette;
       }
       if (game.isTrain) {
-        game.secCls = 'um-sec-train'; game.trStage = (function () { var N = st.tasks.length, i = st.ti; if (!st.tasks.every(function (x) { return x.mode === 'train'; })) return 'um-st0'; if (N >= 3 && i === N - 1) return 'um-st4'; if (N >= 3 && i === N - 2) return 'um-st3'; return 'um-st' + (N > 3 ? Math.round(i * 2 / (N - 3)) : 0); })(); /* день → радуга → золотой вечер → закат → ночь (последний поезд) */ game.trCls = st.intro ? 'um-tr-wait' : st.trGo ? 'um-tr-go' : 'um-tr-in'; game.toysCls = st.intro ? 'um-toys-wait' : st.ti % 2 ? 'um-toys-a' : 'um-toys-b'; var bgv = TRAIN_BG || t.bg || '1'; game.bg1 = bgv === '1'; game.bg2 = bgv === '2'; game.bg3 = bgv === '3';
+        game.secCls = 'um-sec-train'; game.trStage = (function () { var N = st.tasks.length, i = st.ti; if (!st.tasks.every(function (x) { return x.mode === 'train'; })) return 'um-st1'; if (N < 4) return 'um-st1'; if (i === 0) return 'um-st0'; if (i === N - 1) return 'um-st4'; if (i === N - 2) return 'um-st3'; return N >= 5 && i === N - 3 ? 'um-st2' : 'um-st1'; })(); /* рассвет без солнца → солнце встаёт (день) → радуга → закат за холмы → ночь */ game.trCls = st.intro ? 'um-tr-wait' : st.trGo ? 'um-tr-go' : 'um-tr-in'; game.toysCls = st.intro ? 'um-toys-wait' : st.ti % 2 ? 'um-toys-a' : 'um-toys-b'; var bgv = TRAIN_BG || t.bg || '1'; game.bg1 = bgv === '1'; game.bg2 = bgv === '2'; game.bg3 = bgv === '3';
         game.wagons = t.wagons.map(function (c, w) {
           var load = []; t.items.forEach(function (it, k) { if (st.tr[k] === w + 1) load.push({ img: 'items/' + it.s + '-' + it.c + '.svg', n: load.length }); });
           return { i: w, img: WG_IMG[c] || WG_IMG.red, front: WG_FRONT[c] || WG_FRONT.red, hasSign: !!t.kinds, sign: t.kinds ? 'items/' + t.kinds[w] + '-' + t.signCol[w] + '.svg' : '', hex: C[c].hex, rim: c === 'white' ? '#C3CCDD' : 'rgba(20,24,40,.22)', inner: c === 'white' ? '#C9D0DC' : 'color-mix(in srgb, ' + C[c].hex + ' 62%, #000000)', top: c === 'white' ? '#FFFFFF' : 'color-mix(in srgb, ' + C[c].hex + ' 78%, #FFFFFF)', aria: C[c].m.charAt(0).toUpperCase() + C[c].m.slice(1) + ' вагончик', load: load, put: function () { self.trainWagon(w); },
