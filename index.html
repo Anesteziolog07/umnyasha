@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-ee00d36b5e56') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-4d3e634edd70') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -482,6 +482,7 @@ main{animation:um-scr .28s ease}
 .press:active:not(:disabled){transform:translateY(2px) scale(.95)}
 /* экран награды */
 .um-fx{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden}
+.um-lot{position:absolute;pointer-events:none}
 .um-fx-st{position:absolute;display:block;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
 .um-fx-bd{position:absolute;display:block;height:auto;filter:drop-shadow(0 3px 3px rgba(0,0,0,.2))}
 .um-res{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;padding:6px 8px 28px;text-align:center}
@@ -3066,6 +3067,7 @@ var FX_COLS = ['#FFD126', '#FF8A1F', '#F2354F', '#4FD8C2', '#6CCBFF', '#9F4CED',
 var FX = { tap: null, layer: null, calm: false };
 if (typeof document !== 'undefined' && document.addEventListener) {
   document.addEventListener('pointerdown', function (e) { var el = e.target && e.target.closest ? e.target.closest('button, .um-toy, .um-wagon') : null; FX.tap = { x: e.clientX, y: e.clientY, el: el, t: Date.now() }; }, true);
+  document.addEventListener('pointerdown', function () { if (FX.pre) return; FX.pre = true; setTimeout(function () { lotLib(); lotTxt('spark'); lotTxt('ribbon'); }, 300); }, { capture: true, once: true });   /* при первом касании заранее подгружаем искорки и ленты, чтобы первый эффект не опаздывал */
   try { FX.calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 }
 function fxLayer() { if (FX.layer && FX.layer.isConnected) return FX.layer; var d = document.createElement('div'); d.className = 'um-fx'; d.setAttribute('aria-hidden', 'true'); document.body.appendChild(d); return (FX.layer = d); }
@@ -3089,15 +3091,29 @@ function fxBeads(x, y, n, spread) {   // салют: бусины взлетаю
     (function (b) { if (an) an.onfinish = function () { b.remove(); }; else setTimeout(function () { b.remove(); }, 2000); })(b);
   }
 }
+/* готовые анимации LottieFiles, выбранные владельцем: искорки, мыльный пузырь, дождь конфетти, конфетти лентами. Проигрыватель и файлы грузятся только при первом эффекте */
+var LOT = { lib: null, txt: {}, src: { spark: 'splash/lf/sparkle.json', bubble: 'splash/lf/bubble.json', rain: 'splash/lf/confetti-rain.json', ribbon: 'splash/lf/confetti-ribbon.json' } };
+function lotLib() { if (LOT.lib) return LOT.lib; LOT.lib = new Promise(function (ok) { if (window.lottie) { ok(window.lottie); return; } var sc = document.createElement('script'); sc.src = 'splash/lf/lottie.min.js'; sc.onload = function () { ok(window.lottie || null); }; sc.onerror = function () { ok(null); }; document.head.appendChild(sc); }); return LOT.lib; }
+function lotTxt(k) { if (!LOT.txt[k]) LOT.txt[k] = fetch(LOT.src[k]).then(function (r) { return r.text(); }).catch(function () { return null; }); return LOT.txt[k]; }
+function lotPlay(k, x, y, w, h, o) {
+  o = o || {}; if (FX.calm || typeof document === 'undefined' || !document.createElement) return;
+  Promise.all([lotLib(), lotTxt(k)]).then(function (r) {
+    var L = r[0], t = r[1]; if (!L || !t) return; var el = document.createElement('div'); el.className = 'um-lot'; el.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + w + 'px;height:' + h + 'px'; fxLayer().appendChild(el);
+    var a = L.loadAnimation({ container: el, renderer: 'svg', loop: !!o.loop, autoplay: true, animationData: JSON.parse(t), rendererSettings: { preserveAspectRatio: o.fit || 'xMidYMid meet' } }), done = false;
+    var end = function () { if (done) return; done = true; try { a.destroy(); } catch (e) {} el.remove(); };
+    if (o.speed) a.setSpeed(o.speed); a.addEventListener('complete', end); setTimeout(end, o.max || 4000);
+    if (o.rise) fxAnim(el, [{ transform: 'translate(0,0)', opacity: 1 }, { transform: 'translate(' + (Math.random() - .5) * 30 + 'px,' + (-o.rise) + 'px)', opacity: 1, offset: .8 }, { transform: 'translate(0,' + (-o.rise * 1.15) + 'px)', opacity: 0 }], { duration: o.max || 2600, easing: 'ease-out' });
+  });
+}
 function fxJoy(el) { if (el) fxAnim(el, [{ transform: 'none' }, { transform: 'scale(1.14,.86)', offset: .18 }, { transform: 'translateY(-16px) scale(.94,1.08)', offset: .45 }, { transform: 'scale(1.05,.95)', offset: .75 }, { transform: 'none' }], { duration: 620, easing: 'ease-out', composite: 'add' }); }
 function fxNope(el) { if (el) fxAnim(el, [{ transform: 'none' }, { transform: 'translateX(-9px) rotate(-3deg)', offset: .2 }, { transform: 'translateX(8px) rotate(2.5deg)', offset: .45 }, { transform: 'translateX(-5px) rotate(-1.5deg)', offset: .7 }, { transform: 'none' }], { duration: 480, easing: 'ease-in-out', composite: 'add' }); }
 function fxEvent(ev) {
   if (FX.calm || typeof document === 'undefined' || !document.body || !document.createElement || typeof innerWidth === 'undefined') return;
   var t = FX.tap && Date.now() - FX.tap.t < 1500 ? FX.tap : null, x = t ? t.x : innerWidth / 2, y = t ? t.y : innerHeight / 2, el = t && t.el && t.el.isConnected && !t.el.closest('.um-hb, .um-gtop, .um-pw-col, .um-pw-tools') ? t.el : null;
-  if (ev === 'ok' || ev === 'step') { fxJoy(el); fxStars(x, y, ev === 'ok' ? 10 : 7, false); }
-  else if (ev === 'reward') { fxJoy(el); fxStars(x, y, 14, true); setTimeout(function () { fxBeads(innerWidth / 2, innerHeight * .75, 16, 1.6); }, 250); }
+  if (ev === 'ok' || ev === 'step') { fxJoy(el); var z = ev === 'ok' ? 300 : 230; lotPlay('spark', x - z / 2, y - z / 2, z, z, { max: 1600, speed: 1.4 }); }
+  else if (ev === 'reward') { fxJoy(el); var zr = Math.min(innerWidth, innerHeight) * .7; lotPlay('ribbon', innerWidth / 2 - zr / 2, innerHeight * .42 - zr / 2, zr, zr, { max: 3200 }); }
   else if (ev === 'bad') fxNope(el);
-  else if (ev === 'finish') { [0, 450, 900, 1400].forEach(function (d, k) { setTimeout(function () { fxBeads(innerWidth * [.5, .25, .75, .5][k], innerHeight * [.7, .6, .6, .5][k], 22, 1.9); }, d + 300); }); }
+  else if (ev === 'finish') { lotPlay('rain', 0, 0, innerWidth, innerHeight, { max: 3600, fit: 'xMidYMid slice' }); }
 }
 // рисунки из ChatGPT (paint/pic/*.png, design/art/gpt_lineart.py): грузим заранее, чтобы холст рисовал их сразу
 function paintArtLoad() {
@@ -4153,7 +4169,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     if (S.shine >= 0 && S.shine < 1.4) { var u = S.shine / 1.2, sx = c.x - c.w * .3 + u * c.w * 1.6, tg = C.tg, T = C.tmp; g.save(); var gr = g.createLinearGradient(sx - c.w * .12, 0, sx + c.w * .12, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.5, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); var sc = mk(C.LW, C.LH), sg2 = sc.getContext('2d'); sg2.drawImage(C.mask, 0, 0); sg2.globalCompositeOperation = 'source-in'; sg2.setTransform(C.LW / c.w, 0, 0, C.LH / c.h, -c.x * C.LW / c.w, -c.y * C.LH / c.h); sg2.fillStyle = gr; sg2.fillRect(c.x, c.y, c.w, c.h); g.drawImage(sc, c.x, c.y, c.w, c.h); g.restore(); }
     var ri = img(FXI.run); for (i = 0; i < S.drips.length; i++) { q = S.drips[i]; var sx2 = c.x + q.x / C.LW * c.w, sy2 = c.y + q.y / C.LH * c.h, rz = Math.max(8, c.w * .035); if (ok(ri)) g.drawImage(ri, sx2 - rz / 2, sy2 - rz * 1.2, rz, rz * ri.naturalHeight / ri.naturalWidth); }
     if (S.down && P && !S.done && S.tool === 'gun') { if (FX.app && now - (S.snd || 0) > 1200) { S.snd = now; FX.app.sndFile('sfx/w-rinse.m4a', .8); } var pose = gunPose(P); drawJet(g, pose, P, t); drawSplash(g, P, pose, t); emit(P, pose, dt); drawParts(g, dt); drawGun(g, pose); }
-    else { drawParts(g, dt); if (S.down && P && S.tool === 'sponge' && !S.done) drawSponge(g, P, dt); }
+    else { drawParts(g, dt); if (S.down && P && S.tool === 'sponge' && !S.done) { drawSponge(g, P, dt); if (Math.abs(S.vx) > 40 && now - (S.bubT || 0) > 1300) { S.bubT = now; var bz = Math.max(56, S.w * .16); lotPlay('bubble', S.left + P.x - bz / 2 + (Math.random() - .5) * 40, S.top + P.y - bz * 1.1, bz, bz, { max: 2600, rise: S.h * .35 }); } } }   /* из-под губки иногда всплывает мыльный пузырь */
     drawPanel(g, t);
     S.chk += dt; if (S.chk > .3 && !S.done) { S.chk = 0; check(); }
     return true;
