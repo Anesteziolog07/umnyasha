@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-327805775246') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-0e11ddd81a1b') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -265,6 +265,10 @@ button:disabled{cursor:default}
 .um-pf-card2{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 16px 14px;border-radius:34px;text-align:center;color:#1E2A4A;background:linear-gradient(180deg,#6FCBFF,#BDEBFF 46%,#62CE6B 46.2%);box-shadow:inset 0 0 0 5px rgba(255,255,255,.8),0 18px 30px -20px rgba(30,90,160,.7)}
 .um-pf-scene{position:absolute;left:0;right:0;top:0;height:46%;overflow:hidden;pointer-events:none}.um-pf-scene img{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max(100%,760px);height:auto}.um-pf-scene .um-map-rays{top:0}
 .um-pf-card2>*:not(.um-pf-scene){position:relative}
+
+/* профиль 14.11: нарисованный пейзаж вместо плоского */
+.um-pf-card2 .um-pf-scene2{height:100%;background:#4FB2F5 url(splash/bg-wide.jpg) center 30%/cover no-repeat}
+.um-pf-card2{background:#62CE6B!important}
 .um-pf-card2 .um-pf-avabtn .um-ava{width:126px;height:126px;border:6px solid #FFFFFF;box-shadow:0 7px 0 rgba(20,60,40,.28)}
 .um-pf-card2 .um-pf-who{align-items:center;gap:6px;padding:10px 16px 14px;border-radius:24px;background:rgba(255,255,255,.93);min-width:min(100%,260px);box-sizing:border-box}
 .um-pf-tags{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px}
@@ -317,6 +321,17 @@ html.um-hseen .um-hbd.um-hop2{animation:um-hbd-hop .5s ease-out}
 html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20ms) backwards}
 @media (min-width: 1000px){.um-hsec .um-h-big{flex-basis:calc((100% - var(--g) * (var(--cols) - 1)) / var(--cols))}.um-hsec .um-h-big .um-h-img{aspect-ratio:300/240}.um-hsec .um-h-big .um-h-n{font-size:clamp(17px,4.9vmin,22px)}}
 @media (prefers-reduced-motion: reduce){.um-hsec *{animation:none!important}.um-hth,.um-hth-sh{stroke-dashoffset:0}}
+
+/* главная 14.11: плитки-игрушки на полупрозрачной полке, цветная табличка с названием */
+.um-hsec-l{--tA:#5BB8FF;--tB:#2B7FE6;--tE:#1C5FB8}
+.um-hsec-p{--tA:#FFB648;--tB:#FF7F24;--tE:#C9580C}
+.um-hsec .um-h{padding:16px;border-radius:36px;background:rgba(255,255,255,.34);border:3px solid rgba(255,255,255,.7);box-shadow:0 10px 30px -12px rgba(20,60,120,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.um-hsec .um-h-t{border:5px solid #FFFFFF;border-radius:30px;background:linear-gradient(180deg,var(--tA),var(--tB));color:#FFFFFF;box-shadow:0 7px 0 var(--tE),0 14px 22px -8px rgba(20,50,110,.45);transition:transform .15s ease,box-shadow .15s ease}
+.um-hsec .um-h-img{border-radius:22px 22px 0 0}
+.um-hsec .um-h-n{padding:8px 6px 10px;text-shadow:0 2px 0 rgba(0,0,0,.18)}
+@media (hover:hover){.um-hsec .um-h-t:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:0 11px 0 var(--tE),0 20px 26px -8px rgba(20,50,110,.45)}}
+.um-hsec .um-h-t:active{transform:translateY(5px);box-shadow:0 2px 0 var(--tE),0 6px 12px -6px rgba(20,50,110,.45)}
+@media (max-width: 520px){.um-hsec .um-h{padding:10px;border-radius:28px}.um-hsec .um-h-t{border-width:4px;border-radius:24px}.um-hsec .um-h-img{border-radius:18px 18px 0 0}}
 @keyframes um-h-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (min-width: 600px){.um-h{--cols:4}}
 @media (min-width: 600px) and (max-height: 500px){.um-h{--cols:5;--g:12px}}
@@ -1021,6 +1036,19 @@ main{animation:um-scr .28s ease}
 @media (max-width: 640px){.um-hchip{display:none!important}}
 @media (max-width: 520px){.um-head{width:auto;margin:8px 12px 12px;gap:4px}.um-logo-text{font-size:24px}.um-logo-shapes{display:none}.um-head{grid-template-columns:auto minmax(0,1fr) auto}.um-me.um-me-off{display:none}.um-me{max-width:calc(100vw - 186px);min-height:50px}.um-me .um-ava{width:36px;height:36px}.um-me-t b{font-size:13px}.um-hb{height:46px}.um-hb-ic{width:46px}.um-hstarbtn{height:46px;font-size:17px;padding:0 10px 0 8px}.um-hside{gap:6px}}
 @media (max-width: 360px){.um-logo-text{font-size:21px}}
+
+/* шапка 14.11: нарисованные логотип и кнопки */
+.um-logo-img{display:block;height:88px;width:auto;filter:drop-shadow(0 4px 6px rgba(20,60,130,.25));transition:transform .2s ease}
+.um-hlogo:active .um-logo-img{transform:scale(.94)}
+.um-hb.um-hb-pic{background:none!important;border:0!important;box-shadow:none!important;padding:0;width:60px;height:60px;transition:transform .15s ease}
+.um-hb.um-hb-pic img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 5px rgba(20,60,130,.3))}
+.um-hb.um-hb-pic:active{transform:scale(.9)}
+@media (hover:hover){.um-hb.um-hb-pic:hover{transform:translateY(-2px) rotate(-4deg)}}
+.um-me{background:rgba(255,255,255,.94);color:#3E2A8C;border:3px solid #FFFFFF;border-radius:24px;box-shadow:0 5px 0 #B9A6F5,0 12px 20px -8px rgba(60,40,150,.45)}
+.um-me .um-ava{border-color:#8F6BFF}
+.um-me-t em{color:#E09A00}
+@media (max-width: 520px){.um-logo-img{height:50px}.um-hb.um-hb-pic{width:50px;height:50px}}
+@media (max-width: 360px){.um-logo-img{height:42px}}
 .um-chip{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;background:#F2F7FF;border:1.5px solid #D7E5FA;font-size:15px;font-weight:800;color:#1E2A4A}
 .um-skill{transition:transform .2s ease}
 .um-skill:hover{transform:translateY(-3px)}
@@ -1286,7 +1314,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 <sc-if value="{{isReady}}" hint-placeholder-val="{{ true }}">
 <header class="um-head {{headCls}}">
 <div class="um-hside um-hl">
-<sc-if value="{{showBack}}" hint-placeholder-val="{{ false }}"><button type="button" class="press um-hb um-hb-ic um-hb-back" onClick="{{goHome}}" aria-label="К играм"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button></sc-if>
+<sc-if value="{{showBack}}" hint-placeholder-val="{{ false }}"><button type="button" class="press um-hb um-hb-ic um-hb-back um-hb-pic" onClick="{{goHome}}" aria-label="К играм"><img src="splash/ui-btn-back-71bcdde6.png" alt="" draggable="false"></button></sc-if>
 <button type="button" class="press um-me {{meCls}}" onClick="{{goProfile}}" aria-label="{{profAria}}" aria-current="{{profCur}}"><span class="um-ava {{meAva.cls}}" style="background: {{meAva.bg}}" aria-hidden="true"><img src="{{meAva.src}}" alt="" draggable="false"></span><span class="um-me-t"><b>{{meName}}</b><em><img src="items/star-yellow.svg" alt="" width="17" height="17" draggable="false">{{totalStars}}</em></span></button>
 <sc-if value="{{me.noKid}}" hint-placeholder-val="{{ false }}">
 <button type="button" class="press um-hb um-hchip" onClick="{{me.add}}" style="border-style: dashed"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg><span>Ребёнок</span></button>
@@ -1294,13 +1322,13 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 </div>
 <button type="button" class="press um-hlogo" onClick="{{goHome}}" aria-label="Бусята, на главную">
 <span class="um-logo-shapes" aria-hidden="true"><span style="background: #EF4444; clip-path: circle(48% at 50% 50%)"></span><span style="background: #FACC15; clip-path: circle(48% at 50% 50%)"></span><span style="background: #3B82F6; clip-path: circle(48% at 50% 50%)"></span></span>
-<span class="um-logo-text">Бусята</span>
+<img class="um-logo-img" src="splash/ui-logo-ea341733.png" alt="Бусята" width="640" height="290" draggable="false">
 </button>
 <div class="um-hside um-hr">
 
-<button type="button" class="press um-hb um-hb-ic um-hb-sound {{soundCls}}" onClick="{{toggleSound}}" aria-pressed="{{soundPressed}}" aria-label="{{soundLabel}}">
-<sc-if value="{{soundOn}}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M15.5 9a4.2 4.2 0 0 1 0 6"></path><path d="M18 6.5a7.6 7.6 0 0 1 0 11"></path></svg></sc-if>
-<sc-if value="{{soundOff}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"></path><path d="M16 9.5l5 5"></path><path d="M21 9.5l-5 5"></path></svg></sc-if>
+<button type="button" class="press um-hb um-hb-ic um-hb-sound um-hb-pic {{soundCls}}" onClick="{{toggleSound}}" aria-pressed="{{soundPressed}}" aria-label="{{soundLabel}}">
+<sc-if value="{{soundOn}}" hint-placeholder-val="{{ true }}"><img src="splash/ui-snd-on-34ad3418.png" alt="" draggable="false"></sc-if>
+<sc-if value="{{soundOff}}" hint-placeholder-val="{{ false }}"><img src="splash/ui-snd-off-3edb2223.png" alt="" draggable="false"></sc-if>
 </button>
 </div>
 </header>
@@ -1373,7 +1401,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 
 
 <sc-if value="{{showGames}}" hint-placeholder-val="{{ true }}">
-<section class="um-hsec" style="--d: 0s" aria-label="Учимся">
+<section class="um-hsec um-hsec-l" style="--d: 0s" aria-label="Учимся">
 <div class="um-hhead" aria-hidden="true"><svg viewBox="0 0 1000 250"><path class="um-hth-sh" d="M20 78Q500 238 980 78"></path><path class="um-hth" d="M20 70Q500 230 980 70"></path></svg>
 <sc-for list="{{learnBeads}}" as="b" hint-placeholder-count="6"><button type="button" tabindex="-1" class="um-hbd" data-hb="{{b.id}}" style="--i: {{b.i}}; left: {{b.x}}%; top: {{b.y}}%" onClick="{{b.tap}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></button></sc-for>
 </div>
@@ -1384,7 +1412,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 </sc-for>
 </div>
 </section>
-<section class="um-hsec" style="--d: 0.55s" aria-label="Играем">
+<section class="um-hsec um-hsec-p" style="--d: 0.55s" aria-label="Играем">
 <div class="um-hhead" aria-hidden="true"><svg viewBox="0 0 1000 250"><path class="um-hth-sh" d="M20 78Q500 238 980 78"></path><path class="um-hth" d="M20 70Q500 230 980 70"></path></svg>
 <sc-for list="{{playBeads}}" as="b" hint-placeholder-count="6"><button type="button" tabindex="-1" class="um-hbd" data-hb="{{b.id}}" style="--i: {{b.i}}; left: {{b.x}}%; top: {{b.y}}%" onClick="{{b.tap}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></button></sc-for>
 </div>
@@ -1636,7 +1664,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 <sc-if value="{{isProgress}}" hint-placeholder-val="{{ false }}">
 <main class="um-pf">
 <section class="um-pf-card2">
-<span class="um-pf-scene" aria-hidden="true"><span class="um-map-rays"></span><img src="map/top.svg" alt="" draggable="false"></span>
+<span class="um-pf-scene um-pf-scene2" aria-hidden="true"></span>
 <button type="button" class="press um-pf-avabtn" onClick="{{pf.edit}}" aria-label="Сменить аватарку"><span class="um-ava {{pf.ava.cls}}" style="background: {{pf.ava.bg}}"><img src="{{pf.ava.src}}" alt=""></span><span class="um-pf-pen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.8z"></path><path d="M14.5 6l3 3"></path></svg></span></button>
 <div class="um-pf-who">
 <button type="button" class="press um-pf-nick {{pf.nickCls}}" onClick="{{pf.editNick}}" aria-label="{{pf.nickAria}}"><span>{{pf.nick}}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4.5L16.5 4a2.1 2.1 0 0 1 3 3L8 18.8z"></path><path d="M14.5 6l3 3"></path></svg></button>
@@ -1651,7 +1679,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 <sc-if value="{{pf.isTrain}}" hint-placeholder-val="{{ false }}">
 <section class="um-pf-card"><button type="button" class="press um-pf-back" onClick="{{pf.home}}">Назад</button><h2>Мой поезд</h2><p class="um-pf-note">{{pf.toyNote}}</p>
 <div class="um-pf-toys"><sc-for list="{{pf.toys}}" as="t" hint-placeholder-count="12"><img class="{{t.cls}}" src="{{t.img}}" alt="" draggable="false"></sc-for></div>
-<button type="button" class="press um-pf-btn um-pf-btn-main" onClick="{{goMyTrain}}">Играть в «Доставку»</button></section>
+</section>
 </sc-if>
 <sc-if value="{{pf.isArt}}" hint-placeholder-val="{{ false }}">
 <section class="um-pf-card"><button type="button" class="press um-pf-back" onClick="{{pf.home}}">Назад</button><h2>Мои рисунки</h2>
@@ -4751,7 +4779,7 @@ class Component extends DCLogic {
     var toysN = toyCount(topicsDone), dayDone = lsGet('umnyasha.daily', {})[holder.uid] === dayKey();
     // главная: занятие дня и все игры сразу видны большими картинками; нажал — играешь
     // главная делится на «Учимся» (уроки с темами) и «Играем» (игры на внимание, память и фантазию); над каждым разделом слово из бусин, как в заставке
-    var allT = [{ id: dayDone ? 'daily-done' : 'daily', title: 'Занятие дня', cls: 'um-h-big', open: function () { self.openDaily(); } }, { id: 'delivery', title: 'Доставка', open: function () { self.openMyTrain(); } }].concat(games.map(function (g) { return { id: g.id, title: g.title, open: g.open }; }));
+    var allT = [{ id: dayDone ? 'daily-done' : 'daily', title: 'Занятие дня', cls: 'um-h-big', open: function () { self.openDaily(); } }].concat(games.map(function (g) { return { id: g.id, title: g.title, open: g.open }; }));
     var mkT = function (a) { return a.map(function (w, i) { return { title: w.title, cls: w.cls || '', open: w.open, img: 'tiles/' + w.id + '.svg', i: i }; }); };
     var tiles = mkT(allT), learnTiles = mkT(allT.filter(function (w) { return LEARN_IDS[w.id]; })), playTiles = mkT(allT.filter(function (w) { return !LEARN_IDS[w.id]; }));
     var mkB = function (key, word, cols) { return word.split('').map(function (t, i) { var x = 500 + (i - 2.5) * 160, u = (x - 20) / 960, y = 70 + 320 * u * (1 - u); return { id: key + i, i: i, t: t, img: HB_IMG[cols[i]], x: ((x - 66) / 10).toFixed(2), y: ((y - 66) / 2.5).toFixed(2), tap: function () { self.beadHop(key + i, i); } }; }); };
