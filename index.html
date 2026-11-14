@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-d826cd014b19') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-ae903770b728') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -3861,7 +3861,7 @@ FIN.garden = {
     var P = ['Посади семечко', 'Полей из лейки', 'Открой солнышко', 'Нажми на бутон', 'Вырос' + (/цветок|тюльпан|помидор|огурец|баклажан|перец/.test(t.pname) ? ' ' : 'ла ') + t.pname + '!'];
     return { scene: 'gdn', prompt: P[s], audio: s < 4 ? 'gdn-' + s : '', actors: a };
   },
-  tap: function (t, fs, id) { var need = ['bag', 'can', 'cloud', 'bud'][fs.step]; if (id !== need) return null; return { fs: { step: fs.step + 1 }, done: fs.step === 3, wait: 3800, sfx: fs.step === 0 ? 'sfx/g-seed.m4a' : fs.step === 3 ? 'sfx/g-bloom.m4a' : '' }; },
+  tap: function (t, fs, id) { var need = ['bag', 'can', 'cloud', 'bud'][fs.step]; if (id !== need) return null; return { fs: { step: fs.step + 1 }, done: fs.step === 3, wait: 3800, sfx: fs.step === 0 ? 'sfx/g-seed.m4a' : fs.step === 2 ? 'sfx/g-cloud.m4a' : fs.step === 3 ? 'sfx/g-bloom.m4a' : '' }; },
   answer: function (t, fs) { return ['bag', 'can', 'cloud', 'bud'][fs.step] || 'bud'; }
 };
 // «Автомойка»: потри грязь губкой (можно водить пальцем) — под ней пена; потом смой пену водой, и машинка блестит
