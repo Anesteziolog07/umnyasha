@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-0d2301bc31a6') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-e57409d617ca') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -619,7 +619,12 @@ main{animation:um-scr .28s ease}
 @keyframes um-actshake{0%,100%{transform:translate(-50%,-50%)}25%{transform:translate(-58%,-50%)}75%{transform:translate(-42%,-50%)}}
 /* «Сад» и «Автомойка» 14.11 */
 .um-fin-gdn{background:#9ED8FF url(splash/bg-wide.jpg) 50% 72%/cover no-repeat}
-.um-fin-wash{background:#BFE6FF url(splash/g-bg-wash2.jpg) 50% 60%/cover no-repeat}
+.um-fin-wash{background:#BFE6FF url(splash/g-bg-wash3.jpg) 50% 62%/cover no-repeat}
+/* мыльные пузыри медленно всплывают за машиной — по одному, без мельтешения */
+.um-fin-wash::before,.um-fin-wash::after{content:"";position:absolute;width:9%;aspect-ratio:1;border-radius:50%;z-index:0;pointer-events:none;background:radial-gradient(circle at 32% 30%,#FFFFFF 0 12%,rgba(255,255,255,.3) 26%,rgba(190,225,255,.18) 60%,rgba(255,190,240,.45) 82%,rgba(255,255,255,.85) 93%,transparent 95%);opacity:0;animation:um-wbub 11s cubic-bezier(.45,0,.55,1) infinite}
+.um-fin-wash::before{left:24%;bottom:30%}
+.um-fin-wash::after{left:70%;bottom:34%;width:6%;animation-delay:5.5s}
+@keyframes um-wbub{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.9}50%{transform:translate(12%,-160%) scale(1)}85%{opacity:.8}100%{opacity:0;transform:translate(-8%,-330%) scale(1.1)}}
 .um-hint > img{animation:um-hintbob 1.3s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(255,236,120,.95)) drop-shadow(0 4px 4px rgba(20,30,60,.22))}
 @keyframes um-hintbob{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.1) rotate(-4deg)}}
 .um-g-gone{opacity:0;pointer-events:none}
@@ -639,7 +644,8 @@ main{animation:um-scr .28s ease}
 @keyframes um-gdrops{from{background-position:0 0}to{background-position:0 100%}}
 .um-fin-wash{--kw:.62%;--kh:.827%}
 @media (max-aspect-ratio: 3/4){.um-sec-play .um-fin-wash{--kw:.775%;--kh:.581%}}
-.um-wash-cv{position:fixed;z-index:20;pointer-events:none;transition:opacity .2s}
+.um-wash-cv{position:fixed;z-index:20;pointer-events:none}
+.um-jet-cv{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:9997;pointer-events:none;display:none}
 .um-w-step{opacity:0!important;pointer-events:none!important}
 .um-tool-ghost{position:fixed;left:0;top:0;z-index:9998;pointer-events:none;height:auto;filter:drop-shadow(0 10px 10px rgba(20,30,60,.3));transform-origin:50% 50%;will-change:transform}
 .um-tool-held > img{opacity:.25}
@@ -3901,81 +3907,104 @@ TOPICS.wash = [
 ];
 function genPlayFin(kind) { return function (top) { var F = FIN[kind]; return rep(4, function () { var t = F.make(top); var v0 = F.view(t, F.start(t)); t.prompt = v0.prompt; t.say = t.prompt + '.'; t.audio = v0.audio; return t; }); }; }
 TOPIC_GEN.garden = genPlayFin('garden'); TOPIC_GEN.wash = genPlayFin('wash');
-// «Автомойка»: холст поверх машины. Слой грязи (тусклый коричневый налёт по форме машины) и слой пены.
-// Губка стирает грязь мягкой кистью и оставляет пену; струя из шланга стирает пену, капли пены стекают вниз. Когда почти всё чисто — дочищаем само и жмём скрытую кнопку шага
+// «Автомойка»: холст поверх машины (лёгкий, ~380 px) со слоями грязи и пены. Губка стирает грязь мягкой кистью и оставляет пену;
+// шланг бьёт толстой струёй с напором (рисуется на отдельном холсте во весь экран), пена смывается и стекает каплями. Всё перерисовывается раз в кадр, подсчёт чистоты — по уменьшенной копии
 if (typeof document !== 'undefined' && document.addEventListener) (function () {
-  var W = null, T = null;
+  var W = null, T = null, J = null, raf = 0;
   var carEl = function () { return document.querySelector('.um-fin-wash .um-w-car img'); };
+  var mk = function (n) { var c = document.createElement('canvas'); c.width = n; c.height = n; return c; };
+  var brush = null, stamp = null;
+  var makeBrushes = function () {   // мягкая круглая кисть и «шапка пены» — рисуются один раз
+    brush = mk(64); var b = brush.getContext('2d'), g = b.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(.6, 'rgba(0,0,0,.8)'); g.addColorStop(1, 'rgba(0,0,0,0)'); b.fillStyle = g; b.fillRect(0, 0, 64, 64);
+    stamp = mk(64); var f = stamp.getContext('2d');
+    for (var i = 0; i < 11; i++) { var a = Math.random() * 6.3, d = Math.random() * 18, x = 32 + Math.cos(a) * d, y = 32 + Math.sin(a) * d, r = 7 + Math.random() * 9, q = f.createRadialGradient(x - r * .3, y - r * .3, r * .1, x, y, r); q.addColorStop(0, '#FFFFFF'); q.addColorStop(.7, 'rgba(240,247,255,.97)'); q.addColorStop(1, 'rgba(200,222,245,.92)'); f.fillStyle = q; f.beginPath(); f.arc(x, y, r, 0, 6.3); f.fill(); }
+  };
   var setup = function () {
-    var im = carEl(); if (!im || !im.complete || !im.naturalWidth) return null; var r = im.getBoundingClientRect(); if (r.width < 20) return null;
-    var dpr = Math.min(2, window.devicePixelRatio || 1), n = Math.round(r.width * dpr), cv = document.createElement('canvas'); cv.className = 'um-wash-cv'; cv.width = n; cv.height = n; document.body.appendChild(cv);
-    var mk = function () { var c = document.createElement('canvas'); c.width = n; c.height = n; return c; };
-    var mask = mk(), mx = mask.getContext('2d'); mx.drawImage(im, 0, 0, n, n);
-    var dirt = mk(), dx = dirt.getContext('2d');   // грязь: налёт по форме машины, пятнами разной густоты
+    var im = carEl(); if (!im || !im.complete || !im.naturalWidth) return; var r = im.getBoundingClientRect(); if (r.width < 20) return;
+    if (!brush) makeBrushes();
+    var n = Math.min(380, Math.round(r.width)), cv = mk(n); cv.className = 'um-wash-cv'; document.body.appendChild(cv);
+    var mask = mk(n), mx = mask.getContext('2d'); mx.drawImage(im, 0, 0, n, n);
+    var dirt = mk(n), dx = dirt.getContext('2d');
     dx.drawImage(mask, 0, 0); dx.globalCompositeOperation = 'source-in'; dx.fillStyle = 'rgba(112,82,48,.62)'; dx.fillRect(0, 0, n, n); dx.globalCompositeOperation = 'source-atop';
-    for (var i = 0; i < 70; i++) { var x = Math.random() * n, y = n * (.25 + Math.random() * .55), rr = n * (.03 + Math.random() * .08), g = dx.createRadialGradient(x, y, 0, x, y, rr); g.addColorStop(0, Math.random() < .5 ? 'rgba(80,55,30,.55)' : 'rgba(150,115,70,.4)'); g.addColorStop(1, 'rgba(0,0,0,0)'); dx.fillStyle = g; dx.fillRect(x - rr, y - rr, rr * 2, rr * 2); }
-    var foam = mk(), fx = foam.getContext('2d');
-    var full = count(dx, n); W = { mask: mask, im: im, cv: cv, ctx: cv.getContext('2d'), n: n, dpr: dpr, dirt: dirt, dx: dx, foam: foam, fx: fx, full: full, ffull: 1, ph: 0, done: false, t: 0, drips: [] };
-    place(); draw(); return W;
+    for (var i = 0; i < 60; i++) { var x = Math.random() * n, y = n * (.25 + Math.random() * .55), rr = n * (.03 + Math.random() * .08); dx.globalAlpha = .35 + Math.random() * .3; dx.fillStyle = Math.random() < .5 ? '#4E3520' : '#9C7848'; dx.beginPath(); dx.arc(x, y, rr, 0, 6.3); dx.fill(); }
+    dx.globalAlpha = 1;
+    var foam = mk(n), small = mk(40);
+    W = { mask: mask, im: im, cv: cv, ctx: cv.getContext('2d'), n: n, dirt: dirt, dx: dx, foam: foam, fx: foam.getContext('2d'), small: small, sx: small.getContext('2d', { willReadFrequently: true }), ph: 0, done: false, t: 0, drips: [], dirty: true, clipT: 0 };
+    W.full = count(dirt); place(); loop();
   };
-  var count = function (c, n) { var d = c.getImageData(0, 0, n, n).data, k = 0; for (var i = 3; i < d.length; i += 64) if (d[i] > 40) k++; return k || 1; };
-  var place = function () { if (!W) return; var r = W.im.getBoundingClientRect(); W.r = r; W.cv.style.left = r.left + 'px'; W.cv.style.top = r.top + 'px'; W.cv.style.width = r.width + 'px'; W.cv.style.height = r.height + 'px'; };
-  var draw = function () { var c = W.ctx; c.clearRect(0, 0, W.n, W.n); c.drawImage(W.dirt, 0, 0); c.drawImage(W.foam, 0, 0); };
+  var count = function (c) { var s = W.sx; s.clearRect(0, 0, 40, 40); s.drawImage(c, 0, 0, 40, 40); var d = s.getImageData(0, 0, 40, 40).data, k = 0; for (var i = 3; i < d.length; i += 4) if (d[i] > 40) k++; return k || 1; };
+  var place = function () { var r = W.im.getBoundingClientRect(); W.r = r; var st = W.cv.style; st.left = r.left + 'px'; st.top = r.top + 'px'; st.width = r.width + 'px'; st.height = r.height + 'px'; };
   var loc = function (x, y) { return { x: (x - W.r.left) * W.n / W.r.width, y: (y - W.r.top) * W.n / W.r.height }; };
-  var clip = function (c) { c.save(); c.globalCompositeOperation = 'destination-in'; c.drawImage(W.mask, 0, 0); c.restore(); };   // пена только на машине
-  var bubbles = function (ctx, x, y, R) { for (var i = 0; i < 9; i++) { var a = Math.random() * 6.3, d = Math.random() * R, bx = x + Math.cos(a) * d, by = y + Math.sin(a) * d, br = R * (.18 + Math.random() * .3), g = ctx.createRadialGradient(bx - br * .3, by - br * .3, br * .1, bx, by, br); g.addColorStop(0, 'rgba(255,255,255,.98)'); g.addColorStop(.7, 'rgba(240,247,255,.95)'); g.addColorStop(1, 'rgba(205,225,245,.9)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, by, br, 0, 6.3); ctx.fill(); } };
-  var scrub = function (x, y) {
-    var p = loc(x, y), R = W.n * .085, g = W.dx;
-    g.save(); g.globalCompositeOperation = 'destination-out'; var gr = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, R); gr.addColorStop(0, 'rgba(0,0,0,.9)'); gr.addColorStop(.7, 'rgba(0,0,0,.6)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.beginPath(); g.arc(p.x, p.y, R, 0, 6.3); g.fill(); g.restore();
-    bubbles(W.fx, p.x, p.y, R * .8); clip(W.fx); draw();
-  };
+  var erase = function (ctx, x, y, R, a) { ctx.save(); ctx.globalCompositeOperation = 'destination-out'; ctx.globalAlpha = a; ctx.drawImage(brush, x - R, y - R, R * 2, R * 2); ctx.restore(); };
+  var foamAt = function (x, y, R, a) { var c = W.fx; c.save(); c.globalAlpha = a; c.translate(x, y); c.rotate(Math.random() * 6.3); c.drawImage(stamp, -R, -R, R * 2, R * 2); c.restore(); };
+  var scrub = function (x, y) { var p = loc(x, y), R = W.n * .09; erase(W.dx, p.x, p.y, R, .8); foamAt(p.x, p.y, R * 1.05, .95); W.dirty = W.clipNeed = true; };
   var rinse = function (x, y) {
-    var p = loc(x, y), R = W.n * .1, f = W.fx;
-    f.save(); f.globalCompositeOperation = 'destination-out'; var gr = f.createRadialGradient(p.x, p.y, 0, p.x, p.y, R); gr.addColorStop(0, 'rgba(0,0,0,.85)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); f.fillStyle = gr; f.beginPath(); f.arc(p.x, p.y, R, 0, 6.3); f.fill(); f.restore();
-    var d = W.dx; d.save(); d.globalCompositeOperation = 'destination-out'; d.fillStyle = 'rgba(0,0,0,.5)'; d.beginPath(); d.arc(p.x, p.y, R * .8, 0, 6.3); d.fill(); d.restore();
-    if (Math.random() < .5) W.drips.push({ x: p.x + (Math.random() - .5) * R, y: p.y, v: 0, r: R * (.12 + Math.random() * .12) });   // капли пены стекают вниз
-    draw();
+    var p = loc(x, y), R = W.n * .11; erase(W.fx, p.x, p.y, R, .55); W.dirty = true;
+    if (W.drips.length < 26 && Math.random() < .6) W.drips.push({ x: p.x + (Math.random() - .5) * R, y: p.y + R * .4, v: 0, r: R * (.18 + Math.random() * .14) });
   };
-  var dripLoop = function () {
-    if (!W || !W.drips.length) return; var f = W.fx;
-    W.drips = W.drips.filter(function (d) { d.v += .35 * W.dpr; d.y += d.v; f.save(); f.globalCompositeOperation = 'destination-out'; f.beginPath(); f.arc(d.x, d.y - d.v, d.r * 1.05, 0, 6.3); f.fill(); f.restore(); f.globalAlpha = .9; bubbles(f, d.x, d.y, d.r); f.globalAlpha = 1; d.r *= .985; return d.y < W.n * .92 && d.r > 1; });
-    clip(f); draw();
+  var lastF = 0;
+  var loop = function () {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(function tick() { if (frame()) raf = requestAnimationFrame(tick); });
+  };
+  // запасной ход: если браузер редко даёт кадры (слабый телефон, фон), игра всё равно идёт
+  setInterval(function () { if (W && Date.now() - lastF > 160) frame(); }, 120);
+  var frame = function () {
+      lastF = Date.now();
+      var im = carEl(); if (!W || !im || W.im !== im) { if (W) { W.cv.remove(); W = null; } J && J.cv && (J.cv.style.display = 'none'); return false; }
+      place();
+      if (W.drips.length) { W.dirty = true; W.clipNeed = true; W.drips = W.drips.filter(function (d) { d.v += .45; d.y += d.v; erase(W.fx, d.x, d.y - d.v * 1.5, d.r * 1.1, .5); foamAt(d.x, d.y, d.r, .85); d.r *= .97; return d.y < W.n * .9 && d.r > 1.2; }); }
+      if (W.clipNeed && Date.now() - W.clipT > 90) { W.clipT = Date.now(); W.clipNeed = false; var c = W.fx; c.save(); c.globalCompositeOperation = 'destination-in'; c.drawImage(W.mask, 0, 0); c.restore(); }
+      if (W.dirty) { W.dirty = false; var g = W.ctx; g.clearRect(0, 0, W.n, W.n); g.drawImage(W.dirt, 0, 0); g.drawImage(W.foam, 0, 0); }
+      jet();
+      if (Date.now() - W.t > 400) { W.t = Date.now(); check(); }
+      return true;
   };
   var step = function (lbl) { var b = [].slice.call(document.querySelectorAll('.um-w-step')).filter(function (x) { return x.getAttribute('aria-label') === lbl; })[0]; if (b && !b.disabled) { FX.toolHit = true; b.click(); FX.toolHit = false; } };
   var check = function () {
-    if (!W || W.done) return;
-    if (W.ph === 0 && count(W.dx, W.n) / W.full < .12) { W.ph = 1; W.dx.clearRect(0, 0, W.n, W.n); draw(); W.ffull = count(W.fx, W.n); step('Отмыли'); }
-    else if (W.ph === 1 && count(W.fx, W.n) / W.ffull < .1) { W.done = true; var k = 0, fade = setInterval(function () { if (!W) { clearInterval(fade); return; } W.cv.style.opacity = String(1 - ++k / 10); if (k >= 10) { clearInterval(fade); } }, 40); var r = W.r; fxStars(r.left + r.width / 2, r.top + r.height / 2, 16, true); step('Смыли'); }
+    if (W.done) return;
+    if (W.ph === 0 && count(W.dirt) / W.full < .12) { W.ph = 1; W.dx.clearRect(0, 0, W.n, W.n); W.dirty = true; W.ffull = count(W.foam); step('Отмыли'); }
+    else if (W.ph === 1 && count(W.foam) / W.ffull < .1) { W.done = true; W.fx.clearRect(0, 0, W.n, W.n); W.drips = []; W.dirty = true; var r = W.r; fxStars(r.left + r.width / 2, r.top + r.height / 2, 16, true); step('Смыли'); }
   };
-  setInterval(function () {
-    var im = carEl();
-    if (!im) { if (W) { W.cv.remove(); W = null; } return; }
-    if (W && W.im !== im) { W.cv.remove(); W = null; }
-    if (!W) { setup(); return; }
-    place(); dripLoop(); if (Date.now() - W.t > 300) { W.t = Date.now(); check(); }
-  }, 33);
-  var spawn = function (x, y, dx, dy) {
-    var L = fxLayer(), d = document.createElement('i'); d.className = 'um-fx-drop'; var z = 6 + Math.random() * 5; d.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + z + 'px;height:' + z * 1.4 + 'px'; L.appendChild(d);
-    var an = fxAnim(d, [{ transform: 'translate(-50%,-50%)', opacity: .95 }, { transform: 'translate(calc(-50% + ' + dx + 'px),calc(-50% + ' + dy + 'px))', opacity: .2 }], { duration: 260, easing: 'linear' });
-    if (an) an.onfinish = function () { d.remove(); }; else setTimeout(function () { d.remove(); }, 300);
+  // струя: толстая, сужается от носика к машине, бегут светлые полосы; в месте удара — веер брызг
+  var jetCanvas = function () { if (J && J.cv.isConnected) return J; var c = document.createElement('canvas'); c.className = 'um-jet-cv'; document.body.appendChild(c); J = { cv: c, g: c.getContext('2d'), p: [] }; return J; };
+  var jet = function () {
+    var on = T && T.kind === 'hose' && W && W.ph === 1, j = J;
+    if (!on && !(j && j.p.length)) { if (j) j.cv.style.display = 'none'; return; }
+    j = jetCanvas(); var c = j.cv, g = j.g, w = innerWidth, h = innerHeight; if (c.width !== w || c.height !== h) { c.width = w; c.height = h; } c.style.display = 'block'; g.clearRect(0, 0, w, h);
+    if (on) {
+      var a = T.nx, b = T.ny, x = T.hx, y = T.hy, len = Math.hypot(x - a, y - b) || 1, ux = (x - a) / len, uy = (y - b) / len, px = -uy, py = ux, w0 = T.w * .09, w1 = T.w * .24, t = Date.now() / 60;
+      var gr = g.createLinearGradient(a, b, x, y); gr.addColorStop(0, 'rgba(120,200,255,.98)'); gr.addColorStop(.5, 'rgba(70,170,250,.92)'); gr.addColorStop(1, 'rgba(60,150,240,.75)');
+      g.fillStyle = gr; g.beginPath(); g.moveTo(a + px * w0, b + py * w0); g.lineTo(x + px * w1, y + py * w1); g.lineTo(x - px * w1, y - py * w1); g.lineTo(a - px * w0, b - py * w0); g.closePath(); g.fill();
+      g.strokeStyle = 'rgba(255,255,255,.95)'; g.lineWidth = Math.max(3, T.w * .045); g.setLineDash([T.w * .12, T.w * .1]); g.lineDashOffset = -t * T.w * .05; g.beginPath(); g.moveTo(a, b); g.lineTo(x, y); g.stroke(); g.setLineDash([]);
+      for (var k = 0; k < 12; k++) { var sp = (Math.random() - .5) * 2.4, v = 4 + Math.random() * 8; j.p.push({ x: x, y: y, vx: (-ux * .4 + px * sp) * v, vy: (-uy * .4 + py * sp) * v - 2, r: 3 + Math.random() * 5, l: 1 }); }
+      var sg = g.createRadialGradient(x, y, 0, x, y, T.w * .3); sg.addColorStop(0, 'rgba(255,255,255,.9)'); sg.addColorStop(.5, 'rgba(170,220,255,.6)'); sg.addColorStop(1, 'rgba(170,220,255,0)'); g.fillStyle = sg; g.beginPath(); g.arc(x, y, T.w * .3, 0, 6.3); g.fill();
+    }
+    g.fillStyle = 'rgba(80,175,250,.95)';
+    j.p = j.p.filter(function (q) { q.x += q.vx; q.y += q.vy; q.vy += .5; q.l -= .045; if (q.l <= 0) return false; g.globalAlpha = q.l; g.beginPath(); g.arc(q.x, q.y, q.r, 0, 6.3); g.fill(); return true; }); g.globalAlpha = 1;
+    if (j.p.length > 260) j.p.splice(0, j.p.length - 260);
   };
+  setInterval(function () { if (!W && carEl()) setup(); }, 200);
   document.addEventListener('pointerdown', function (e) {
     var b = e.target && e.target.closest ? e.target.closest('.um-fin-wash .um-drag-tool') : null; if (!b || b.disabled || !W) return;
-    var im = b.querySelector('img'), r = b.getBoundingClientRect(), g = document.createElement('img'); g.src = im.src; g.alt = ''; g.className = 'um-tool-ghost'; g.style.width = r.width * 1.15 + 'px'; document.body.appendChild(g);
-    T = { kind: b.getAttribute('aria-label') === 'Губка' ? 'sponge' : 'hose', g: g, src: b, w: r.width * 1.15, x: e.clientX, y: e.clientY, id: e.pointerId, last: 0 };
+    var im = b.querySelector('img'), r = b.getBoundingClientRect(), g = document.createElement('img'); g.src = im.src; g.alt = ''; var gw = Math.max(r.width * 1.4, 96); g.className = 'um-tool-ghost'; g.style.width = gw + 'px'; document.body.appendChild(g);
+    T = { kind: b.getAttribute('aria-label') === 'Губка' ? 'sponge' : 'hose', g: g, src: b, w: gw, x: e.clientX, y: e.clientY, id: e.pointerId };
     b.classList.add('um-tool-held'); e.preventDefault(); move(e);
   });
   var move = function (e) {
-    if (!T || e.pointerId !== T.id || !W) return; T.x = e.clientX; T.y = e.clientY; var sp = T.kind === 'sponge';
-    if (sp) { T.g.style.transform = 'translate3d(' + (T.x - T.w / 2) + 'px,' + (T.y - T.w * .4) + 'px,0) rotate(' + Math.sin(Date.now() / 70) * 7 + 'deg)'; if (W.ph === 0) scrub(T.x, T.y); return; }
-    // шланг держат за ручку; носик смотрит влево-вниз, струя бьёт в точку на ~1.3 ширины шланга левее и ниже пальца
+    if (!T || e.pointerId !== T.id || !W) return; var px = T.x, py = T.y; T.x = e.clientX; T.y = e.clientY;
+    if (T.kind === 'sponge') {
+      T.g.style.transform = 'translate3d(' + (T.x - T.w / 2) + 'px,' + (T.y - T.w * .4) + 'px,0) rotate(' + Math.sin(Date.now() / 70) * 7 + 'deg)';
+      if (W.ph === 0) { var d = Math.hypot(T.x - px, T.y - py), n = Math.max(1, Math.ceil(d / 12)); for (var i = 1; i <= n; i++) scrub(px + (T.x - px) * i / n, py + (T.y - py) * i / n); }
+      return;
+    }
+    // шланг держат за ручку, носик смотрит влево-вниз; струя бьёт на ~1.5 ширины шланга дальше
     T.g.style.transform = 'translate3d(' + (T.x - T.w * .5) + 'px,' + (T.y - T.w * .55) + 'px,0) scaleX(-1) rotate(-25deg)';
-    var nx = T.x - T.w * .42, ny = T.y - T.w * .35, hx = nx - T.w * .55, hy = ny + T.w * .75;
-    if (Date.now() - T.last > 30) { T.last = Date.now(); for (var k = 0; k < 3; k++) spawn(nx + (Math.random() - .5) * 6, ny, hx - nx + (Math.random() - .5) * 20, hy - ny + (Math.random() - .5) * 20); }
-    if (W.ph === 1) { rinse(hx, hy); rinse((nx + hx * 2) / 3, (ny + hy * 2) / 3); if (FX.app && Date.now() - (T.snd || 0) > 1200) { T.snd = Date.now(); FX.app.sndFile('sfx/w-rinse.m4a', .8); } }   // шум воды, пока льём
+    T.nx = T.x - T.w * .42; T.ny = T.y - T.w * .35; T.hx = T.nx - T.w * .7; T.hy = T.ny + T.w * .95;
   };
   document.addEventListener('pointermove', move);
-  setInterval(function () { if (T && T.kind === 'hose') move({ pointerId: T.id, clientX: T.x, clientY: T.y }); }, 50);   // шланг поливает и когда палец стоит
+  // пока шланг в руке, вода льётся непрерывно — даже если палец стоит
+  setInterval(function () { if (T && T.kind === 'hose' && W && W.ph === 1) { rinse(T.hx, T.hy); rinse((T.nx + T.hx * 2) / 3, (T.ny + T.hy * 2) / 3); if (FX.app && Date.now() - (T.snd || 0) > 1200) { T.snd = Date.now(); FX.app.sndFile('sfx/w-rinse.m4a', .8); } } }, 40);
   var end = function (e) {
     if (!T || e.pointerId !== T.id) return; var t = T; T = null; t.src.classList.remove('um-tool-held');
     var h = t.src.getBoundingClientRect(); t.g.style.transition = 'transform .35s cubic-bezier(.3,1.3,.5,1)'; t.g.style.transform = 'translate3d(' + h.left + 'px,' + h.top + 'px,0)'; setTimeout(function () { t.g.remove(); }, 360);
