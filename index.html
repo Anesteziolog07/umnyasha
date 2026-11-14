@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-5e1e75d8676e') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-ca7abbde6e2c') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -3916,8 +3916,16 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
   var brush = null, stamp = null;
   var makeBrushes = function () {   // мягкая круглая кисть и «шапка пены» — рисуются один раз
     brush = mk(64); var b = brush.getContext('2d'), g = b.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(.6, 'rgba(0,0,0,.8)'); g.addColorStop(1, 'rgba(0,0,0,0)'); b.fillStyle = g; b.fillRect(0, 0, 64, 64);
-    stamp = mk(64); var f = stamp.getContext('2d');
-    for (var i = 0; i < 11; i++) { var a = Math.random() * 6.3, d = Math.random() * 18, x = 32 + Math.cos(a) * d, y = 32 + Math.sin(a) * d, r = 7 + Math.random() * 9, q = f.createRadialGradient(x - r * .3, y - r * .3, r * .1, x, y, r); q.addColorStop(0, '#FFFFFF'); q.addColorStop(.7, 'rgba(240,247,255,.97)'); q.addColorStop(1, 'rgba(200,222,245,.92)'); f.fillStyle = q; f.beginPath(); f.arc(x, y, r, 0, 6.3); f.fill(); }
+    // мыльная пена: полупрозрачная белая основа и много пузырей разного размера — с тонким краем, бликом и радужным отливом
+    stamp = mk(96); var f = stamp.getContext('2d'), bg = f.createRadialGradient(48, 48, 6, 48, 48, 46); bg.addColorStop(0, 'rgba(255,255,255,.42)'); bg.addColorStop(.75, 'rgba(250,252,255,.28)'); bg.addColorStop(1, 'rgba(255,255,255,0)'); f.fillStyle = bg; f.fillRect(0, 0, 96, 96);
+    var tint = ['rgba(150,200,255,.9)', 'rgba(255,170,220,.85)', 'rgba(170,240,230,.85)', 'rgba(210,190,255,.85)'];
+    for (var i = 0; i < 26; i++) {
+      var a = Math.random() * 6.3, d = Math.sqrt(Math.random()) * 34, x = 48 + Math.cos(a) * d, y = 48 + Math.sin(a) * d, r = i < 4 ? 9 + Math.random() * 6 : 2.5 + Math.random() * 6;
+      var q = f.createRadialGradient(x - r * .35, y - r * .35, r * .05, x, y, r); q.addColorStop(0, 'rgba(255,255,255,.55)'); q.addColorStop(.65, 'rgba(255,255,255,.18)'); q.addColorStop(1, 'rgba(235,245,255,.5)');
+      f.fillStyle = q; f.beginPath(); f.arc(x, y, r, 0, 6.3); f.fill();
+      f.lineWidth = Math.max(.8, r * .12); f.strokeStyle = tint[i % 4]; f.beginPath(); f.arc(x, y, r * .94, .3, 4.2); f.stroke(); f.strokeStyle = 'rgba(255,255,255,.95)'; f.beginPath(); f.arc(x, y, r * .94, 4.2, 6.6); f.stroke();
+      f.fillStyle = 'rgba(255,255,255,.95)'; f.beginPath(); f.arc(x - r * .38, y - r * .38, Math.max(.8, r * .2), 0, 6.3); f.fill();
+    }
   };
   var setup = function () {
     var im = carEl(); if (!im || !im.complete || !im.naturalWidth) return; var r = im.getBoundingClientRect(); if (r.width < 20) return;
@@ -3936,8 +3944,8 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
   var place = function () { var r = W.im.getBoundingClientRect(); W.r = r; var st = W.cv.style; st.left = r.left + 'px'; st.top = r.top + 'px'; st.width = r.width + 'px'; st.height = r.height + 'px'; };
   var loc = function (x, y) { return { x: (x - W.r.left) * W.n / W.r.width, y: (y - W.r.top) * W.n / W.r.height }; };
   var erase = function (ctx, x, y, R, a) { ctx.save(); ctx.globalCompositeOperation = 'destination-out'; ctx.globalAlpha = a; ctx.drawImage(brush, x - R, y - R, R * 2, R * 2); ctx.restore(); };
-  var foamAt = function (x, y, R, a) { var c = W.fx; c.save(); c.globalAlpha = a; c.translate(x, y); c.rotate(Math.random() * 6.3); c.drawImage(stamp, -R, -R, R * 2, R * 2); c.restore(); };
-  var scrub = function (x, y) { var p = loc(x, y), R = W.n * .09; erase(W.dx, p.x, p.y, R, .8); foamAt(p.x, p.y, R * 1.05, .95); W.dirty = W.clipNeed = true; };
+  var foamAt = function (x, y, R, a) { var c = W.fx; c.save(); c.globalAlpha = a; c.translate(x, y); c.rotate(Math.random() * 6.3); c.drawImage(stamp, -R * 1.25, -R * 1.25, R * 2.5, R * 2.5); c.restore(); };
+  var scrub = function (x, y) { var p = loc(x, y), R = W.n * .09; erase(W.dx, p.x, p.y, R, .8); foamAt(p.x, p.y, R * 1.05, .7); W.dirty = W.clipNeed = true; };
   var rinse = function (x, y) {
     var p = loc(x, y), R = W.n * .11; erase(W.fx, p.x, p.y, R, .55); W.dirty = true;
     if (W.drips.length < 26 && Math.random() < .6) W.drips.push({ x: p.x + (Math.random() - .5) * R, y: p.y + R * .4, v: 0, r: R * (.18 + Math.random() * .14) });
@@ -3953,7 +3961,7 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
       lastF = Date.now();
       var im = carEl(); if (!W || !im || W.im !== im) { if (W) { W.cv.remove(); W = null; } J && J.cv && (J.cv.style.display = 'none'); return false; }
       place();
-      if (W.drips.length) { W.dirty = true; W.clipNeed = true; W.drips = W.drips.filter(function (d) { d.v += .45; d.y += d.v; erase(W.fx, d.x, d.y - d.v * 1.5, d.r * 1.1, .5); foamAt(d.x, d.y, d.r, .85); d.r *= .97; return d.y < W.n * .9 && d.r > 1.2; }); }
+      if (W.drips.length) { W.dirty = true; W.clipNeed = true; W.drips = W.drips.filter(function (d) { d.v = Math.min(d.v + .25, 5); d.y += d.v; erase(W.fx, d.x, d.y - d.v - d.r * .6, d.r * 1.15, .9); foamAt(d.x, d.y, d.r, .9); d.r *= .975; return d.y < W.n * .92 && d.r > 1.5; }); }
       if (W.clipNeed && Date.now() - W.clipT > 90) { W.clipT = Date.now(); W.clipNeed = false; var c = W.fx; c.save(); c.globalCompositeOperation = 'destination-in'; c.drawImage(W.mask, 0, 0); c.restore(); }
       if (W.dirty) { W.dirty = false; var g = W.ctx; g.clearRect(0, 0, W.n, W.n); g.drawImage(W.dirt, 0, 0); g.drawImage(W.foam, 0, 0); }
       jet();
@@ -3983,7 +3991,14 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
     g.lineCap = 'round';
     j.p = j.p.filter(function (q) {
       var ox = q.x, oy = q.y; q.vy += G; q.x += q.vx * dt; q.y += q.vy * dt;
-      if (W && W.ph === 1 && onCar(q.x, q.y)) { var pp = loc(q.x, q.y); erase(W.fx, pp.x, pp.y, W.n * .045, .35); W.dirty = true; if (W.drips.length < 26 && Math.random() < .03) W.drips.push({ x: pp.x, y: pp.y, v: 0, r: W.n * (.025 + Math.random() * .025) }); if (Math.random() < .35) j.s.push({ x: q.x, y: q.y, vx: (Math.random() - .5) * 5 - q.vx * .15, vy: -2 - Math.random() * 3, l: 1, r: q.r * .8 }); return false; }
+      q.age = (q.age || 0) + dt;
+      if (q.age > 3 && W && W.ph === 1 && onCar(q.x, q.y)) {   // первые кадры капля только вылетает из носика — так струя видна даже вплотную к машине
+        var pp = loc(q.x, q.y); erase(W.fx, pp.x, pp.y, W.n * .05, .95); W.dirty = true;
+        if (W.drips.length < 40 && Math.random() < .08) W.drips.push({ x: pp.x + (Math.random() - .5) * W.n * .04, y: pp.y + W.n * .03, v: .5, r: W.n * (.03 + Math.random() * .03) });   // пена под струёй сползает вниз
+        if (Math.random() < .35) j.s.push({ x: q.x, y: q.y, vx: (Math.random() - .5) * 5 - q.vx * .15, vy: -2 - Math.random() * 3, l: 1, r: q.r * .8 });
+        g.strokeStyle = 'rgba(70,165,245,.75)'; g.lineWidth = q.r * 1.6; g.beginPath(); g.moveTo(ox, oy); g.lineTo(q.x, q.y); g.stroke();
+        return false;
+      }
       if (q.y > h + 20 || q.x < -20 || q.x > w + 20) return false;
       g.strokeStyle = 'rgba(70,165,245,.75)'; g.lineWidth = q.r * 1.6; g.beginPath(); g.moveTo(ox, oy); g.lineTo(q.x, q.y); g.stroke();
       g.strokeStyle = 'rgba(235,248,255,.9)'; g.lineWidth = q.r * .55; g.beginPath(); g.moveTo(ox, oy); g.lineTo(q.x, q.y); g.stroke();
