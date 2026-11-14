@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-75988122e5b6') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-7f123e408d31') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -4761,7 +4761,7 @@ class Component extends DCLogic {
   }
   // перетаскивание игрушки пальцем или мышкой к вагончику
   trainDrag() {
-    var self = this, drag = null, hot = null; FX.app = this;   // звуки из слоёв вне игры (шланг автомойки) if (typeof document === 'undefined' || !document.addEventListener) return;
+    var self = this, drag = null, hot = null; FX.app = this; /* звуки из слоёв вне игры (шланг автомойки) */ if (typeof document === 'undefined' || !document.addEventListener) return;
     // игрушку тащит её копия поверх всего экрана: перерисовка игры ей не мешает. Палец не обязан попасть точно в вагончик — достаточно попасть на поезд, берётся ближайший вагончик
     var at = function (x, y) {
       var sc = document.querySelector('.um-train'); if (!sc) return null; var r = sc.getBoundingClientRect();
