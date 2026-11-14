@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-9e623e20ed2a') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-ee00d36b5e56') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -3905,6 +3905,13 @@ TOPIC_GEN.garden = genPlayFin('garden'); TOPIC_GEN.wash = genPlayFin('wash');
 if (typeof document !== 'undefined' && document.addEventListener && typeof requestAnimationFrame !== 'undefined') (function () {
   var S = null, raf = 0;
   var IM = {};
+  /* нарисованные детали (ChatGPT, по макету): струи, всплески, капли, лужица, шапки пены, пятна грязи */
+  var FXI = { jet: ['splash/wf-jet1-800c99ab.png', 'splash/wf-jet2-3ea588ec.png', 'splash/wf-jet3-e657fc74.png'], splash: ['splash/wf-splash1-0cdd01d0.png', 'splash/wf-splash2-beb2316c.png'], spray: 'splash/wf-spray-0dc28bc8.png', drop: 'splash/wf-drop-4fe7c1a7.png', run: 'splash/wf-run-8b4760fd.png', puddle: 'splash/wf-puddle-cbfeec19.png',
+    foam: ['splash/wfo-1-df781364.png', 'splash/wfo-2-d1bb0534.png', 'splash/wfo-3-0e0a8a0c.png', 'splash/wfo-4-c9b76d93.png', 'splash/wfo-5-e92f9b69.png', 'splash/wfo-6-89480b9e.png', 'splash/wfo-7-a6cd908c.png', 'splash/wfo-8-daae9fc1.png', 'splash/wfo-9-ae850450.png'],
+    mud: ['splash/wm-1-9243cc7e.png', 'splash/wm-2-b862a110.png', 'splash/wm-3-da99fd5e.png', 'splash/wm-4-08ca01ec.png', 'splash/wm-5-ced805a2.png', 'splash/wm-6-0f73b32f.png', 'splash/wm-7-cf160871.png', 'splash/wm-8-cd5714ef.png', 'splash/wm-9-908f9c67.png'], gun: 'splash/w-gun-99b8237d.png' };
+  var allFX = function () { return [].concat(FXI.jet, FXI.splash, FXI.foam, FXI.mud, [FXI.spray, FXI.drop, FXI.run, FXI.puddle, FXI.gun, 'splash/g-sponge-4731e66f.png', 'splash/w-bg.jpg']); };
+  var fxReady = function () { return allFX().every(function (u) { var i = img(u); return ok(i) || (i.complete && !i.naturalWidth); }); };   /* битая картинка не должна держать игру */
+  var pickI = function (arr) { var r = arr.filter(function (u) { return ok(img(u)); }); return r.length ? img(r[(Math.random() * r.length) | 0]) : null; };
   var img = function (src) { if (!IM[src]) { var i = new Image(); i.src = src; IM[src] = i; } return IM[src]; };
   var ok = function (i) { return i && i.complete && i.naturalWidth > 0; };
   var mk = function (w, h) { var c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h || w)); return c; };
@@ -3951,14 +3958,12 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     C.mask = C.car;
     var D = mk(LW, LH), dg = D.getContext('2d');
     /* грязь: неровный налёт, пятна, брызги и потёки; у колёс и внизу кузова — гуще */
-    dg.fillStyle = 'rgba(118,88,52,.42)'; dg.fillRect(0, 0, LW, LH);
-    /* мягкие пятна разной густоты: каждое из нескольких размытых капель, внизу и у колёс грязи больше */
-    for (var i = 0; i < 46; i++) { var px = Math.random() * LW, bottom = Math.pow(Math.random(), .7), py = LH * (.12 + bottom * .86), rr = LW * (.03 + Math.random() * .06), col = Math.random() < .55 ? '78,53,32' : '142,106,62';
-      for (var k = 0; k < 4; k++) { var qx = px + (Math.random() - .5) * rr * 1.4, qy = py + (Math.random() - .5) * rr, qr = rr * (.5 + Math.random() * .6), gr = dg.createRadialGradient(qx, qy, 0, qx, qy, qr), al = (.18 + Math.random() * .22) * (.55 + bottom * .9);
-        gr.addColorStop(0, 'rgba(' + col + ',' + al + ')'); gr.addColorStop(.6, 'rgba(' + col + ',' + al * .7 + ')'); gr.addColorStop(1, 'rgba(' + col + ',0)'); dg.fillStyle = gr; dg.fillRect(qx - qr, qy - qr, qr * 2, qr * 2); } }
-    for (i = 0; i < 90; i++) { dg.globalAlpha = .35 + Math.random() * .4; dg.fillStyle = '#5A3E24'; dg.beginPath(); dg.arc(Math.random() * LW, LH * (.45 + Math.random() * .55), LW * (.004 + Math.random() * .01), 0, 6.3); dg.fill(); }
-    for (i = 0; i < 7; i++) { var sx = Math.random() * LW, sy = LH * (.25 + Math.random() * .45), len = LH * (.06 + Math.random() * .12); dg.globalAlpha = .14 + Math.random() * .12; dg.strokeStyle = '#6A4A2A'; dg.lineWidth = LW * (.014 + Math.random() * .012); dg.lineCap = 'round'; dg.beginPath(); dg.moveTo(sx, sy); dg.quadraticCurveTo(sx + (Math.random() - .5) * LW * .02, sy + len / 2, sx + (Math.random() - .5) * LW * .02, sy + len); dg.stroke(); }
+    /* грязь: кузов слегка тусклый (пыльный налёт) + нарисованные пятна, брызги и потёки; внизу и у колёс их больше */
+    dg.fillStyle = 'rgba(120,95,62,.30)'; dg.fillRect(0, 0, LW, LH);
+    for (var i = 0; i < 16; i++) { var mi = pickI(FXI.mud), bottom = Math.pow(Math.random(), .6), px = LW * (.08 + ((i * .618) % 1) * .84), py = LH * (.2 + bottom * .72), sz = LW * (.09 + Math.random() * .09);   /* пятна разбросаны по всему кузову (золотое сечение по ширине), а не кучей */
+      if (mi) { dg.save(); dg.globalAlpha = .38 + Math.random() * .25; dg.translate(px, py); dg.rotate((Math.random() - .5) * .8); dg.drawImage(mi, -sz / 2, -sz / 2 * mi.naturalHeight / mi.naturalWidth, sz, sz * mi.naturalHeight / mi.naturalWidth); dg.restore(); } }
     dg.globalAlpha = 1; clipTo(dg, C.mask);
+    C.mask2 = mk(LW, LH); var m2 = C.mask2.getContext('2d'); [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1], [.7, .7], [-.7, .7], [.7, -.7], [-.7, -.7]].forEach(function (o) { m2.drawImage(C.mask, o[0] * LW * .025, o[1] * LW * .025); });   /* пена может чуть выходить за кузов */
     C.D = D; C.dg = dg; C.P = mk(LW, LH); C.pg = C.P.getContext('2d'); C.F = mk(LW, LH); C.fg = C.F.getContext('2d'); C.Wt = mk(LW, LH); C.wg = C.Wt.getContext('2d');
     C.tmp = mk(128); C.tg = C.tmp.getContext('2d');
     C.small = mk(40, Math.max(8, Math.round(40 / C.ar))); C.sg = C.small.getContext('2d', { willReadFrequently: true });
@@ -4019,13 +4024,14 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var at = function (k) { if (!L) return path[path.length - 1]; var want = L * k / n, acc = 0; for (var j = 0; j < segs.length; j++) { if (acc + segs[j] >= want) { var u = segs[j] ? (want - acc) / segs[j] : 0; return { x: path[j].x + (path[j + 1].x - path[j].x) * u, y: path[j].y + (path[j + 1].y - path[j].y) * u }; } acc += segs[j]; } return path[path.length - 1]; };
     for (var k = 1; k <= n; k++) { var q = at(k), lp = toLayer(q.x, q.y); if (S.tool === 'sponge') sponge(lp, share, moving); else water(lp, share, q); }
     S.last = S.p; S.pts = [];
-    if (S.tool === 'sponge') { clipTo(C.fg, C.mask); clipTo(C.pg, C.mask); }
+    if (S.tool === 'sponge') { clipTo(C.fg, C.mask2); clipTo(C.pg, C.mask); }
   };
   var sponge = function (lp, s, moving) {
     var C = S.C, R = C.LW * .1, f = moving ? 1 : .35, b = brushes();
     erase(C.dg, b.soft, lp.x, lp.y, R, 2.6 * s * f);
     stamp(C.pg, b.soft, lp.x, lp.y, R, 14 * s);
-    stamp(C.fg, Math.random() < .5 ? b.soft : b.torn[(Math.random() * 3) | 0], lp.x + (Math.random() - .5) * R * .3, lp.y + (Math.random() - .5) * R * .3, R * 1.1, 11 * s * f, Math.random() * 6.3);
+    S.foamAcc = (S.foamAcc || 0) + 7 * s * f;   /* шапки пены кладутся по времени, а не по числу событий */
+    while (S.foamAcc >= 1) { S.foamAcc -= 1; var fi = pickI(FXI.foam); if (!fi) break; var sz = R * (1.6 + Math.random() * 1.2), ar = fi.naturalHeight / fi.naturalWidth; C.fg.save(); C.fg.translate(lp.x + (Math.random() - .5) * R * 1.2, lp.y + (Math.random() - .5) * R * .9); C.fg.rotate((Math.random() - .5) * .6); C.fg.drawImage(fi, -sz / 2, -sz * ar / 2, sz, sz * ar); C.fg.restore(); }
   };
   var water = function (lp, s, q) {
     var C = S.C, R = C.LW * .095, b = brushes(); if (lp.x < -R || lp.y < -R || lp.x > C.LW + R || lp.y > C.LH + R) return;
@@ -4035,13 +4041,21 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var t = C.tg, T = C.tmp.width, k = T / (R * 2.4); t.clearRect(0, 0, T, T); t.drawImage(b.soft, 0, 0, T, T); t.globalCompositeOperation = 'destination-in'; t.drawImage(C.P, (R * 1.2 - lp.x) * k, (R * 1.2 - lp.y) * k, C.LW * k, C.LH * k); t.globalCompositeOperation = 'source-over';
     C.dg.save(); C.dg.globalCompositeOperation = 'destination-out'; C.dg.globalAlpha = Math.min(1, 9 * s); C.dg.drawImage(C.tmp, lp.x - R * 1.2, lp.y - R * 1.2, R * 2.4, R * 2.4); C.dg.restore();
     erase(C.dg, b.soft, lp.x, lp.y, R, 1.2 * s);
-    stamp(C.wg, b.glint, lp.x + (Math.random() - .5) * R, lp.y + (Math.random() - .5) * R, R * (.25 + Math.random() * .3), 1.2 * s);
+    S.dropAcc = (S.dropAcc || 0) + 2.2 * s; var di = img(Math.random() < .5 ? FXI.drop : FXI.run);
+    while (S.dropAcc >= 1) { S.dropAcc -= 1; if (!ok(di)) break; var dz = C.LW * (.025 + Math.random() * .03), dar = di.naturalHeight / di.naturalWidth; C.wg.drawImage(di, lp.x + (Math.random() - .5) * R * 1.6 - dz / 2, lp.y + (Math.random() - .5) * R * 1.4, dz, dz * dar); }
+    clipTo(C.wg, C.mask);
     if (Math.random() < 1.3 * s && S.drips.length < (low ? 4 : 7) && onCar(lp)) S.drips.push({ x: lp.x + (Math.random() - .5) * R, y: lp.y + R * .3, v: C.LH * .05, life: .9 + Math.random() * .5 });
   };
   var onCar = function (lp) { var C = S.C; if (lp.x < 0 || lp.y < 0 || lp.x >= C.LW || lp.y >= C.LH) return false; if (!C.md) C.md = C.car.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, C.LW, C.LH).data; return C.md[((lp.y | 0) * C.LW + (lp.x | 0)) * 4 + 3] > 60; };
 
   /* пистолет: сопло на расстоянии от точки удара, направление — вектор сопло→точка. Сторону выбираем так, чтобы инструмент оставался в сцене (с запасом против дёрганья) */
-  var GUN = { src: 'splash/g-spray-d48ba899.png', nx: 322, ny: 82, gx: 170, gy: 260, ax: Math.atan2(-.05, 1) };
+  var GUN = { src: 'splash/w-gun-99b8237d.png', nx: 0, ny: 0, ax: 0, w: 400, h: 400, ready: false };
+  var gunInfo = function () {   /* сопло = самая правая непрозрачная точка картинки (пистолет нарисован носиком вправо) */
+    if (GUN.ready) return GUN; var im = img(GUN.src); if (!ok(im)) return null; var w = im.naturalWidth, h = im.naturalHeight, c = mk(w, h), g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(im, 0, 0);
+    var d = g.getImageData(0, 0, w, h).data, mx = 0; for (var y = 0; y < h; y += 2) for (var x = w - 1; x > mx; x--) if (d[(y * w + x) * 4 + 3] > 120) { mx = x; break; }
+    var sy = 0, n = 0; for (y = 0; y < h; y++) for (x = Math.max(0, mx - Math.round(w * .03)); x <= mx; x++) if (d[(y * w + x) * 4 + 3] > 120) { sy += y; n++; }
+    GUN.nx = mx; GUN.ny = n ? sy / n : h / 2; GUN.w = w; GUN.h = h; GUN.ready = true; return GUN;
+  };
   var gunPose = function (P) {
     /* пистолет всегда сверху-справа от точки удара. У правого края он плавно поворачивается вверх и немного влево, у верхнего — опускается вправо. Угол меняется непрерывно и сглаженно, без перескоков с одной стороны на другую */
     var gs = Math.max(78, Math.min(170, S.w * .26)), d = gs * .95, rx = P.x / S.w, ty = P.y / S.h;
@@ -4051,24 +4065,18 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     return { N: N, dx: dx / dl, dy: dy / dl, gs: gs, dist: dl };
   };
   var drawGun = function (g, pose) {
-    var im = img(GUN.src); if (!ok(im)) return; var k = pose.gs / 400, th = Math.atan2(pose.dy, pose.dx);
+    var G = gunInfo(), im = img(GUN.src); if (!G) return; var k = pose.gs / Math.max(G.w, G.h), th = Math.atan2(pose.dy, pose.dx);
     g.save(); g.translate(pose.N.x, pose.N.y);
     g.rotate(th - Math.PI + GUN.ax); g.scale(-1, 1);   /* одна ориентация всегда: носик смотрит на машину, картинка не переворачивается */
     g.shadowColor = 'rgba(20,40,80,.25)'; g.shadowBlur = 10; g.shadowOffsetY = 4;
-    g.drawImage(im, -GUN.nx * k, -GUN.ny * k, 400 * k, 400 * k); g.restore();
+    g.drawImage(im, -G.nx * k, -G.ny * k, G.w * k, G.h * k); g.restore();
   };
   /* струя: связная полупрозрачная лента от сопла до точки, светлая середина, мягкий неровный край, немного отдельных капель */
   var drawJet = function (g, pose, P, t) {
-    var N = { x: pose.N.x + pose.dx * pose.gs * .03, y: pose.N.y + pose.dy * pose.gs * .03 }, dist = Math.hypot(P.x - N.x, P.y - N.y), mx = (N.x + P.x) / 2, my = (N.y + P.y) / 2 + dist * .06;
-    var B = function (u) { var a = 1 - u; return { x: a * a * N.x + 2 * a * u * mx + u * u * P.x, y: a * a * N.y + 2 * a * u * my + u * u * P.y }; };
-    var w0 = Math.max(3.5, S.w * .011), w1 = Math.max(8, S.w * .028), m = 16, L = [], Rt = [];
-    for (var i = 0; i <= m; i++) { var u = i / m, p = B(u), q = B(Math.min(1, u + .02)), r = B(Math.max(0, u - .02)), tx = q.x - r.x, ty = q.y - r.y, tl = Math.hypot(tx, ty) || 1, nx = -ty / tl, ny = tx / tl, w = w0 + (w1 - w0) * u;
-      var wl = w * (1 + .16 * Math.sin(t * 17 + u * 11)), wr = w * (1 + .16 * Math.sin(t * 15 + u * 9 + 2)); L.push([p.x + nx * wl, p.y + ny * wl]); Rt.push([p.x - nx * wr, p.y - ny * wr]); }
-    var ribbon = function (sc, col) { g.beginPath(); for (var i = 0; i <= m; i++) { var a = L[i], b = Rt[i], cx = (a[0] + b[0]) / 2, cy = (a[1] + b[1]) / 2, x = cx + (a[0] - cx) * sc, y = cy + (a[1] - cy) * sc; i ? g.lineTo(x, y) : g.moveTo(x, y); } for (i = m; i >= 0; i--) { a = L[i]; b = Rt[i]; cx = (a[0] + b[0]) / 2; cy = (a[1] + b[1]) / 2; g.lineTo(cx + (b[0] - cx) * sc, cy + (b[1] - cy) * sc); } g.closePath(); g.fillStyle = col; g.fill(); };
-    g.save(); g.shadowColor = 'rgba(120,200,255,.6)'; g.shadowBlur = 8; ribbon(1.15, 'rgba(100,185,250,.38)'); g.restore();
-    ribbon(.85, 'rgba(140,205,255,.62)'); ribbon(.4, 'rgba(255,255,255,.88)');
-    for (i = 0; i < 6; i++) { var u2 = (t * 2.4 + i / 6) % 1, pp = B(u2), off = Math.sin(i * 7.3 + t * 3) * (w0 + (w1 - w0) * u2) * 1.6; g.fillStyle = 'rgba(225,244,255,.9)'; g.beginPath(); g.arc(pp.x + pose.dy * off, pp.y - pose.dx * off, 1.2 + (w1 * .18) * u2, 0, 6.3); g.fill(); }
-    return B(.97);
+    /* струя — нарисованная полоса воды, растянутая от сопла до точки удара; узкий конец у сопла. Варианты сменяются ~14 раз в секунду, и вода «течёт» */
+    var N = pose.N, dx = P.x - N.x, dy = P.y - N.y, len = Math.hypot(dx, dy), ji = img(FXI.jet[Math.floor(t * 14) % 3]); if (!ok(ji) || len < 4) return;
+    var th = Math.max(16, S.w * .075) * (1 + .05 * Math.sin(t * 31));
+    g.save(); g.translate(N.x, N.y); g.rotate(Math.atan2(dy, dx)); g.globalAlpha = .95; g.drawImage(ji, -len * .03, -th / 2, len * 1.1, th); g.restore();
   };
   /* брызги в точке удара: компактный веер против направления струи и вверх; крупные капли падают вниз. Частицы переиспользуются */
   var POOL = [];
@@ -4077,9 +4085,13 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     while (S.em >= 1) { S.em -= 1; if (S.part.length >= cap) break; var o = POOL.pop() || {}, a = Math.atan2(-pose.dy, -pose.dx) + (Math.random() - .5) * 2.2, sp = S.w * (.35 + Math.random() * .55), big = Math.random() < .18;
       o.x = P.x; o.y = P.y; o.vx = Math.cos(a) * sp * (big ? .5 : 1); o.vy = Math.sin(a) * sp * (big ? .5 : 1) - S.w * .25; o.life = big ? .7 : .35 + Math.random() * .25; o.age = 0; o.r = big ? 2.6 + Math.random() * 2 : 1 + Math.random() * 1.8; S.part.push(o); }
   };
+  var drawSplash = function (g, P, pose, t) {
+    var si = img(FXI.splash[Math.floor(t * 11) % 2]); if (!ok(si)) return; var sz = Math.max(70, S.w * .3), ar = si.naturalHeight / si.naturalWidth, tilt = Math.max(-.5, Math.min(.5, -pose.dx * .35));
+    g.save(); g.translate(P.x, P.y); g.rotate(tilt); if (Math.floor(t * 7) % 2) g.scale(-1, 1); g.globalAlpha = .92; g.drawImage(si, -sz / 2, -sz * ar * .82, sz, sz * ar); g.restore();
+  };
   var drawParts = function (g, dt) {
     var G = S.h * 2.6;
-    for (var i = S.part.length - 1; i >= 0; i--) { var o = S.part[i]; o.age += dt; if (o.age >= o.life) { POOL.push(S.part.splice(i, 1)[0]); continue; } o.vy += G * dt; o.x += o.vx * dt; o.y += o.vy * dt; var a = 1 - o.age / o.life; g.globalAlpha = .9 * a; g.fillStyle = '#BFE4FF'; g.beginPath(); g.arc(o.x, o.y, o.r, 0, 6.3); g.fill(); g.globalAlpha = a; g.fillStyle = '#FFFFFF'; g.beginPath(); g.arc(o.x - o.r * .3, o.y - o.r * .3, o.r * .4, 0, 6.3); g.fill(); }
+    for (var i = S.part.length - 1; i >= 0; i--) { var o = S.part[i]; o.age += dt; if (o.age >= o.life) { POOL.push(S.part.splice(i, 1)[0]); continue; } o.vy += G * dt; o.x += o.vx * dt; o.y += o.vy * dt; var a = 1 - o.age / o.life, di = img(FXI.drop); g.globalAlpha = a; if (ok(di)) { var z = o.r * 3.2; g.drawImage(di, o.x - z / 2, o.y - z / 2, z, z * di.naturalHeight / di.naturalWidth); } else { g.fillStyle = '#BFE4FF'; g.beginPath(); g.arc(o.x, o.y, o.r, 0, 6.3); g.fill(); } }
     g.globalAlpha = 1;
   };
   var drawSponge = function (g, P, dt) {
@@ -4096,7 +4108,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
       g.save(); g.beginPath(); g.arc(s.x, s.y, s.r, 0, 6.3); g.fillStyle = on ? '#E3F3FF' : '#F4F7FB'; g.fill();
       g.lineWidth = on ? 4 : 2; g.strokeStyle = on ? '#3B9BEA' : 'rgba(120,140,170,.35)'; g.stroke();
       if (hint) { g.globalAlpha = .35 + .25 * Math.sin(t * 2.4); g.lineWidth = 4; g.strokeStyle = '#FFC93C'; g.beginPath(); g.arc(s.x, s.y, s.r + 4, 0, 6.3); g.stroke(); g.globalAlpha = 1; }
-      var im = img(s.k === 'sponge' ? 'splash/g-sponge-4731e66f.png' : GUN.src); if (ok(im)) g.drawImage(im, s.x - s.r * .82, s.y - s.r * .82, s.r * 1.64, s.r * 1.64);
+      var im = img(s.k === 'sponge' ? 'splash/g-sponge-4731e66f.png' : FXI.gun); if (ok(im)) g.drawImage(im, s.x - s.r * .82, s.y - s.r * .82, s.r * 1.64, s.r * 1.64);
       g.restore();
     });
   };
@@ -4120,27 +4132,27 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   var frame = function () {
     var fin = document.querySelector('.um-fin-wash'), holder = fin && fin.querySelector('.um-w-car img'), src = holder && holder.getAttribute('src');
     if (!fin || !src) { teardown(); return false; }
-    if (!S || S.src !== src || S.fin !== fin) { teardown(); setup(fin); if (!S) return true; }
+    if (!S || S.src !== src || S.fin !== fin) { if (!fxReady()) return true; teardown(); setup(fin); if (!S) return true; }
     place();
     var now = performance.now(), dt = Math.min(.05, (now - S.lt) / 1000) * (window.__washTS || 1), t = (now - S.t0) / 1000; S.lt = now;   /* __washTS — только для проверки в медленном окне, в игре его нет */
     var C = S.C, g = S.g, d = S.dpr, P = S.p;
+    if (S.down && P && !S.done && S.tool === 'gun') S.wetAmt = Math.min(1, (S.wetAmt || 0) + dt * .25);
     if (S.down && P && !S.done) { var pv = S.last || P; S.vx = (P.x - pv.x) / Math.max(dt, .001); apply(dt); } else S.vx *= .8;
     /* стекающие капли: только смывают немного пены по пути и оставляют мокрый след */
     var b = brushes();
     for (var i = S.drips.length - 1; i >= 0; i--) { var q = S.drips[i]; q.life -= dt; q.y += q.v * dt; erase(C.fg, b.soft, q.x, q.y, C.LW * .012, .6); stamp(C.wg, b.glint, q.x, q.y, C.LW * .008, .12); if (q.life <= 0 || q.y > C.LH) S.drips.splice(i, 1); }
-    erase(C.wg, b.soft, C.LW / 2, C.LH / 2, C.LW * 1.5, .22 * dt);   /* мокрые блики медленно высыхают */
+    erase(C.wg, b.soft, C.LW / 2, C.LH / 2, C.LW * 1.5, .03 * dt);   /* мокрые блики медленно высыхают */
     if (S.done && S.shine >= 0 && S.shine < 1.4) { S.shine += dt; C.fg.save(); C.fg.globalCompositeOperation = 'destination-out'; C.fg.globalAlpha = Math.min(1, dt * 3); C.fg.fillRect(0, 0, C.LW, C.LH); C.fg.restore(); C.dg.save(); C.dg.globalCompositeOperation = 'destination-out'; C.dg.globalAlpha = Math.min(1, dt * 3); C.dg.fillRect(0, 0, C.LW, C.LH); C.dg.restore(); }
     g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, S.w, S.h);
     g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg(), 0, 0); g.setTransform(d, 0, 0, d, 0, 0);
     var c = S.car;
     g.save(); g.fillStyle = 'rgba(40,70,110,.16)'; g.beginPath(); g.ellipse(c.x + c.w / 2, c.y + c.h * .97, c.w * .46, c.h * .07, 0, 0, 6.3); g.fill(); g.restore();
+    var pu = img(FXI.puddle); if (ok(pu) && S.wetAmt > 0) { var pw = c.w * (.7 + .35 * S.wetAmt), ph2 = pw * pu.naturalHeight / pu.naturalWidth * .55; g.save(); g.globalAlpha = Math.min(.85, S.wetAmt); g.drawImage(pu, c.x + c.w / 2 - pw / 2, c.y + c.h * .9, pw, ph2); g.restore(); }
     g.drawImage(C.car, c.x, c.y, c.w, c.h); g.drawImage(C.D, c.x, c.y, c.w, c.h); g.drawImage(C.Wt, c.x, c.y, c.w, c.h);
-    if (!C.fv) { C.fv = mk(C.LW, C.LH); C.fvg = C.fv.getContext('2d'); C.pat = C.fvg.createPattern(brushes().pat, 'repeat'); }
-    var fv = C.fvg; fv.globalCompositeOperation = 'source-over'; fv.clearRect(0, 0, C.LW, C.LH); fv.fillStyle = C.pat; fv.fillRect(0, 0, C.LW, C.LH); fv.globalCompositeOperation = 'destination-in'; fv.drawImage(C.F, 0, 0); fv.globalCompositeOperation = 'source-over';
-    g.drawImage(C.fv, c.x, c.y, c.w, c.h);   /* пена = текстура пузырей там, где есть «плотность» пены */
+    g.drawImage(C.F, c.x, c.y, c.w, c.h);   /* пена — нарисованные шапки пены, как в макете */
     if (S.shine >= 0 && S.shine < 1.4) { var u = S.shine / 1.2, sx = c.x - c.w * .3 + u * c.w * 1.6, tg = C.tg, T = C.tmp; g.save(); var gr = g.createLinearGradient(sx - c.w * .12, 0, sx + c.w * .12, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.5, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); var sc = mk(C.LW, C.LH), sg2 = sc.getContext('2d'); sg2.drawImage(C.mask, 0, 0); sg2.globalCompositeOperation = 'source-in'; sg2.setTransform(C.LW / c.w, 0, 0, C.LH / c.h, -c.x * C.LW / c.w, -c.y * C.LH / c.h); sg2.fillStyle = gr; sg2.fillRect(c.x, c.y, c.w, c.h); g.drawImage(sc, c.x, c.y, c.w, c.h); g.restore(); }
-    for (i = 0; i < S.drips.length; i++) { q = S.drips[i]; var sx2 = c.x + q.x / C.LW * c.w, sy2 = c.y + q.y / C.LH * c.h, rr = Math.max(1.6, c.w * .006); g.fillStyle = 'rgba(190,228,255,.85)'; g.beginPath(); g.ellipse(sx2, sy2, rr, rr * 1.35, 0, 0, 6.3); g.fill(); g.fillStyle = '#FFFFFF'; g.beginPath(); g.arc(sx2 - rr * .35, sy2 - rr * .4, rr * .35, 0, 6.3); g.fill(); }
-    if (S.down && P && !S.done && S.tool === 'gun') { if (FX.app && now - (S.snd || 0) > 1200) { S.snd = now; FX.app.sndFile('sfx/w-rinse.m4a', .8); } var pose = gunPose(P); drawJet(g, pose, P, t); emit(P, pose, dt); drawParts(g, dt); drawGun(g, pose); }
+    var ri = img(FXI.run); for (i = 0; i < S.drips.length; i++) { q = S.drips[i]; var sx2 = c.x + q.x / C.LW * c.w, sy2 = c.y + q.y / C.LH * c.h, rz = Math.max(8, c.w * .035); if (ok(ri)) g.drawImage(ri, sx2 - rz / 2, sy2 - rz * 1.2, rz, rz * ri.naturalHeight / ri.naturalWidth); }
+    if (S.down && P && !S.done && S.tool === 'gun') { if (FX.app && now - (S.snd || 0) > 1200) { S.snd = now; FX.app.sndFile('sfx/w-rinse.m4a', .8); } var pose = gunPose(P); drawJet(g, pose, P, t); drawSplash(g, P, pose, t); emit(P, pose, dt); drawParts(g, dt); drawGun(g, pose); }
     else { drawParts(g, dt); if (S.down && P && S.tool === 'sponge' && !S.done) drawSponge(g, P, dt); }
     drawPanel(g, t);
     S.chk += dt; if (S.chk > .3 && !S.done) { S.chk = 0; check(); }
