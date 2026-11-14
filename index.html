@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-896ce3f5987d') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-9e623e20ed2a') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -4043,17 +4043,17 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   /* пистолет: сопло на расстоянии от точки удара, направление — вектор сопло→точка. Сторону выбираем так, чтобы инструмент оставался в сцене (с запасом против дёрганья) */
   var GUN = { src: 'splash/g-spray-d48ba899.png', nx: 322, ny: 82, gx: 170, gy: 260, ax: Math.atan2(-.05, 1) };
   var gunPose = function (P) {
-    var gs = Math.max(78, Math.min(170, S.w * .26)), d = gs * .95, cand = [-.6, -1.0, -.2, -2.55, -2.15, -2.95, .25, 2.9], best = null, bestV = 1e9;
-    var testM = function (phi) { var nx = P.x + Math.cos(phi) * d, ny = P.y + Math.sin(phi) * d; return nx > gs * .55 && nx < S.w - gs * .55 && ny > gs * .45; };   /* вернуться на правую сторону только с запасом, чтобы пистолет не перескакивал туда-сюда */
-    var test = function (phi) { var nx = P.x + Math.cos(phi) * d, ny = P.y + Math.sin(phi) * d, cx = nx + Math.cos(phi) * gs * .35, cy = ny + Math.sin(phi) * gs * .35 + gs * .15, m = gs * .3, v = Math.max(0, m - cx) + Math.max(0, cx - (S.w - m)) + Math.max(0, m - cy) + Math.max(0, cy - (S.h - m * .4)); return v; };
-    if (test(cand[0]) < 1 && (S.gunPhi === cand[0] || test(cand[0]) + 0 < 1 && testM(cand[0]))) best = cand[0]; else if (test(S.gunPhi) < 1) best = S.gunPhi; else for (var i = 0; i < cand.length; i++) { var v = test(cand[i]); if (v < bestV) { bestV = v; best = cand[i]; } if (v < 1) break; }
-    S.gunPhi = best; var N = { x: P.x + Math.cos(best) * d, y: P.y + Math.sin(best) * d }, dx = P.x - N.x, dy = P.y - N.y, dl = Math.hypot(dx, dy) || 1;
+    /* пистолет всегда сверху-справа от точки удара. У правого края он плавно поворачивается вверх и немного влево, у верхнего — опускается вправо. Угол меняется непрерывно и сглаженно, без перескоков с одной стороны на другую */
+    var gs = Math.max(78, Math.min(170, S.w * .26)), d = gs * .95, rx = P.x / S.w, ty = P.y / S.h;
+    var phi = -0.6 - Math.max(0, Math.min(1, (rx - .55) / .4)) * 1.1 + Math.max(0, Math.min(1, (.3 - ty) / .3)) * 0.95;
+    if (S.gunPhiT == null) S.gunPhiT = phi; var now = performance.now(), k = Math.min(1, ((now - (S.gunT || now)) / 1000) * 10); S.gunT = now; S.gunPhiT += (phi - S.gunPhiT) * k; phi = S.gunPhiT; S.gunPhi = phi;
+    var N = { x: P.x + Math.cos(phi) * d, y: P.y + Math.sin(phi) * d }, dx = P.x - N.x, dy = P.y - N.y, dl = Math.hypot(dx, dy) || 1;
     return { N: N, dx: dx / dl, dy: dy / dl, gs: gs, dist: dl };
   };
   var drawGun = function (g, pose) {
     var im = img(GUN.src); if (!ok(im)) return; var k = pose.gs / 400, th = Math.atan2(pose.dy, pose.dx);
     g.save(); g.translate(pose.N.x, pose.N.y);
-    if (pose.dx >= 0) g.rotate(th - GUN.ax); else { g.rotate(th - Math.PI + GUN.ax); g.scale(-1, 1); }
+    g.rotate(th - Math.PI + GUN.ax); g.scale(-1, 1);   /* одна ориентация всегда: носик смотрит на машину, картинка не переворачивается */
     g.shadowColor = 'rgba(20,40,80,.25)'; g.shadowBlur = 10; g.shadowOffsetY = 4;
     g.drawImage(im, -GUN.nx * k, -GUN.ny * k, 400 * k, 400 * k); g.restore();
   };
@@ -4111,7 +4111,11 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var C = S.C, B = C.base, dirt = sum(C, C.D) / Math.max(1, B.dirt), prep = sum(C, C.P) / Math.max(1, B.mask), foamCov = cover(C, C.F, 30) / Math.max(1, cover(C, C.mask, 60));
     S.stat = { dirt: dirt, prep: prep, foam: foamCov };
     if (S.ph === 0 && (prep > .72 || dirt < .3)) { S.ph = 1; S.tool = 'gun'; step('Отмыли'); }
-    else if (S.ph === 1 && foamCov < .012 && dirt < .08) { S.done = true; S.down = false; S.shine = 0; step('Смыли'); }
+    else if (S.ph === 1) {
+      /* машина считается чистой, когда пены почти не видно и грязи осталось немного — остатки сами плавно смываются блеском. Раньше требовалось < 8 % грязи, и уровень застревал на чистой с виду машине */
+      if (foamCov < .04 && dirt < .3) S.cleanFor = (S.cleanFor || 0) + .3; else S.cleanFor = 0;
+      if (S.cleanFor >= .6 || (foamCov < .015 && dirt < .45)) { S.done = true; S.down = false; S.shine = 0; step('Смыли'); }
+    }
   };
   var frame = function () {
     var fin = document.querySelector('.um-fin-wash'), holder = fin && fin.querySelector('.um-w-car img'), src = holder && holder.getAttribute('src');
