@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-1eba16376c89') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-d826cd014b19') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -371,16 +371,50 @@ html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20
 .um-gates:not(.um-gates-sm) .um-gate-p{animation-delay:.12s}
 @keyframes um-gate-in{from{opacity:0;transform:translateY(40px) scale(.85)}to{opacity:1;transform:none}}
 @keyframes um-gate-bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-.8deg)}}
-/* большие двери 14.11: сама дверь стоит, а картинка внутри живёт — медленно приближается и плывёт, по ней пробегает блик и мерцают искорки */
+/* большие двери 14.11 (v2): дверь стоит на месте, внутри — живая сценка из отдельных игрушек. «Учимся»: кубики с буквами и цифрами прыгают по очереди, счёты качаются, карандаши пританцовывают.
+   «Играем»: паровозик пыхтит и дымит, шарик летает, мяч скачет, пазлы сцепляются, кисточка рисует. Маленькая вкладка показывает обычную картинку */
+.um-gs{display:none}
 .um-gates:not(.um-gates-sm) .um-gate-pic{position:relative;isolation:isolate}
-.um-gates:not(.um-gates-sm) .um-gate-pic img{animation:um-gpic 14s ease-in-out infinite alternate;transform-origin:50% 35%}
-.um-gates:not(.um-gates-sm) .um-gate-p .um-gate-pic img{animation-delay:-7s}
-.um-gates:not(.um-gates-sm) .um-gate-pic::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.6) 50%,transparent 65%);transform:translateX(-120%);animation:um-shine 7s ease-in-out 1.5s infinite}
-.um-gates:not(.um-gates-sm) .um-gate-p .um-gate-pic::after{animation-delay:5s}
-.um-gates:not(.um-gates-sm) .um-gate-pic::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 18% 22%,#FFFFFF 0 3px,rgba(255,255,255,.5) 4px,transparent 9px),radial-gradient(circle at 82% 16%,#FFF6C2 0 3px,rgba(255,240,170,.5) 4px,transparent 10px),radial-gradient(circle at 70% 64%,#FFFFFF 0 2px,rgba(255,255,255,.5) 3px,transparent 8px),radial-gradient(circle at 28% 74%,#FFF6C2 0 2px,rgba(255,240,170,.5) 3px,transparent 8px);animation:um-gspark 3.6s ease-in-out infinite}
-.um-gates:not(.um-gates-sm) .um-gate-p .um-gate-pic::before{animation-delay:-1.8s;background-position:6% -4%}
-@keyframes um-gpic{0%{transform:scale(1.02) translate(0,0)}50%{transform:scale(1.08) translate(-1.5%,1%)}100%{transform:scale(1.05) translate(1.5%,-.5%)}}
-@keyframes um-gspark{0%,100%{opacity:0;transform:scale(.6)}45%,55%{opacity:1;transform:scale(1)}}
+.um-gates:not(.um-gates-sm) .um-gate-ph{visibility:hidden}
+.um-gates:not(.um-gates-sm) .um-gs{display:block;position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.um-gate-pic img.um-gs-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 92%}
+.um-gs-in{position:absolute;left:0;right:0;bottom:0;aspect-ratio:4/3;max-height:100%;margin:0 auto}
+.um-gate-pic img.um-gs-o{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:auto;object-fit:contain;translate:-50% -50%;filter:drop-shadow(0 4px 4px rgba(20,60,20,.25))}
+.um-gate-pic img.um-gs-cl{position:absolute;height:auto;object-fit:contain;opacity:.95;filter:drop-shadow(0 3px 4px rgba(40,90,160,.15))}
+.um-gs-cl1{width:20%;top:1%;animation:um-gscl 26s linear -6s infinite}
+.um-gs-cl2{width:14%;top:5%;animation:um-gscl 34s linear -22s infinite}
+@keyframes um-gscl{from{left:105%}to{left:-35%}}
+.um-gs-hop{transform-origin:50% 100%;animation:um-gshop 4.2s cubic-bezier(.3,.7,.4,1) calc(var(--k) * .32s) infinite}
+@keyframes um-gshop{0%,24%,100%{transform:none}4%{transform:scale(1.08,.9)}11%{transform:translateY(-22%) scale(.96,1.05) rotate(-4deg)}18%{transform:scale(1.06,.93)}21%{transform:translateY(-3%)}}
+.um-gs-abacus{transform-origin:50% 95%;animation:um-gssway 3.6s ease-in-out infinite}
+@keyframes um-gssway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+.um-gs-pencils{transform-origin:50% 100%;animation:um-gswig 2.2s ease-in-out infinite}
+@keyframes um-gswig{0%,100%{transform:rotate(0)}20%{transform:rotate(-6deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
+.um-gs-book{transform-origin:50% 90%;animation:um-gsbook 3s ease-in-out infinite}
+@keyframes um-gsbook{0%,100%{transform:scale(1,1)}50%{transform:scale(1.03,.97)}}
+.um-gs-train{position:absolute;left:44%;top:36%;width:56%;translate:-50% -50%;animation:um-gstrain 6s ease-in-out infinite}
+.um-gate-pic .um-gs-train img{display:block;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 5px 4px rgba(20,60,20,.28));animation:um-gschug .38s ease-in-out infinite}
+@keyframes um-gstrain{0%,100%{transform:translateX(-7%)}50%{transform:translateX(7%)}}
+@keyframes um-gschug{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5%) rotate(-.6deg)}}
+.um-gs-puff{position:absolute;left:14%;top:6%;width:12%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFFFFF,#E6EEF8 70%);opacity:0;animation:um-gspuff 1.8s ease-out infinite}
+.um-gs-puff:nth-child(2){animation-delay:.6s}.um-gs-puff:nth-child(3){animation-delay:1.2s}
+@keyframes um-gspuff{0%{opacity:0;transform:translate(0,0) scale(.4)}15%{opacity:.95}100%{opacity:0;transform:translate(-60%,-260%) scale(1.6)}}
+.um-gs-balloon{transform-origin:50% 100%;animation:um-gsbal 4.5s ease-in-out infinite}
+@keyframes um-gsbal{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12%) rotate(5deg)}}
+.um-gs-ball{transform-origin:50% 100%;animation:um-gsball 1.6s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes um-gsball{0%,100%{transform:translateY(0) scale(1.08,.9)}12%{transform:translateY(0) scale(1)}50%{transform:translateY(-38%) rotate(180deg)}88%{transform:translateY(0) scale(1) rotate(360deg)}}
+.um-gs-pz{animation:um-gspz 3.4s ease-in-out infinite}
+.um-gs-pzr{--dx:9%;--dy:9%}.um-gs-pzy{--dx:-9%;--dy:9%}.um-gs-pzb{--dx:9%;--dy:-9%}.um-gs-pzg{--dx:-9%;--dy:-9%}
+@keyframes um-gspz{0%,15%,100%{transform:translate(0,0) rotate(0)}40%,60%{transform:translate(var(--dx),var(--dy)) rotate(0)}48%{transform:translate(var(--dx),var(--dy)) scale(1.06)}75%{transform:translate(0,0) rotate(-8deg)}}
+.um-gs-brush{transform-origin:20% 90%;animation:um-gsbrush 2.4s ease-in-out infinite}
+@keyframes um-gsbrush{0%,100%{transform:rotate(0) translate(0,0)}25%{transform:rotate(-14deg) translate(-12%,12%)}50%{transform:rotate(6deg) translate(-4%,4%)}75%{transform:rotate(-10deg) translate(-14%,10%)}}
+/* общие правила картинки двери (cover, 100%) не должны трогать предметы сценки */
+.um-gate-pic .um-gs img.um-gs-o,.um-gate-pic .um-gs img.um-gs-cl,.um-gate-pic .um-gs-train img{height:auto!important;object-fit:contain!important;object-position:50% 50%!important;transform-origin:50% 100%}
+.um-gate-pic .um-gs img.um-gs-o{width:var(--w)!important}
+.um-gate-pic .um-gs img.um-gs-cl1{width:20%!important}.um-gate-pic .um-gs img.um-gs-cl2{width:14%!important}
+.um-gate-pic .um-gs-train img{width:100%!important}
+.um-gate-pic .um-gs img.um-gs-bg{width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 92%!important}
+@media (prefers-reduced-motion: reduce){.um-gs *{animation:none!important}}
 @media (hover:hover){.um-gate:hover .um-gate-pic img{transform:scale(1.06)}.um-gate:hover{transform:translateY(-4px)}}
 .um-gate:active{transform:scale(.95)}
 /* после выбора: компактные вкладки */
@@ -586,7 +620,7 @@ main{animation:um-scr .28s ease}
 @keyframes um-actshake{0%,100%{transform:translate(-50%,-50%)}25%{transform:translate(-58%,-50%)}75%{transform:translate(-42%,-50%)}}
 /* «Сад» и «Автомойка» 14.11 */
 .um-fin-gdn{background:#9ED8FF url(splash/bg-wide.jpg) 50% 72%/cover no-repeat}
-.um-fin-wash{background:#BFE6FF url(splash/g-bg-wash.jpg) 50% 45%/cover no-repeat}
+.um-fin-wash{background:#BFE6FF url(splash/g-bg-wash2.jpg) 50% 60%/cover no-repeat}
 .um-hint > img{animation:um-hintbob 1.3s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(255,236,120,.95)) drop-shadow(0 4px 4px rgba(20,30,60,.22))}
 @keyframes um-hintbob{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.1) rotate(-4deg)}}
 .um-g-gone{opacity:0;pointer-events:none}
@@ -604,7 +638,15 @@ main{animation:um-scr .28s ease}
 @keyframes um-gsun{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(8deg)}}
 .um-g-drops{aspect-ratio:.6!important;pointer-events:none;background:radial-gradient(circle at 30% 20%,#6EC6FF 0 9%,transparent 10%),radial-gradient(circle at 70% 35%,#4FB4F5 0 8%,transparent 9%),radial-gradient(circle at 45% 55%,#6EC6FF 0 9%,transparent 10%),radial-gradient(circle at 25% 78%,#4FB4F5 0 8%,transparent 9%),radial-gradient(circle at 68% 88%,#6EC6FF 0 9%,transparent 10%);background-size:100% 50%;animation:um-gdrops .5s linear infinite}
 @keyframes um-gdrops{from{background-position:0 0}to{background-position:0 100%}}
-.um-w-mud > img{filter:brightness(.78) saturate(.85) drop-shadow(0 2px 2px rgba(60,30,10,.3))}
+.um-fin-wash{--kw:.62%;--kh:.827%}
+@media (max-aspect-ratio: 3/4){.um-sec-play .um-fin-wash{--kw:.775%;--kh:.581%}}
+.um-tool-ghost{position:fixed;left:0;top:0;z-index:9998;pointer-events:none;height:auto;filter:drop-shadow(0 10px 10px rgba(20,30,60,.3));transform-origin:50% 50%;will-change:transform}
+.um-tool-held > img{opacity:.25}
+.um-tool-off{opacity:.55;filter:saturate(.6)}
+.um-drag-tool{touch-action:none;cursor:grab}
+.um-fx-drop{position:absolute;display:block;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;background:radial-gradient(circle at 35% 30%,#FFFFFF 0 18%,#7FD0FF 30%,#3AA6EE);opacity:.9}
+.um-fx-bub{position:absolute;display:block;border-radius:50%;background:radial-gradient(circle at 32% 30%,#FFFFFF 0 16%,rgba(255,255,255,.35) 30%,rgba(180,220,255,.25) 62%,rgba(255,200,240,.55) 80%,rgba(255,255,255,.9) 92%);box-shadow:inset 0 0 2px rgba(255,255,255,.9)}
+.um-w-mud > img{transition:opacity .15s linear;filter:brightness(.78) saturate(.85) drop-shadow(0 2px 2px rgba(60,30,10,.3))}
 .um-w-dirty > img{filter:saturate(.75) brightness(.92) drop-shadow(0 4px 4px rgba(20,30,60,.22))}
 .um-w-clean > img{animation:um-wclean 1.4s ease-in-out infinite;filter:saturate(1.15) brightness(1.06) drop-shadow(0 0 14px rgba(255,255,255,.95)) drop-shadow(0 4px 4px rgba(20,30,60,.22))}
 @keyframes um-wclean{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-3%) rotate(-1.5deg)}}
@@ -1675,8 +1717,8 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 
 <sc-if value="{{showGames}}" hint-placeholder-val="{{ true }}">
 <div class="um-gates {{hd.cls}}">
-<button type="button" class="press um-gate um-gate-l {{hd.lCls}}" onClick="{{hd.learn}}" aria-pressed="{{hd.lOn}}" aria-label="Учимся"><span class="um-gate-pic"><img src="splash/ui-door-learn.jpg" alt="" draggable="false"></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{learnBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
-<button type="button" class="press um-gate um-gate-p {{hd.pCls}}" onClick="{{hd.play}}" aria-pressed="{{hd.pOn}}" aria-label="Играем"><span class="um-gate-pic"><img src="splash/ui-door-play.jpg" alt="" draggable="false"></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{playBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
+<button type="button" class="press um-gate um-gate-l {{hd.lCls}}" onClick="{{hd.learn}}" aria-pressed="{{hd.lOn}}" aria-label="Учимся"><span class="um-gate-pic"><img class="um-gate-ph" src="splash/ui-door-learn.jpg" alt="" draggable="false"><span class="um-gs" aria-hidden="true"><img class="um-gs-bg" src="splash/d-bg.jpg" alt="" draggable="false"><img class="um-gs-cl um-gs-cl1" src="splash/cloud-061f2292.png" alt="" draggable="false"><img class="um-gs-cl um-gs-cl2" src="splash/cloud-061f2292.png" alt="" draggable="false"><span class="um-gs-in"><img class="um-gs-o um-gs-abacus" src="splash/d-abacus-3120fa00.png" alt="" draggable="false" style="--x: 79%; --y: 46%; --w: 31%"><img class="um-gs-o um-gs-hop" src="splash/d-n1-c08eb37b.png" alt="" draggable="false" style="--x: 15%; --y: 73%; --w: 19%; --k: 0"><img class="um-gs-o um-gs-hop" src="splash/d-n2-f4fc0734.png" alt="" draggable="false" style="--x: 34%; --y: 73%; --w: 19%; --k: 1"><img class="um-gs-o um-gs-hop" src="splash/d-n3-aac7fdc3.png" alt="" draggable="false" style="--x: 53%; --y: 73%; --w: 19%; --k: 2"><img class="um-gs-o um-gs-hop" src="splash/d-b-5a2a4fa6.png" alt="" draggable="false" style="--x: 24.5%; --y: 49%; --w: 19%; --k: 3"><img class="um-gs-o um-gs-hop" src="splash/d-v-d5ac5ddc.png" alt="" draggable="false" style="--x: 43.5%; --y: 49%; --w: 19%; --k: 4"><img class="um-gs-o um-gs-hop" src="splash/d-a-81cc6f9b.png" alt="" draggable="false" style="--x: 34%; --y: 25%; --w: 19%; --k: 5"><img class="um-gs-o um-gs-pencils" src="splash/d-pencils-583cdf9f.png" alt="" draggable="false" style="--x: 11%; --y: 88%; --w: 19%"><img class="um-gs-o um-gs-book" src="splash/d-book-2f46b3bc.png" alt="" draggable="false" style="--x: 72%; --y: 86%; --w: 34%"></span></span></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{learnBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
+<button type="button" class="press um-gate um-gate-p {{hd.pCls}}" onClick="{{hd.play}}" aria-pressed="{{hd.pOn}}" aria-label="Играем"><span class="um-gate-pic"><img class="um-gate-ph" src="splash/ui-door-play.jpg" alt="" draggable="false"><span class="um-gs" aria-hidden="true"><img class="um-gs-bg" src="splash/d-bg.jpg" alt="" draggable="false"><img class="um-gs-cl um-gs-cl1" src="splash/cloud-061f2292.png" alt="" draggable="false"><img class="um-gs-cl um-gs-cl2" src="splash/cloud-061f2292.png" alt="" draggable="false"><span class="um-gs-in"><img class="um-gs-o um-gs-balloon" src="splash/d-balloon-b0869513.png" alt="" draggable="false" style="--x: 86%; --y: 22%; --w: 20%"><span class="um-gs-train"><i class="um-gs-puff"></i><i class="um-gs-puff"></i><i class="um-gs-puff"></i><img src="splash/d-train-2c348b80.png" alt="" draggable="false"></span><img class="um-gs-o um-gs-ball" src="splash/d-ball-10ed04b6.png" alt="" draggable="false" style="--x: 14%; --y: 74%; --w: 21%"><img class="um-gs-o um-gs-pz um-gs-pzr" src="splash/d-pzr-2e2938aa.png" alt="" draggable="false" style="--big: 1; --x: 38%; --y: 70%; --w: 16%"><img class="um-gs-o um-gs-pz um-gs-pzy" src="splash/d-pzy-bc4ec667.png" alt="" draggable="false" style="--big: 1; --x: 52%; --y: 70%; --w: 16%"><img class="um-gs-o um-gs-pz um-gs-pzb" src="splash/d-pzb-8351a05b.png" alt="" draggable="false" style="--big: 1; --x: 38%; --y: 88%; --w: 16%"><img class="um-gs-o um-gs-pz um-gs-pzg" src="splash/d-pzg-1957fdba.png" alt="" draggable="false" style="--big: 1; --x: 52%; --y: 88%; --w: 16%"><img class="um-gs-o um-gs-palette" src="splash/d-palette-79c50630.png" alt="" draggable="false" style="--x: 80%; --y: 80%; --w: 27%"><img class="um-gs-o um-gs-brush" src="splash/d-brush-0a9c1a7f.png" alt="" draggable="false" style="--x: 88%; --y: 63%; --w: 17%"></span></span></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{playBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
 </div>
 <sc-if value="{{hd.isLearn}}" hint-placeholder-val="{{ false }}">
 <section class="um-hsec um-hsec-l" style="--d: -.6s" aria-label="Учимся">
@@ -3819,24 +3861,25 @@ FIN.garden = {
     var P = ['Посади семечко', 'Полей из лейки', 'Открой солнышко', 'Нажми на бутон', 'Вырос' + (/цветок|тюльпан|помидор|огурец|баклажан|перец/.test(t.pname) ? ' ' : 'ла ') + t.pname + '!'];
     return { scene: 'gdn', prompt: P[s], audio: s < 4 ? 'gdn-' + s : '', actors: a };
   },
-  tap: function (t, fs, id) { var need = ['bag', 'can', 'cloud', 'bud'][fs.step]; if (id !== need) return null; return { fs: { step: fs.step + 1 }, done: fs.step === 3, wait: 3800 }; },
+  tap: function (t, fs, id) { var need = ['bag', 'can', 'cloud', 'bud'][fs.step]; if (id !== need) return null; return { fs: { step: fs.step + 1 }, done: fs.step === 3, wait: 3800, sfx: fs.step === 0 ? 'sfx/g-seed.m4a' : fs.step === 3 ? 'sfx/g-bloom.m4a' : '' }; },
   answer: function (t, fs) { return ['bag', 'can', 'cloud', 'bud'][fs.step] || 'bud'; }
 };
 // «Автомойка»: потри грязь губкой (можно водить пальцем) — под ней пена; потом смой пену водой, и машинка блестит
 var WASH_MUD = ['splash/g-mud-0-29b86a67.png', 'splash/g-mud-1-8487e7b9.png', 'splash/g-mud-2-c496be10.png', 'splash/g-mud-3-5a4a3383.png', 'splash/g-mud-4-4eb414fd.png', 'splash/g-mud-5-82cb805f.png'];
-var WASH_SPOTS = [[30, 50], [45, 44], [61, 47], [73, 57], [37, 66], [57, 67]];
+// пятна — в долях картинки машины (0–100), чтобы грязь лежала на кузове и стёклах при любом размере сцены
+var WASH_SPOTS = [[28, 47], [50, 40], [70, 44], [24, 62], [48, 60], [74, 61]];
 FIN.wash = {
   make: function (top) { var s = pick(top.kinds), c = pick(['red', 'blue', 'yellow', 'green', 'orange', 'purple']); return { mode: 'fin', kind: 'wash', car: s, c: c }; },
   start: function () { return { mud: {}, foam: {} }; },
   view: function (t, fs) {
     var a = [], n = WASH_SPOTS.length, muds = Object.keys(fs.mud).length, foams = Object.keys(fs.foam).length, ph = muds < n ? 0 : foams < n ? 1 : 2;
-    a.push({ id: 'car', img: itemImg(t.car, t.c), x: 51, y: 57, w: 62, z: 1, cls: ph === 2 ? 'um-w-clean' : ph === 0 ? 'um-w-dirty' : '' });
+    a.push({ id: 'car', img: itemImg(t.car, t.c), x: 50, y: 58, w: 62, z: 1, cls: 'um-w-car' + (ph === 2 ? ' um-w-clean' : ph === 0 ? ' um-w-dirty' : '') });
     WASH_SPOTS.forEach(function (p, i) {
-      if (!fs.mud[i]) a.push({ id: 'm' + i, img: WASH_MUD[i], x: p[0], y: p[1], w: 17, z: 3, tap: true, cls: 'um-w-mud um-rub', aria: 'Грязь', r: i * 47 - 30, d: i * .4 });
-      else if (!fs.foam[i]) a.push({ id: 'f' + i, img: 'splash/g-foam-5bd53549.png', x: p[0], y: p[1] - 2, w: 17, z: 4, tap: ph === 1, cls: 'um-w-foam um-rub' + (ph === 1 ? ' um-bob' : ''), aria: 'Пена', d: i * .3 });
+      if (!fs.mud[i]) a.push({ id: 'm' + i, img: WASH_MUD[i], on: p, w: 15, z: 3, tap: true, cls: 'um-w-mud um-rub', aria: 'Грязь', r: i * 47 - 30 });
+      else if (!fs.foam[i]) a.push({ id: 'f' + i, img: 'splash/g-foam-5bd53549.png', on: p, w: 16, z: 4, tap: ph === 1, cls: 'um-w-foam um-rub' + (ph === 1 ? ' um-bob' : ''), aria: 'Пена', d: i * .3 });
     });
-    a.push({ id: 'sponge', img: 'splash/g-sponge-4731e66f.png', x: 11, y: 82, w: 15, z: 5, cls: 'um-g-tool' + (ph === 0 ? ' um-hint' : '') });
-    a.push({ id: 'spray', img: 'splash/g-spray-d48ba899.png', x: 89, y: 80, w: 16, z: 5, cls: 'um-g-tool' + (ph === 1 ? ' um-hint' : '') });
+    a.push({ id: 'sponge', img: 'splash/g-sponge-4731e66f.png', x: 13, y: 84, w: 17, z: 6, tap: ph === 0, cls: 'um-drag-tool' + (ph === 0 ? ' um-hint' : ' um-tool-off'), aria: 'Губка' });
+    a.push({ id: 'wcan', img: 'splash/g-can-2952db50.png', x: 87, y: 82, w: 19, z: 6, tap: ph === 1, cls: 'um-drag-tool' + (ph === 1 ? ' um-hint' : ' um-tool-off'), aria: 'Лейка' });
     return { scene: 'wash', prompt: ph === 0 ? 'Потри грязь губкой' : ph === 1 ? 'Смой пену водой' : 'Машинка блестит!', audio: ph < 2 ? 'wash-' + ph : '', actors: a };
   },
   tap: function (t, fs, id) {
@@ -3861,12 +3904,48 @@ TOPICS.wash = [
 ];
 function genPlayFin(kind) { return function (top) { var F = FIN[kind]; return rep(4, function () { var t = F.make(top); var v0 = F.view(t, F.start(t)); t.prompt = v0.prompt; t.say = t.prompt + '.'; t.audio = v0.audio; return t; }); }; }
 TOPIC_GEN.garden = genPlayFin('garden'); TOPIC_GEN.wash = genPlayFin('wash');
-// водить пальцем по грязи и пене — как тереть губкой: каждое пятно под пальцем стирается само
-if (typeof document !== 'undefined' && document.addEventListener) document.addEventListener('pointermove', function (e) {
-  if (!e.buttons && e.pointerType === 'mouse') return; if (!document.elementFromPoint) return;
-  var el = document.elementFromPoint(e.clientX, e.clientY), b = el && el.closest ? el.closest('.um-rub') : null;
-  if (b && !b.disabled && b !== FX.rub) { FX.rub = b; FX.tap = { x: e.clientX, y: e.clientY, el: b, t: Date.now() }; b.click(); }
-}, { passive: true });
+// «Автомойка»: губку и лейку берут пальцем и водят по машине. Под губкой грязь стирается постепенно и пенится, из лейки льётся вода и смывает пену.
+// Просто нажать на пятно нельзя — только инструментом
+if (typeof document !== 'undefined' && document.addEventListener) (function () {
+  var T = null;
+  var spawn = function (x, y, kind) {
+    var L = fxLayer(), d = document.createElement('i'); d.className = kind === 'water' ? 'um-fx-drop' : 'um-fx-bub';
+    var z = kind === 'water' ? 7 + Math.random() * 5 : 8 + Math.random() * 14; d.style.cssText = 'left:' + (x + (Math.random() - .5) * 18) + 'px;top:' + y + 'px;width:' + z + 'px;height:' + (kind === 'water' ? z * 1.4 : z) + 'px'; L.appendChild(d);
+    var an = fxAnim(d, kind === 'water' ? [{ transform: 'translate(-50%,0)', opacity: .95 }, { transform: 'translate(-50%,' + (70 + Math.random() * 40) + 'px)', opacity: 0 }] : [{ transform: 'translate(-50%,-50%) scale(.3)', opacity: .95 }, { transform: 'translate(calc(-50% + ' + (Math.random() - .5) * 50 + 'px),calc(-50% - ' + (20 + Math.random() * 40) + 'px)) scale(1)', opacity: 0 }], { duration: kind === 'water' ? 420 : 700, easing: 'ease-out' });
+    if (an) an.onfinish = function () { d.remove(); }; else setTimeout(function () { d.remove(); }, 700);
+  };
+  var hit = function (x, y) {
+    var el = document.elementFromPoint(x, y), b = el && el.closest ? el.closest('.um-rub') : null, want = T.kind === 'sponge' ? 'Грязь' : 'Пена';
+    if (!b || b.disabled || b.getAttribute('aria-label') !== want) return;
+    var im = b.querySelector('img'); b._rub = (b._rub || 0) + T.step; if (im) im.style.opacity = String(Math.max(.15, 1 - b._rub / 110));
+    if (b._rub > 110) { b._rub = 0; FX.toolHit = true; FX.tap = { x: x, y: y, el: b, t: Date.now() }; b.click(); FX.toolHit = false; }
+  };
+  document.addEventListener('pointerdown', function (e) {
+    var b = e.target && e.target.closest ? e.target.closest('.um-drag-tool') : null; if (!b || b.disabled) return;
+    var im = b.querySelector('img'), r = b.getBoundingClientRect(), g = document.createElement('img'); g.src = im.src; g.alt = ''; g.className = 'um-tool-ghost'; g.style.width = r.width * 1.1 + 'px'; document.body.appendChild(g);
+    T = { kind: b.getAttribute('aria-label') === 'Губка' ? 'sponge' : 'water', g: g, src: b, w: r.width * 1.1, home: r, x: e.clientX, y: e.clientY, id: e.pointerId, cur: null, d: 0, step: 0, last: 0 };
+    b.classList.add('um-tool-held'); e.preventDefault(); move(e);
+  });
+  var move = function (e) {
+    if (!T || e.pointerId !== T.id) return; var dx = e.clientX - T.x, dy = e.clientY - T.y; T.step = Math.min(30, Math.sqrt(dx * dx + dy * dy)); T.x = e.clientX; T.y = e.clientY;
+    var sp = T.kind === 'sponge';
+    T.g.style.transform = 'translate3d(' + (e.clientX - T.w / 2) + 'px,' + (e.clientY - T.w * (sp ? .45 : .55)) + 'px,0) rotate(' + (sp ? Math.sin(Date.now() / 60) * 8 : -28) + 'deg)';
+    var px = sp ? e.clientX : e.clientX - T.w * .42, py = sp ? e.clientY : e.clientY + T.w * .45;   // у лейки вода падает из носика
+    if (!sp) { T.step = Math.max(T.step, 6); if (Date.now() - T.last > 45) { T.last = Date.now(); spawn(px, py - 20, 'water'); spawn(px, py - 10, 'water'); } }
+    else if (T.step > 2 && Date.now() - T.last > 70) { T.last = Date.now(); spawn(px, py, 'bub'); }
+    hit(px, py); if (!sp) hit(px, py + 30);
+  };
+  document.addEventListener('pointermove', move);
+  // лейка поливает и когда палец стоит на месте
+  setInterval(function () { if (T && T.kind === 'water') move({ pointerId: T.id, clientX: T.x, clientY: T.y }); }, 60);
+  var end = function (e) {
+    if (!T || e.pointerId !== T.id) return; var t = T; T = null; t.src.classList.remove('um-tool-held');
+    var h = t.src.getBoundingClientRect(); t.g.style.transition = 'transform .35s cubic-bezier(.3,1.3,.5,1)'; t.g.style.transform = 'translate3d(' + h.left + 'px,' + h.top + 'px,0) rotate(0deg)';
+    setTimeout(function () { t.g.remove(); }, 360);
+  };
+  document.addEventListener('pointerup', end); document.addEventListener('pointercancel', end);
+  document.addEventListener('click', function (e) { var b = e.target && e.target.closest ? e.target.closest('.um-rub') : null; if (b && !FX.toolHit) { e.stopPropagation(); e.preventDefault(); } }, true);
+})();
 var FINALE_ALT = { shadow: 'slots' };   // у «Теней» финалы чередуются: фонарик и «вставь в силуэт»
 var FINALE_OF = { items: 'fish', first: 'fish', find: 'pop', letters: 'pop', sort: 'tower', shadow: 'flash', compare: 'scales', odd: 'air', gone: 'bush', pairs: 'puzzle', count: 'rocket', next: 'beads', math: 'mathpop', shelf: 'lift' };
 var FIN_TITLE = { slots: 'Вставь в силуэт', fish: 'Рыбалка', pop: 'Пузыри', tower: 'Башня', flash: 'Фонарик', scales: 'Весы', air: 'Воздушный шар', bush: 'Прятки', puzzle: 'Пазл', rocket: 'Ракета', beads: 'Бусы', mathpop: 'Пузыри с ответом', lift: 'Лифт' };
@@ -4448,6 +4527,7 @@ class Component extends DCLogic {
   finTap(id) {
     var st = this.state, t = st.tasks[st.ti], self = this; if (!t || t.mode !== 'fin' || st.solved || st.finLock) return;
     var F = FIN[t.kind], fs = st.fin || F.start(t), r = F.tap(t, fs, id); if (!r) return;
+    if (r.sfx) this.sndFile(r.sfx, 1);   // живые звуки из ElevenLabs, выбранные владельцем
     if (r.bad) {
       this.snd('bad'); var tt = pick(TRY);
       this.setState({ fin: fs, finBad: id, mistakes: st.mistakes + 1, fb: { kind: 'bad', text: tt } }); this.sayFeedback(TRY_VOICE, tt);
@@ -4471,11 +4551,13 @@ class Component extends DCLogic {
   // игрушка летит в вагон по дуге и опускается внутрь, вагончик чуть приседает под ней
   trainFly(i, w) {
     if (FX.calm || typeof document === 'undefined' || !document.querySelector || typeof requestAnimationFrame === 'undefined') return; var te = document.querySelector('.um-sec-train [data-tri="' + i + '"] img'); if (!te) return;
-    var r0 = te.getBoundingClientRect(), src = te.getAttribute('src');
+    var r0 = te.getBoundingClientRect(), src = te.getAttribute('src'), dropIn = !!this._dropIn;   // перетащили пальцем: копия уже над вагоном, игрушка только опускается внутрь
     var go = function (n) {
       var wg = document.querySelector('.um-sec-train [data-trw="' + w + '"]'), its = wg ? [].slice.call(wg.querySelectorAll('.um-load-it')).filter(function (x) { return x.getAttribute('src') === src; }) : [], el = its[its.length - 1];
       if (!el) { if (n < 6) requestAnimationFrame(function () { go(n + 1); }); return; }
-      var r1 = el.getBoundingClientRect(); if (!r1.width) return; var dx = r0.left + r0.width / 2 - (r1.left + r1.width / 2), dy = r0.top + r0.height / 2 - (r1.top + r1.height / 2), k = r0.width / r1.width, up = Math.min(dy, 0) - 90;
+      var r1 = el.getBoundingClientRect(); if (!r1.width) return;
+      if (dropIn) { fxAnim(el, [{ transform: 'translateY(-45%) scale(.95)' }, { transform: 'translateY(6%) scale(1.04)', offset: .7 }, { transform: 'none' }], { duration: 300, easing: 'ease-in' }); setTimeout(function () { fxAnim(wg, [{ transform: 'none' }, { transform: 'translateY(4px) scaleY(.94)' }, { transform: 'translateY(-2px) scaleY(1.02)' }, { transform: 'none' }], { duration: 380, easing: 'ease-out', composite: 'add' }); }, 220); return; }
+      var dx = r0.left + r0.width / 2 - (r1.left + r1.width / 2), dy = r0.top + r0.height / 2 - (r1.top + r1.height / 2), k = r0.width / r1.width, up = Math.min(dy, 0) - 90;
       fxAnim(el, [{ transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + k + ')', zIndex: 9 }, { transform: 'translate(' + dx * .45 + 'px,' + up + 'px) scale(' + (k * .9 + .2) + ') rotate(-12deg)', offset: .5 }, { transform: 'translate(0,-12px) scale(1.05) rotate(4deg)', offset: .82 }, { transform: 'none' }], { duration: 560, easing: 'cubic-bezier(.3,.6,.4,1)' });
       setTimeout(function () { var im = wg.querySelector('.um-wagon-front') || wg; fxAnim(wg, [{ transform: 'none' }, { transform: 'translateY(4px) scaleY(.94)' }, { transform: 'translateY(-2px) scaleY(1.02)' }, { transform: 'none' }], { duration: 380, easing: 'ease-out', composite: 'add' }); }, 470);
     };
@@ -4497,7 +4579,7 @@ class Component extends DCLogic {
     // все игрушки на месте: похвала, гудок — и поезд уезжает
     var praise = this.newPraise(), said = this.sayFeedback(PRAISE_VOICE, praise); this.snd('reward'); this.burst();
     this.setState({ tr: tr, trSel: -1, trBad: -1, trBadW: -1, solved: true, fb: { kind: 'ok', text: praise + ' Паровозик поехал!' } });
-    this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.snd('chug', null, false); }, 500);
+    this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] !== t) return; self.setState({ trGo: true }); self.snd('chug', null, false); self.sndFile('sfx/tr-toot.m4a', .9); }, 500);
     this.later(function () { if (self.state.tasks[self.state.ti] === t) self.nextTask(); }, this.fbWait(3700, said));
   }
   // раскраска как в детских приложениях: лист на весь экран, краска ложится куда угодно, чёрный контур всегда сверху. Ведёрко заливает область внутри контура
@@ -4672,7 +4754,7 @@ class Component extends DCLogic {
       if (!drag || e.pointerId !== drag.id) return; var d = drag; drag = null; setHot(null);
       if (!d.moved) return; self._dragEnd = Date.now();
       var w = e.type === 'pointerup' ? at(e.clientX, e.clientY) : null, st = self.state, t = st.tasks[st.ti], ok = w && t && t.items && trainMatch(t, t.items[d.i], +w.getAttribute('data-trw'));
-      if (ok) { var b = w.getBoundingClientRect(); flyTo(d.g, b.left + b.width / 2 - d.bw / 2, b.top + b.height * .3 - d.bh / 2, .55, function () { d.el.style.opacity = ''; self.trainPut(d.i, +w.getAttribute('data-trw')); }); return; }
+      if (ok) { var b = w.getBoundingClientRect(); flyTo(d.g, b.left + b.width / 2 - d.bw / 2, b.top + b.height * .3 - d.bh / 2, .55, function () { setTimeout(function () { d.el.style.opacity = ''; }, 400); self._dropIn = true; self.trainPut(d.i, +w.getAttribute('data-trw')); self._dropIn = false; }); return; }
       flyTo(d.g, d.bx, d.by, 1, function () { d.el.style.opacity = ''; if (w) self.trainPut(d.i, +w.getAttribute('data-trw')); });
     };
     document.addEventListener('pointerup', end); document.addEventListener('pointercancel', end);
@@ -5059,7 +5141,7 @@ class Component extends DCLogic {
           var id = a.id;
           return { hasImg: !!a.img, img: a.img || '', imgSt: a.imgSt || '', hasImgs: !!a.imgs, imgs: (a.imgs || []).map(function (u) { return { img: u }; }), hasText: !!a.text, text: a.text || '',
             cls: 'um-act ' + (a.cls || '') + (st.finBad === id ? ' shake' : '') + (a.tap ? ' um-tap' : ''), off: !a.tap || st.solved, aria: a.aria || '',
-            st: 'left: ' + a.x + '%; top: ' + a.y + '%; width: ' + a.w + '%; --w: ' + a.w + '%; --r: ' + (a.r || 0) + 'deg; --d: -' + (a.d || 0) + 's; z-index: ' + (a.z || 1),
+            st: (a.on ? 'left: calc(50% + ' + (a.on[0] - 50) + ' * var(--kw, .62%)); top: calc(58% + ' + (a.on[1] - 50) + ' * var(--kh, .827%));' : 'left: ' + a.x + '%; top: ' + a.y + '%;') + ' width: ' + a.w + '%; --w: ' + a.w + '%; --r: ' + (a.r || 0) + 'deg; --d: -' + (a.d || 0) + 's; z-index: ' + (a.z || 1),
             tap: a.tap ? function () { self.finTap(id); } : null };
         }) };
       }
