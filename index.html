@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-4f287eb75a4d') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-45acdce256f8') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -110,6 +110,23 @@
 /* фон всего сайта: живописный пейзаж (нарисован в ChatGPT по образцу превьюшки «Доставки»), широкий для компьютера и высокий для телефона */
 .um-bgimg{position:absolute;inset:0;background:#4FB2F5 url(splash/bg-wide.jpg) center bottom/cover no-repeat}
 @media (max-aspect-ratio: 1/1){.um-bgimg{background-image:url(splash/bg-tall.jpg)}}
+/* слой, совпадающий с фоновой картинкой (cover, по низу по центру): дым из труб стоит ровно над трубами */
+.um-bgmap{position:absolute;left:50%;bottom:0;transform:translateX(-50%);pointer-events:none}
+.um-bgmap-w{width:max(100vw,150vh);aspect-ratio:3/2}
+.um-bgmap-t{display:none;width:max(100vw,66.67vh);aspect-ratio:2/3}
+@media (max-aspect-ratio: 1/1){.um-bgmap-w{display:none}.um-bgmap-t{display:block}}
+.um-smk{position:absolute;width:0;height:0}
+.um-smk i{position:absolute;left:0;top:0;width:calc(var(--sz) * 2.6vmax);height:calc(var(--sz) * 2.6vmax);margin:calc(var(--sz) * -1.3vmax);border-radius:50%;background:radial-gradient(circle at 40% 38%,#FFFFFF,rgba(240,244,250,.92) 55%,rgba(225,232,242,0) 72%);opacity:0;animation:um-smoke 5.2s ease-out infinite}
+.um-smk i:nth-child(2){animation-delay:1.3s}.um-smk i:nth-child(3){animation-delay:2.6s}.um-smk i:nth-child(4){animation-delay:3.9s}
+@keyframes um-smoke{0%{transform:translate(0,0) scale(.35);opacity:0}12%{opacity:.85}60%{opacity:.55}100%{transform:translate(calc(var(--sz) * 2.4vmax),calc(var(--sz) * -9vmax)) scale(1.7);opacity:0}}
+/* солнце: свечение дышит, лучи медленно вращаются */
+.um-sun{position:absolute;right:13vw;top:1.5vh;width:clamp(96px,17vmin,190px);aspect-ratio:1;pointer-events:none}
+.um-sun img{position:absolute;inset:0;width:100%;height:100%;animation:um-sun-rot 50s linear infinite;filter:drop-shadow(0 0 12px rgba(255,220,80,.7))}
+.um-sun i{position:absolute;inset:-45%;border-radius:50%;background:radial-gradient(circle,rgba(255,246,190,.85) 0,rgba(255,236,150,.45) 35%,rgba(255,236,150,0) 68%);animation:um-sun-glow 4s ease-in-out infinite}
+@keyframes um-sun-rot{to{transform:rotate(360deg)}}
+@keyframes um-sun-glow{0%,100%{transform:scale(.92);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+@media (max-width: 600px){.um-sun{right:-5vw;top:-2vh;width:120px}}
+@media (prefers-reduced-motion: reduce){.um-smk i,.um-sun img,.um-sun i{animation:none}}
 /* ветерок: трава и ромашки поверх фона покачиваются, каждая в своём ритме */
 .um-wind{position:absolute;left:0;right:0;bottom:0;height:30vh;pointer-events:none;overflow:hidden}
 .um-wind img{position:absolute;bottom:-1.2vh;width:auto;transform-origin:50% 100%;animation:um-wind var(--wd) ease-in-out var(--wl) infinite;filter:drop-shadow(0 2px 2px rgba(30,80,20,.18))}
@@ -335,6 +352,44 @@ html.um-hseen .um-hbd.um-hop2{animation:um-hbd-hop .5s ease-out}
 html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20ms) backwards}
 @media (min-width: 1000px){.um-hsec .um-h-big{flex-basis:calc((100% - var(--g) * (var(--cols) - 1)) / var(--cols))}.um-hsec .um-h-big .um-h-img{aspect-ratio:300/240}.um-hsec .um-h-big .um-h-n{font-size:clamp(17px,4.9vmin,22px)}}
 @media (prefers-reduced-motion: reduce){.um-hsec *{animation:none!important}.um-hth,.um-hth-sh{stroke-dashoffset:0}}
+
+/* главная 14.11 (v3): две «двери» Учимся / Играем; после выбора — вкладки, плитки выезжают */
+.um-gates{width:100%;max-width:860px;margin:4px auto 18px;display:grid;grid-template-columns:1fr 1fr;gap:18px;box-sizing:border-box}
+.um-gate{--c:#2B7FE6;--c2:#BFE0FF;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:7px 7px 10px;border:0;border-radius:32px;background:#FFFFFF;cursor:pointer;font-family:inherit;box-shadow:0 8px 0 var(--c2),0 18px 30px -12px rgba(20,60,130,.45);transition:transform .25s cubic-bezier(.3,1.5,.5,1),box-shadow .25s ease,opacity .25s ease;-webkit-tap-highlight-color:transparent}
+.um-gate-p{--c:#FF7F24;--c2:#FFD3AE}
+.um-gate-pic{display:block;width:100%;aspect-ratio:1;border-radius:26px;overflow:hidden}
+.um-gate-pic img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.um-gate-t{display:flex;justify-content:center;gap:1px;width:100%}
+.um-gate-t i{position:relative;width:15%;max-width:44px;aspect-ratio:1;font-style:normal;animation:um-dbead 3.2s ease-in-out calc(var(--i) * .12s) infinite}
+.um-gate-p .um-gate-t i{animation-delay:calc(1.6s + var(--i) * .12s)}
+.um-gate-t img{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 2px rgba(30,50,110,.3))}
+.um-gate-t span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-bottom:6%;color:#FFFFFF;font-weight:900;font-size:clamp(14px,4.2vw,24px);text-shadow:0 1px 0 rgba(0,0,0,.25)}
+@keyframes um-dbead{0%,70%,100%{transform:none}78%{transform:translateY(-22%) rotate(-8deg)}86%{transform:translateY(0) scale(1.08,.92)}92%{transform:translateY(-6%)}}
+.um-gates:not(.um-gates-sm) .um-gate{animation:um-gate-in .7s cubic-bezier(.2,1.4,.4,1) both,um-gate-bob 3.2s ease-in-out .8s infinite}
+.um-gates:not(.um-gates-sm) .um-gate-p{animation-delay:.12s,2.4s}
+@keyframes um-gate-in{from{opacity:0;transform:translateY(40px) scale(.85)}to{opacity:1;transform:none}}
+@keyframes um-gate-bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-.8deg)}}
+@media (hover:hover){.um-gate:hover .um-gate-pic img{transform:scale(1.06)}.um-gate:hover{transform:translateY(-4px)}}
+.um-gate:active{transform:scale(.95)}
+/* после выбора: компактные вкладки */
+.um-gates-sm{max-width:640px;gap:12px;margin-bottom:14px}
+.um-gates-sm .um-gate{flex-direction:row;gap:8px;padding:5px 12px 5px 5px;border-radius:999px;box-shadow:0 5px 0 var(--c2),0 10px 18px -10px rgba(20,60,130,.45);animation:um-tab-in .45s cubic-bezier(.2,1.4,.4,1) both}
+.um-gates-sm .um-gate-pic{flex:none;width:58px;height:58px;aspect-ratio:auto;border-radius:50%}
+.um-gates-sm .um-gate-t{justify-content:flex-start}
+.um-gates-sm .um-gate-t i{width:15%;max-width:30px;animation:none}
+.um-gates-sm .um-gate-t span{font-size:clamp(12px,3.4vw,17px)}
+.um-gates-sm .um-gate.um-on{box-shadow:0 0 0 4px var(--c),0 5px 0 4px var(--c2),0 14px 22px -10px rgba(20,60,130,.5);transform:translateY(-2px)}
+.um-gates-sm .um-gate.um-off{opacity:.78;filter:saturate(.8)}
+@keyframes um-tab-in{from{transform:scale(1.12);opacity:.6}to{transform:none;opacity:1}}
+.um-gates-sm .um-gate.um-on{animation:um-tab-in .45s cubic-bezier(.2,1.4,.4,1) both}
+.um-gates-sm .um-gate.um-on .um-gate-pic img{animation:um-tab-pic 2.8s ease-in-out infinite}
+@keyframes um-tab-pic{0%,100%{transform:scale(1)}50%{transform:scale(1.1) rotate(-3deg)}}
+.um-hsec{animation:um-sec-open .5s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes um-sec-open{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@media (min-width: 900px){.um-gate-pic{aspect-ratio:4/3}}
+@media (max-width: 700px){.um-gates:not(.um-gates-sm){grid-template-columns:1fr;max-width:460px}.um-gates:not(.um-gates-sm) .um-gate-pic{aspect-ratio:16/9}.um-gates:not(.um-gates-sm) .um-gate-t i{max-width:48px}}
+@media (max-width: 520px){.um-gates{gap:12px}.um-gate{padding:5px 5px 8px;border-radius:26px}.um-gate-pic{border-radius:21px}.um-gates-sm .um-gate-pic{width:46px;height:46px}.um-gates-sm .um-gate{padding:4px 8px 4px 4px;gap:4px}}
+@media (prefers-reduced-motion: reduce){.um-gate,.um-gate *,.um-hsec{animation:none!important}}
 
 /* главная 14.11 (v2, «воздушные карточки»): объёмная только картинка, всё вокруг спокойное */
 .um-hsec .um-h{--g:16px}
@@ -1223,10 +1278,11 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 </style>
 </head>
 <body>
-<div id="um-scene" aria-hidden="true"><div class="um-bgimg"></div><div class="um-wind"><img class="um-wd" src="splash/ui-grass-1-2f39da5e.png" alt="" style="left:-3%;height:13vh;--wd:3.6s;--wl:-0.4s"><img class="um-wd" src="splash/ui-daisy-1-15263155.png" alt="" style="left:6%;height:17vh;--wd:4.4s;--wl:-1.1s"><img class="um-wd" src="splash/ui-grass-5-bdee4b8b.png" alt="" style="left:13%;height:11vh;--wd:3.2s;--wl:-2.0s"><img class="um-wd um-wf" src="splash/ui-grass-3-0c90085e.png" alt="" style="left:22%;height:8vh;--wd:3.9s;--wl:-0.7s"><img class="um-wd" src="splash/ui-daisy-2-48329e28.png" alt="" style="left:30%;height:14vh;--wd:4.8s;--wl:-2.6s"><img class="um-wd um-wf" src="splash/ui-grass-2-617246b8.png" alt="" style="left:38%;height:10vh;--wd:3.4s;--wl:-1.5s"><img class="um-wd" src="splash/ui-grass-6-bfb36d6f.png" alt="" style="left:47%;height:12vh;--wd:4.1s;--wl:-0.2s"><img class="um-wd" src="splash/ui-daisy-3-88447856.png" alt="" style="left:55%;height:8vh;--wd:3.7s;--wl:-1.9s"><img class="um-wd" src="splash/ui-grass-4-0f85b770.png" alt="" style="left:61%;height:13vh;--wd:4.5s;--wl:-3.0s"><img class="um-wd um-wf" src="splash/ui-grass-1-2f39da5e.png" alt="" style="left:70%;height:12vh;--wd:3.5s;--wl:-1.2s"><img class="um-wd um-wf" src="splash/ui-daisy-1-15263155.png" alt="" style="left:78%;height:15vh;--wd:4.2s;--wl:-0.5s"><img class="um-wd um-wf" src="splash/ui-grass-5-bdee4b8b.png" alt="" style="left:85%;height:11vh;--wd:3.3s;--wl:-2.4s"><img class="um-wd um-wf" src="splash/ui-daisy-2-48329e28.png" alt="" style="left:91%;height:13vh;--wd:4.6s;--wl:-1.7s"><img class="um-wd" src="splash/ui-grass-2-617246b8.png" alt="" style="left:96%;height:10vh;--wd:3.8s;--wl:-0.9s"></div><div class="bt-sky bt-sky1"><img class="um-cld" src="splash/cloud-061f2292.png" alt=""></div><div class="bt-sky bt-sky2"><img class="um-cld" src="splash/cloud-061f2292.png" alt=""></div></div>
+<div id="um-scene" aria-hidden="true"><div class="um-bgimg"></div><div class="um-bgmap um-bgmap-w"><span class="um-smk" style="left:14.7%;top:49.6%;--sz:1"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:28.7%;top:58.7%;--sz:0.7"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:78.7%;top:59.3%;--sz:0.7"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:91.8%;top:52.0%;--sz:1"><i></i><i></i><i></i><i></i></span></div><div class="um-bgmap um-bgmap-t"><span class="um-smk" style="left:22.3%;top:59.4%;--sz:1"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:86.9%;top:64.3%;--sz:0.85"><i></i><i></i><i></i><i></i></span></div><div class="um-sun"><i></i><img src="splash/ui-sun-19f4a2fd.png" alt=""></div><div class="um-wind"><img class="um-wd" src="splash/ui-grass-1-2f39da5e.png" alt="" style="left:-3%;height:13vh;--wd:3.6s;--wl:-0.4s"><img class="um-wd" src="splash/ui-daisy-1-15263155.png" alt="" style="left:6%;height:17vh;--wd:4.4s;--wl:-1.1s"><img class="um-wd" src="splash/ui-grass-5-bdee4b8b.png" alt="" style="left:13%;height:11vh;--wd:3.2s;--wl:-2.0s"><img class="um-wd um-wf" src="splash/ui-grass-3-0c90085e.png" alt="" style="left:22%;height:8vh;--wd:3.9s;--wl:-0.7s"><img class="um-wd" src="splash/ui-daisy-2-48329e28.png" alt="" style="left:30%;height:14vh;--wd:4.8s;--wl:-2.6s"><img class="um-wd um-wf" src="splash/ui-grass-2-617246b8.png" alt="" style="left:38%;height:10vh;--wd:3.4s;--wl:-1.5s"><img class="um-wd" src="splash/ui-grass-6-bfb36d6f.png" alt="" style="left:47%;height:12vh;--wd:4.1s;--wl:-0.2s"><img class="um-wd" src="splash/ui-daisy-3-88447856.png" alt="" style="left:55%;height:8vh;--wd:3.7s;--wl:-1.9s"><img class="um-wd" src="splash/ui-grass-4-0f85b770.png" alt="" style="left:61%;height:13vh;--wd:4.5s;--wl:-3.0s"><img class="um-wd um-wf" src="splash/ui-grass-1-2f39da5e.png" alt="" style="left:70%;height:12vh;--wd:3.5s;--wl:-1.2s"><img class="um-wd um-wf" src="splash/ui-daisy-1-15263155.png" alt="" style="left:78%;height:15vh;--wd:4.2s;--wl:-0.5s"><img class="um-wd um-wf" src="splash/ui-grass-5-bdee4b8b.png" alt="" style="left:85%;height:11vh;--wd:3.3s;--wl:-2.4s"><img class="um-wd um-wf" src="splash/ui-daisy-2-48329e28.png" alt="" style="left:91%;height:13vh;--wd:4.6s;--wl:-1.7s"><img class="um-wd" src="splash/ui-grass-2-617246b8.png" alt="" style="left:96%;height:10vh;--wd:3.8s;--wl:-0.9s"></div><div class="bt-sky bt-sky1"><img class="um-cld" src="splash/cloud-061f2292.png" alt=""></div><div class="bt-sky bt-sky2"><img class="um-cld" src="splash/cloud-061f2292.png" alt=""></div></div>
 <div id="boot" class="bt-hold">
 <button type="button" class="bt-start" aria-label="Начать"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M78 50L36 74.250V25.750Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="9" stroke-linejoin="round"/></svg></button>
 <div class="um-bgimg"></div>
+<div class="um-bgmap um-bgmap-w"><span class="um-smk" style="left:14.7%;top:49.6%;--sz:1"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:28.7%;top:58.7%;--sz:0.7"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:78.7%;top:59.3%;--sz:0.7"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:91.8%;top:52.0%;--sz:1"><i></i><i></i><i></i><i></i></span></div><div class="um-bgmap um-bgmap-t"><span class="um-smk" style="left:22.3%;top:59.4%;--sz:1"><i></i><i></i><i></i><i></i></span><span class="um-smk" style="left:86.9%;top:64.3%;--sz:0.85"><i></i><i></i><i></i><i></i></span></div><div class="um-sun"><i></i><img src="splash/ui-sun-19f4a2fd.png" alt=""></div>
 <div class="bt-sky bt-sky1"><img class="um-cld" src="splash/cloud-061f2292.png" alt=""></div><div class="bt-sky bt-sky2"><img class="um-cld" src="splash/cloud-061f2292.png" alt=""></div>
 <div class="zs-night"><div class="zs-dots"><i style="left:24.8%;top:30.8%;--s:2.9px;--d:1.21s"></i><i style="left:62.1%;top:5.5%;--s:2.0px;--d:1.67s"></i><i style="left:26.9%;top:14.4%;--s:4.5px;--d:0.94s"></i><i style="left:82.3%;top:27.2%;--s:3.6px;--d:0.30s"></i><i style="left:62.9%;top:48.0%;--s:3.3px;--d:1.48s"></i><i style="left:66.5%;top:5.4%;--s:3.9px;--d:1.18s"></i><i style="left:30.9%;top:3.6%;--s:4.2px;--d:0.95s"></i><i style="left:71.0%;top:48.6%;--s:3.8px;--d:1.84s"></i><i style="left:39.9%;top:44.4%;--s:3.1px;--d:1.87s"></i><i style="left:86.4%;top:7.2%;--s:2.3px;--d:0.43s"></i><i style="left:94.7%;top:25.1%;--s:3.6px;--d:0.60s"></i><i style="left:50.7%;top:22.5%;--s:2.9px;--d:1.17s"></i><i style="left:58.1%;top:49.9%;--s:3.7px;--d:1.86s"></i><i style="left:84.2%;top:54.5%;--s:3.7px;--d:0.33s"></i><i style="left:84.6%;top:53.1%;--s:4.3px;--d:1.14s"></i><i style="left:70.5%;top:13.2%;--s:4.1px;--d:1.15s"></i><i style="left:29.4%;top:5.4%;--s:4.1px;--d:1.98s"></i><i style="left:10.5%;top:44.4%;--s:3.0px;--d:0.30s"></i><i style="left:30.2%;top:42.7%;--s:4.2px;--d:0.09s"></i><i style="left:61.0%;top:4.4%;--s:3.8px;--d:0.66s"></i><i style="left:86.6%;top:54.0%;--s:3.3px;--d:2.00s"></i><i style="left:31.7%;top:6.1%;--s:3.5px;--d:0.06s"></i><i style="left:20.9%;top:23.6%;--s:3.5px;--d:0.31s"></i><i style="left:6.1%;top:48.0%;--s:2.8px;--d:1.92s"></i><i style="left:88.1%;top:22.0%;--s:3.2px;--d:1.04s"></i><i style="left:63.8%;top:33.6%;--s:3.4px;--d:1.24s"></i><i style="left:92.3%;top:28.9%;--s:3.1px;--d:1.44s"></i><i style="left:24.8%;top:18.0%;--s:4.4px;--d:1.04s"></i><i style="left:54.6%;top:2.6%;--s:3.0px;--d:1.16s"></i><i style="left:3.9%;top:34.6%;--s:3.6px;--d:0.12s"></i><i style="left:62.2%;top:26.7%;--s:3.7px;--d:0.71s"></i><i style="left:69.9%;top:41.1%;--s:2.1px;--d:0.12s"></i><i style="left:66.9%;top:53.1%;--s:2.6px;--d:0.91s"></i><i style="left:58.9%;top:19.0%;--s:2.9px;--d:0.63s"></i><i style="left:37.4%;top:33.6%;--s:2.8px;--d:0.75s"></i><i style="left:76.1%;top:3.4%;--s:3.4px;--d:1.47s"></i><i style="left:31.8%;top:13.8%;--s:4.0px;--d:0.48s"></i><i style="left:20.0%;top:25.1%;--s:3.7px;--d:0.20s"></i><i style="left:32.9%;top:19.7%;--s:4.1px;--d:0.88s"></i><i style="left:84.1%;top:11.0%;--s:2.8px;--d:1.30s"></i><i style="left:87.0%;top:25.9%;--s:2.6px;--d:0.24s"></i><i style="left:52.8%;top:12.1%;--s:4.0px;--d:1.68s"></i><i style="left:19.6%;top:16.8%;--s:4.0px;--d:1.28s"></i><i style="left:79.4%;top:20.3%;--s:2.3px;--d:0.58s"></i><i style="left:78.2%;top:16.4%;--s:2.9px;--d:0.83s"></i><i style="left:42.3%;top:23.7%;--s:4.3px;--d:0.31s"></i></div></div>
 
@@ -1487,10 +1543,12 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 
 
 <sc-if value="{{showGames}}" hint-placeholder-val="{{ true }}">
-<section class="um-hsec um-hsec-l" style="--d: 0s" aria-label="Учимся">
-<div class="um-hhead" aria-hidden="true"><svg viewBox="0 0 1000 250"><path class="um-hth-sh" d="M20 78Q500 238 980 78"></path><path class="um-hth" d="M20 70Q500 230 980 70"></path></svg>
-<sc-for list="{{learnBeads}}" as="b" hint-placeholder-count="6"><button type="button" tabindex="-1" class="um-hbd" data-hb="{{b.id}}" style="--i: {{b.i}}; left: {{b.x}}%; top: {{b.y}}%" onClick="{{b.tap}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></button></sc-for>
+<div class="um-gates {{hd.cls}}">
+<button type="button" class="press um-gate um-gate-l {{hd.lCls}}" onClick="{{hd.learn}}" aria-pressed="{{hd.lOn}}" aria-label="Учимся"><span class="um-gate-pic"><img src="splash/ui-door-learn.jpg" alt="" draggable="false"></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{learnBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
+<button type="button" class="press um-gate um-gate-p {{hd.pCls}}" onClick="{{hd.play}}" aria-pressed="{{hd.pOn}}" aria-label="Играем"><span class="um-gate-pic"><img src="splash/ui-door-play.jpg" alt="" draggable="false"></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{playBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
 </div>
+<sc-if value="{{hd.isLearn}}" hint-placeholder-val="{{ false }}">
+<section class="um-hsec um-hsec-l" style="--d: -.6s" aria-label="Учимся">
 <h2 class="um-hidden-t">Учимся</h2>
 <div class="um-h">
 <sc-for list="{{learnTiles}}" as="w" hint-placeholder-count="6">
@@ -1498,10 +1556,9 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 </sc-for>
 </div>
 </section>
-<section class="um-hsec um-hsec-p" style="--d: 0.55s" aria-label="Играем">
-<div class="um-hhead" aria-hidden="true"><svg viewBox="0 0 1000 250"><path class="um-hth-sh" d="M20 78Q500 238 980 78"></path><path class="um-hth" d="M20 70Q500 230 980 70"></path></svg>
-<sc-for list="{{playBeads}}" as="b" hint-placeholder-count="6"><button type="button" tabindex="-1" class="um-hbd" data-hb="{{b.id}}" style="--i: {{b.i}}; left: {{b.x}}%; top: {{b.y}}%" onClick="{{b.tap}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></button></sc-for>
-</div>
+</sc-if>
+<sc-if value="{{hd.isPlay}}" hint-placeholder-val="{{ false }}">
+<section class="um-hsec um-hsec-p" style="--d: -.6s" aria-label="Играем">
 <h2 class="um-hidden-t">Играем</h2>
 <div class="um-h">
 <sc-for list="{{playTiles}}" as="w" hint-placeholder-count="6">
@@ -1509,6 +1566,7 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 </sc-for>
 </div>
 </section>
+</sc-if>
 <div class="um-pp-open"><button type="button" class="press" onClick="{{goParents}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.500" width="14" height="10" rx="2.500"></rect><path d="M8 10.500V8a4 4 0 0 1 8 0v2.500"></path></svg>Родителям</button></div>
 </sc-if>
 </main>
@@ -3818,7 +3876,7 @@ function decoVals(d, move) {
 // ===== ФОН-END
 
 class Component extends DCLogic {
-  state =Object.assign({ intro: null, confetti: false, onb: 0, onbAge: null, ready: false, screen: 'home', age: null, cat: 'all', sound: true, best: {}, lv: {}, diff: 0, hub: null, agePick: false, heroItems: makeHeroItems(), level: null, gameId: null, tasks: [], ti: 0, mistakes: 0, result: null, confirmReset: false, resetDone: false, db: null, auth: freshAuth('login'), gate: null, kidForm: freshKidForm(null), acctAsk: '', notice: '', plants: makeGround(), ruVoice: false, restLeft: 0 }, fresh());
+  state =Object.assign({ hsec: (function () { try { return sessionStorage.getItem('um.hsec') || ''; } catch (e) { return ''; } })(), intro: null, confetti: false, onb: 0, onbAge: null, ready: false, screen: 'home', age: null, cat: 'all', sound: true, best: {}, lv: {}, diff: 0, hub: null, agePick: false, heroItems: makeHeroItems(), level: null, gameId: null, tasks: [], ti: 0, mistakes: 0, result: null, confirmReset: false, resetDone: false, db: null, auth: freshAuth('login'), gate: null, kidForm: freshKidForm(null), acctAsk: '', notice: '', plants: makeGround(), ruVoice: false, restLeft: 0 }, fresh());
 
   componentDidMount() {
     var db = loadDb(), p = playerOf(db);
@@ -4847,6 +4905,9 @@ class Component extends DCLogic {
     var tiles = mkT(allT), learnTiles = mkT(allT.filter(function (w) { return LEARN_IDS[w.id]; })), playTiles = mkT(allT.filter(function (w) { return !LEARN_IDS[w.id]; }));
     var mkB = function (key, word, cols) { return word.split('').map(function (t, i) { var x = 500 + (i - 2.5) * 160, u = (x - 20) / 960, y = 70 + 320 * u * (1 - u); return { id: key + i, i: i, t: t, img: HB_IMG[cols[i]], x: ((x - 66) / 10).toFixed(2), y: ((y - 66) / 2.5).toFixed(2), tap: function () { self.beadHop(key + i, i); } }; }); };
     var learnBeads = mkB('l', 'Учимся', [4, 5, 0, 1, 2, 3]), playBeads = mkB('p', 'Играем', [0, 1, 2, 3, 4, 5]);
+    // главная: две «двери» — «Учимся» и «Играем»; нажал — дверь становится вкладкой, а под ней выезжают плитки
+    var hsec = st.hsec || '', hGo = function (k) { return function () { self.snd('tap'); self.beadHop(k === 'l' ? 'l0' : 'p0', 0); self.setState({ hsec: k }); try { sessionStorage.setItem('um.hsec', k); } catch (e) {} }; };
+    var hd = { cls: hsec ? 'um-gates-sm' : '', isLearn: hsec === 'l', isPlay: hsec === 'p', lCls: hsec === 'l' ? 'um-on' : hsec ? 'um-off' : '', pCls: hsec === 'p' ? 'um-on' : hsec ? 'um-off' : '', lOn: hsec === 'l' ? 'true' : 'false', pOn: hsec === 'p' ? 'true' : 'false', learn: hGo('l'), play: hGo('p') };
     var skillRows = SKILLS.map(function (s) { var ids = s.ids.filter(function (id) { return ageNow && gameForAge(id, ageNow); }), a = 0, b = 0; ids.forEach(function (id) { a += gameLv(st.lv, ageNow, id).passed; b += gameSteps(id); }); return { title: s.t, n: ids.length, pct: b ? Math.round(a * 100 / b) : 0, color: s.c }; }).filter(function (s) { return s.n > 0; });
     var byPct = skillRows.slice().sort(function (x, y) { return y.pct - x.pct; }), tMin = Math.round(timeOf(holder.uid, 1) / 60000), wMin = Math.round(timeOf(holder.uid, 7) / 60000), limNow = lsGet('umnyasha.limit', 0), planNow = st.plan || 'year';
     var par = { who: myName || 'Ваш ребёнок', ageText: ageNow ? ageText(ageNow) : 'Возраст не выбран',
@@ -4967,7 +5028,7 @@ class Component extends DCLogic {
       game: game, canSpeak: st.sound && (speechOk || !!(st.screen === 'game' && st.tasks[st.ti] && VOICE[st.tasks[st.ti].audio])), speak: function () { self.speak(); },
       restart: function () { if (st.level && st.level.topic) self.openTopic(st.level.g, st.level.n - 1); else if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
       res: res,
-      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, learnTiles: learnTiles, playTiles: playTiles, learnBeads: learnBeads, playBeads: playBeads, rootCls: st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' || st.screen === 'mytrain' ? 'um-root-home' : '', meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
+      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, learnTiles: learnTiles, playTiles: playTiles, learnBeads: learnBeads, playBeads: playBeads, hd: hd, rootCls: st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' || st.screen === 'mytrain' ? 'um-root-home' : '', meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
       ageInfo: [
         { label: '3–4', text: 'Без цифр и без чтения: каждое задание звучит голосом само. Цвета и названия предметов, один и много, тени, что пропало, большой и маленький, где больше и где меньше, найти такой же, что лишнее, простые пары.' },
         { label: '5–6', text: 'Первые буквы: найти букву по звуку и первую букву слова. Счёт до 15, узоры и закономерности, «больше — меньше», что лишнее, примеры до 10 и чуть дальше.' }
