@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-ae903770b728') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-06f0d294b1a9') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -381,33 +381,32 @@ html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20
 .um-gs-in{position:absolute;left:0;right:0;bottom:0;aspect-ratio:4/3;max-height:100%;margin:0 auto}
 .um-gate-pic img.um-gs-o{position:absolute;left:var(--x);top:var(--y);width:var(--w);height:auto;object-fit:contain;translate:-50% -50%;filter:drop-shadow(0 4px 4px rgba(20,60,20,.25))}
 .um-gate-pic img.um-gs-cl{position:absolute;height:auto;object-fit:contain;opacity:.95;filter:drop-shadow(0 3px 4px rgba(40,90,160,.15))}
-.um-gs-cl1{width:20%;top:1%;animation:um-gscl 26s linear -6s infinite}
-.um-gs-cl2{width:14%;top:5%;animation:um-gscl 34s linear -22s infinite}
-@keyframes um-gscl{from{left:105%}to{left:-35%}}
-.um-gs-hop{transform-origin:50% 100%;animation:um-gshop 4.2s cubic-bezier(.3,.7,.4,1) calc(var(--k) * .32s) infinite}
-@keyframes um-gshop{0%,24%,100%{transform:none}4%{transform:scale(1.08,.9)}11%{transform:translateY(-22%) scale(.96,1.05) rotate(-4deg)}18%{transform:scale(1.06,.93)}21%{transform:translateY(-3%)}}
-.um-gs-abacus{transform-origin:50% 95%;animation:um-gssway 3.6s ease-in-out infinite}
-@keyframes um-gssway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
-.um-gs-pencils{transform-origin:50% 100%;animation:um-gswig 2.2s ease-in-out infinite}
-@keyframes um-gswig{0%,100%{transform:rotate(0)}20%{transform:rotate(-6deg)}40%{transform:rotate(5deg)}60%{transform:rotate(-3deg)}80%{transform:rotate(2deg)}}
-.um-gs-book{transform-origin:50% 90%;animation:um-gsbook 3s ease-in-out infinite}
-@keyframes um-gsbook{0%,100%{transform:scale(1,1)}50%{transform:scale(1.03,.97)}}
-.um-gs-train{position:absolute;left:44%;top:36%;width:56%;translate:-50% -50%;animation:um-gstrain 6s ease-in-out infinite}
-.um-gate-pic .um-gs-train img{display:block;width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 5px 4px rgba(20,60,20,.28));animation:um-gschug .38s ease-in-out infinite}
-@keyframes um-gstrain{0%,100%{transform:translateX(-7%)}50%{transform:translateX(7%)}}
-@keyframes um-gschug{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5%) rotate(-.6deg)}}
-.um-gs-puff{position:absolute;left:14%;top:6%;width:12%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFFFFF,#E6EEF8 70%);opacity:0;animation:um-gspuff 1.8s ease-out infinite}
-.um-gs-puff:nth-child(2){animation-delay:.6s}.um-gs-puff:nth-child(3){animation-delay:1.2s}
-@keyframes um-gspuff{0%{opacity:0;transform:translate(0,0) scale(.4)}15%{opacity:.95}100%{opacity:0;transform:translate(-60%,-260%) scale(1.6)}}
-.um-gs-balloon{transform-origin:50% 100%;animation:um-gsbal 4.5s ease-in-out infinite}
-@keyframes um-gsbal{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12%) rotate(5deg)}}
-.um-gs-ball{transform-origin:50% 100%;animation:um-gsball 1.6s cubic-bezier(.4,0,.6,1) infinite}
-@keyframes um-gsball{0%,100%{transform:translateY(0) scale(1.08,.9)}12%{transform:translateY(0) scale(1)}50%{transform:translateY(-38%) rotate(180deg)}88%{transform:translateY(0) scale(1) rotate(360deg)}}
-.um-gs-pz{animation:um-gspz 3.4s ease-in-out infinite}
-.um-gs-pzr{--dx:9%;--dy:9%}.um-gs-pzy{--dx:-9%;--dy:9%}.um-gs-pzb{--dx:9%;--dy:-9%}.um-gs-pzg{--dx:-9%;--dy:-9%}
-@keyframes um-gspz{0%,15%,100%{transform:translate(0,0) rotate(0)}40%,60%{transform:translate(var(--dx),var(--dy)) rotate(0)}48%{transform:translate(var(--dx),var(--dy)) scale(1.06)}75%{transform:translate(0,0) rotate(-8deg)}}
-.um-gs-brush{transform-origin:20% 90%;animation:um-gsbrush 2.4s ease-in-out infinite}
-@keyframes um-gsbrush{0%,100%{transform:rotate(0) translate(0,0)}25%{transform:rotate(-14deg) translate(-12%,12%)}50%{transform:rotate(6deg) translate(-4%,4%)}75%{transform:rotate(-10deg) translate(-14%,10%)}}
+/* хореография (вместе с ChatGPT): цикл 20 с, у каждого предмета один мягкий жест на 3 с, жесты идут по очереди через ~2 с — заметно двигается только один-два предмета одновременно; остальное стоит */
+.um-gs{--cy:20s;--ez:cubic-bezier(.45,0,.55,1)}
+.um-gs-cl1{width:20%;top:1%;left:12%;animation:um-gscl 30s var(--ez) -9s infinite}
+.um-gs-cl2{width:14%;top:5%;left:60%;animation:um-gscl 38s var(--ez) -21s infinite}
+@keyframes um-gscl{0%,100%{transform:translateX(0)}50%{transform:translateX(18%)}}
+.um-gs-hop{transform-origin:50% 100%;animation:um-gstilt var(--cy) var(--ez) var(--dl,0s) infinite}
+.um-gs-hop[style*="--k: 5"]{--dl:0s}.um-gs-hop[style*="--k: 3"]{--dl:4s}.um-gs-hop[style*="--k: 4"]{--dl:8s}.um-gs-hop[style*="--k: 0"],.um-gs-hop[style*="--k: 1"],.um-gs-hop[style*="--k: 2"]{animation:none}
+@keyframes um-gstilt{0%,15%,100%{transform:none}5%{transform:translateY(-4%) rotate(-3deg)}10%{transform:translateY(-1%) rotate(2deg)}}
+.um-gs-abacus{transform-origin:50% 95%;animation:um-gsrock var(--cy) var(--ez) 12s infinite}
+@keyframes um-gsrock{0%,15%,100%{transform:none}5%{transform:rotate(-2.5deg)}10%{transform:rotate(1.5deg)}}
+.um-gs-pencils{transform-origin:50% 100%;animation:um-gsrock var(--cy) var(--ez) 16s infinite}
+.um-gs-book{transform-origin:50% 90%;animation:um-gsbook var(--cy) var(--ez) 2s infinite}
+@keyframes um-gsbook{0%,15%,100%{transform:none}7.5%{transform:scale(1.04,.97) rotate(-1.5deg)}}
+.um-gs-train{position:absolute;left:44%;top:36%;width:56%;translate:-50% -50%;animation:um-gstrain var(--cy) var(--ez) 6s infinite}
+@keyframes um-gstrain{0%,20%,100%{transform:none}10%{transform:translateX(5%)}}
+.um-gs-puff{position:absolute;left:14%;top:6%;width:11%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FFFFFF,#E6EEF8 70%);opacity:0;animation:um-gspuff 5s ease-out infinite}
+.um-gs-puff:nth-child(2){animation-delay:1.7s}.um-gs-puff:nth-child(3){animation-delay:3.4s}
+@keyframes um-gspuff{0%{opacity:0;transform:translate(0,0) scale(.5)}20%{opacity:.7}100%{opacity:0;transform:translate(-40%,-200%) scale(1.5)}}
+.um-gate-pic .um-gs-train img{display:block;filter:drop-shadow(0 5px 4px rgba(20,60,20,.28))}
+.um-gs-balloon{transform-origin:50% 100%;animation:um-gsbal 11s var(--ez) -4s infinite}
+@keyframes um-gsbal{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3%) rotate(2deg)}}
+.um-gs-ball{transform-origin:50% 50%;animation:um-gsball var(--cy) var(--ez) 10s infinite}
+@keyframes um-gsball{0%,18%,100%{transform:none}9%{transform:translateX(10%) rotate(50deg)}}
+.um-gs-pzr{transform-origin:50% 100%;animation:um-gstilt var(--cy) var(--ez) 14s infinite}
+.um-gs-brush{transform-origin:20% 90%;animation:um-gsbrush var(--cy) var(--ez) 18s infinite}
+@keyframes um-gsbrush{0%,15%,100%{transform:none}5%{transform:rotate(-7deg) translate(-6%,5%)}10%{transform:rotate(-3deg) translate(-3%,2%)}}
 /* общие правила картинки двери (cover, 100%) не должны трогать предметы сценки */
 .um-gate-pic .um-gs img.um-gs-o,.um-gate-pic .um-gs img.um-gs-cl,.um-gate-pic .um-gs-train img{height:auto!important;object-fit:contain!important;object-position:50% 50%!important;transform-origin:50% 100%}
 .um-gate-pic .um-gs img.um-gs-o{width:var(--w)!important}
@@ -640,6 +639,8 @@ main{animation:um-scr .28s ease}
 @keyframes um-gdrops{from{background-position:0 0}to{background-position:0 100%}}
 .um-fin-wash{--kw:.62%;--kh:.827%}
 @media (max-aspect-ratio: 3/4){.um-sec-play .um-fin-wash{--kw:.775%;--kh:.581%}}
+.um-wash-cv{position:fixed;z-index:20;pointer-events:none;transition:opacity .2s}
+.um-w-step{opacity:0!important;pointer-events:none!important}
 .um-tool-ghost{position:fixed;left:0;top:0;z-index:9998;pointer-events:none;height:auto;filter:drop-shadow(0 10px 10px rgba(20,30,60,.3));transform-origin:50% 50%;will-change:transform}
 .um-tool-held > img{opacity:.25}
 .um-tool-off{opacity:.55;filter:saturate(.6)}
@@ -1461,7 +1462,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 
 
 <canvas id="zs-bk"></canvas>
-<div class="bd-wrap"><div class="bd-row"><svg class="bd-thread" viewBox="0 0 1000 360" aria-hidden="true"><path class="bd-sh" d="M20 118Q500 358 980 118"/><path class="bd-cord" d="M20 110Q500 350 980 110"/><circle class="bd-knot" cx="20" cy="110" r="9"/><circle class="bd-knot" cx="980" cy="110" r="9"/></svg><span class="bd-b" style="--i:0;left:5.00%;top:22.71%"><img src="splash/bead-0-3fc93128.png" alt=""><span class="bd-l">Б</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:1;left:20.00%;top:35.73%"><img src="splash/bead-1-57e5ddee.png" alt=""><span class="bd-l">у</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:2;left:35.00%;top:42.24%"><img src="splash/bead-2-0dc5a138.png" alt=""><span class="bd-l">с</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:3;left:50.00%;top:42.24%"><img src="splash/bead-3-90eed79f.png" alt=""><span class="bd-l">я</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:4;left:65.00%;top:35.73%"><img src="splash/bead-4-c8a3ab9a.png" alt=""><span class="bd-l">т</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:5;left:80.00%;top:22.71%"><img src="splash/bead-5-6dcd2bf3.png" alt=""><span class="bd-l">а</span><i class="bd-gl"></i></span></div>
+<div class="bd-wrap"><div class="bd-row"><svg class="bd-thread" viewBox="0 0 1000 360" aria-hidden="true"><defs><linearGradient id="bdfade" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".17" stop-color="#fff" stop-opacity="1"/><stop offset=".83" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="bdmask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="360"><rect width="1000" height="360" fill="url(#bdfade)"/></mask></defs><g mask="url(#bdmask)"><path class="bd-sh" d="M20 118Q500 358 980 118"/><path class="bd-cord" d="M20 110Q500 350 980 110"/></g></svg><span class="bd-b" style="--i:0;left:5.00%;top:22.71%"><img src="splash/bead-0-3fc93128.png" alt=""><span class="bd-l">Б</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:1;left:20.00%;top:35.73%"><img src="splash/bead-1-57e5ddee.png" alt=""><span class="bd-l">у</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:2;left:35.00%;top:42.24%"><img src="splash/bead-2-0dc5a138.png" alt=""><span class="bd-l">с</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:3;left:50.00%;top:42.24%"><img src="splash/bead-3-90eed79f.png" alt=""><span class="bd-l">я</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:4;left:65.00%;top:35.73%"><img src="splash/bead-4-c8a3ab9a.png" alt=""><span class="bd-l">т</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:5;left:80.00%;top:22.71%"><img src="splash/bead-5-6dcd2bf3.png" alt=""><span class="bd-l">а</span><i class="bd-gl"></i></span></div>
 <div class="bt-sub">Играем и учимся</div></div>
 <canvas id="zs-fx"></canvas>
 </div>
@@ -3865,30 +3866,26 @@ FIN.garden = {
   answer: function (t, fs) { return ['bag', 'can', 'cloud', 'bud'][fs.step] || 'bud'; }
 };
 // «Автомойка»: потри грязь губкой (можно водить пальцем) — под ней пена; потом смой пену водой, и машинка блестит
-var WASH_MUD = ['splash/g-mud-0-29b86a67.png', 'splash/g-mud-1-8487e7b9.png', 'splash/g-mud-2-c496be10.png', 'splash/g-mud-3-5a4a3383.png', 'splash/g-mud-4-4eb414fd.png', 'splash/g-mud-5-82cb805f.png'];
-// пятна — в долях картинки машины (0–100), чтобы грязь лежала на кузове и стёклах при любом размере сцены
-var WASH_SPOTS = [[28, 47], [50, 40], [70, 44], [24, 62], [48, 60], [74, 61]];
+// «Автомойка» (v3): машина тусклая от грязи. Губку водят как ластик — грязь стирается ровно там, где прошла губка, и на этом месте пена.
+// Потом шланг: струя воды смывает пену, она стекает, и машина блестит. Рисует холст поверх машины (WASH ниже); игра узнаёт о шагах через скрытые кнопки
 FIN.wash = {
   make: function (top) { var s = pick(top.kinds), c = pick(['red', 'blue', 'yellow', 'green', 'orange', 'purple']); return { mode: 'fin', kind: 'wash', car: s, c: c }; },
-  start: function () { return { mud: {}, foam: {} }; },
+  start: function () { return { ph: 0 }; },
   view: function (t, fs) {
-    var a = [], n = WASH_SPOTS.length, muds = Object.keys(fs.mud).length, foams = Object.keys(fs.foam).length, ph = muds < n ? 0 : foams < n ? 1 : 2;
-    a.push({ id: 'car', img: itemImg(t.car, t.c), x: 50, y: 58, w: 62, z: 1, cls: 'um-w-car' + (ph === 2 ? ' um-w-clean' : ph === 0 ? ' um-w-dirty' : '') });
-    WASH_SPOTS.forEach(function (p, i) {
-      if (!fs.mud[i]) a.push({ id: 'm' + i, img: WASH_MUD[i], on: p, w: 15, z: 3, tap: true, cls: 'um-w-mud um-rub', aria: 'Грязь', r: i * 47 - 30 });
-      else if (!fs.foam[i]) a.push({ id: 'f' + i, img: 'splash/g-foam-5bd53549.png', on: p, w: 16, z: 4, tap: ph === 1, cls: 'um-w-foam um-rub' + (ph === 1 ? ' um-bob' : ''), aria: 'Пена', d: i * .3 });
-    });
-    a.push({ id: 'sponge', img: 'splash/g-sponge-4731e66f.png', x: 13, y: 84, w: 17, z: 6, tap: ph === 0, cls: 'um-drag-tool' + (ph === 0 ? ' um-hint' : ' um-tool-off'), aria: 'Губка' });
-    a.push({ id: 'wcan', img: 'splash/g-can-2952db50.png', x: 87, y: 82, w: 19, z: 6, tap: ph === 1, cls: 'um-drag-tool' + (ph === 1 ? ' um-hint' : ' um-tool-off'), aria: 'Лейка' });
+    var ph = fs.ph, a = [];
+    a.push({ id: 'car', img: itemImg(t.car, t.c), x: 50, y: 56, w: 66, z: 1, cls: 'um-w-car' + (ph === 2 ? ' um-w-clean' : '') });
+    a.push({ id: 'sponge', img: 'splash/g-sponge-4731e66f.png', x: 12, y: 85, w: 17, z: 6, tap: ph === 0, cls: 'um-drag-tool' + (ph === 0 ? ' um-hint' : ' um-tool-off'), aria: 'Губка' });
+    a.push({ id: 'hose', img: 'splash/g-spray-d48ba899.png', x: 88, y: 82, w: 17, z: 6, tap: ph === 1, cls: 'um-drag-tool' + (ph === 1 ? ' um-hint' : ' um-tool-off'), aria: 'Шланг' });
+    a.push({ id: 'scrubbed', x: 2, y: 2, w: 1, z: 0, tap: ph === 0, cls: 'um-w-step um-rub', aria: 'Отмыли' });
+    a.push({ id: 'rinsed', x: 4, y: 2, w: 1, z: 0, tap: ph === 1, cls: 'um-w-step um-rub', aria: 'Смыли' });
     return { scene: 'wash', prompt: ph === 0 ? 'Потри грязь губкой' : ph === 1 ? 'Смой пену водой' : 'Машинка блестит!', audio: ph < 2 ? 'wash-' + ph : '', actors: a };
   },
   tap: function (t, fs, id) {
-    var k = String(id), i = +k.slice(1), n = WASH_SPOTS.length;
-    if (k.charAt(0) === 'm' && !fs.mud[i]) { var m = Object.assign({}, fs.mud); m[i] = true; return { fs: { mud: m, foam: fs.foam } }; }
-    if (k.charAt(0) === 'f' && Object.keys(fs.mud).length === n && !fs.foam[i]) { var f = Object.assign({}, fs.foam); f[i] = true; return { fs: { mud: fs.mud, foam: f }, done: Object.keys(f).length === n, wait: 3800 }; }
+    if (id === 'scrubbed' && fs.ph === 0) return { fs: { ph: 1 } };
+    if (id === 'rinsed' && fs.ph === 1) return { fs: { ph: 2 }, done: true, wait: 3800 };
     return null;
   },
-  answer: function (t, fs) { var n = WASH_SPOTS.length; for (var i = 0; i < n; i++) if (!fs.mud[i]) return 'm' + i; for (i = 0; i < n; i++) if (!fs.foam[i]) return 'f' + i; return 'f0'; }
+  answer: function (t, fs) { return fs.ph === 0 ? 'scrubbed' : 'rinsed'; }
 };
 var FIN_PLAY = { garden: 'garden', wash: 'wash' };   // игра → вид сцены; здесь сцена — сама игра, а не финал темы
 TOPICS.garden = [
@@ -3904,44 +3901,84 @@ TOPICS.wash = [
 ];
 function genPlayFin(kind) { return function (top) { var F = FIN[kind]; return rep(4, function () { var t = F.make(top); var v0 = F.view(t, F.start(t)); t.prompt = v0.prompt; t.say = t.prompt + '.'; t.audio = v0.audio; return t; }); }; }
 TOPIC_GEN.garden = genPlayFin('garden'); TOPIC_GEN.wash = genPlayFin('wash');
-// «Автомойка»: губку и лейку берут пальцем и водят по машине. Под губкой грязь стирается постепенно и пенится, из лейки льётся вода и смывает пену.
-// Просто нажать на пятно нельзя — только инструментом
+// «Автомойка»: холст поверх машины. Слой грязи (тусклый коричневый налёт по форме машины) и слой пены.
+// Губка стирает грязь мягкой кистью и оставляет пену; струя из шланга стирает пену, капли пены стекают вниз. Когда почти всё чисто — дочищаем само и жмём скрытую кнопку шага
 if (typeof document !== 'undefined' && document.addEventListener) (function () {
-  var T = null;
-  var spawn = function (x, y, kind) {
-    var L = fxLayer(), d = document.createElement('i'); d.className = kind === 'water' ? 'um-fx-drop' : 'um-fx-bub';
-    var z = kind === 'water' ? 7 + Math.random() * 5 : 8 + Math.random() * 14; d.style.cssText = 'left:' + (x + (Math.random() - .5) * 18) + 'px;top:' + y + 'px;width:' + z + 'px;height:' + (kind === 'water' ? z * 1.4 : z) + 'px'; L.appendChild(d);
-    var an = fxAnim(d, kind === 'water' ? [{ transform: 'translate(-50%,0)', opacity: .95 }, { transform: 'translate(-50%,' + (70 + Math.random() * 40) + 'px)', opacity: 0 }] : [{ transform: 'translate(-50%,-50%) scale(.3)', opacity: .95 }, { transform: 'translate(calc(-50% + ' + (Math.random() - .5) * 50 + 'px),calc(-50% - ' + (20 + Math.random() * 40) + 'px)) scale(1)', opacity: 0 }], { duration: kind === 'water' ? 420 : 700, easing: 'ease-out' });
-    if (an) an.onfinish = function () { d.remove(); }; else setTimeout(function () { d.remove(); }, 700);
+  var W = null, T = null;
+  var carEl = function () { return document.querySelector('.um-fin-wash .um-w-car img'); };
+  var setup = function () {
+    var im = carEl(); if (!im || !im.complete || !im.naturalWidth) return null; var r = im.getBoundingClientRect(); if (r.width < 20) return null;
+    var dpr = Math.min(2, window.devicePixelRatio || 1), n = Math.round(r.width * dpr), cv = document.createElement('canvas'); cv.className = 'um-wash-cv'; cv.width = n; cv.height = n; document.body.appendChild(cv);
+    var mk = function () { var c = document.createElement('canvas'); c.width = n; c.height = n; return c; };
+    var mask = mk(), mx = mask.getContext('2d'); mx.drawImage(im, 0, 0, n, n);
+    var dirt = mk(), dx = dirt.getContext('2d');   // грязь: налёт по форме машины, пятнами разной густоты
+    dx.drawImage(mask, 0, 0); dx.globalCompositeOperation = 'source-in'; dx.fillStyle = 'rgba(112,82,48,.62)'; dx.fillRect(0, 0, n, n); dx.globalCompositeOperation = 'source-atop';
+    for (var i = 0; i < 70; i++) { var x = Math.random() * n, y = n * (.25 + Math.random() * .55), rr = n * (.03 + Math.random() * .08), g = dx.createRadialGradient(x, y, 0, x, y, rr); g.addColorStop(0, Math.random() < .5 ? 'rgba(80,55,30,.55)' : 'rgba(150,115,70,.4)'); g.addColorStop(1, 'rgba(0,0,0,0)'); dx.fillStyle = g; dx.fillRect(x - rr, y - rr, rr * 2, rr * 2); }
+    var foam = mk(), fx = foam.getContext('2d');
+    var full = count(dx, n); W = { mask: mask, im: im, cv: cv, ctx: cv.getContext('2d'), n: n, dpr: dpr, dirt: dirt, dx: dx, foam: foam, fx: fx, full: full, ffull: 1, ph: 0, done: false, t: 0, drips: [] };
+    place(); draw(); return W;
   };
-  var hit = function (x, y) {
-    var el = document.elementFromPoint(x, y), b = el && el.closest ? el.closest('.um-rub') : null, want = T.kind === 'sponge' ? 'Грязь' : 'Пена';
-    if (!b || b.disabled || b.getAttribute('aria-label') !== want) return;
-    var im = b.querySelector('img'); b._rub = (b._rub || 0) + T.step; if (im) im.style.opacity = String(Math.max(.15, 1 - b._rub / 110));
-    if (b._rub > 110) { b._rub = 0; FX.toolHit = true; FX.tap = { x: x, y: y, el: b, t: Date.now() }; b.click(); FX.toolHit = false; }
+  var count = function (c, n) { var d = c.getImageData(0, 0, n, n).data, k = 0; for (var i = 3; i < d.length; i += 64) if (d[i] > 40) k++; return k || 1; };
+  var place = function () { if (!W) return; var r = W.im.getBoundingClientRect(); W.r = r; W.cv.style.left = r.left + 'px'; W.cv.style.top = r.top + 'px'; W.cv.style.width = r.width + 'px'; W.cv.style.height = r.height + 'px'; };
+  var draw = function () { var c = W.ctx; c.clearRect(0, 0, W.n, W.n); c.drawImage(W.dirt, 0, 0); c.drawImage(W.foam, 0, 0); };
+  var loc = function (x, y) { return { x: (x - W.r.left) * W.n / W.r.width, y: (y - W.r.top) * W.n / W.r.height }; };
+  var clip = function (c) { c.save(); c.globalCompositeOperation = 'destination-in'; c.drawImage(W.mask, 0, 0); c.restore(); };   // пена только на машине
+  var bubbles = function (ctx, x, y, R) { for (var i = 0; i < 9; i++) { var a = Math.random() * 6.3, d = Math.random() * R, bx = x + Math.cos(a) * d, by = y + Math.sin(a) * d, br = R * (.18 + Math.random() * .3), g = ctx.createRadialGradient(bx - br * .3, by - br * .3, br * .1, bx, by, br); g.addColorStop(0, 'rgba(255,255,255,.98)'); g.addColorStop(.7, 'rgba(240,247,255,.95)'); g.addColorStop(1, 'rgba(205,225,245,.9)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, by, br, 0, 6.3); ctx.fill(); } };
+  var scrub = function (x, y) {
+    var p = loc(x, y), R = W.n * .085, g = W.dx;
+    g.save(); g.globalCompositeOperation = 'destination-out'; var gr = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, R); gr.addColorStop(0, 'rgba(0,0,0,.9)'); gr.addColorStop(.7, 'rgba(0,0,0,.6)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.beginPath(); g.arc(p.x, p.y, R, 0, 6.3); g.fill(); g.restore();
+    bubbles(W.fx, p.x, p.y, R * .8); clip(W.fx); draw();
+  };
+  var rinse = function (x, y) {
+    var p = loc(x, y), R = W.n * .1, f = W.fx;
+    f.save(); f.globalCompositeOperation = 'destination-out'; var gr = f.createRadialGradient(p.x, p.y, 0, p.x, p.y, R); gr.addColorStop(0, 'rgba(0,0,0,.85)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); f.fillStyle = gr; f.beginPath(); f.arc(p.x, p.y, R, 0, 6.3); f.fill(); f.restore();
+    var d = W.dx; d.save(); d.globalCompositeOperation = 'destination-out'; d.fillStyle = 'rgba(0,0,0,.5)'; d.beginPath(); d.arc(p.x, p.y, R * .8, 0, 6.3); d.fill(); d.restore();
+    if (Math.random() < .5) W.drips.push({ x: p.x + (Math.random() - .5) * R, y: p.y, v: 0, r: R * (.12 + Math.random() * .12) });   // капли пены стекают вниз
+    draw();
+  };
+  var dripLoop = function () {
+    if (!W || !W.drips.length) return; var f = W.fx;
+    W.drips = W.drips.filter(function (d) { d.v += .35 * W.dpr; d.y += d.v; f.save(); f.globalCompositeOperation = 'destination-out'; f.beginPath(); f.arc(d.x, d.y - d.v, d.r * 1.05, 0, 6.3); f.fill(); f.restore(); f.globalAlpha = .9; bubbles(f, d.x, d.y, d.r); f.globalAlpha = 1; d.r *= .985; return d.y < W.n * .92 && d.r > 1; });
+    clip(f); draw();
+  };
+  var step = function (lbl) { var b = [].slice.call(document.querySelectorAll('.um-w-step')).filter(function (x) { return x.getAttribute('aria-label') === lbl; })[0]; if (b && !b.disabled) { FX.toolHit = true; b.click(); FX.toolHit = false; } };
+  var check = function () {
+    if (!W || W.done) return;
+    if (W.ph === 0 && count(W.dx, W.n) / W.full < .12) { W.ph = 1; W.dx.clearRect(0, 0, W.n, W.n); draw(); W.ffull = count(W.fx, W.n); step('Отмыли'); }
+    else if (W.ph === 1 && count(W.fx, W.n) / W.ffull < .1) { W.done = true; var k = 0, fade = setInterval(function () { if (!W) { clearInterval(fade); return; } W.cv.style.opacity = String(1 - ++k / 10); if (k >= 10) { clearInterval(fade); } }, 40); var r = W.r; fxStars(r.left + r.width / 2, r.top + r.height / 2, 16, true); step('Смыли'); }
+  };
+  setInterval(function () {
+    var im = carEl();
+    if (!im) { if (W) { W.cv.remove(); W = null; } return; }
+    if (W && W.im !== im) { W.cv.remove(); W = null; }
+    if (!W) { setup(); return; }
+    place(); dripLoop(); if (Date.now() - W.t > 300) { W.t = Date.now(); check(); }
+  }, 33);
+  var spawn = function (x, y, dx, dy) {
+    var L = fxLayer(), d = document.createElement('i'); d.className = 'um-fx-drop'; var z = 6 + Math.random() * 5; d.style.cssText = 'left:' + x + 'px;top:' + y + 'px;width:' + z + 'px;height:' + z * 1.4 + 'px'; L.appendChild(d);
+    var an = fxAnim(d, [{ transform: 'translate(-50%,-50%)', opacity: .95 }, { transform: 'translate(calc(-50% + ' + dx + 'px),calc(-50% + ' + dy + 'px))', opacity: .2 }], { duration: 260, easing: 'linear' });
+    if (an) an.onfinish = function () { d.remove(); }; else setTimeout(function () { d.remove(); }, 300);
   };
   document.addEventListener('pointerdown', function (e) {
-    var b = e.target && e.target.closest ? e.target.closest('.um-drag-tool') : null; if (!b || b.disabled) return;
-    var im = b.querySelector('img'), r = b.getBoundingClientRect(), g = document.createElement('img'); g.src = im.src; g.alt = ''; g.className = 'um-tool-ghost'; g.style.width = r.width * 1.1 + 'px'; document.body.appendChild(g);
-    T = { kind: b.getAttribute('aria-label') === 'Губка' ? 'sponge' : 'water', g: g, src: b, w: r.width * 1.1, home: r, x: e.clientX, y: e.clientY, id: e.pointerId, cur: null, d: 0, step: 0, last: 0 };
+    var b = e.target && e.target.closest ? e.target.closest('.um-fin-wash .um-drag-tool') : null; if (!b || b.disabled || !W) return;
+    var im = b.querySelector('img'), r = b.getBoundingClientRect(), g = document.createElement('img'); g.src = im.src; g.alt = ''; g.className = 'um-tool-ghost'; g.style.width = r.width * 1.15 + 'px'; document.body.appendChild(g);
+    T = { kind: b.getAttribute('aria-label') === 'Губка' ? 'sponge' : 'hose', g: g, src: b, w: r.width * 1.15, x: e.clientX, y: e.clientY, id: e.pointerId, last: 0 };
     b.classList.add('um-tool-held'); e.preventDefault(); move(e);
   });
   var move = function (e) {
-    if (!T || e.pointerId !== T.id) return; var dx = e.clientX - T.x, dy = e.clientY - T.y; T.step = Math.min(30, Math.sqrt(dx * dx + dy * dy)); T.x = e.clientX; T.y = e.clientY;
-    var sp = T.kind === 'sponge';
-    T.g.style.transform = 'translate3d(' + (e.clientX - T.w / 2) + 'px,' + (e.clientY - T.w * (sp ? .45 : .55)) + 'px,0) rotate(' + (sp ? Math.sin(Date.now() / 60) * 8 : -28) + 'deg)';
-    var px = sp ? e.clientX : e.clientX - T.w * .42, py = sp ? e.clientY : e.clientY + T.w * .45;   // у лейки вода падает из носика
-    if (!sp) { T.step = Math.max(T.step, 6); if (Date.now() - T.last > 45) { T.last = Date.now(); spawn(px, py - 20, 'water'); spawn(px, py - 10, 'water'); } }
-    else if (T.step > 2 && Date.now() - T.last > 70) { T.last = Date.now(); spawn(px, py, 'bub'); }
-    hit(px, py); if (!sp) hit(px, py + 30);
+    if (!T || e.pointerId !== T.id || !W) return; T.x = e.clientX; T.y = e.clientY; var sp = T.kind === 'sponge';
+    if (sp) { T.g.style.transform = 'translate3d(' + (T.x - T.w / 2) + 'px,' + (T.y - T.w * .4) + 'px,0) rotate(' + Math.sin(Date.now() / 70) * 7 + 'deg)'; if (W.ph === 0) scrub(T.x, T.y); return; }
+    // шланг держат за ручку; носик смотрит влево-вниз, струя бьёт в точку на ~1.3 ширины шланга левее и ниже пальца
+    T.g.style.transform = 'translate3d(' + (T.x - T.w * .5) + 'px,' + (T.y - T.w * .55) + 'px,0) scaleX(-1) rotate(-25deg)';
+    var nx = T.x - T.w * .42, ny = T.y - T.w * .35, hx = nx - T.w * .55, hy = ny + T.w * .75;
+    if (Date.now() - T.last > 30) { T.last = Date.now(); for (var k = 0; k < 3; k++) spawn(nx + (Math.random() - .5) * 6, ny, hx - nx + (Math.random() - .5) * 20, hy - ny + (Math.random() - .5) * 20); }
+    if (W.ph === 1) { rinse(hx, hy); rinse((nx + hx * 2) / 3, (ny + hy * 2) / 3); }
   };
   document.addEventListener('pointermove', move);
-  // лейка поливает и когда палец стоит на месте
-  setInterval(function () { if (T && T.kind === 'water') move({ pointerId: T.id, clientX: T.x, clientY: T.y }); }, 60);
+  setInterval(function () { if (T && T.kind === 'hose') move({ pointerId: T.id, clientX: T.x, clientY: T.y }); }, 50);   // шланг поливает и когда палец стоит
   var end = function (e) {
     if (!T || e.pointerId !== T.id) return; var t = T; T = null; t.src.classList.remove('um-tool-held');
-    var h = t.src.getBoundingClientRect(); t.g.style.transition = 'transform .35s cubic-bezier(.3,1.3,.5,1)'; t.g.style.transform = 'translate3d(' + h.left + 'px,' + h.top + 'px,0) rotate(0deg)';
-    setTimeout(function () { t.g.remove(); }, 360);
+    var h = t.src.getBoundingClientRect(); t.g.style.transition = 'transform .35s cubic-bezier(.3,1.3,.5,1)'; t.g.style.transform = 'translate3d(' + h.left + 'px,' + h.top + 'px,0)'; setTimeout(function () { t.g.remove(); }, 360);
   };
   document.addEventListener('pointerup', end); document.addEventListener('pointercancel', end);
   document.addEventListener('click', function (e) { var b = e.target && e.target.closest ? e.target.closest('.um-rub') : null; if (b && !FX.toolHit) { e.stopPropagation(); e.preventDefault(); } }, true);
@@ -4273,7 +4310,8 @@ class Component extends DCLogic {
   // малыши 3–4 лет не читают: им задание звучит само; остальным — по кнопке с динамиком; знакомство звучит всем
   autoSay(task) {
     if (!task || !this.state.sound || task.mode === 'paint' || (this.state.age !== '3-4' && task.mode !== 'learn')) return;   // задание раскраски звучит, когда ребёнок выбрал картинку
-    if (task.mode === 'memory') { if (this._pairsSaid === this._lvStart) return; this._pairsSaid = this._lvStart; }   // «Найди пару»: правило звучит один раз в начале, дальше не повторяется
+    if (task.mode === 'memory') { if (this._pairsSaid === this._lvStart) return; this._pairsSaid = this._lvStart; }
+    if (task.mode === 'fin' && FIN_PLAY[task.kind] && !this.playOnce(task.audio)) return;   // «Сад», «Автомойка»: подсказка звучит один раз за заход, дальше не надоедает   // «Найди пару»: правило звучит один раз в начале, дальше не повторяется
     var a = task.memo && !this.state.memoOpen ? task.memo.audio : task.audio;
     if (a && VOICE[a]) this.playVoice(a); else if (this.state.ruVoice) this.speak(task);
   }
@@ -4523,7 +4561,8 @@ class Component extends DCLogic {
     this._finSaid = t.audio; if (F.timer) this.later(function () { var s2 = self.state; if (s2.tasks[s2.ti] === t) { var nf = F.timer(t, s2.fin); self.setState({ fin: nf }); self.snd('flip'); self.finSay(t, nf); } }, F.timerMs || 2600);
   }
   // озвучить текущий шаг мини-игры, если он сменился
-  finSay(t, fs) { if (!this.state.sound || !t || t.mode !== 'fin') return; var v = FIN[t.kind].view(t, fs); if (v.audio && v.audio !== this._finSaid && VOICE[v.audio]) { this._finSaid = v.audio; this.playVoice(v.audio); } }
+  playOnce(a) { var k = this._lvStart + '|' + a, m = this._playSaid || (this._playSaid = {}); if (m[k]) return false; m[k] = true; return true; }
+  finSay(t, fs) { if (!this.state.sound || !t || t.mode !== 'fin') return; var v = FIN[t.kind].view(t, fs); if (v.audio && v.audio !== this._finSaid && VOICE[v.audio] && (!FIN_PLAY[t.kind] || this.playOnce(v.audio))) { this._finSaid = v.audio; this.playVoice(v.audio); } }
   finTap(id) {
     var st = this.state, t = st.tasks[st.ti], self = this; if (!t || t.mode !== 'fin' || st.solved || st.finLock) return;
     var F = FIN[t.kind], fs = st.fin || F.start(t), r = F.tap(t, fs, id); if (!r) return;
