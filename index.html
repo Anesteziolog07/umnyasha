@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-0c99606a393c') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-eab5507b7439') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -3024,7 +3024,7 @@ function fxBeads(x, y, n, spread) {   // салют: бусины взлетаю
 function fxJoy(el) { if (el) fxAnim(el, [{ transform: 'none' }, { transform: 'scale(1.14,.86)', offset: .18 }, { transform: 'translateY(-16px) scale(.94,1.08)', offset: .45 }, { transform: 'scale(1.05,.95)', offset: .75 }, { transform: 'none' }], { duration: 620, easing: 'ease-out', composite: 'add' }); }
 function fxNope(el) { if (el) fxAnim(el, [{ transform: 'none' }, { transform: 'translateX(-9px) rotate(-3deg)', offset: .2 }, { transform: 'translateX(8px) rotate(2.5deg)', offset: .45 }, { transform: 'translateX(-5px) rotate(-1.5deg)', offset: .7 }, { transform: 'none' }], { duration: 480, easing: 'ease-in-out', composite: 'add' }); }
 function fxEvent(ev) {
-  if (FX.calm || typeof document === 'undefined' || !document.body) return;
+  if (FX.calm || typeof document === 'undefined' || !document.body || !document.createElement || typeof innerWidth === 'undefined') return;
   var t = FX.tap && Date.now() - FX.tap.t < 1500 ? FX.tap : null, x = t ? t.x : innerWidth / 2, y = t ? t.y : innerHeight / 2, el = t && t.el && t.el.isConnected && !t.el.closest('.um-hb, .um-gtop, .um-pw-col, .um-pw-tools') ? t.el : null;
   if (ev === 'ok' || ev === 'step') { fxJoy(el); fxStars(x, y, ev === 'ok' ? 10 : 7, false); }
   else if (ev === 'reward') { fxJoy(el); fxStars(x, y, 14, true); setTimeout(function () { fxBeads(innerWidth / 2, innerHeight * .75, 16, 1.6); }, 250); }
@@ -4372,7 +4372,7 @@ class Component extends DCLogic {
   }
   // игрушка летит в вагон по дуге и опускается внутрь, вагончик чуть приседает под ней
   trainFly(i, w) {
-    if (FX.calm || typeof document === 'undefined') return; var te = document.querySelector('.um-sec-train [data-tri="' + i + '"] img'); if (!te) return;
+    if (FX.calm || typeof document === 'undefined' || !document.querySelector || typeof requestAnimationFrame === 'undefined') return; var te = document.querySelector('.um-sec-train [data-tri="' + i + '"] img'); if (!te) return;
     var r0 = te.getBoundingClientRect(), src = te.getAttribute('src');
     var go = function (n) {
       var wg = document.querySelector('.um-sec-train [data-trw="' + w + '"]'), its = wg ? [].slice.call(wg.querySelectorAll('.um-load-it')).filter(function (x) { return x.getAttribute('src') === src; }) : [], el = its[its.length - 1];
