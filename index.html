@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-b575dee7d2e6') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-7fce3a279a34') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -890,10 +890,10 @@ body:has(.um-root-game) #um-scene{display:none}
 .um-tr-stars{left:0;right:0;top:0;height:60%;z-index:4;opacity:0;transition:opacity 1.6s ease}
 .um-tr-stars i{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#FFFFFF;box-shadow:0 0 6px #FFFFFF;animation:um-twk 2.4s ease-in-out var(--d) infinite}
 @keyframes um-twk{0%,100%{opacity:.35}50%{opacity:1}}
-.um-tr-sun{z-index:1;right:9%;top:4%;width:clamp(90px,24%,190px);height:auto;transition:top 1.6s ease,right 1.6s ease,filter 1.6s ease,opacity 1.2s ease;animation:um-sun-pulse 4s ease-in-out infinite}
-@media (max-aspect-ratio: 3/4){.um-tr-sun{top:20%;right:5%;width:24%}.um-st2 .um-tr-sun{top:25%;right:9%}.um-tr-moon{top:24%;left:auto;right:16%}.um-tr-rainbow{top:24%}}
+.um-tr-sun{z-index:1;left:9%;top:4%;width:clamp(90px,24%,190px);height:auto;transition:top 1.6s ease,left 1.6s ease,filter 1.6s ease,opacity 1.2s ease;animation:um-sun-pulse 4s ease-in-out infinite}
+@media (max-aspect-ratio: 3/4){.um-tr-sun{top:20%;left:5%;width:24%}.um-st2 .um-tr-sun{top:25%;left:9%}.um-tr-moon{top:calc(20% + 6vw);left:12%}.um-tr-rainbow{top:24%}}
 @keyframes um-sun-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-.um-tr-moon{z-index:4;left:12%;top:7%;width:clamp(44px,10%,80px);aspect-ratio:1;border-radius:50%;background:transparent;box-shadow:inset -14px 8px 0 0 #FFF3B0;filter:drop-shadow(0 0 10px rgba(255,240,170,.8));opacity:0;transform:rotate(-20deg) scale(.8);transition:opacity 1.6s ease,transform 1.6s ease}
+.um-tr-moon{z-index:4;left:16%;top:calc(4% + clamp(20px,6vw,50px));width:clamp(44px,10%,80px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 36% 38%,#FFF8CF,#FFE680 70%);-webkit-mask:radial-gradient(circle at 72% 34%,transparent 39%,#000 40%);mask:radial-gradient(circle at 72% 34%,transparent 39%,#000 40%);filter:drop-shadow(0 0 10px rgba(255,240,170,.8));opacity:0;transform:scale(.8);transition:opacity 1.6s ease,transform 1.6s ease}
 .um-tr-rainbow{z-index:1;left:8%;right:30%;top:22%;aspect-ratio:2/1;border-radius:999px 999px 0 0;background:radial-gradient(circle at 50% 100%,transparent 52%,rgba(155,123,255,.55) 53%,rgba(79,178,245,.55) 57%,rgba(107,214,107,.55) 61%,rgba(255,225,77,.55) 65%,rgba(255,170,72,.55) 69%,rgba(255,107,138,.55) 73%,transparent 74%);-webkit-mask-image:linear-gradient(180deg,#000 55%,transparent 92%);mask-image:linear-gradient(180deg,#000 55%,transparent 92%);opacity:0;transition:opacity 1.6s ease}
 .um-tr-cloud{z-index:4;height:auto;opacity:.95;filter:drop-shadow(0 6px 8px rgba(40,90,160,.12));transition:filter 1.4s ease}
 .um-trc1{width:clamp(80px,22%,190px);top:6%;animation:um-trc 46s linear -8s infinite}
@@ -909,17 +909,18 @@ body:has(.um-root-game) #um-scene{display:none}
 .um-st1 .um-tr-rainbow{opacity:1}
 /* 3: золотой вечер */
 .um-st2 .um-tr-tint{opacity:1;background:linear-gradient(180deg,rgba(255,170,60,.42),rgba(255,200,110,.22) 60%,rgba(255,190,90,.14))}
-.um-st2 .um-tr-sun{top:16%;right:16%;filter:saturate(1.2) hue-rotate(-8deg)}
+.um-st2 .um-tr-sun{top:16%;left:16%;filter:saturate(1.2) hue-rotate(-8deg)}
 /* 4: закат */
 .um-st3 .um-tr-tint{opacity:1;background:linear-gradient(180deg,rgba(120,70,200,.45),rgba(255,110,90,.42) 38%,rgba(255,170,90,.3) 58%,rgba(120,60,40,.18))}
-.um-st3 .um-tr-sun{--sw:clamp(90px,24vw,190px);width:var(--sw);top:calc(63.5% - .215 * max(100%, 66.67vw) - var(--sw) * .52);right:18%;filter:hue-rotate(-28deg) saturate(1.5) brightness(1.05)}
+.um-st3 .um-tr-sun{--sw:clamp(90px,24vw,190px);width:var(--sw);top:calc(63.5% - .215 * max(100%, 66.67vw) - var(--sw) * .52);left:18%;filter:hue-rotate(-28deg) saturate(1.5) brightness(1.05)}
 .um-st3 .um-tr-cloud{filter:sepia(.4) hue-rotate(-30deg) saturate(1.6) brightness(.95)}
 .um-st3 .um-tr-meadow,.um-st3 .um-tr-rail-deco{filter:brightness(.85) saturate(1.1)}
 /* 5: ночь */
 .um-st4 .um-tr-tint{opacity:1;background:linear-gradient(180deg,rgba(14,22,70,.82),rgba(30,40,110,.7) 55%,rgba(20,40,60,.55))}
 .um-st4 .um-tr-stars{opacity:1}
 .um-st4 .um-tr-sun{top:70%;opacity:0}
-.um-st4 .um-tr-moon{opacity:1;transform:rotate(-20deg) scale(1)}
+.um-st4 .um-tr-moon{opacity:1;transform:scale(1)}
+@media (max-aspect-ratio: 3/4){.um-tr-moon{top:calc(20% + 6vw);left:12%;width:clamp(44px,13%,80px)}} /* на телефоне луна там же, где днём солнце */
 .um-st4 .um-tr-cloud{filter:brightness(.45) saturate(.6)}
 .um-st4 .um-tr-meadow,.um-st4 .um-tr-rail-deco{filter:brightness(.55) saturate(.8)}
 .um-st4 .um-train{filter:brightness(.9)}
@@ -929,7 +930,7 @@ body:has(.um-root-game) #um-scene{display:none}
 /* «Паровозик» 14.11: нарисованная сцена с настоящими рельсами, поезд стоит прямо на них */
 .um-sec-train .um-tr-scene{--sky:63.5%;background:#7EC8F5 url(train/tr-bg2.jpg) 50% 63.5%/cover no-repeat!important;background-image:-webkit-image-set(url(train/tr-bg2.jpg) 1x,url(train/tr-bg2-2x.jpg) 2x)!important;background-image:image-set(url(train/tr-bg2.jpg) 1x,url(train/tr-bg2-2x.jpg) 2x)!important}
 .um-sec-train .um-tr-scene::before,.um-sec-train .um-tr-scene::after,.um-sec-train .um-tr-bg,.um-sec-train .um-tr-ground,.um-sec-train .um-rails{display:none!important}
-.um-sec-train .um-train{bottom:calc(100% - var(--sky))!important;align-items:flex-end;gap:0}
+.um-sec-train .um-train{bottom:calc(100% - var(--sky) + .014 * max(100%, 66.67vw))!important;/* колёса стоят на ближнем рельсе (62% высоты картинки), а не на щебне под ним */align-items:flex-end;gap:0}
 .um-sec-train .um-loco{flex-basis:min(250px,33vw,30vh)!important;aspect-ratio:856/726!important;z-index:2}
 .um-loco-img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 4px 3px rgba(20,40,20,.3));transform-origin:50% 100%}
 
