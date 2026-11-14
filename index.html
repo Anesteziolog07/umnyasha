@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-0e11ddd81a1b') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-7c89c33b13bd') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -261,6 +261,13 @@ button:disabled{cursor:default}
 .um-me .um-ava{width:42px;height:42px;border:2px solid #FFFFFF}
 .um-me-t{min-width:0;display:flex;flex-direction:column;gap:0}.um-me-t b{overflow-wrap:anywhere;font-size:14px;font-weight:900;line-height:1.15}.um-me-t em{display:inline-flex;align-items:center;gap:3px;font-style:normal;font-size:16px;font-weight:900;line-height:1.1;color:#FFE27A}
 .um-foot-par{align-self:flex-start;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:rgba(255,255,255,.75);color:#1E2A4A;font-family:inherit;font-size:15px;font-weight:900;cursor:pointer}
+
+/* подвал 14.11: без старых деревьев, светлая полоса */
+.um-foot2{margin-top:40px;padding:0 16px 28px}
+.um-foot2-in{max-width:1088px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-radius:28px;background:rgba(255,255,255,.82);color:#1E3A5F;box-shadow:0 10px 26px -14px rgba(20,60,120,.45)}
+.um-foot2-logo{height:46px;width:auto}
+.um-foot2-t{font-size:15px;font-weight:800}
+.um-foot2 .um-foot-par{background:#2B7FE6;color:#FFFFFF}
 /* профиль: паспорт игрока и большие плитки */
 .um-pf-card2{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 16px 14px;border-radius:34px;text-align:center;color:#1E2A4A;background:linear-gradient(180deg,#6FCBFF,#BDEBFF 46%,#62CE6B 46.2%);box-shadow:inset 0 0 0 5px rgba(255,255,255,.8),0 18px 30px -20px rgba(30,90,160,.7)}
 .um-pf-scene{position:absolute;left:0;right:0;top:0;height:46%;overflow:hidden;pointer-events:none}.um-pf-scene img{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:max(100%,760px);height:auto}.um-pf-scene .um-map-rays{top:0}
@@ -322,16 +329,23 @@ html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20
 @media (min-width: 1000px){.um-hsec .um-h-big{flex-basis:calc((100% - var(--g) * (var(--cols) - 1)) / var(--cols))}.um-hsec .um-h-big .um-h-img{aspect-ratio:300/240}.um-hsec .um-h-big .um-h-n{font-size:clamp(17px,4.9vmin,22px)}}
 @media (prefers-reduced-motion: reduce){.um-hsec *{animation:none!important}.um-hth,.um-hth-sh{stroke-dashoffset:0}}
 
-/* главная 14.11: плитки-игрушки на полупрозрачной полке, цветная табличка с названием */
-.um-hsec-l{--tA:#5BB8FF;--tB:#2B7FE6;--tE:#1C5FB8}
-.um-hsec-p{--tA:#FFB648;--tB:#FF7F24;--tE:#C9580C}
-.um-hsec .um-h{padding:16px;border-radius:36px;background:rgba(255,255,255,.34);border:3px solid rgba(255,255,255,.7);box-shadow:0 10px 30px -12px rgba(20,60,120,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-.um-hsec .um-h-t{border:5px solid #FFFFFF;border-radius:30px;background:linear-gradient(180deg,var(--tA),var(--tB));color:#FFFFFF;box-shadow:0 7px 0 var(--tE),0 14px 22px -8px rgba(20,50,110,.45);transition:transform .15s ease,box-shadow .15s ease}
-.um-hsec .um-h-img{border-radius:22px 22px 0 0}
-.um-hsec .um-h-n{padding:8px 6px 10px;text-shadow:0 2px 0 rgba(0,0,0,.18)}
-@media (hover:hover){.um-hsec .um-h-t:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:0 11px 0 var(--tE),0 20px 26px -8px rgba(20,50,110,.45)}}
-.um-hsec .um-h-t:active{transform:translateY(5px);box-shadow:0 2px 0 var(--tE),0 6px 12px -6px rgba(20,50,110,.45)}
-@media (max-width: 520px){.um-hsec .um-h{padding:10px;border-radius:28px}.um-hsec .um-h-t{border-width:4px;border-radius:24px}.um-hsec .um-h-img{border-radius:18px 18px 0 0}}
+/* главная 14.11 (v2, «воздушные карточки»): объёмная только картинка, всё вокруг спокойное */
+.um-hsec .um-h{--g:16px}
+.um-hsec .um-h-t{border:0;border-radius:26px;background:#FFFFFF;color:#23395B;padding:6px;box-shadow:0 6px 18px -6px rgba(20,60,120,.28);transition:transform .18s cubic-bezier(.3,1.4,.5,1),box-shadow .18s ease}
+.um-hsec .um-h-img{border-radius:20px}
+.um-hsec .um-h-n{padding:8px 4px 4px;font-size:clamp(16px,4.4vmin,20px);font-weight:900;text-shadow:none}
+.um-hsec .um-h-big{background:linear-gradient(180deg,#FFF6D6,#FFFFFF);box-shadow:0 0 0 3px #FFD25A,0 8px 22px -6px rgba(200,140,0,.45)}
+.um-hsec .um-h-big .um-h-n{color:#B86A00}
+@media (hover:hover){.um-hsec .um-h-t:hover{transform:translateY(-3px)}}
+.um-hsec .um-h-t:active{transform:scale(.95)}
+.um-hhead{--HW:min(68vw,330px);margin-bottom:0}
+html.um-hseen .um-hsec .um-h-img{animation:um-wig 11s ease-in-out calc(2s + var(--i) * 1.9s) infinite;transform-origin:50% 90%}
+@keyframes um-wig{0%,6%,100%{transform:none}1.5%{transform:rotate(-2.2deg) scale(1.02)}3%{transform:rotate(2deg) scale(1.02)}4.5%{transform:rotate(-1deg)}}
+@media (prefers-reduced-motion: reduce){html.um-hseen .um-hsec .um-h-img{animation:none}}
+.um-root-home .um-hsec{position:relative}
+.um-home-veil{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.28) 30%,rgba(255,255,255,.42) 100%)}
+.um-me{min-height:50px;padding:3px 12px 3px 4px;border-radius:999px;box-shadow:0 6px 16px -8px rgba(60,40,150,.45)}
+@media (max-width: 520px){.um-hsec .um-h{--g:12px}.um-hsec .um-h-t{padding:5px;border-radius:22px}.um-hsec .um-h-img{border-radius:17px}}
 @keyframes um-h-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (min-width: 600px){.um-h{--cols:4}}
 @media (min-width: 600px) and (max-height: 500px){.um-h{--cols:5;--g:12px}}
@@ -587,7 +601,7 @@ main{animation:um-scr .28s ease}
 .um-onb-buddy img{position:absolute;width:62%;animation:um-finbob 2.4s ease-in-out infinite;animation-delay:var(--d)}
 .um-onb-buddy img:nth-child(1){left:22%;top:0}.um-onb-buddy img:nth-child(2){left:-6%;top:44%;width:48%}.um-onb-buddy img:nth-child(3){left:46%;top:46%;width:52%}
 .um-onb-note{margin:0;text-align:center;color:#6A6290;font-size:17px;font-weight:700}
-.um-onb-ages{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.um-onb-ages{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}.um-onb-ages>*{grid-column:span 2}.um-onb-ages>:nth-child(4){grid-column:2 / span 2}
 .um-onb-age{aspect-ratio:1.15;border:0;border-radius:28px;background:#E4DDFF;color:#2E2560;font-size:clamp(32px,9vw,44px);font-weight:900;cursor:pointer;box-shadow:inset 0 -4px 0 rgba(90,60,200,.12);animation:um-tile .45s cubic-bezier(.3,1.6,.5,1) both;animation-delay:var(--d)}
 .um-onb-age.on{background:linear-gradient(180deg,#8C6CFF,#6E4DF0);color:#FFFFFF;box-shadow:0 5px 0 #4F33C4}
 @media (min-width: 900px){.um-onb > *{max-width:560px}}
@@ -2041,35 +2055,11 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 </sc-if>
 
 <sc-if value="{{showFooter}}" hint-placeholder-val="{{ true }}">
-<footer style="margin-top: 56px">
-<div aria-hidden="true" style="position: relative; height: 180px; overflow: hidden">
-<svg viewBox="0 0 1440 200" preserveAspectRatio="none" style="position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 150px"><path d="M0 120 C 240 40, 480 40, 720 110 C 960 180, 1200 60, 1440 90 L1440 200 L0 200 Z" fill="#D3F1E3"></path><path d="M0 150 C 300 90, 560 110, 820 150 C 1080 190, 1260 120, 1440 140 L1440 200 L0 200 Z" fill="#B9E8D2"></path></svg>
-<div class="um-plants" style="position: absolute; inset: 0">
-<sc-for list="{{plants}}" as="pl" hint-placeholder-count="0">
-<span class="um-pk {{pl.pop}}" style="left: {{pl.x}}%; bottom: {{pl.b}}px; width: {{pl.w}}px; height: {{pl.w}}px">
-<span class="um-dm um-dsway" style="animation-duration: {{pl.dur}}s; animation-delay: -{{pl.delay}}s">
-<sc-if value="{{pl.is_tree}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" style="display: block; width: 100%; height: 100%; overflow: visible"><rect x="28" y="36" width="8" height="26" rx="3" fill="url(#umg-wood)"></rect><circle cx="20" cy="32" r="12" fill="url(#umg-green)"></circle><circle cx="44" cy="32" r="12" fill="url(#umg-green)"></circle><circle cx="32" cy="22" r="18" fill="url(#umg-green)"></circle><circle cx="25" cy="15" r="4" fill="#FFFFFF" opacity=".35"></circle><circle cx="39" cy="28" r="3.2" fill="#EF4444"></circle><circle cx="23" cy="33" r="3.2" fill="#EF4444"></circle><circle cx="33" cy="12" r="3.2" fill="#EF4444"></circle></svg></sc-if>
-<sc-if value="{{pl.is_daisy}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" style="display: block; width: 100%; height: 100%; overflow: visible"><path d="M32 32 V62" stroke="#2E9E5B" stroke-width="4" stroke-linecap="round"></path><ellipse cx="40" cy="52" rx="8" ry="3.5" fill="#43B86E" transform="rotate(-30 40 52)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(0 32 22)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(45 32 22)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(90 32 22)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(135 32 22)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(180 32 22)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(225 32 22)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(270 32 22)"></ellipse><ellipse cx="32" cy="12" rx="5.5" ry="9" fill="#FFFFFF" stroke="#FFD1E8" stroke-width="1.5" transform="rotate(315 32 22)"></ellipse><circle cx="32" cy="22" r="6.5" fill="url(#umg-yellow)"></circle></svg></sc-if>
-<sc-if value="{{pl.is_tulip}}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 64 64" style="display: block; width: 100%; height: 100%; overflow: visible"><path d="M32 34 V62" stroke="#2E9E5B" stroke-width="4" stroke-linecap="round"></path><path d="M32 58 Q18 52 16 38 Q28 44 32 54 Z" fill="#43B86E"></path><path d="M32 58 Q46 52 48 40 Q36 46 32 54 Z" fill="#36A35F"></path><path d="M18 12 Q18 34 32 36 Q46 34 46 12 L39 19 L32 9 L25 19 Z" fill="url(#umg-pink)"></path><ellipse cx="25" cy="22" rx="2.5" ry="6" fill="#FFFFFF" opacity=".45"></ellipse></svg></sc-if>
-</span>
-</span>
-</sc-for>
-</div>
-<svg viewBox="0 0 1440 200" preserveAspectRatio="none" style="position: absolute; left: 0; bottom: 0; display: block; width: 100%; height: 150px"><path d="M0 178 C 360 140, 720 205, 1080 172 C 1260 158, 1360 170, 1440 174 L1440 200 L0 200 Z" fill="#A3DEC3"></path></svg>
-</div>
-<div style="background: #A3DEC3; padding: 8px 16px 34px">
-<div style="max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; color: #12452E">
-<span style="display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 900">
-<span aria-hidden="true" style="display: flex; gap: 3px; align-items: center">
-<span style="display: block; width: 16px; height: 16px; background: #EF4444; clip-path: circle(48% at 50% 50%)"></span>
-<span style="display: block; width: 16px; height: 16px; background: #FACC15; clip-path: polygon(50% 5%, 97% 93%, 3% 93%)"></span>
-<span style="display: block; width: 16px; height: 16px; background: #3B82F6; clip-path: inset(8% round 16%)"></span>
-</span>
-Бусята
-</span>
-<span style="font-size: 15px; font-weight: 800">Развивающие игры для детей 3–6 лет · без рекламы</span>
+<footer class="um-foot2">
+<div class="um-foot2-in">
+<img class="um-foot2-logo" src="splash/ui-logo-ea341733.png" alt="Бусята" width="640" height="290" draggable="false">
+<span class="um-foot2-t">Развивающие игры для детей 3–6 лет · без рекламы</span>
 <button type="button" class="press um-foot-par" onClick="{{goParents}}">Родителям</button>
-</div>
 </div>
 </footer>
 </sc-if>
@@ -4747,7 +4737,7 @@ class Component extends DCLogic {
       steps: [[11, 80, 'bow', 'red', '#FFE1E1'], [31, 56, 'ball', 'blue', '#DDEBFF'], [51, 50, 'car', 'yellow', '#FFF2C2'], [71, 34, 'balloon', 'green', '#DDF7E6'], [90, 20, 'star', 'yellow', '#FFE6D2']]
         .map(function (t, i) { return { x: t[0], y: t[1], img: 'items/' + t[2] + '-' + t[3] + '.svg', bg: t[4], d: (i * .12).toFixed(2) }; }),
       stars: [[18, 24, 18], [82, 20, 20], [12, 74, 14], [88, 72, 16], [50, 8, 15]].map(function (t, i) { return { x: t[0], y: t[1], w: t[2], d: (.2 + i * .1).toFixed(2) }; }),
-      ages: [2, 3, 4, 5, 6, 7].map(function (n, i) { var on = st.onbAge === n; return { label: n === 7 ? '7+' : String(n), on: on ? 'true' : 'false', cls: on ? 'on' : '', d: (i * .05).toFixed(2), pick: function () { self.snd('tap'); self.setState({ onbAge: n }); } }; }),
+      ages: [2, 3, 4, 5, 6].map(function (n, i) { var on = st.onbAge === n; return { label: String(n), on: on ? 'true' : 'false', cls: on ? 'on' : '', d: (i * .05).toFixed(2), pick: function () { self.snd('tap'); self.setState({ onbAge: n }); } }; }),
       noAge: !st.onbAge, done: function () { self.onbDone(); } };
     var progAges = AGES.map(function (a) {
       var sum = 0;
