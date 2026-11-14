@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-e57409d617ca') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-2adf2d00f820') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -3930,7 +3930,7 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
     dx.globalAlpha = 1;
     var foam = mk(n), small = mk(40);
     W = { mask: mask, im: im, cv: cv, ctx: cv.getContext('2d'), n: n, dirt: dirt, dx: dx, foam: foam, fx: foam.getContext('2d'), small: small, sx: small.getContext('2d', { willReadFrequently: true }), ph: 0, done: false, t: 0, drips: [], dirty: true, clipT: 0 };
-    W.full = count(dirt); place(); loop();
+    W.ma = mx.getImageData(0, 0, n, n).data; W.full = count(dirt); place(); loop();
   };
   var count = function (c) { var s = W.sx; s.clearRect(0, 0, 40, 40); s.drawImage(c, 0, 0, 40, 40); var d = s.getImageData(0, 0, 40, 40).data, k = 0; for (var i = 3; i < d.length; i += 4) if (d[i] > 40) k++; return k || 1; };
   var place = function () { var r = W.im.getBoundingClientRect(); W.r = r; var st = W.cv.style; st.left = r.left + 'px'; st.top = r.top + 'px'; st.width = r.width + 'px'; st.height = r.height + 'px'; };
@@ -3966,23 +3966,32 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
     if (W.ph === 0 && count(W.dirt) / W.full < .12) { W.ph = 1; W.dx.clearRect(0, 0, W.n, W.n); W.dirty = true; W.ffull = count(W.foam); step('Отмыли'); }
     else if (W.ph === 1 && count(W.foam) / W.ffull < .1) { W.done = true; W.fx.clearRect(0, 0, W.n, W.n); W.drips = []; W.dirty = true; var r = W.r; fxStars(r.left + r.width / 2, r.top + r.height / 2, 16, true); step('Смыли'); }
   };
-  // струя: толстая, сужается от носика к машине, бегут светлые полосы; в месте удара — веер брызг
-  var jetCanvas = function () { if (J && J.cv.isConnected) return J; var c = document.createElement('canvas'); c.className = 'um-jet-cv'; document.body.appendChild(c); J = { cv: c, g: c.getContext('2d'), p: [] }; return J; };
+  // струя: из головки шланга вылетают капли (много, с разбросом), летят дугой под тяжестью и разбиваются о машину — там смывается пена и летят брызги
+  var jetCanvas = function () { if (J && J.cv.isConnected) return J; var c = document.createElement('canvas'); c.className = 'um-jet-cv'; document.body.appendChild(c); J = { cv: c, g: c.getContext('2d'), p: [], s: [], last: 0 }; return J; };
+  var onCar = function (x, y) { if (!W || !W.r) return false; var p = loc(x, y); if (p.x < 0 || p.y < 0 || p.x >= W.n || p.y >= W.n) return false; return W.ma[((p.y | 0) * W.n + (p.x | 0)) * 4 + 3] > 60; };
   var jet = function () {
     var on = T && T.kind === 'hose' && W && W.ph === 1, j = J;
-    if (!on && !(j && j.p.length)) { if (j) j.cv.style.display = 'none'; return; }
+    if (!on && !(j && (j.p.length || j.s.length))) { if (j) j.cv.style.display = 'none'; return; }
     j = jetCanvas(); var c = j.cv, g = j.g, w = innerWidth, h = innerHeight; if (c.width !== w || c.height !== h) { c.width = w; c.height = h; } c.style.display = 'block'; g.clearRect(0, 0, w, h);
-    if (on) {
-      var a = T.nx, b = T.ny, x = T.hx, y = T.hy, len = Math.hypot(x - a, y - b) || 1, ux = (x - a) / len, uy = (y - b) / len, px = -uy, py = ux, w0 = T.w * .09, w1 = T.w * .24, t = Date.now() / 60;
-      var gr = g.createLinearGradient(a, b, x, y); gr.addColorStop(0, 'rgba(120,200,255,.98)'); gr.addColorStop(.5, 'rgba(70,170,250,.92)'); gr.addColorStop(1, 'rgba(60,150,240,.75)');
-      g.fillStyle = gr; g.beginPath(); g.moveTo(a + px * w0, b + py * w0); g.lineTo(x + px * w1, y + py * w1); g.lineTo(x - px * w1, y - py * w1); g.lineTo(a - px * w0, b - py * w0); g.closePath(); g.fill();
-      g.strokeStyle = 'rgba(255,255,255,.95)'; g.lineWidth = Math.max(3, T.w * .045); g.setLineDash([T.w * .12, T.w * .1]); g.lineDashOffset = -t * T.w * .05; g.beginPath(); g.moveTo(a, b); g.lineTo(x, y); g.stroke(); g.setLineDash([]);
-      for (var k = 0; k < 12; k++) { var sp = (Math.random() - .5) * 2.4, v = 4 + Math.random() * 8; j.p.push({ x: x, y: y, vx: (-ux * .4 + px * sp) * v, vy: (-uy * .4 + py * sp) * v - 2, r: 3 + Math.random() * 5, l: 1 }); }
-      var sg = g.createRadialGradient(x, y, 0, x, y, T.w * .3); sg.addColorStop(0, 'rgba(255,255,255,.9)'); sg.addColorStop(.5, 'rgba(170,220,255,.6)'); sg.addColorStop(1, 'rgba(170,220,255,0)'); g.fillStyle = sg; g.beginPath(); g.arc(x, y, T.w * .3, 0, 6.3); g.fill();
+    var now = Date.now(), dt = Math.min(3, Math.max(1, (now - (j.last || now)) / 16.7)); j.last = now;
+    if (on && T.nz) {
+      var sc = T.w / 400, sp = T.w * .19;   // скорость капель ~ пропорционально размеру шланга
+      for (var k = 0; k < 20 * dt; k++) { var off = (Math.random() - .5) * T.w * .1, sx = T.nz.x + T.nz.px * off, sy = T.nz.y + T.nz.py * off, v = Math.max(9, T.w * .12) * (.85 + Math.random() * .3), a = (Math.random() - .5) * .16;
+        j.p.push({ x: sx, y: sy, vx: (T.nz.dx * Math.cos(a) - T.nz.dy * Math.sin(a)) * v, vy: (T.nz.dx * Math.sin(a) + T.nz.dy * Math.cos(a)) * v, r: (2.2 + Math.random() * 2.2) * Math.max(1, sc * 1.4) }); }
     }
-    g.fillStyle = 'rgba(80,175,250,.95)';
-    j.p = j.p.filter(function (q) { q.x += q.vx; q.y += q.vy; q.vy += .5; q.l -= .045; if (q.l <= 0) return false; g.globalAlpha = q.l; g.beginPath(); g.arc(q.x, q.y, q.r, 0, 6.3); g.fill(); return true; }); g.globalAlpha = 1;
-    if (j.p.length > 260) j.p.splice(0, j.p.length - 260);
+    var G = .32 * dt;
+    g.lineCap = 'round';
+    j.p = j.p.filter(function (q) {
+      var ox = q.x, oy = q.y; q.vy += G; q.x += q.vx * dt; q.y += q.vy * dt;
+      if (W && W.ph === 1 && onCar(q.x, q.y)) { var pp = loc(q.x, q.y); erase(W.fx, pp.x, pp.y, W.n * .045, .35); W.dirty = true; if (W.drips.length < 26 && Math.random() < .03) W.drips.push({ x: pp.x, y: pp.y, v: 0, r: W.n * (.025 + Math.random() * .025) }); if (Math.random() < .35) j.s.push({ x: q.x, y: q.y, vx: (Math.random() - .5) * 5 - q.vx * .15, vy: -2 - Math.random() * 3, l: 1, r: q.r * .8 }); return false; }
+      if (q.y > h + 20 || q.x < -20 || q.x > w + 20) return false;
+      g.strokeStyle = 'rgba(70,165,245,.75)'; g.lineWidth = q.r * 1.6; g.beginPath(); g.moveTo(ox, oy); g.lineTo(q.x, q.y); g.stroke();
+      g.strokeStyle = 'rgba(235,248,255,.9)'; g.lineWidth = q.r * .55; g.beginPath(); g.moveTo(ox, oy); g.lineTo(q.x, q.y); g.stroke();
+      return true;
+    });
+    g.fillStyle = 'rgba(120,195,255,.9)';
+    j.s = j.s.filter(function (q) { q.vy += .4 * dt; q.x += q.vx * dt; q.y += q.vy * dt; q.l -= .05 * dt; if (q.l <= 0) return false; g.globalAlpha = q.l; g.beginPath(); g.arc(q.x, q.y, q.r, 0, 6.3); g.fill(); return true; }); g.globalAlpha = 1;
+    if (j.p.length > 700) j.p.splice(0, j.p.length - 700); if (j.s.length > 300) j.s.splice(0, j.s.length - 300);
   };
   setInterval(function () { if (!W && carEl()) setup(); }, 200);
   document.addEventListener('pointerdown', function (e) {
@@ -3998,13 +4007,18 @@ if (typeof document !== 'undefined' && document.addEventListener) (function () {
       if (W.ph === 0) { var d = Math.hypot(T.x - px, T.y - py), n = Math.max(1, Math.ceil(d / 12)); for (var i = 1; i <= n; i++) scrub(px + (T.x - px) * i / n, py + (T.y - py) * i / n); }
       return;
     }
-    // шланг держат за ручку, носик смотрит влево-вниз; струя бьёт на ~1.5 ширины шланга дальше
-    T.g.style.transform = 'translate3d(' + (T.x - T.w * .5) + 'px,' + (T.y - T.w * .55) + 'px,0) scaleX(-1) rotate(-25deg)';
-    T.nx = T.x - T.w * .42; T.ny = T.y - T.w * .35; T.hx = T.nx - T.w * .7; T.hy = T.ny + T.w * .95;
+    // шланг держат за ручку (точка 170,260 на картинке 400×400), он развёрнут носиком влево и чуть вниз.
+    // Головка с дырочками — в точке 322,82, смотрит вправо; после зеркала и поворота считаем, где она на экране и куда бьёт вода
+    var k = T.w / 400, gx = 170 * k, gy = 260 * k, th = -20 * Math.PI / 180, cs = Math.cos(th), sn = Math.sin(th);
+    T.g.style.transformOrigin = gx + 'px ' + gy + 'px';
+    T.g.style.transform = 'translate3d(' + (T.x - gx) + 'px,' + (T.y - gy) + 'px,0) rotate(-20deg) scaleX(-1)';
+    var fx0 = -(322 - 170) * k, fy0 = (82 - 260) * k, dx0 = -1, dy0 = -.05;   // после зеркала
+    T.nz = { x: T.x + fx0 * cs - fy0 * sn, y: T.y + fx0 * sn + fy0 * cs, dx: dx0 * cs - dy0 * sn, dy: dx0 * sn + dy0 * cs };
+    T.nz.px = -T.nz.dy; T.nz.py = T.nz.dx;
   };
   document.addEventListener('pointermove', move);
   // пока шланг в руке, вода льётся непрерывно — даже если палец стоит
-  setInterval(function () { if (T && T.kind === 'hose' && W && W.ph === 1) { rinse(T.hx, T.hy); rinse((T.nx + T.hx * 2) / 3, (T.ny + T.hy * 2) / 3); if (FX.app && Date.now() - (T.snd || 0) > 1200) { T.snd = Date.now(); FX.app.sndFile('sfx/w-rinse.m4a', .8); } } }, 40);
+  setInterval(function () { if (T && T.kind === 'hose' && W && W.ph === 1) { if (FX.app && Date.now() - (T.snd || 0) > 1200) { T.snd = Date.now(); FX.app.sndFile('sfx/w-rinse.m4a', .8); } } }, 40);
   var end = function (e) {
     if (!T || e.pointerId !== T.id) return; var t = T; T = null; t.src.classList.remove('um-tool-held');
     var h = t.src.getBoundingClientRect(); t.g.style.transition = 'transform .35s cubic-bezier(.3,1.3,.5,1)'; t.g.style.transform = 'translate3d(' + h.left + 'px,' + h.top + 'px,0)'; setTimeout(function () { t.g.remove(); }, 360);
