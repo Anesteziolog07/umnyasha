@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-4d3e634edd70') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-2ddcaf3c7821') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -4004,7 +4004,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var holder = fin.querySelector('.um-w-car img'), src = holder && holder.getAttribute('src'); if (!src) return;
     var C = buildCar(src); if (!C) return;
     var cv = document.createElement('canvas'); cv.className = 'um-wash-stage'; document.body.appendChild(cv);
-    S = { fin: fin, cv: cv, g: cv.getContext('2d'), C: C, src: src, tool: 'sponge', ph: 0, down: false, pid: null, pts: [], last: null, p: null, vx: 0, tilt: 0, part: [], drips: [], t0: performance.now(), lt: performance.now(), chk: 0, done: false, shine: -1, gunPhi: -0.6, w: 0, h: 0 };
+    S = { fin: fin, cv: cv, g: cv.getContext('2d'), C: C, src: src, tool: 'sponge', ph: 0, down: false, pid: null, pts: [], last: null, p: null, vx: 0, tilt: 0, part: [], drips: [], cl: [], sl: [], pops: [], heaps: [], t0: performance.now(), lt: performance.now(), chk: 0, done: false, shine: -1, gunPhi: -0.6, w: 0, h: 0 };
     cv.addEventListener('pointerdown', onDown); cv.addEventListener('pointermove', onMove); cv.addEventListener('pointerup', onUp); cv.addEventListener('pointercancel', onUp); cv.addEventListener('lostpointercapture', onUp);
     cv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
     cv.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
@@ -4040,19 +4040,67 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var at = function (k) { if (!L) return path[path.length - 1]; var want = L * k / n, acc = 0; for (var j = 0; j < segs.length; j++) { if (acc + segs[j] >= want) { var u = segs[j] ? (want - acc) / segs[j] : 0; return { x: path[j].x + (path[j + 1].x - path[j].x) * u, y: path[j].y + (path[j + 1].y - path[j].y) * u }; } acc += segs[j]; } return path[path.length - 1]; };
     for (var k = 1; k <= n; k++) { var q = at(k), lp = toLayer(q.x, q.y); if (S.tool === 'sponge') sponge(lp, share, moving); else water(lp, share, q); }
     S.last = S.p; S.pts = [];
-    if (S.tool === 'sponge') { clipTo(C.fg, C.mask2); clipTo(C.pg, C.mask); }
+    if (S.tool === 'sponge') clipTo(C.pg, C.mask);
   };
   var sponge = function (lp, s, moving) {
     var C = S.C, R = C.LW * .1, f = moving ? 1 : .35, b = brushes();
     erase(C.dg, b.soft, lp.x, lp.y, R, 2.6 * s * f);
     stamp(C.pg, b.soft, lp.x, lp.y, R, 14 * s);
-    S.foamAcc = (S.foamAcc || 0) + 7 * s * f;   /* шапки пены кладутся по времени, а не по числу событий */
-    while (S.foamAcc >= 1) { S.foamAcc -= 1; var fi = pickI(FXI.foam); if (!fi) break; var sz = R * (1.6 + Math.random() * 1.2), ar = fi.naturalHeight / fi.naturalWidth; C.fg.save(); C.fg.translate(lp.x + (Math.random() - .5) * R * 1.2, lp.y + (Math.random() - .5) * R * .9); C.fg.rotate((Math.random() - .5) * .6); C.fg.drawImage(fi, -sz / 2, -sz * ar / 2, sz, sz * ar); C.fg.restore(); }
+    S.foamAcc = (S.foamAcc || 0) + 7 * s * f;   /* шапки пены появляются по времени, а не по числу событий */
+    while (S.foamAcc >= 1) { S.foamAcc -= 1; foamAdd(lp.x + (Math.random() - .5) * R * 1.2, lp.y + (Math.random() - .5) * R * .9, R); }
+  };
+  /* живая пена: каждая шапка — отдельный комок. Появляется, мягко «вспухая»; под губкой рядом лежащие шапки пухнут ещё; дышит медленно; под струёй лопается пузырьками и сползает вниз комками на пол */
+  var foamAdd = function (x, y, R) {
+    var near = null, nd = R * .55;
+    for (var i = 0; i < S.cl.length; i++) { var c = S.cl[i], dd = Math.hypot(c.x - x, c.y - y); if (dd < nd) { nd = dd; near = c; } }
+    if (near && near.k < 1.3) { near.k = Math.min(1.3, near.k + .1); return; }
+    if (S.cl.length >= (low ? 90 : 150)) { if (near) near.k = Math.min(1.3, near.k + .05); return; }
+    var fi = pickI(FXI.foam); if (!fi) return;
+    S.cl.push({ x: x, y: y, sz: R * (1.5 + Math.random() * 1.1), fi: fi, ar: fi.naturalHeight / fi.naturalWidth, rot: (Math.random() - .5) * .6, age: 0, ks: .25, k: 1, ph: Math.random() * 6.3, hp: 1, cut: .66 });
+  };
+  var toScr = function (x, y) { var c = S.car, C = S.C; return { x: c.x + x / C.LW * c.w, y: c.y + y / C.LH * c.h, k: c.w / C.LW }; };
+  /* комок сорвался со струи: сползает по кузову и падает на пол, где остаётся кучкой пены и медленно оседает */
+  var foamSlide = function (c, part) {
+    var p = toScr(c.x, c.y), z = c.sz * c.ks * part * p.k;
+    if (S.sl.length < (low ? 18 : 32)) S.sl.push({ x: p.x, y: p.y, z: z, fi: c.fi, ar: c.ar, rot: c.rot, vy: S.h * .05, vx: (Math.random() - .5) * S.w * .04, age: 0, floor: S.car.y + S.car.h * (.93 + Math.random() * .06) });
+    for (var i = 0; i < 3 && S.pops.length < 40; i++) S.pops.push({ x: p.x + (Math.random() - .5) * z * .8, y: p.y + (Math.random() - .5) * z * .5, r: Math.max(3, z * (.06 + Math.random() * .07)), age: 0, life: .3 + Math.random() * .2 });
+  };
+  var easeBack = function (u) { u = Math.min(1, u); var s = 1.6; return 1 + (s + 1) * Math.pow(u - 1, 3) + s * Math.pow(u - 1, 2); };
+  var foamDraw = function (g, dt, t) {
+    var C = S.C, fg = C.fg, i, c;
+    fg.clearRect(0, 0, C.LW, C.LH);
+    for (i = 0; i < S.cl.length; i++) {
+      c = S.cl[i]; c.age += dt;
+      if (c.age < .45) c.ks = .25 + (c.k - .25) * easeBack(c.age / .45); else c.ks += (c.k - c.ks) * Math.min(1, dt * 3);
+      var br = 1 + .03 * Math.sin(t * 2.1 + c.ph), z = c.sz * c.ks * br;   /* медленное дыхание, ~3 с на вдох-выдох */
+      fg.save(); fg.translate(c.x, c.y); fg.rotate(c.rot + .035 * Math.sin(t * 1.7 + c.ph)); fg.drawImage(c.fi, -z / 2, -z * c.ar / 2 - z * .04 * (br - 1) * 10, z, z * c.ar); fg.restore();
+    }
+    clipTo(fg, C.mask2);
+    /* сползающие комки — поверх машины, без обрезки по кузову */
+    for (i = S.sl.length - 1; i >= 0; i--) {
+      c = S.sl[i]; c.age += dt; c.vy = Math.min(S.h * .55, c.vy + S.h * 1.1 * dt); c.y += c.vy * dt; c.x += c.vx * dt;
+      var sq = Math.min(.12, c.vy / S.h * .2);
+      if (c.y >= c.floor) { S.sl.splice(i, 1); if (S.heaps.length >= 16) S.heaps.shift(); S.heaps.push({ x: c.x + (Math.random() - .5) * c.z * .9, y: c.floor, z: c.z * .9, fi: c.fi, ar: c.ar, age: 0, life: 7 + Math.random() * 3 }); continue; }
+      g.save(); g.translate(c.x, c.y); g.rotate(c.rot); g.globalAlpha = .95; g.drawImage(c.fi, -c.z * (1 - sq) / 2, -c.z * c.ar * (1 + sq) / 2, c.z * (1 - sq), c.z * c.ar * (1 + sq)); g.restore();
+    }
+    for (i = S.pops.length - 1; i >= 0; i--) {
+      c = S.pops[i]; c.age += dt; var u = c.age / c.life; if (u >= 1) { S.pops.splice(i, 1); continue; }
+      var r = c.r * (.6 + u * .9); g.save(); g.globalAlpha = (1 - u) * .9; g.lineWidth = Math.max(1, r * .18); g.strokeStyle = '#FFFFFF'; g.beginPath(); g.arc(c.x, c.y - u * r, r, 0, 6.3); g.stroke();
+      g.fillStyle = 'rgba(255,255,255,.9)'; g.beginPath(); g.arc(c.x - r * .35, c.y - u * r - r * .35, Math.max(.8, r * .2), 0, 6.3); g.fill(); g.restore();
+    }
+  };
+  var heapsDraw = function (g, dt) {   /* кучки пены на полу: плавно «садятся», потом медленно тают */
+    for (var i = S.heaps.length - 1; i >= 0; i--) {
+      var h = S.heaps[i]; h.age += dt; if (h.age >= h.life) { S.heaps.splice(i, 1); continue; }
+      var grow = Math.min(1, h.age / .35), fade = Math.min(1, (h.life - h.age) / 2.5), w = h.z * (.75 + .25 * grow) * (.6 + .4 * fade), hh = w * h.ar * (.55 + .2 * grow);
+      g.save(); g.globalAlpha = .95 * fade; g.drawImage(h.fi, h.x - w / 2, h.y - hh, w, hh); g.restore();
+    }
   };
   var water = function (lp, s, q) {
     var C = S.C, R = C.LW * .095, b = brushes(); if (lp.x < -R || lp.y < -R || lp.x > C.LW + R || lp.y > C.LH + R) return;
-    erase(C.fg, b.torn[(Math.random() * 3) | 0], lp.x, lp.y, R * 1.15, 14 * s, Math.random() * 6.3);
-    erase(C.fg, b.soft, lp.x, lp.y, R * .9, 9 * s);   /* сердцевина струи вычищает и тонкую плёнку, края оставляют неровные остатки */
+    /* струя сбивает шапки пены: от комка откалываются куски и сползают, пока от него ничего не останется */
+    for (var ci = S.cl.length - 1; ci >= 0; ci--) { var cc = S.cl[ci]; if (Math.hypot(cc.x - lp.x, cc.y - lp.y) > R * 1.1 + cc.sz * cc.ks * .3) continue;
+      cc.hp -= 5 * s; if (cc.hp <= 0) { S.cl.splice(ci, 1); foamSlide(cc, .7); } else if (cc.hp < cc.cut) { cc.cut -= .33; cc.k *= .74; foamSlide(cc, .5); } }
     /* грязь, которую губка уже размочила, вода смывает быстро; нетронутую — медленно */
     var t = C.tg, T = C.tmp.width, k = T / (R * 2.4); t.clearRect(0, 0, T, T); t.drawImage(b.soft, 0, 0, T, T); t.globalCompositeOperation = 'destination-in'; t.drawImage(C.P, (R * 1.2 - lp.x) * k, (R * 1.2 - lp.y) * k, C.LW * k, C.LH * k); t.globalCompositeOperation = 'source-over';
     C.dg.save(); C.dg.globalCompositeOperation = 'destination-out'; C.dg.globalAlpha = Math.min(1, 9 * s); C.dg.drawImage(C.tmp, lp.x - R * 1.2, lp.y - R * 1.2, R * 2.4, R * 2.4); C.dg.restore();
@@ -4156,15 +4204,18 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     if (S.down && P && !S.done) { var pv = S.last || P; S.vx = (P.x - pv.x) / Math.max(dt, .001); apply(dt); } else S.vx *= .8;
     /* стекающие капли: только смывают немного пены по пути и оставляют мокрый след */
     var b = brushes();
-    for (var i = S.drips.length - 1; i >= 0; i--) { var q = S.drips[i]; q.life -= dt; q.y += q.v * dt; erase(C.fg, b.soft, q.x, q.y, C.LW * .012, .6); stamp(C.wg, b.glint, q.x, q.y, C.LW * .008, .12); if (q.life <= 0 || q.y > C.LH) S.drips.splice(i, 1); }
+    for (var i = S.drips.length - 1; i >= 0; i--) { var q = S.drips[i]; q.life -= dt; q.y += q.v * dt; stamp(C.wg, b.glint, q.x, q.y, C.LW * .008, .12); if (q.life <= 0 || q.y > C.LH) S.drips.splice(i, 1); }
     erase(C.wg, b.soft, C.LW / 2, C.LH / 2, C.LW * 1.5, .03 * dt);   /* мокрые блики медленно высыхают */
-    if (S.done && S.shine >= 0 && S.shine < 1.4) { S.shine += dt; C.fg.save(); C.fg.globalCompositeOperation = 'destination-out'; C.fg.globalAlpha = Math.min(1, dt * 3); C.fg.fillRect(0, 0, C.LW, C.LH); C.fg.restore(); C.dg.save(); C.dg.globalCompositeOperation = 'destination-out'; C.dg.globalAlpha = Math.min(1, dt * 3); C.dg.fillRect(0, 0, C.LW, C.LH); C.dg.restore(); }
+    if (S.done && S.cl.length) { S.cl.forEach(function (c) { foamSlide(c, .6); }); S.cl = []; }   /* остатки пены сползают вниз */
+    if (S.done && S.shine >= 0 && S.shine < 1.4) { S.shine += dt; C.dg.save(); C.dg.globalCompositeOperation = 'destination-out'; C.dg.globalAlpha = Math.min(1, dt * 3); C.dg.fillRect(0, 0, C.LW, C.LH); C.dg.restore(); }
     g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, S.w, S.h);
     g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg(), 0, 0); g.setTransform(d, 0, 0, d, 0, 0);
     var c = S.car;
     g.save(); g.fillStyle = 'rgba(40,70,110,.16)'; g.beginPath(); g.ellipse(c.x + c.w / 2, c.y + c.h * .97, c.w * .46, c.h * .07, 0, 0, 6.3); g.fill(); g.restore();
     var pu = img(FXI.puddle); if (ok(pu) && S.wetAmt > 0) { var pw = c.w * (.7 + .35 * S.wetAmt), ph2 = pw * pu.naturalHeight / pu.naturalWidth * .55; g.save(); g.globalAlpha = Math.min(.85, S.wetAmt); g.drawImage(pu, c.x + c.w / 2 - pw / 2, c.y + c.h * .9, pw, ph2); g.restore(); }
     g.drawImage(C.car, c.x, c.y, c.w, c.h); g.drawImage(C.D, c.x, c.y, c.w, c.h); g.drawImage(C.Wt, c.x, c.y, c.w, c.h);
+    heapsDraw(g, dt);
+    foamDraw(g, dt, t);
     g.drawImage(C.F, c.x, c.y, c.w, c.h);   /* пена — нарисованные шапки пены, как в макете */
     if (S.shine >= 0 && S.shine < 1.4) { var u = S.shine / 1.2, sx = c.x - c.w * .3 + u * c.w * 1.6, tg = C.tg, T = C.tmp; g.save(); var gr = g.createLinearGradient(sx - c.w * .12, 0, sx + c.w * .12, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.5, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); var sc = mk(C.LW, C.LH), sg2 = sc.getContext('2d'); sg2.drawImage(C.mask, 0, 0); sg2.globalCompositeOperation = 'source-in'; sg2.setTransform(C.LW / c.w, 0, 0, C.LH / c.h, -c.x * C.LW / c.w, -c.y * C.LH / c.h); sg2.fillStyle = gr; sg2.fillRect(c.x, c.y, c.w, c.h); g.drawImage(sc, c.x, c.y, c.w, c.h); g.restore(); }
     var ri = img(FXI.run); for (i = 0; i < S.drips.length; i++) { q = S.drips[i]; var sx2 = c.x + q.x / C.LW * c.w, sy2 = c.y + q.y / C.LH * c.h, rz = Math.max(8, c.w * .035); if (ok(ri)) g.drawImage(ri, sx2 - rz / 2, sy2 - rz * 1.2, rz, rz * ri.naturalHeight / ri.naturalWidth); }
@@ -4178,7 +4229,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   /* запуск/остановка: следим, открыта ли площадка мойки; при редких кадрах (фон, слабый телефон) игра всё равно идёт */
   setInterval(function () { var fin = document.querySelector('.um-fin-wash'); if (fin && !S) { frame(); loop(); } else if (!fin && S) teardown(); else if (S && performance.now() - S.lt > 200) frame(); }, 150);
   window.__washPose = function (x, y) { if (!S) return null; var p = gunPose({ x: x, y: y }), k = p.gs / 400; return { N: p.N, phi: S.gunPhi, gs: p.gs, dir: [p.dx, p.dy] }; };
-  window.__washDebug = function () { return S && { down: S.down, parts: S.part.length, stat: S.stat, ph: S.ph, tool: S.tool, car: S.car, panel: S.panel, slots: S.slots, w: S.w, h: S.h, left: S.left, top: S.top, done: S.done }; };
+  window.__washDebug = function () { return S && { down: S.down, parts: S.part.length, stat: S.stat, ph: S.ph, tool: S.tool, car: S.car, panel: S.panel, slots: S.slots, foam: [S.cl.length, S.sl.length, S.heaps.length], heaps: S.heaps.slice(0, 3).map(function (h) { return [Math.round(h.x), Math.round(h.y), Math.round(h.z), +h.age.toFixed(2)]; }), w: S.w, h: S.h, left: S.left, top: S.top, done: S.done }; };
   document.addEventListener('click', function (e) { var b = e.target && e.target.closest ? e.target.closest('.um-rub') : null; if (b && !FX.toolHit) { e.stopPropagation(); e.preventDefault(); } }, true);
 })();
 var FINALE_ALT = { shadow: 'slots' };   // у «Теней» финалы чередуются: фонарик и «вставь в силуэт»
