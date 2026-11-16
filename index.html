@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-e8c482478029') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-3f1aa5bb5489') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -1491,7 +1491,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   var LEN = [], L = 0, px = 20, py = 110; for (i = 0; i <= 200; i++) { var u = i / 200, x = Q(20, 500, 980, u), y = Q(110, 350, 110, u); L += Math.hypot(x - px, y - py); px = x; py = y; LEN.push(L); }
   var TOT = LEN[200], W = 0, H = 0, D = 1, K = 1, P = [], tail = [], fired = {}, t0 = null, last = 0, raf = 0, started = false;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function size() { D = Math.min(2, window.devicePixelRatio || 1); W = innerWidth; H = innerHeight; [cv, cb].forEach(function (c) { c.width = W * D; c.height = H * D; }); }
+  function size() { D = Math.min(1.5, window.devicePixelRatio || 1); W = innerWidth; H = innerHeight; [cv, cb].forEach(function (c) { c.width = W * D; c.height = H * D; }); }
   addEventListener('resize', size); size();
   function map(x, y) { var r = row.getBoundingClientRect(); K = r.width / 1000; return [r.left + x * K, r.top + y * K]; }
   function once(k, c, fn) { if (c && !fired[k]) { fired[k] = 1; fn(); } }
@@ -1499,11 +1499,15 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   function sparkle(c, x, y, r, a, rot) { c.save(); c.translate(x, y); c.rotate(rot); c.globalAlpha = a; c.beginPath(); for (var j = 0; j < 8; j++) { var rr = j % 2 ? r * .22 : r, an = j * Math.PI / 4; c.lineTo(Math.cos(an) * rr, Math.sin(an) * rr); } c.closePath(); c.fill(); c.restore(); }
   function glowStar(x, y, R, t) { var h = g.createRadialGradient(x, y, 0, x, y, R * 3); h.addColorStop(0, 'rgba(255,250,220,.95)'); h.addColorStop(.25, 'rgba(255,220,120,.45)'); h.addColorStop(1, 'rgba(255,200,120,0)'); g.fillStyle = h; g.beginPath(); g.arc(x, y, R * 3, 0, 6.283); g.fill(); g.fillStyle = '#FFFFFF'; sparkle(g, x, y, R, 1, t * 1.4); g.fillStyle = '#FFF1A8'; sparkle(g, x, y, R * .55, 1, -t * 2 + .4); }
   function flash(t) { if (t < 2.7 || t > 3.2) return; var p = map(500, -50), a = 1 - (t - 2.7) / .5, R = (40 + (t - 2.7) * 400) * K * 2.2; var h = g.createRadialGradient(p[0], p[1], 0, p[0], p[1], R); h.addColorStop(0, 'rgba(255,255,235,' + a + ')'); h.addColorStop(1, 'rgba(255,230,160,0)'); g.fillStyle = h; g.beginPath(); g.arc(p[0], p[1], R, 0, 6.283); g.fill(); }
+  // путь звезды — одна плавная линия: на стыках (прилёт → нить → уход вверх) скорость и направление совпадают, рывков и «зависаний» нет.
+  // Прилёт и уход — кривые Эрмита с касательными, равными скорости звезды на нити; по нити — как раньше (бусины падают в те же моменты)
+  function herm(a, b, ta, tb, u) { var u2 = u * u, u3 = u2 * u, h00 = 2 * u3 - 3 * u2 + 1, h10 = u3 - 2 * u2 + u, h01 = -2 * u3 + 3 * u2, h11 = u3 - u2; return [h00 * a[0] + h10 * ta[0] + h01 * b[0] + h11 * tb[0], h00 * a[1] + h10 * ta[1] + h01 * b[1] + h11 * tb[1]]; }
+  var V0 = [960 / 1.1, 480 / 1.1], V1 = [960 / 1.1, -480 / 1.1];
   function starPos(t) {
     if (t < .3) return null;
-    if (t < 1) { var u = (t - .3) / .7, e = u * u * (3 - 2 * u) * .6 + u * .4; return [Q(-220, -160, 20, e), Q(-520, 40, 110, e)]; }
-    if (t < 2.1) { u = (t - 1) / 1.1; return [Q(20, 500, 980, u), Q(110, 350, 110, u)]; }
-    if (t < 2.7) { u = (t - 2.1) / .6; e = 1 - (1 - u) * (1 - u); return [Q(980, 1130, 500, e), Q(110, -170, -50, e)]; }
+    if (t < 1) return herm([-220, -520], [20, 110], [90, 520], [V0[0] * .7, V0[1] * .7], (t - .3) / .7);
+    if (t < 2.1) { var u = (t - 1) / 1.1; return [Q(20, 500, 980, u), Q(110, 350, 110, u)]; }
+    if (t < 2.7) { u = (t - 2.1) / .6; var m1 = 1 - u, c1x = 980 + V1[0] * .2, c1y = 110 + V1[1] * .2; return [m1 * m1 * m1 * 980 + 3 * m1 * m1 * u * c1x + 3 * m1 * u * u * 900 + u * u * u * 500, m1 * m1 * m1 * 110 + 3 * m1 * m1 * u * c1y + 3 * m1 * u * u * -300 + u * u * u * -50]; }   /* уход — широкой дугой вверх и разгон к салюту */
     return null;
   }
   function dip(t) { var d = 0; POP.forEach(function (p) { var q = t - p - FLY; if (q > 0) d += 9 * Math.exp(-q * 4.5) * Math.sin(q * 15); }); var q = t - 2.72; if (q > 0) d += 16 * Math.exp(-q * 3.5) * Math.sin(q * 12); return d; }
@@ -1529,8 +1533,8 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
     if (!fx) return;
     g.globalCompositeOperation = 'lighter';
     var sp = starPos(t);
-    if (sp) { var m = map(sp[0], sp[1]); tail.push(m); if (tail.length > 26) tail.shift(); emit(m[0], m[1], Math.ceil(dt * 160), 200 * K, 1.6); }
-    else if (tail.length) tail.shift();
+    tail = []; for (var k = 24; k >= 0; k--) { var tp = starPos(t - k * .012); if (tp) tail.push(map(tp[0], tp[1])); }
+    if (sp) { var m = map(sp[0], sp[1]); emit(m[0], m[1], Math.ceil(dt * 120), 200 * K, 1.4); }
     POP.forEach(function (p, j) {
       once('r' + j, t >= p, function () { var m = map(X[j], BY[j]); emit(m[0], m[1], 16, 380 * K, .9); });
       once('b' + j, t >= p + FLY, function () { var m = map(X[j], BY[j] + 40); emit(m[0], m[1], 10, 260 * K, .7, .6); });
@@ -4311,7 +4315,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     flower: { bx: [0.534, 0.47, 0.451, 0.459], st: [[153, 148], [251, 209], [239, 368], [289, 455]], bloom: [311, 560], end: 'bud' },
     tulip: { bx: [0.417, 0.445, 0.499, 0.476], st: [[110, 155], [254, 303], [298, 475], [326, 523]], bloom: [352, 560], end: 'bud' }
   };
-  var PROPS = { bag: D + 'bag-open.webp', can: D + 'can.webp', dry: D + 'pot-dry.webp', wet: D + 'pot-wet.webp', sun: D + 'sun.webp', cloud: D + 'cloud.webp', basket: D + 'basket.webp', wrap: D + 'wrap.webp', bg: D + 'bg.jpg' };
+  var PROPS = { bag: D + 'bag-open.webp', can: D + 'can.webp', dry: D + 'pot-dry.webp', wet: D + 'pot-wet.webp', sun: D + 'sun.webp', cloud: 'splash/cloud-061f2292.png', basket: D + 'basket.webp', wrap: D + 'wrap.webp', bg: D + 'bg.jpg' };
   var stImg = function (p, i) { return D + p + '-' + i + '.webp'; };
   var endImg = function (k) {   /* плод или цветок нужного цвета */
     var p = k.split('-')[0], c = k.split('-')[1];
@@ -4596,7 +4600,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     });
   };
   var drawSun = function (g, t, dt) {
-    var im = img(PROPS.sun), s = S.sun; if (!ok(im)) return;
+    var s = S.sun;
     var wk = S.sunWake < 0 ? 0 : (S.sunWake = Math.min(3, S.sunWake + dt), ease(S.sunWake / 2.4)), sc = .86 + .14 * wk, z = s.r * 2 * sc;
     if (wk > 0) {
       var gr = g.createRadialGradient(s.x, s.y, s.r * .3, s.x, s.y, s.r * 2.6); gr.addColorStop(0, 'rgba(255,246,200,' + (.8 * wk) + ')'); gr.addColorStop(.45, 'rgba(255,232,150,' + (.32 * wk) + ')'); gr.addColorStop(1, 'rgba(255,228,150,0)'); g.fillStyle = gr; g.fillRect(s.x - s.r * 2.6, s.y - s.r * 2.6, s.r * 5.2, s.r * 5.2);
@@ -4609,7 +4613,12 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
       /* растение согрето: тёплое мягкое пятно света на нём */
       var wg = g.createRadialGradient(tx, ty - S.pot.h * .3, 0, tx, ty - S.pot.h * .3, S.pot.w * 1.1); wg.addColorStop(0, 'rgba(255,240,180,' + (.3 * wk * br) + ')'); wg.addColorStop(1, 'rgba(255,240,180,0)'); g.fillStyle = wg; g.fillRect(tx - S.pot.w * 1.1, ty - S.pot.h * .3 - S.pot.w * 1.1, S.pot.w * 2.2, S.pot.w * 2.2);
     }
-    g.save(); g.globalAlpha = .55 + .45 * wk; g.translate(s.x, s.y); g.rotate(wk * .5 + (wk >= 1 ? .03 * Math.sin(t * .8) : 0)); g.scale(1 + .02 * Math.sin(t * 1.1) * wk, 1 + .02 * Math.sin(t * 1.1) * wk); g.drawImage(im, -z / 2, -z / 2, z, z); g.restore();
+    /* солнце как на фоне-пейзаже: мягкий тёплый шар со свечением, без нарисованных палочек-лучей; спит за облаком — бледнее, проснулось — разгорается */
+    var R = s.r * (.82 + .1 * wk) * (1 + .015 * Math.sin(t * 1.1) * wk), halo = g.createRadialGradient(s.x, s.y, R * .9, s.x, s.y, R * (1.9 + .5 * wk));
+    halo.addColorStop(0, 'rgba(255,250,215,' + (.5 + .4 * wk) + ')'); halo.addColorStop(.45, 'rgba(255,240,170,' + (.18 + .25 * wk) + ')'); halo.addColorStop(1, 'rgba(255,240,170,0)');
+    g.fillStyle = halo; g.beginPath(); g.arc(s.x, s.y, R * (1.9 + .5 * wk), 0, 6.3); g.fill();
+    var disc = g.createRadialGradient(s.x - R * .3, s.y - R * .32, R * .08, s.x, s.y, R); disc.addColorStop(0, '#FFFBD0'); disc.addColorStop(.45, wk > .5 ? '#FFE45C' : '#FCE7A0'); disc.addColorStop(1, wk > .5 ? '#FFC23A' : '#F2CE7E');
+    g.save(); g.globalAlpha = .7 + .3 * wk; g.fillStyle = disc; g.shadowColor = 'rgba(255,214,90,' + (.4 + .5 * wk) + ')'; g.shadowBlur = R * .6; g.beginPath(); g.arc(s.x, s.y, R, 0, 6.3); g.fill(); g.restore();
   };
   var drawCloud = function (g, t, dt) {
     var im = img(PROPS.cloud); if (!ok(im)) return; if (S.cloudGone >= 0) S.cloudGone += dt; var c = cloudPos(); if (c.a <= .02) return;
