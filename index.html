@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-b303a09caea3') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-5b158458e065') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -1464,7 +1464,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
 
 
 <canvas id="zs-bk"></canvas>
-<div class="bd-wrap"><div class="bd-row"><svg class="bd-thread" viewBox="0 0 1000 360" aria-hidden="true"><defs><linearGradient id="bdfade" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".17" stop-color="#fff" stop-opacity="1"/><stop offset=".83" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="bdmask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="360"><rect width="1000" height="360" fill="url(#bdfade)"/></mask></defs><g mask="url(#bdmask)"><path class="bd-sh" d="M20 118Q500 358 980 118"/><path class="bd-cord" d="M20 110Q500 350 980 110"/><circle class="bd-knot" cx="20" cy="110" r="9"/><circle class="bd-knot" cx="980" cy="110" r="9"/></g></svg><span class="bd-b" style="--i:0;left:5.00%;top:22.71%"><img src="splash/bead-0-3fc93128.png" alt=""><span class="bd-l">Б</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:1;left:20.00%;top:35.73%"><img src="splash/bead-1-57e5ddee.png" alt=""><span class="bd-l">у</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:2;left:35.00%;top:42.24%"><img src="splash/bead-2-0dc5a138.png" alt=""><span class="bd-l">с</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:3;left:50.00%;top:42.24%"><img src="splash/bead-3-90eed79f.png" alt=""><span class="bd-l">я</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:4;left:65.00%;top:35.73%"><img src="splash/bead-4-c8a3ab9a.png" alt=""><span class="bd-l">т</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:5;left:80.00%;top:22.71%"><img src="splash/bead-5-6dcd2bf3.png" alt=""><span class="bd-l">а</span><i class="bd-gl"></i></span></div>
+<div class="bd-wrap"><div class="bd-row"><svg class="bd-thread" viewBox="0 0 1000 360" aria-hidden="true"><path class="bd-sh" d="M20 118Q500 358 980 118"/><path class="bd-cord" d="M20 110Q500 350 980 110"/><circle class="bd-knot" cx="20" cy="110" r="9"/><circle class="bd-knot" cx="980" cy="110" r="9"/></svg><span class="bd-b" style="--i:0;left:5.00%;top:22.71%"><img src="splash/bead-0-3fc93128.png" alt=""><span class="bd-l">Б</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:1;left:20.00%;top:35.73%"><img src="splash/bead-1-57e5ddee.png" alt=""><span class="bd-l">у</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:2;left:35.00%;top:42.24%"><img src="splash/bead-2-0dc5a138.png" alt=""><span class="bd-l">с</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:3;left:50.00%;top:42.24%"><img src="splash/bead-3-90eed79f.png" alt=""><span class="bd-l">я</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:4;left:65.00%;top:35.73%"><img src="splash/bead-4-c8a3ab9a.png" alt=""><span class="bd-l">т</span><i class="bd-gl"></i></span><span class="bd-b" style="--i:5;left:80.00%;top:22.71%"><img src="splash/bead-5-6dcd2bf3.png" alt=""><span class="bd-l">а</span><i class="bd-gl"></i></span></div>
 <div class="bt-sub">Играем и учимся</div></div>
 <canvas id="zs-fx"></canvas>
 </div>
@@ -3919,8 +3919,8 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   /* нарисованные детали (ChatGPT, по макету): струи, всплески, капли, лужица, шапки пены, пятна грязи */
   var FXI = { jet: ['splash/wf-jet1-800c99ab.png', 'splash/wf-jet2-3ea588ec.png', 'splash/wf-jet3-e657fc74.png'], splash: ['splash/wf-splash1-0cdd01d0.png', 'splash/wf-splash2-beb2316c.png'], spray: 'splash/wf-spray-0dc28bc8.png', drop: 'splash/wf-drop-4fe7c1a7.png', run: 'splash/wf-run-8b4760fd.png', puddle: 'splash/wf-puddle-cbfeec19.png',
     foam: ['splash/wfo-1-df781364.png', 'splash/wfo-2-d1bb0534.png', 'splash/wfo-3-0e0a8a0c.png', 'splash/wfo-4-c9b76d93.png', 'splash/wfo-5-e92f9b69.png', 'splash/wfo-6-89480b9e.png', 'splash/wfo-7-a6cd908c.png', 'splash/wfo-8-daae9fc1.png', 'splash/wfo-9-ae850450.png'],
-    mud: ['splash/wm-1-9243cc7e.png', 'splash/wm-2-b862a110.png', 'splash/wm-3-da99fd5e.png', 'splash/wm-4-08ca01ec.png', 'splash/wm-5-ced805a2.png', 'splash/wm-6-0f73b32f.png', 'splash/wm-7-cf160871.png', 'splash/wm-8-cd5714ef.png', 'splash/wm-9-908f9c67.png'], gun: 'splash/w-gun-99b8237d.png' };
-  var allFX = function () { return [].concat(FXI.jet, FXI.splash, FXI.foam, FXI.mud, [FXI.spray, FXI.drop, FXI.run, FXI.puddle, FXI.gun, 'splash/g-sponge-4731e66f.png', 'splash/w-bg.jpg']); };
+    mud: ['splash/wg-1-fd4b3716.png', 'splash/wg-2-22b1e903.png', 'splash/wg-3-4004853b.png', 'splash/wg-4-10f4457c.png', 'splash/wg-5-aebad6d4.png', 'splash/wg-6-25144a33.png', 'splash/wg-7-78a56bc3.png', 'splash/wg-8-3b3bb13d.png', 'splash/wg-9-d384cc1a.png'], gun: 'splash/w-gun-99b8237d.png' };
+  var allFX = function () { return [].concat(FXI.jet, FXI.splash, FXI.foam, FXI.mud, [FXI.spray, FXI.drop, FXI.run, FXI.puddle, FXI.gun, 'splash/g-sponge-4731e66f.png', 'splash/w-bg2.jpg']); };
   var fxReady = function () { return allFX().every(function (u) { var i = img(u); return ok(i) || (i.complete && !i.naturalWidth); }); };   /* битая картинка не должна держать игру */
   var pickI = function (arr) { var r = arr.filter(function (u) { return ok(img(u)); }); return r.length ? img(r[(Math.random() * r.length) | 0]) : null; };
   var img = function (src) { if (!IM[src]) { var i = new Image(); i.src = src; IM[src] = i; } return IM[src]; };
@@ -3970,9 +3970,10 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var D = mk(LW, LH), dg = D.getContext('2d');
     /* грязь: неровный налёт, пятна, брызги и потёки; у колёс и внизу кузова — гуще */
     /* грязь: кузов слегка тусклый (пыльный налёт) + нарисованные пятна, брызги и потёки; внизу и у колёс их больше */
-    dg.fillStyle = 'rgba(120,95,62,.30)'; dg.fillRect(0, 0, LW, LH);
-    for (var i = 0; i < 16; i++) { var mi = pickI(FXI.mud), bottom = Math.pow(Math.random(), .6), px = LW * (.08 + ((i * .618) % 1) * .84), py = LH * (.2 + bottom * .72), sz = LW * (.09 + Math.random() * .09);   /* пятна разбросаны по всему кузову (золотое сечение по ширине), а не кучей */
-      if (mi) { dg.save(); dg.globalAlpha = .38 + Math.random() * .25; dg.translate(px, py); dg.rotate((Math.random() - .5) * .8); dg.drawImage(mi, -sz / 2, -sz / 2 * mi.naturalHeight / mi.naturalWidth, sz, sz * mi.naturalHeight / mi.naturalWidth); dg.restore(); } }
+    /* грязь как на превьюшке (нарисована в ChatGPT 16.11): густые блестящие шлепки, плотные; лёгкий пыльный налёт сильнее снизу; больше грязи сзади и у колёс */
+    var dust = dg.createLinearGradient(0, 0, 0, LH); dust.addColorStop(0, 'rgba(125,92,58,.05)'); dust.addColorStop(.6, 'rgba(118,84,50,.16)'); dust.addColorStop(1, 'rgba(100,68,38,.28)'); dg.fillStyle = dust; dg.fillRect(0, 0, LW, LH);
+    for (var i = 0; i < 16; i++) { var mi = pickI(FXI.mud), bottom = Math.pow(Math.random(), .5), side = (i * .618) % 1, px = LW * (.05 + side * .9), py = LH * (.26 + bottom * .64), sz = LW * (.1 + Math.random() * .1);
+      if (mi) { var mar = mi.naturalHeight / mi.naturalWidth; dg.save(); dg.translate(px, py); dg.rotate((Math.random() - .5) * .5); dg.drawImage(mi, -sz / 2, -sz * mar / 2, sz, sz * mar); dg.restore(); } }
     dg.globalAlpha = 1; clipTo(dg, C.mask);
     C.mask2 = mk(LW, LH); var m2 = C.mask2.getContext('2d'); [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1], [.7, .7], [-.7, .7], [.7, -.7], [-.7, -.7]].forEach(function (o) { m2.drawImage(C.mask, o[0] * LW * .025, o[1] * LW * .025); });   /* пена может чуть выходить за кузов */
     C.D = D; C.dg = dg; C.P = mk(LW, LH); C.pg = C.P.getContext('2d'); C.F = mk(LW, LH); C.fg = C.F.getContext('2d'); C.Wt = mk(LW, LH); C.wg = C.Wt.getContext('2d');
@@ -3989,7 +3990,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var w = S.w, h = S.h, ph = Math.max(64, Math.min(104, h * .17)), C = S.C;
     S.panel = { x: 0, y: h - ph, w: w, h: ph };
     var aw = w, ah = h - ph, ar = C ? C.ar : 1.6, cw = Math.min(aw * .76, ah * .74 * ar), ch = cw / ar;
-    S.car = { x: (aw - cw) / 2, y: ah * .56 - ch / 2, w: cw, h: ch };
+    S.car = { x: (aw - cw) / 2, y: ah * .6 - ch / 2, w: cw, h: ch };
     var sl = Math.min(ph * .78, 96); S.slots = [{ k: 'sponge', x: w / 2 - sl * 1.15, y: h - ph / 2, r: sl / 2 }, { k: 'gun', x: w / 2 + sl * 1.15, y: h - ph / 2, r: sl / 2 }];
     S.bgc = null;
   };
@@ -3999,14 +4000,14 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var holder = fin.querySelector('.um-w-car img'), src = holder && holder.getAttribute('src'); if (!src) return;
     var C = buildCar(src); if (!C) return;
     var cv = document.createElement('canvas'); cv.className = 'um-wash-stage'; document.body.appendChild(cv);
-    S = { fin: fin, cv: cv, g: cv.getContext('2d'), C: C, src: src, tool: 'sponge', ph: 0, down: false, pid: null, pts: [], last: null, p: null, vx: 0, tilt: 0, part: [], drips: [], cl: [], sl: [], pops: [], heaps: [], t0: performance.now(), lt: performance.now(), chk: 0, done: false, shine: -1, gunPhi: -0.6, w: 0, h: 0 };
+    S = { fin: fin, cv: cv, g: cv.getContext('2d'), C: C, src: src, tool: 'sponge', ph: 0, down: false, pid: null, pts: [], last: null, p: null, vx: 0, tilt: 0, part: [], drips: [], cl: [], sl: [], pops: [], heaps: [], enter: 0, out: -1, cdx: 0, crot: 0, bub: [], tw: [], t0: performance.now(), lt: performance.now(), chk: 0, done: false, shine: -1, gunPhi: -0.6, w: 0, h: 0 };
     cv.addEventListener('pointerdown', onDown); cv.addEventListener('pointermove', onMove); cv.addEventListener('pointerup', onUp); cv.addEventListener('pointercancel', onUp); cv.addEventListener('lostpointercapture', onUp);
     cv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
     cv.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
     cv.addEventListener('touchstart', function (e) { e.preventDefault(); }, { passive: false });
     place(); loop();
   };
-  var teardown = function () { if (!S) return; S.cv.remove(); S = null; cancelAnimationFrame(raf); };
+  var teardown = function () { if (!S) return; waterSound(false, true); S.cv.remove(); S = null; cancelAnimationFrame(raf); };
   var place = function () {
     var r = S.fin.getBoundingClientRect(), st = S.cv.style, d = DPR();
     st.left = r.left + 'px'; st.top = r.top + 'px'; st.width = r.width + 'px'; st.height = r.height + 'px'; S.left = r.left; S.top = r.top;
@@ -4014,7 +4015,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   };
   var local = function (e) { return { x: e.clientX - S.left, y: e.clientY - S.top }; };
   var onDown = function (e) {
-    if (!S || S.done) return; var p = local(e); e.preventDefault();
+    if (!S || S.done || S.enter < 1) return; var p = local(e); e.preventDefault();
     if (p.y >= S.panel.y) { S.slots.forEach(function (s) { if (Math.hypot(p.x - s.x, p.y - s.y) < s.r * 1.25) S.tool = s.k; }); return; }
     try { S.cv.setPointerCapture(e.pointerId); } catch (x) {}
     S.down = true; S.pid = e.pointerId; S.p = p; S.last = p; S.pts = [];
@@ -4156,7 +4157,10 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   var drawSponge = function (g, P, dt) {
     var im = img('splash/g-sponge-4731e66f.png'); if (!ok(im)) return; var ss = Math.max(64, Math.min(130, S.w * .2)), tgt = Math.max(-.3, Math.min(.3, S.vx * .0015));
     S.tilt += (tgt - S.tilt) * Math.min(1, dt * 10);
-    g.save(); g.translate(P.x, P.y); g.rotate(S.tilt); g.scale(1.08, S.down ? .86 : 1); g.shadowColor = 'rgba(40,40,20,.25)'; g.shadowBlur = 8; g.shadowOffsetY = 4; g.drawImage(im, -ss / 2, -ss / 2, ss, ss); g.restore();
+    var sp = Math.min(1, Math.hypot(S.vx || 0, 0) / 900), want = S.down ? .1 + .08 * sp : 0;   /* губку прижимают — она сплющивается, на ходу тянется, отпустили — пружинит обратно */
+    S.sq = S.sq || 0; S.sqv = S.sqv || 0; S.sqv += ((want - S.sq) * 160 - S.sqv * 14) * dt; S.sq += S.sqv * dt;
+    var wob = S.down ? Math.sin(performance.now() / 70) * .025 * sp : 0;
+    g.save(); g.translate(P.x, P.y); g.rotate(S.tilt); g.scale(1 + S.sq + wob, 1 - S.sq - wob); g.shadowColor = 'rgba(40,40,20,.25)'; g.shadowBlur = 8; g.shadowOffsetY = 4; g.drawImage(im, -ss / 2, -ss / 2, ss, ss); g.restore();
   };
   var drawPanel = function (g, t) {
     var p = S.panel; g.save(); g.fillStyle = 'rgba(255,255,255,.88)'; g.shadowColor = 'rgba(30,60,120,.15)'; g.shadowBlur = 12; var r = 22, x = 10, y = p.y + 6, w = p.w - 20, h = p.h - 12;
@@ -4172,7 +4176,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     });
   };
   var bg = function () {
-    if (S.bgc) return S.bgc; var im = img(S.fin.getAttribute('data-bg') || 'splash/w-bg.jpg'); var c = mk(S.cv.width, S.cv.height), g = c.getContext('2d');
+    if (S.bgc) return S.bgc; var im = img(S.fin.getAttribute('data-bg') || 'splash/w-bg2.jpg'); var c = mk(S.cv.width, S.cv.height), g = c.getContext('2d');
     g.fillStyle = '#DDEFFB'; g.fillRect(0, 0, c.width, c.height);
     if (ok(im)) { var s = Math.max(c.width / im.naturalWidth, c.height / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s; g.drawImage(im, (c.width - w) / 2, (c.height - h) * .7, w, h); S.bgc = c; }
     return c;
@@ -4185,7 +4189,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     else if (S.ph === 1) {
       /* машина считается чистой, когда пены почти не видно и грязи осталось немного — остатки сами плавно смываются блеском. Раньше требовалось < 8 % грязи, и уровень застревал на чистой с виду машине */
       if (foamCov < .04 && dirt < .3) S.cleanFor = (S.cleanFor || 0) + .3; else S.cleanFor = 0;
-      if (S.cleanFor >= .6 || (foamCov < .015 && dirt < .45)) { S.done = true; S.down = false; S.shine = 0; step('Смыли'); }
+      if (S.cleanFor >= .6 || (foamCov < .015 && dirt < .45)) { S.done = true; S.down = false; S.shine = 0; step('Смыли'); for (var k = 0; k < 7; k++) S.tw.push({ x: S.car.x + S.car.w * (.15 + Math.random() * .7), y: S.car.y + S.car.h * (.15 + Math.random() * .5), u: -k * .16, r: Math.max(8, S.car.w * (.03 + Math.random() * .025)) }); }
     }
   };
   var frame = function () {
@@ -4206,19 +4210,60 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     g.setTransform(d, 0, 0, d, 0, 0); g.clearRect(0, 0, S.w, S.h);
     g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bg(), 0, 0); g.setTransform(d, 0, 0, d, 0, 0);
     var c = S.car;
-    g.save(); g.fillStyle = 'rgba(40,70,110,.16)'; g.beginPath(); g.ellipse(c.x + c.w / 2, c.y + c.h * .97, c.w * .46, c.h * .07, 0, 0, 6.3); g.fill(); g.restore();
+    /* машинка заезжает в мойку и, чистая, уезжает: плавный разгон и мягкая остановка с лёгким покачиванием */
+    S.enter = Math.min(1.6, S.enter + dt / 1.6);
+    if (S.done && S.shine >= 1.2 && S.out < 0) { S.out = 0; }
+    if (S.out >= 0) S.out = Math.min(1, S.out + dt / 1.5);
+    var ue = Math.min(1, S.enter), eo = 1 - Math.pow(1 - ue, 3), rock = S.enter > 1 ? Math.sin((S.enter - 1) * 9) * Math.exp(-(S.enter - 1) * 6) * .025 : 0, uo = S.out < 0 ? 0 : S.out * S.out * S.out;
+    S.cdx = -(1 - eo) * S.w * .95 + uo * S.w * 1.1; S.crot = rock - (S.out > 0 && S.out < .35 ? .02 * Math.sin(S.out / .35 * Math.PI) : 0);
     var pu = img(FXI.puddle); if (ok(pu) && S.wetAmt > 0) { var pw = c.w * (.7 + .35 * S.wetAmt), ph2 = pw * pu.naturalHeight / pu.naturalWidth * .55; g.save(); g.globalAlpha = Math.min(.85, S.wetAmt); g.drawImage(pu, c.x + c.w / 2 - pw / 2, c.y + c.h * .9, pw, ph2); g.restore(); }
-    g.drawImage(C.car, c.x, c.y, c.w, c.h); g.drawImage(C.D, c.x, c.y, c.w, c.h); g.drawImage(C.Wt, c.x, c.y, c.w, c.h);
     heapsDraw(g, dt);
+    g.save(); g.translate(S.cdx, 0); g.translate(c.x + c.w / 2, c.y + c.h); g.rotate(S.crot); g.translate(-(c.x + c.w / 2), -(c.y + c.h));
+    g.save(); g.fillStyle = 'rgba(40,70,110,.16)'; g.beginPath(); g.ellipse(c.x + c.w / 2, c.y + c.h * .97, c.w * .46, c.h * .07, 0, 0, 6.3); g.fill(); g.restore();
+    g.drawImage(C.car, c.x, c.y, c.w, c.h); g.drawImage(C.D, c.x, c.y, c.w, c.h); g.drawImage(C.Wt, c.x, c.y, c.w, c.h);
     foamDraw(g, dt, t);
     g.drawImage(C.F, c.x, c.y, c.w, c.h);   /* пена — нарисованные шапки пены, как в макете */
     if (S.shine >= 0 && S.shine < 1.4) { var u = S.shine / 1.2, sx = c.x - c.w * .3 + u * c.w * 1.6, tg = C.tg, T = C.tmp; g.save(); var gr = g.createLinearGradient(sx - c.w * .12, 0, sx + c.w * .12, 0); gr.addColorStop(0, 'rgba(255,255,255,0)'); gr.addColorStop(.5, 'rgba(255,255,255,.45)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); var sc = mk(C.LW, C.LH), sg2 = sc.getContext('2d'); sg2.drawImage(C.mask, 0, 0); sg2.globalCompositeOperation = 'source-in'; sg2.setTransform(C.LW / c.w, 0, 0, C.LH / c.h, -c.x * C.LW / c.w, -c.y * C.LH / c.h); sg2.fillStyle = gr; sg2.fillRect(c.x, c.y, c.w, c.h); g.drawImage(sc, c.x, c.y, c.w, c.h); g.restore(); }
     var ri = img(FXI.run); for (i = 0; i < S.drips.length; i++) { q = S.drips[i]; var sx2 = c.x + q.x / C.LW * c.w, sy2 = c.y + q.y / C.LH * c.h, rz = Math.max(8, c.w * .035); if (ok(ri)) g.drawImage(ri, sx2 - rz / 2, sy2 - rz * 1.2, rz, rz * ri.naturalHeight / ri.naturalWidth); }
-    if (S.down && P && !S.done && S.tool === 'gun') { if (FX.app && now - (S.snd || 0) > 1200) { S.snd = now; FX.app.sndFile('sfx/w-rinse.m4a', .8); } var pose = gunPose(P); drawJet(g, pose, P, t); drawSplash(g, P, pose, t); emit(P, pose, dt); drawParts(g, dt); drawGun(g, pose); }
-    else { drawParts(g, dt); if (S.down && P && S.tool === 'sponge' && !S.done) { drawSponge(g, P, dt); if (Math.abs(S.vx) > 40 && now - (S.bubT || 0) > 1300) { S.bubT = now; var bz = Math.max(56, S.w * .16); lotPlay('bubble', S.left + P.x - bz / 2 + (Math.random() - .5) * 40, S.top + P.y - bz * 1.1, bz, bz, { max: 2600, rise: S.h * .35 }); } } }   /* из-под губки иногда всплывает мыльный пузырь */
+    twinkles(g, dt);
+    g.restore();
+    bubbles(g, dt);
+    waterSound(S.down && P && !S.done && S.tool === 'gun');
+    if (S.down && P && !S.done && S.tool === 'gun') { var pose = gunPose(P); drawJet(g, pose, P, t); drawSplash(g, P, pose, t); emit(P, pose, dt); drawParts(g, dt); drawGun(g, pose); }
+    else { drawParts(g, dt); if (S.down && P && S.tool === 'sponge' && !S.done) { drawSponge(g, P, dt); spongeBubbles(P, dt); if (Math.abs(S.vx) > 40 && now - (S.bubT || 0) > 1300) { S.bubT = now; var bz = Math.max(56, S.w * .16); lotPlay('bubble', S.left + P.x - bz / 2 + (Math.random() - .5) * 40, S.top + P.y - bz * 1.1, bz, bz, { max: 2600, rise: S.h * .35 }); } } }   /* из-под губки иногда всплывает мыльный пузырь */
     drawPanel(g, t);
     S.chk += dt; if (S.chk > .3 && !S.done) { S.chk = 0; check(); }
     return true;
+  };
+
+  /* мыльные пузырьки выдавливаются из губки, всплывают и лопаются */
+  var spongeBubbles = function (P, dt) {
+    var sp = Math.min(1, Math.abs(S.vx || 0) / 500); S.bubAcc = (S.bubAcc || 0) + dt * (2 + 14 * sp);
+    while (S.bubAcc >= 1 && S.bub.length < (low ? 14 : 26)) { S.bubAcc -= 1; var ss = Math.max(64, Math.min(130, S.w * .2)), a = Math.random() * 6.3;
+      S.bub.push({ x: P.x + Math.cos(a) * ss * .45, y: P.y + Math.sin(a) * ss * .3, r: 2.5 + Math.random() * Math.max(3, ss * .06), vy: -(18 + Math.random() * 30), vx: (Math.random() - .5) * 16, age: 0, life: .9 + Math.random() * 1.1 }); }
+    if (S.bubAcc > 1) S.bubAcc = 1;
+  };
+  var bubbles = function (g, dt) {
+    for (var i = S.bub.length - 1; i >= 0; i--) { var b = S.bub[i]; b.age += dt; if (b.age >= b.life) { S.bub.splice(i, 1); continue; } b.x += (b.vx + Math.sin(b.age * 5 + b.r) * 8) * dt; b.y += b.vy * dt;
+      var u = b.age / b.life, pop = u > .88 ? (u - .88) / .12 : 0, r = b.r * (1 + pop * .6);
+      g.save(); g.globalAlpha = (1 - pop) * .9; g.lineWidth = Math.max(1, r * .16); g.strokeStyle = 'rgba(255,255,255,.95)'; g.fillStyle = 'rgba(255,255,255,.18)'; g.beginPath(); g.arc(b.x, b.y, r, 0, 6.3); g.fill(); g.stroke();
+      g.strokeStyle = 'rgba(170,200,255,.7)'; g.lineWidth = Math.max(.8, r * .1); g.beginPath(); g.arc(b.x, b.y, r * .82, .4, 2.2); g.stroke();
+      g.fillStyle = '#FFFFFF'; g.beginPath(); g.arc(b.x - r * .35, b.y - r * .35, Math.max(.7, r * .22), 0, 6.3); g.fill(); g.restore(); }
+  };
+  /* чистая машинка поблёскивает: звёздочки по очереди вспыхивают и гаснут */
+  var twinkles = function (g, dt) {
+    for (var i = S.tw.length - 1; i >= 0; i--) { var w = S.tw[i]; w.u += dt / .9; if (w.u >= 1) { S.tw.splice(i, 1); continue; } if (w.u < 0) continue;
+      var a = Math.sin(Math.PI * w.u), r = w.r * (.4 + .6 * a); g.save(); g.globalAlpha = a; g.fillStyle = '#FFFFFF'; g.shadowColor = 'rgba(255,255,255,.9)'; g.shadowBlur = 10; g.beginPath();
+      for (var k = 0; k < 8; k++) { var an = k * Math.PI / 4 - Math.PI / 2 + w.u * .6, rr = k % 2 ? r * .28 : r; g.lineTo(w.x + Math.cos(an) * rr, w.y + Math.sin(an) * rr); } g.closePath(); g.fill(); g.restore(); }
+  };
+  /* вода: одна длинная запись (20 с). Каждое нажатие начинается с нового места, мягко нарастает и мягко затихает — на слух не повторяется */
+  var WS = { src: null, gain: null, pend: false };
+  var waterSound = function (on, now) {
+    var A = FX.app; if (!A) return;
+    if (on && !WS.src && !WS.pend && A.state && A.state.sound) { var ac = A.ensureAudio(); if (!ac) return; WS.pend = true;
+      A.voiceBuf('sfx/w-water.m4a').then(function (buf) { WS.pend = false; if (!S || !S.down || S.tool !== 'gun' || S.done || WS.src) return; var src = ac.createBufferSource(), gn = ac.createGain(), t0 = ac.currentTime; src.buffer = buf; src.loop = true;
+        gn.gain.setValueAtTime(0, t0); gn.gain.linearRampToValueAtTime(.7, t0 + .25); src.connect(gn); gn.connect(ac.destination); src.start(0, Math.random() * buf.duration * .85); WS.src = src; WS.gain = gn; }).catch(function () { WS.pend = false; }); }
+    if (!on && WS.src) { var s0 = WS.src, g0 = WS.gain, ac2 = A.ac; WS.src = null; WS.gain = null; try { var t1 = ac2.currentTime, d = now ? .05 : .35; g0.gain.cancelScheduledValues(t1); g0.gain.setValueAtTime(g0.gain.value, t1); g0.gain.linearRampToValueAtTime(0, t1 + d); s0.stop(t1 + d + .02); } catch (x) {} }
   };
   var loop = function () { cancelAnimationFrame(raf); raf = requestAnimationFrame(function tick() { if (frame() !== false) raf = requestAnimationFrame(tick); }); };
   /* запуск/остановка: следим, открыта ли площадка мойки; при редких кадрах (фон, слабый телефон) игра всё равно идёт */
@@ -4326,26 +4371,28 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   };
 
   /* --- инструменты: пакетик и лейка --- */
-  var overPot = function (d) { return Math.abs(d.x - S.pot.cx) < S.pot.w * .75 && d.y < S.pot.y + S.pot.h * .2 && d.y > S.pot.y - S.pot.h * 2.2; };
+  var overPot = function (d, a) { var m = d.k === 'can' ? mouth({ k: 'can', x: d.x, y: d.y, ang: a }) : d; return Math.abs(m.x - S.pot.cx) < S.pot.w * (d.k === 'can' ? .45 : .75) && m.y < S.pot.y + S.pot.h * .1 && m.y > S.pot.y - S.pot.h * 2.4; };   /* лейка льёт, когда носик над горшком */
   var toolSize = function (k) { return Math.min(S.w * .26, S.panel.y * .24) * (k === 'can' ? 1.25 : 1); };
   var updTool = function (dt) {
     var d = S.drag; if (!d) return;
     var sl = S.slots[d.k];
     if (d.back >= 0) { d.back += dt / .4; d.x += (sl.x - d.x) * Math.min(1, dt * 9); d.y += (sl.y - d.y) * Math.min(1, dt * 9); d.ang += (0 - d.ang) * Math.min(1, dt * 9); if (d.back >= 1) { S.drag = null; S.pouring = false; } return; }
-    var on = overPot(d), want = on ? (d.k === 'bag' ? -1.95 : 1.0) : 0;   /* над горшком пакетик переворачивается, лейка наклоняется */
+    var wantA = d.k === 'bag' ? -1.95 : -0.85, on = overPot(d, wantA), want = on ? wantA : 0;   /* над горшком пакетик переворачивается, лейка наклоняется */
     d.ang += (want - d.ang) * Math.min(1, dt * 5);
     var full = Math.abs(d.ang - want) < .35 && on;
     if (full && !S.pouring) { S.pouring = true; if (!S.pourSnd || performance.now() - S.pourSnd > (d.k === 'can' ? 2600 : 1800)) { S.pourSnd = performance.now(); snd(d.k === 'can' ? 'sfx/g-water.m4a' : 'sfx/g-seed.m4a', .8); } }
     if (!full) S.pouring = false;
     if (!S.pouring) return;
-    var m = mouth(d); if (d.k === 'can') S.stream = { x: m.x, y: m.y, a: 1 };
+    var m = mouth(d);
     if (d.k === 'bag') {
       S.seedAcc = (S.seedAcc || 0) + dt * 9;
       while (S.seedAcc >= 1) { S.seedAcc -= 1; S.seeds.push({ x: m.x + (Math.random() - .5) * 6, y: m.y, vx: (S.soil.x - m.x) * (.6 + Math.random() * .5) + (Math.random() - .5) * 30, vy: 20, r: Math.random() * 6.3, land: -1, tx: 0 }); }
       S.pour += dt; if (S.pour >= 1.5 && S.ph === 0) { S.ph = .5; S.pour = 0; d.back = 0; S.pouring = false; setTimeout(function () { if (S) { S.ph = 1; step(0); } }, 700); }
     } else {
-      S.dropAcc = (S.dropAcc || 0) + dt * (low ? 40 : 70);
-      while (S.dropAcc >= 1) { S.dropAcc -= 1; var tx = S.soil.x + (Math.random() - .5) * S.soil.rx * .5; S.drops.push({ x: m.x + (Math.random() - .5) * 5, y: m.y + (Math.random() - .5) * 4, vx: 0, vy: 30 + Math.random() * 30, tx: tx, life: 0 }); }
+      S.dropAcc = (S.dropAcc || 0) + dt * (low ? 70 : 120);
+      var z0 = toolSize('can'), nx = -Math.cos(d.ang), ny = -Math.sin(d.ang);   /* сеточка носика: капли вылетают по всей её ширине, веером */
+      while (S.dropAcc >= 1) { S.dropAcc -= 1; var off = (Math.random() - .5) * z0 * .14, tx = S.soil.x + (Math.random() - .5) * S.soil.rx * .7, sp = 40 + Math.random() * 50;
+        S.drops.push({ x: m.x - ny * off, y: m.y + nx * off, vx: nx * sp, vy: Math.max(20, -ny * sp + 30), tx: tx, life: 0, z: .6 + Math.random() * .6 }); }
       S.wet = Math.min(1, S.wet + dt * .55);
       S.pour += dt;
       if (S.pour >= 1.8) { var ph = S.ph; S.pour = 0; d.back = 0; S.pouring = false;
@@ -4353,12 +4400,12 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     }
   };
   var mouth = function (d) {   /* откуда сыплется: у пакетика — открытый верх, у лейки — носик справа вверху */
-    var z = toolSize(d.k), a = d.ang, ox = d.k === 'bag' ? 0 : z * .47, oy = d.k === 'bag' ? -z * .5 : -z * .3 * 286 / 404 * 1.4;
+    var z = toolSize(d.k), a = d.ang, ox = d.k === 'bag' ? 0 : -z * .47, oy = d.k === 'bag' ? -z * .5 : -z * .3 * 286 / 404 * 1.4;
     return { x: d.x + ox * Math.cos(a) - oy * Math.sin(a), y: d.y + ox * Math.sin(a) + oy * Math.cos(a) };
   };
   var drawTool = function (g, k, x, y, ang, z, alpha) {
     var im = img(k === 'bag' ? PROPS.bag : PROPS.can); if (!ok(im)) return; var w = z, h = z * im.naturalHeight / im.naturalWidth;
-    g.save(); g.globalAlpha = alpha == null ? 1 : alpha; g.translate(x, y); g.rotate(ang); g.shadowColor = 'rgba(60,40,10,.25)'; g.shadowBlur = 10; g.shadowOffsetY = 5; g.drawImage(im, -w / 2, -h / 2, w, h); g.restore();
+    g.save(); g.globalAlpha = alpha == null ? 1 : alpha; g.translate(x, y); g.rotate(ang); if (k === 'can') g.scale(-1, 1); g.shadowColor = 'rgba(60,40,10,.25)'; g.shadowBlur = 10; g.shadowOffsetY = 5; g.drawImage(im, -w / 2, -h / 2, w, h); g.restore();
   };
 
   /* --- облако и солнце --- */
@@ -4476,9 +4523,9 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   };
   var drawDrops = function (g, dt) {
     for (var i = S.drops.length - 1; i >= 0; i--) {
-      var d = S.drops[i]; d.life += dt; d.vy += S.h * 1.4 * dt; var fall = Math.max(.25, (S.soil.y - d.y) / Math.max(60, d.vy)); d.vx += ((d.tx - d.x) / fall - d.vx) * Math.min(1, dt * 6); d.x += d.vx * dt; d.y += d.vy * dt;
+      var d = S.drops[i]; d.life += dt; d.vy += S.h * 1.4 * dt; var fall = Math.max(.25, (S.soil.y - d.y) / Math.max(60, d.vy)); d.vx += ((d.tx - d.x) / fall - d.vx) * Math.min(1, dt * 3); d.x += d.vx * dt; d.y += d.vy * dt;
       if (d.y >= S.soil.y - S.soil.ry * .3) { if (Math.random() < .25 && S.rings.length < 14) S.rings.push({ x: d.x, y: d.y, u: 0 }); S.drops.splice(i, 1); continue; }
-      var z = Math.max(2.4, S.pot.w * .018);
+      var z = Math.max(1.8, S.pot.w * .014) * (d.z || 1);
       g.save(); g.translate(d.x, d.y); g.rotate(Math.atan2(d.vy, d.vx) - Math.PI / 2); g.fillStyle = 'rgba(120,190,255,.85)'; g.beginPath(); g.ellipse(0, 0, z * .7, z * 1.5, 0, 0, 6.3); g.fill();
       g.fillStyle = 'rgba(255,255,255,.85)'; g.beginPath(); g.arc(-z * .2, -z * .5, z * .3, 0, 6.3); g.fill(); g.restore();
     }
@@ -4541,7 +4588,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     drawPlant(g, t, dt);
     if (S.fruits.length) drawFruits(g, t, dt);
     drawHarvest(g, t, dt);
-    drawStream(g, dt, t); drawDrops(g, dt); drawStars(g, dt);
+    drawDrops(g, dt); drawStars(g, dt);
     if (S.drag) drawTool(g, S.drag.k, S.drag.x, S.drag.y, S.drag.ang, toolSize(S.drag.k), 1);
     drawPanel(g, t);
     return true;
