@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-318a6285efa2') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-8ef883dc99d2') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -4719,6 +4719,8 @@ Object.keys(FINALE_OF).forEach(function (gid) {
 GAMES.forEach(function (g) { if (!TOPICS[g.id]) TOPICS[g.id] = genericTopics(g.id); if (!TOPIC_GEN[g.id]) TOPIC_GEN[g.id] = genGenericTopic(g.id); });
 // у каждого возраста свои игры: малышам 3–4 лет — без цифр и чтения, буквы — с 5 лет
 var GAME_AGES = { colors: ['3-4'], train: ['3-4', '5-6'], paint: ['3-4', '5-6'], garden: ['3-4', '5-6'], wash: ['3-4', '5-6'], items: ['3-4'], shadow: ['3-4', '5-6'], shelf: [], next: ['5-6'], count: ['5-6'], math: ['5-6'], letters: ['5-6'], first: ['5-6'] };
+/* 20.11: по просьбе владельца скрыты «Предметы», «Сравни», «Что лишнее?», «Что пропало?» (код оставлен, можно вернуть, убрав строку) */
+GAME_AGES.items = []; GAME_AGES.compare = []; GAME_AGES.odd = []; GAME_AGES.gone = [];
 function gameForAge(gid, age) { return !!GAME_BY[gid] && (!GAME_AGES[gid] || GAME_AGES[gid].indexOf(age) >= 0); }
 function gamesFor(age) { return GAMES.filter(function (g) { return gameForAge(g.id, age); }); }
 function gamesWord(n) { return n + ' ' + plural(n, ['игра', 'игры', 'игр']); }
