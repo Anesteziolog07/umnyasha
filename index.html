@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-686237de6860') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-07224d4ba851') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -108,7 +108,7 @@
 @media (max-aspect-ratio: 1/1){.bd-wrap{--W:96vw}}
 .zs-night{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,#141A4E 0%,#2B2A78 40%,#6B4C9E 68%,#D98BB0 100%)}
 .zs-shade{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(30,28,100,.25),rgba(24,26,90,.62) 55%,rgba(30,24,80,.7))}
-#boot .zs-night{animation:zs-dawn 1.9s ease-in-out 1s both}
+#boot .zs-night{animation:zs-dawn 2.5s cubic-bezier(.45,0,.55,1) 1.3s both}
 /* фон всего сайта: живописный пейзаж (нарисован в ChatGPT по образцу превьюшки «Доставки»), широкий для компьютера и высокий для телефона */
 .um-bgimg{position:absolute;inset:0;background:#4FB2F5 url(splash/bg-wide.jpg) 50% 20%/cover no-repeat}
 @media (max-aspect-ratio: 1/1){.um-bgimg{background-image:url(splash/bg-tall.jpg);background-position:center bottom}}
@@ -350,6 +350,7 @@ button:disabled{cursor:default}
 @keyframes um-hbd-hop{0%{transform:none}25%{transform:translateY(4%) scale(1.14,.86)}55%{transform:translateY(-30%) scale(.94,1.06) rotate(-8deg)}80%{transform:translateY(0) scale(1.06,.94) rotate(4deg)}100%{transform:none}}
 @keyframes um-h-pop{from{opacity:0;transform:translateY(26px) scale(.86)}to{opacity:1;transform:none}}
 html:not(.um-booted) .um-hsec,html:not(.um-booted) .um-hsec *{animation-play-state:paused!important}
+html:not(.um-pre) #app{display:none}
 html.um-hseen .um-hth,html.um-hseen .um-hth-sh{animation:none;stroke-dashoffset:0}
 html.um-hseen .um-hbd{animation:um-hbd-sway 4.6s ease-in-out calc(var(--i) * .35s) infinite}
 html.um-hseen .um-hbd.um-hop2{animation:um-hbd-hop .5s ease-out}
@@ -1509,7 +1510,8 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   var cv = document.getElementById('zs-fx'), cb = document.getElementById('zs-bk'), g = cv.getContext('2d'), gb = cb.getContext('2d');
   var X = [], BY = [], POP = [], NU = [], FLY = .42, i;
   for (i = 0; i < 6; i++) { X[i] = 500 + (i - 2.5) * 150; BY[i] = 110 + 120 * (1 - Math.pow((X[i] - 500) / 480, 2)); POP[i] = 1 + 1.1 * (X[i] - 20) / 960; NU[i] = (X[i] - 20) / 960; }
-  window.__bootLand = POP.map(function (p) { return p + FLY; });
+  var SLOW = 1.3; window.__bootSlow = SLOW;   /* 20.11: вся заставка на 30 % неторопливее — движения мягче, без рывков */
+  window.__bootLand = POP.map(function (p) { return (p + FLY) * SLOW; });
   var PAL = ['#FFFFFF', '#FFF3B0', '#FFD84D', '#FFB8E0', '#B8E6FF', '#FFE9C7'];
   var clamp = function (v, a, c) { return Math.max(a, Math.min(c, v)); }, eOut = function (u) { return 1 - Math.pow(1 - u, 3); };
   var Q = function (a, c, d, u) { return (1 - u) * (1 - u) * a + 2 * u * (1 - u) * c + u * u * d; };
@@ -1581,9 +1583,9 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   function frame(now) {
     if (!b.isConnected || b.classList.contains('out')) return;
     if (t0 === null) { t0 = now; last = now; }
-    var t = (now - t0) / 1000, dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+    var t = (now - t0) / 1000 / SLOW, dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
     draw(t, dt, true);
-    if (t < 7 || P.length) raf = requestAnimationFrame(frame);
+    if (t < 7 / SLOW * 1.3 || P.length) raf = requestAnimationFrame(frame);
   }
   draw(0, 0, false);
   window.__bootStar = function () { if (started) return; started = true; if (reduce) { draw(6, 0, false); return; } raf = requestAnimationFrame(frame); };
@@ -1597,14 +1599,14 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   var ac; if (C && on && !/[?&](demo|splashtest)=/.test(location.search)) try { ac = new C(); } catch (e) {}
   if (!ac) { b.classList.remove('bt-hold'); if (window.__bootStar) window.__bootStar(); return; }
   window.__bootWait = true;
-  var go = function () { b.classList.remove('bt-hold', 'bt-tap'); if (window.__bootStar) window.__bootStar(); window.__bootWait = false; window.__bootT = Date.now(); if (window.__bootArm) window.__bootArm(5600); };
+  var go = function () { b.classList.remove('bt-hold', 'bt-tap'); if (window.__bootStar) window.__bootStar(); window.__bootWait = false; window.__bootT = Date.now(); if (window.__bootArm) window.__bootArm(7000); };
   var tok = 0, bufs = {}, master = ac.createGain(), cmp = ac.createDynamicsCompressor(); cmp.threshold.value = -10; cmp.knee.value = 6; cmp.ratio.value = 10; cmp.attack.value = .002; cmp.release.value = .15; master.connect(cmp); cmp.connect(ac.destination);
   // звуки владелец сам собрал в пробе заставки (claude.ai/artifact/73gup1Ymdov3oiZ4WVBBve): полёт звезды — «таинственный пронос», бусина — пластиковый «пык», салют — «искристый вжух» (все Mixkit), утро без звука
   var load = function (n, u) { return fetch(u).then(function (r) { return r.arrayBuffer(); }).then(function (x) { return new Promise(function (ok, no) { ac.decodeAudioData(x, ok, no); }); }).then(function (v) { bufs[n] = v; }); };
   var ready = Promise.all([load('fly', 'sfx/splash-fly.m4a'), load('pop', 'sfx/splash-bead.wav'), load('fin', 'sfx/splash-sparkle.wav')]);
   var tick = function (n, at, rate, gain) { var q = ac.createBufferSource(), g = ac.createGain(); q.buffer = bufs[n]; q.playbackRate.value = rate; g.gain.value = gain; q.connect(g); g.connect(master); q.start(at); };
   // моменты те же, что в анимации: звезда с 0,3 с, бусина «пык» в момент посадки на нитку (__bootLand), салют в 2,7 с
-  var play = function () { var me = ++tok, t = ac.currentTime + .03, land = window.__bootLand || []; ready.then(function () { if (me !== tok) return; var late = Math.max(0, ac.currentTime - t); if (late < .25) tick('fly', t + .2, 1, .6); for (var i = 0; i < land.length; i++) if (land[i] + .01 > late) tick('pop', t + land[i] + .01, .94 + .03 * i, .8); if (2.6 > late) tick('fin', t + 2.6, 1, .7); }).catch(function () {}); };
+  var play = function () { var me = ++tok, t = ac.currentTime + .03, land = window.__bootLand || []; ready.then(function () { if (me !== tok) return; var late = Math.max(0, ac.currentTime - t); if (late < .3) tick('fly', t + .26, 1, .6); for (var i = 0; i < land.length; i++) if (land[i] + .01 > late) tick('pop', t + land[i] + .01, .94 + .03 * i, .8); if (3.38 > late) tick('fin', t + 3.38, 1, .7); }).catch(function () {}); };
   var live = true, unlock = function () { if (!live || tok) return; try { ac.resume(); var q = ac.createBufferSource(); q.buffer = ac.createBuffer(1, 1, 22050); q.connect(ac.destination); q.start(0); } catch (x) {} window.__bootKeep = true; go(); play(); };
   try { ac.resume(); } catch (e) {}
   // если браузер разрешил звук сам, кнопка не нужна: заставка сразу идёт дальше
@@ -1630,7 +1632,7 @@ window.__clouds = function (list) {
 window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky svg, #boot .bt-sky img, #um-scene .bt-sky img'));
 </script>
 <div id="app"></div>
-<script>window.__bootT = Date.now();</script>
+<script>window.__bootT = Date.now(); setTimeout(function () { document.documentElement.classList.add('um-pre'); }, 15000); /* страховка: сайт покажется, даже если заставка сломалась */</script>
 <template id="tpl">
 
 <div class="um-root {{rootCls}}" style="position: relative; isolation: isolate; display: flow-root; min-height: 100vh; color: #1E2A4A; font-family: 'Nunito', system-ui, sans-serif">
@@ -1757,32 +1759,15 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 
 
 <sc-if value="{{showGames}}" hint-placeholder-val="{{ true }}">
-<div class="um-gates {{hd.cls}}">
-<button type="button" class="press um-gate um-gate-l {{hd.lCls}}" onClick="{{hd.learn}}" aria-pressed="{{hd.lOn}}" aria-label="Учимся"><span class="um-gate-pic"><img class="um-gate-ph" src="splash/ui-door-learn.jpg" alt="" draggable="false"><span class="um-gs" aria-hidden="true"><img class="um-gs-bg" src="splash/d-bg.jpg" alt="" draggable="false"><img class="um-gs-cl um-gs-cl1" src="splash/cloud-061f2292.png" alt="" draggable="false"><img class="um-gs-cl um-gs-cl2" src="splash/cloud-061f2292.png" alt="" draggable="false"><span class="um-gs-in"><img class="um-gs-o um-gs-abacus" src="splash/d-abacus-3120fa00.png" alt="" draggable="false" style="--x: 79%; --y: 46%; --w: 31%"><img class="um-gs-o um-gs-hop" src="splash/d-n1-c08eb37b.png" alt="" draggable="false" style="--x: 15%; --y: 73%; --w: 19%; --k: 0"><img class="um-gs-o um-gs-hop" src="splash/d-n2-f4fc0734.png" alt="" draggable="false" style="--x: 34%; --y: 73%; --w: 19%; --k: 1"><img class="um-gs-o um-gs-hop" src="splash/d-n3-aac7fdc3.png" alt="" draggable="false" style="--x: 53%; --y: 73%; --w: 19%; --k: 2"><img class="um-gs-o um-gs-hop" src="splash/d-b-5a2a4fa6.png" alt="" draggable="false" style="--x: 24.5%; --y: 49%; --w: 19%; --k: 3"><img class="um-gs-o um-gs-hop" src="splash/d-v-d5ac5ddc.png" alt="" draggable="false" style="--x: 43.5%; --y: 49%; --w: 19%; --k: 4"><img class="um-gs-o um-gs-hop" src="splash/d-a-81cc6f9b.png" alt="" draggable="false" style="--x: 34%; --y: 25%; --w: 19%; --k: 5"><img class="um-gs-o um-gs-pencils" src="splash/d-pencils-583cdf9f.png" alt="" draggable="false" style="--x: 11%; --y: 88%; --w: 19%"><img class="um-gs-o um-gs-book" src="splash/d-book-2f46b3bc.png" alt="" draggable="false" style="--x: 72%; --y: 86%; --w: 34%"></span></span></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{learnBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
-<button type="button" class="press um-gate um-gate-p {{hd.pCls}}" onClick="{{hd.play}}" aria-pressed="{{hd.pOn}}" aria-label="Играем"><span class="um-gate-pic"><img class="um-gate-ph" src="splash/ui-door-play.jpg" alt="" draggable="false"><span class="um-gs" aria-hidden="true"><img class="um-gs-bg" src="splash/d-bg.jpg" alt="" draggable="false"><img class="um-gs-cl um-gs-cl1" src="splash/cloud-061f2292.png" alt="" draggable="false"><img class="um-gs-cl um-gs-cl2" src="splash/cloud-061f2292.png" alt="" draggable="false"><span class="um-gs-in"><img class="um-gs-o um-gs-balloon" src="splash/d-balloon-b0869513.png" alt="" draggable="false" style="--x: 86%; --y: 22%; --w: 20%"><span class="um-gs-train"><i class="um-gs-puff"></i><i class="um-gs-puff"></i><i class="um-gs-puff"></i><img src="splash/d-train-2c348b80.png" alt="" draggable="false"></span><img class="um-gs-o um-gs-ball" src="splash/d-ball-10ed04b6.png" alt="" draggable="false" style="--x: 14%; --y: 74%; --w: 21%"><img class="um-gs-o um-gs-pz um-gs-pzr" src="splash/d-pzr-2e2938aa.png" alt="" draggable="false" style="--big: 1; --x: 38%; --y: 70%; --w: 16%"><img class="um-gs-o um-gs-pz um-gs-pzy" src="splash/d-pzy-bc4ec667.png" alt="" draggable="false" style="--big: 1; --x: 52%; --y: 70%; --w: 16%"><img class="um-gs-o um-gs-pz um-gs-pzb" src="splash/d-pzb-8351a05b.png" alt="" draggable="false" style="--big: 1; --x: 38%; --y: 88%; --w: 16%"><img class="um-gs-o um-gs-pz um-gs-pzg" src="splash/d-pzg-1957fdba.png" alt="" draggable="false" style="--big: 1; --x: 52%; --y: 88%; --w: 16%"><img class="um-gs-o um-gs-palette" src="splash/d-palette-79c50630.png" alt="" draggable="false" style="--x: 80%; --y: 80%; --w: 27%"><img class="um-gs-o um-gs-brush" src="splash/d-brush-0a9c1a7f.png" alt="" draggable="false" style="--x: 88%; --y: 63%; --w: 17%"></span></span></span><span class="um-gate-t" aria-hidden="true"><sc-for list="{{playBeads}}" as="b" hint-placeholder-count="6"><i style="--i: {{b.i}}"><img src="{{b.img}}" alt="" draggable="false"><span>{{b.t}}</span></i></sc-for></span></button>
-</div>
-<sc-if value="{{hd.isLearn}}" hint-placeholder-val="{{ false }}">
-<section class="um-hsec um-hsec-l" style="--d: -.6s" aria-label="Учимся">
-<h2 class="um-hidden-t">Учимся</h2>
-<div class="um-skf" role="group" aria-label="Что развивает"><sc-for list="{{learnF}}" as="f" hint-placeholder-count="5"><button type="button" class="press {{f.cls}}" style="--sc: {{f.c}}" onClick="{{f.go}}" aria-pressed="{{f.on}}">{{f.t}}</button></sc-for></div>
+<section class="um-hsec um-hsec-all" style="--d: -.6s" aria-label="Все игры">
+<h2 class="um-hidden-t">Все игры</h2>
+<div class="um-skf" role="group" aria-label="Что развивает"><sc-for list="{{allF}}" as="f" hint-placeholder-count="6"><button type="button" class="press {{f.cls}}" style="--sc: {{f.c}}" onClick="{{f.go}}" aria-pressed="{{f.on}}">{{f.t}}</button></sc-for></div>
 <div class="um-h">
-<sc-for list="{{learnTiles}}" as="w" hint-placeholder-count="6">
+<sc-for list="{{tiles}}" as="w" hint-placeholder-count="12">
 <button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><span class="um-h-pic"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"><sc-if value="{{w.hasSk}}" hint-placeholder-val="{{ false }}"><span class="um-h-sk" style="--sc: {{w.skc}}">{{w.sk}}</span></sc-if></span><span class="um-h-n">{{w.title}}</span></button>
 </sc-for>
 </div>
 </section>
-</sc-if>
-<sc-if value="{{hd.isPlay}}" hint-placeholder-val="{{ false }}">
-<section class="um-hsec um-hsec-p" style="--d: -.6s" aria-label="Играем">
-<h2 class="um-hidden-t">Играем</h2>
-<div class="um-skf" role="group" aria-label="Что развивает"><sc-for list="{{playF}}" as="f" hint-placeholder-count="5"><button type="button" class="press {{f.cls}}" style="--sc: {{f.c}}" onClick="{{f.go}}" aria-pressed="{{f.on}}">{{f.t}}</button></sc-for></div>
-<div class="um-h">
-<sc-for list="{{playTiles}}" as="w" hint-placeholder-count="6">
-<button type="button" class="press um-h-t {{w.cls}}" style="--i: {{w.i}}" onClick="{{w.open}}" aria-label="{{w.title}}"><span class="um-h-pic"><img class="um-h-img" src="{{w.img}}" alt="" draggable="false"><sc-if value="{{w.hasSk}}" hint-placeholder-val="{{ false }}"><span class="um-h-sk" style="--sc: {{w.skc}}">{{w.sk}}</span></sc-if></span><span class="um-h-n">{{w.title}}</span></button>
-</sc-for>
-</div>
-</section>
-</sc-if>
 <div class="um-pp-open"><button type="button" class="press" onClick="{{goParents}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.500" width="14" height="10" rx="2.500"></rect><path d="M8 10.500V8a4 4 0 0 1 8 0v2.500"></path></svg>Родителям</button></div>
 </sc-if>
 </main>
@@ -6033,7 +6018,7 @@ class Component extends DCLogic {
     var tiles = mkT(allT), learnAll = allT.filter(function (w) { return LEARN_IDS[w.id]; }), playAll = allT.filter(function (w) { return !LEARN_IDS[w.id]; }), learnTiles = mkT(learnAll), playTiles = mkT(playAll);
     var mkF = function (a) { var seen = {}, out = [{ t: 'Все', c: '#23395B', on: !skf ? 'true' : 'false', cls: !skf ? 'um-on' : '', go: function () { self.snd('tap'); self.setState({ skf: '' }); } }];   /* фильтр по навыкам: только те, что есть в разделе */
       SKILLS.forEach(function (sk) { if (a.some(function (w) { return SKILL_OF[w.id] === sk; }) && !seen[sk.k]) { seen[sk.k] = 1; var on = skf === sk.k; out.push({ t: sk.k, c: sk.c, on: on ? 'true' : 'false', cls: on ? 'um-on' : '', go: function () { self.snd('tap'); self.setState({ skf: on ? '' : sk.k }); } }); } }); return out; };
-    var learnF = mkF(learnAll), playF = mkF(playAll);
+    var learnF = mkF(learnAll), playF = mkF(playAll); var allF = mkF(allT);   /* 20.11: выбор «Учимся / Играем» убран по просьбе владельца — сразу все игры с фильтром по навыкам */
     var mkB = function (key, word, cols) { return word.split('').map(function (t, i) { var x = 500 + (i - 2.5) * 160, u = (x - 20) / 960, y = 70 + 320 * u * (1 - u); return { id: key + i, i: i, t: t, img: HB_IMG[cols[i]], x: ((x - 66) / 10).toFixed(2), y: ((y - 66) / 2.5).toFixed(2), tap: function () { self.beadHop(key + i, i); } }; }); };
     var learnBeads = mkB('l', 'Учимся', [4, 5, 0, 1, 2, 3]), playBeads = mkB('p', 'Играем', [0, 1, 2, 3, 4, 5]);
     // главная: две «двери» — «Учимся» и «Играем»; нажал — дверь становится вкладкой, а под ней выезжают плитки
@@ -6159,7 +6144,7 @@ class Component extends DCLogic {
       game: game, canSpeak: st.sound && (speechOk || !!(st.screen === 'game' && st.tasks[st.ti] && VOICE[st.tasks[st.ti].audio])), speak: function () { self.speak(); },
       restart: function () { if (st.level && st.level.topic) self.openTopic(st.level.g, st.level.n - 1); else if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
       res: (res.noNext = !res.hasNext, res),
-      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, learnTiles: learnTiles, playTiles: playTiles, learnF: learnF, playF: playF, learnBeads: learnBeads, playBeads: playBeads, hd: hd, rootCls: (st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' || st.screen === 'mytrain' ? 'um-root-home' : '') + (st.screen === 'game' && st.ready ? ' um-root-game' : ''), meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
+      progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, learnTiles: learnTiles, playTiles: playTiles, learnF: learnF, playF: playF, allF: allF, learnBeads: learnBeads, playBeads: playBeads, hd: hd, rootCls: (st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' || st.screen === 'mytrain' ? 'um-root-home' : '') + (st.screen === 'game' && st.ready ? ' um-root-game' : ''), meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
       ageInfo: [
         { label: '3–4', text: 'Без цифр и без чтения: каждое задание звучит голосом само. Цвета и названия предметов, один и много, тени, что пропало, большой и маленький, где больше и где меньше, найти такой же, что лишнее, простые пары.' },
         { label: '5–6', text: 'Первые буквы: найти букву по звуку и первую букву слова. Счёт до 15, узоры и закономерности, «больше — меньше», что лишнее, примеры до 10 и чуть дальше.' }
@@ -6175,9 +6160,11 @@ class Component extends DCLogic {
 DCLite.mount(Component, document.getElementById('app'), document.getElementById('tpl'), {});
 // заставка держится не меньше 1,8 с, потом плавно исчезает
 (function () { var b = document.getElementById('boot'), t0 = window.__bootT || Date.now(), done = false, skip = /[?&]demo=/.test(location.search);
-  var out = function () { if (done) return; done = true; var de = document.documentElement; de.classList.add('um-booted'); setTimeout(function () { de.classList.add('um-hseen'); }, 4500); if (window.__bootSndOff) window.__bootSndOff(); b.classList.add('out'); setTimeout(function () { b.remove(); }, 600); };
-  var tm = 0; window.__bootArm = function (ms) { clearTimeout(tm); tm = setTimeout(out, ms); };
-  if (!window.__bootWait) window.__bootArm(Math.max(skip ? 0 : 300, (skip ? 0 : 5600) - (Date.now() - t0)));
+  var out = function () { if (done) return; done = true; var de = document.documentElement; de.classList.add('um-pre', 'um-booted'); setTimeout(function () { de.classList.add('um-hseen'); }, 4500); if (window.__bootSndOff) window.__bootSndOff(); b.classList.add('out'); setTimeout(function () { b.remove(); }, 600); };
+  var tm = 0, tp = 0, pre = function () { document.documentElement.classList.add('um-pre'); };
+  /* сайт под заставкой не рисуется, пока летит звезда (иначе на телефоне кадры пропускаются); показываем его за 0,7 с до конца, когда заставка ещё закрывает экран */
+  window.__bootArm = function (ms) { clearTimeout(tm); clearTimeout(tp); tp = setTimeout(pre, Math.max(0, ms - 700)); tm = setTimeout(out, ms); };
+  if (!window.__bootWait) window.__bootArm(Math.max(skip ? 0 : 300, (skip ? 0 : 7000) - (Date.now() - t0)));
   b.addEventListener('click', function () { if (window.__bootWait) return; if (window.__bootKeep) { window.__bootKeep = false; return; } out(); }); })();
 if ('serviceWorker' in navigator) {
   // новая версия подхватывается при следующем открытии: перезагрузка во время заставки давала мигание
