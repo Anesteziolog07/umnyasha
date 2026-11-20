@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-0ffedc86ef68') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-686237de6860') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -510,6 +510,23 @@ main{animation:um-scr .28s ease}
 .um-res-b{min-height:62px;padding:0 30px;border:0;border-radius:999px;background:#FFFFFF;color:#1E2A4A;font-family:inherit;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 6px 0 rgba(20,70,130,.22)}
 .um-res-b1,.um-res-bs:not(:has(.um-res-b1)) .um-res-b:last-child{background:linear-gradient(180deg,#FFD84D,#FFB01F);box-shadow:0 6px 0 #D98A00}
 @media (max-height: 500px){.um-res{gap:6px;padding:0 8px 12px}.um-res-g{display:none}.um-res-st{min-height:0}.um-res-st img{width:52px!important;height:52px!important}.um-res-h{font-size:28px;-webkit-text-stroke-width:6px}.um-res-p{padding:3px 14px;font-size:16px}.um-res-bs{margin-top:4px}.um-res-b{min-height:52px;font-size:18px}}
+/* экран победы (20.11): по одному шагу — звёзды (0–1 с), заголовок (1,1 с), подарок-игрушка (1,9 с), кнопки (3 с). Одна крупная главная кнопка, остальные маленькие. Сам не уходит */
+.um-res{gap:16px;padding-top:18px}
+.um-res-h{animation:um-res-up .5s ease-out 1.1s both}
+.um-res-gift{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;margin:4px 0;animation:um-res-pop .7s cubic-bezier(.3,1.5,.5,1) 1.9s both}
+.um-res-gift img{position:relative;width:clamp(120px,32vmin,170px);height:clamp(120px,32vmin,170px);filter:drop-shadow(0 10px 10px rgba(20,60,130,.3));animation:um-res-bob 3s cubic-bezier(.45,0,.55,1) 2.6s infinite}
+.um-res-gift-glow{position:absolute;left:50%;top:44%;width:150%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,250,210,.95) 0,rgba(255,240,170,.55) 35%,rgba(255,240,170,0) 68%)}
+.um-res-gift b{position:relative;padding:6px 20px;border-radius:999px;background:#FFFFFF;color:#E0590B;font-size:22px;font-weight:900;box-shadow:0 5px 0 rgba(20,70,130,.15)}
+.um-res-rec{padding:6px 16px;border-radius:999px;background:#FFF4D6;color:#7A5200;font-size:16px;font-weight:900;animation:um-res-up .5s ease-out 2.2s both}
+.um-res-bs{flex-direction:column;align-items:center;gap:14px;margin-top:6px;animation:um-res-up .5s ease-out 3s both}
+.um-res-go{display:flex;align-items:center;justify-content:center;gap:10px;min-width:240px;min-height:78px;padding:0 34px;border:5px solid #FFFFFF;border-radius:999px;background:linear-gradient(180deg,#5FD58F,#22B573);color:#FFFFFF;font-family:inherit;font-size:28px;font-weight:900;cursor:pointer;box-shadow:0 7px 0 #138A52,0 14px 22px -8px rgba(20,90,60,.5);animation:um-res-beat 2.4s ease-in-out 5s infinite}
+.um-res-sm{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.um-res-sm .um-res-b{display:inline-flex;align-items:center;gap:8px;min-height:50px;padding:0 20px;font-size:17px;background:rgba(255,255,255,.92)!important;box-shadow:0 4px 0 rgba(20,70,130,.18)!important}
+@keyframes um-res-up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes um-res-pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+@keyframes um-res-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes um-res-beat{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@media (prefers-reduced-motion: reduce){.um-res-gift img,.um-res-go{animation:none}}
 .um-res-toy{display:flex;align-items:center;gap:10px;padding:8px 18px 8px 10px;border-radius:24px;background:rgba(255,255,255,.92);color:#1E2A4A;font-size:16px;font-weight:900;line-height:1.15;text-align:left;animation:um-starin .6s cubic-bezier(.3,1.6,.5,1) .9s both}
 .um-res-toy img{width:62px;height:62px}
 .um-lim{max-width:640px;margin:0 auto;padding:8px 16px}.um-lim-i{width:120px;height:120px;animation:um-hop 2.4s ease-in-out infinite}
@@ -1953,16 +1970,13 @@ window.__clouds(document.querySelectorAll('#boot .bt-sky svg, #um-scene .bt-sky 
 <main style="max-width: 720px; margin: 0 auto; padding: 8px 16px 0; box-sizing: border-box">
 <section class="um-res">
 <span class="um-res-rays" aria-hidden="true"></span>
-<span class="um-res-g">{{res.gameTitle}}</span>
 <div class="um-res-st" role="img" aria-label="{{res.starsAria}}"><sc-for list="{{res.stars}}" as="s" hint-placeholder-count="3"><img class="{{s.cls}}" src="{{s.img}}" alt="" draggable="false" style="--i: {{s.i}}; width: {{s.size}}px; height: {{s.size}}px"></sc-for></div>
 <h1 class="um-res-h">{{res.title}}</h1>
-<p class="um-res-p">{{res.text}}</p>
-<sc-if value="{{res.hasToy}}" hint-placeholder-val="{{ false }}"><div class="um-res-toy"><img src="{{res.toy}}" alt="" draggable="false"><span>Новая игрушка<br>для твоего поезда!</span></div></sc-if>
-<sc-if value="{{res.isRecord}}" hint-placeholder-val="{{ false }}"><span style="background: #FFF4D6; color: #7A5200; border-radius: 999px; padding: 8px 18px; font-size: 17px; font-weight: 900">Новый рекорд!</span></sc-if>
+<sc-if value="{{res.hasToy}}" hint-placeholder-val="{{ false }}"><div class="um-res-gift"><span class="um-res-gift-glow" aria-hidden="true"></span><img src="{{res.toy}}" alt="" draggable="false"><b>Новая игрушка!</b></div></sc-if>
+<sc-if value="{{res.isRecord}}" hint-placeholder-val="{{ false }}"><span class="um-res-rec">Новый рекорд!</span></sc-if>
 <div class="um-res-bs">
-<button type="button" class="press um-res-b" onClick="{{res.replay}}">Ещё раз</button>
-<sc-if value="{{res.hasNext}}" hint-placeholder-val="{{ true }}"><button type="button" class="press um-res-b um-res-b1" onClick="{{res.next}}">{{res.nextLabel}}</button></sc-if>
-<button type="button" class="press um-res-b" onClick="{{res.homeGo}}">{{res.homeLabel}}</button>
+<sc-if value="{{res.noNext}}" hint-placeholder-val="{{ false }}"><button type="button" class="press um-res-go" onClick="{{res.homeGo}}"><span>{{res.homeLabel}}</span></button></sc-if><sc-if value="{{res.hasNext}}" hint-placeholder-val="{{ true }}"><button type="button" class="press um-res-go" onClick="{{res.next}}" aria-label="{{res.nextLabel}}"><span>{{res.nextLabel}}</span><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="#FFFFFF"></path></svg></button></sc-if>
+<div class="um-res-sm"><button type="button" class="press um-res-b" onClick="{{res.replay}}"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg>Ещё раз</button><button type="button" class="press um-res-b" onClick="{{res.homeGo}}"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="2"></rect><rect x="13" y="3" width="8" height="8" rx="2"></rect><rect x="3" y="13" width="8" height="8" rx="2"></rect><rect x="13" y="13" width="8" height="8" rx="2"></rect></svg>{{res.homeLabel}}</button></div>
 </div>
 </section>
 </main>
@@ -5058,7 +5072,7 @@ class Component extends DCLogic {
   }
   restDone() { if (this.state.restLeft > 0) return; this.snd('tap'); this.setState({ screen: 'result' }); this.top(); var r = this.state.result; if (r && r.level && r.level.topic) this.topicAuto(); }
   // экран «Ура!» держится несколько секунд, потом игра сама продолжается следующей темой
-  topicAuto() { var self = this; this.later(function () { var st = self.state, r = st.result; if (st.screen === 'result' && r && r.level && r.level.topic) self.openTopic(r.level.g, Math.min(r.level.n, topicsOf(r.level.g).length - 1)); }, 4500); }
+  topicAuto() { return; /* 20.11: экран победы больше не уходит сам — владелец не успевал его рассмотреть */ var self = this; this.later(function () { var st = self.state, r = st.result; if (st.screen === 'result' && r && r.level && r.level.topic) self.openTopic(r.level.g, Math.min(r.level.n, topicsOf(r.level.g).length - 1)); }, 4500); }
   // одна запись за раз
   playVoice(name) {
     var url = VOICE[name]; if (!url) return false;
@@ -5935,7 +5949,7 @@ class Component extends DCLogic {
       }
     }
 
-    var res = { hasToy: false, toy: '', hasBadge: false, badge: '', gameTitle: '', stars: [], starsAria: '', title: '', text: '', isRecord: false, nextLabel: '', hasNext: true, homeLabel: 'К урокам', homeGo: function () { self.openHub(st.hub); }, replay: null, next: null };
+    var res = { noNext: false, hasToy: false, toy: '', hasBadge: false, badge: '', gameTitle: '', stars: [], starsAria: '', title: '', text: '', isRecord: false, nextLabel: '', hasNext: true, homeLabel: 'К урокам', homeGo: function () { self.openHub(st.hub); }, replay: null, next: null };
     if (st.screen === 'result' && st.result) {
       var r = st.result;
       res.stars = starRow(r.stars, 74); res.stars[1].size = 98; res.starsAria = starsWord(r.stars) + ' из 3'; res.stars.forEach(function (s, i) { s.i = i; s.img = i < r.stars ? 'items/star-yellow.svg' : 'items/star-white.svg'; s.cls = i < r.stars ? '' : 'um-off'; });
@@ -6144,7 +6158,7 @@ class Component extends DCLogic {
       toggleSound: function () { self.toggleSound(); },
       game: game, canSpeak: st.sound && (speechOk || !!(st.screen === 'game' && st.tasks[st.ti] && VOICE[st.tasks[st.ti].audio])), speak: function () { self.speak(); },
       restart: function () { if (st.level && st.level.topic) self.openTopic(st.level.g, st.level.n - 1); else if (st.level) self.openLevel(st.level.g, st.level.d, st.level.n); },
-      res: res,
+      res: (res.noNext = !res.hasNext, res),
       progAges: progAges, hasProgress: total > 0, noProgress: total === 0, pf: pf, ed: ed, tiles: tiles, learnTiles: learnTiles, playTiles: playTiles, learnF: learnF, playF: playF, learnBeads: learnBeads, playBeads: playBeads, hd: hd, rootCls: (st.screen === 'home' || st.screen === 'result' || st.screen === 'limit' || st.screen === 'mytrain' ? 'um-root-home' : '') + (st.screen === 'game' && st.ready ? ' um-root-game' : ''), meAva: meAva, meName: myName || 'Мой профиль', meCls: st.screen === 'home' ? '' : 'um-me-off', par: par, mt: mt, goMyTrain: function () { self.openMyTrain(); }, isMyTrain: st.ready && st.screen === 'mytrain', isLimit: st.ready && st.screen === 'limit',
       ageInfo: [
         { label: '3–4', text: 'Без цифр и без чтения: каждое задание звучит голосом само. Цвета и названия предметов, один и много, тени, что пропало, большой и маленький, где больше и где меньше, найти такой же, что лишнее, простые пары.' },
