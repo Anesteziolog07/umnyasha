@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-07224d4ba851') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-d7627df82861') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -94,7 +94,7 @@
 .bd-cord{fill:none;stroke:#FFFFFF;stroke-width:7;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:1200}
 .bd-sh{fill:none;stroke:rgba(30,60,120,.18);stroke-width:8;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:1200}
 .bd-knot{fill:#FFFFFF;opacity:0}
-.bd-b{position:absolute;width:15%;aspect-ratio:1;opacity:0;animation:bd-wave .55s ease-in-out calc(3.5s + var(--i) * .09s)}
+.bd-b{position:absolute;width:15%;aspect-ratio:1;opacity:0;will-change:transform,opacity;animation:bd-wave .55s ease-in-out calc(3.5s + var(--i) * .09s)}
 .bd-b img{display:block;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 calc(var(--W) * .008) calc(var(--W) * .008) rgba(30,50,110,.28))}
 .bd-l{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(var(--W) * .072);font-weight:900;line-height:1;color:#FFFFFF;text-shadow:0 calc(var(--W) * .004) 0 rgba(0,0,0,.22),0 0 calc(var(--W) * .012) rgba(0,0,0,.18);padding-bottom:3%}
 .bd-gl{position:absolute;inset:8%;border-radius:50%;overflow:hidden;pointer-events:none}
@@ -108,7 +108,7 @@
 @media (max-aspect-ratio: 1/1){.bd-wrap{--W:96vw}}
 .zs-night{position:absolute;inset:0;z-index:3;background:linear-gradient(180deg,#141A4E 0%,#2B2A78 40%,#6B4C9E 68%,#D98BB0 100%)}
 .zs-shade{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(30,28,100,.25),rgba(24,26,90,.62) 55%,rgba(30,24,80,.7))}
-#boot .zs-night{animation:zs-dawn 2.5s cubic-bezier(.45,0,.55,1) 1.3s both}
+#boot .zs-night{animation:zs-dawn 1.9s ease-in-out 1s both}
 /* фон всего сайта: живописный пейзаж (нарисован в ChatGPT по образцу превьюшки «Доставки»), широкий для компьютера и высокий для телефона */
 .um-bgimg{position:absolute;inset:0;background:#4FB2F5 url(splash/bg-wide.jpg) 50% 20%/cover no-repeat}
 @media (max-aspect-ratio: 1/1){.um-bgimg{background-image:url(splash/bg-tall.jpg);background-position:center bottom}}
@@ -142,7 +142,7 @@
 .bt-sky1 img{width:clamp(130px,26vmin,250px)}.bt-sky2 img{width:clamp(90px,17vmin,170px)}
 .zs-dots i{position:absolute;width:var(--s);height:var(--s);border-radius:50%;background:#FFFFFF;box-shadow:0 0 6px #FFFFFF;animation:zs-tw 1.8s ease-in-out var(--d) infinite}
 #zs-fx,#zs-bk{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-#zs-fx{z-index:7}#zs-bk{z-index:4}
+#zs-fx{z-index:7;will-change:transform}#zs-bk{z-index:4;display:none}
 @keyframes zs-dawn{to{opacity:0}}
 @keyframes zs-tw{0%,100%{opacity:.25}50%{opacity:1}}
 
@@ -351,6 +351,7 @@ button:disabled{cursor:default}
 @keyframes um-h-pop{from{opacity:0;transform:translateY(26px) scale(.86)}to{opacity:1;transform:none}}
 html:not(.um-booted) .um-hsec,html:not(.um-booted) .um-hsec *{animation-play-state:paused!important}
 html:not(.um-pre) #app{display:none}
+html:not(.um-pre) #um-scene{visibility:hidden}   /* пейзаж сайта под заставкой (трава на ветру, солнце, дым) не рисуется, пока идёт заставка: телефон тратит силы только на звезду */
 html.um-hseen .um-hth,html.um-hseen .um-hth-sh{animation:none;stroke-dashoffset:0}
 html.um-hseen .um-hbd{animation:um-hbd-sway 4.6s ease-in-out calc(var(--i) * .35s) infinite}
 html.um-hseen .um-hbd.um-hop2{animation:um-hbd-hop .5s ease-out}
@@ -1510,7 +1511,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   var cv = document.getElementById('zs-fx'), cb = document.getElementById('zs-bk'), g = cv.getContext('2d'), gb = cb.getContext('2d');
   var X = [], BY = [], POP = [], NU = [], FLY = .42, i;
   for (i = 0; i < 6; i++) { X[i] = 500 + (i - 2.5) * 150; BY[i] = 110 + 120 * (1 - Math.pow((X[i] - 500) / 480, 2)); POP[i] = 1 + 1.1 * (X[i] - 20) / 960; NU[i] = (X[i] - 20) / 960; }
-  var SLOW = 1.3; window.__bootSlow = SLOW;   /* 20.11: вся заставка на 30 % неторопливее — движения мягче, без рывков */
+  var SLOW = 1; window.__bootSlow = SLOW;   /* скорость как была; плавность — за счёт облегчения кадра (см. ниже) */
   window.__bootLand = POP.map(function (p) { return (p + FLY) * SLOW; });
   var PAL = ['#FFFFFF', '#FFF3B0', '#FFD84D', '#FFB8E0', '#B8E6FF', '#FFE9C7'];
   var clamp = function (v, a, c) { return Math.max(a, Math.min(c, v)); }, eOut = function (u) { return 1 - Math.pow(1 - u, 3); };
@@ -1549,7 +1550,7 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
     return { x: 0, y: y, sx: sx, sy: sy, o: 1, r: r };
   }
   function draw(t, dt, fx) {
-    [g, gb].forEach(function (c) { c.setTransform(D, 0, 0, D, 0, 0); c.clearRect(0, 0, W, H); });
+    g.setTransform(D, 0, 0, D, 0, 0); g.clearRect(0, 0, W, H);   /* второй холст (zs-bk) не используется — не чистим его каждый кадр */
     map(0, 0);
     var u = clamp((t - 1) / 1.1, 0, 1), len = LEN[Math.round(u * 200)], dp = dip(t) * 2;
     cord.setAttribute('d', 'M20 110Q500 ' + (350 + dp).toFixed(1) + ' 980 110'); sh.setAttribute('d', 'M20 118Q500 ' + (358 + dp).toFixed(1) + ' 980 118');
@@ -1561,12 +1562,12 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
     g.globalCompositeOperation = 'lighter';
     var sp = starPos(t);
     tail = []; for (var k = 24; k >= 0; k--) { var tp = starPos(t - k * .012); if (tp) tail.push(map(tp[0], tp[1])); }
-    if (sp) { var m = map(sp[0], sp[1]); emit(m[0], m[1], Math.ceil(dt * 120), 200 * K, 1.4); }
+    if (sp) { var m = map(sp[0], sp[1]); emit(m[0], m[1], Math.ceil(dt * 70), 200 * K, 1.2); }
     POP.forEach(function (p, j) {
       once('r' + j, t >= p, function () { var m = map(X[j], BY[j]); emit(m[0], m[1], 16, 380 * K, .9); });
       once('b' + j, t >= p + FLY, function () { var m = map(X[j], BY[j] + 40); emit(m[0], m[1], 10, 260 * K, .7, .6); });
     });
-    once('burst', t >= 2.7, function () { var m = map(500, -50); emit(m[0], m[1], 170, 1140 * K, 2.2); });
+    once('burst', t >= 2.7, function () { var m = map(500, -50); emit(m[0], m[1], 110, 1140 * K, 2.2); });
     if (t > 2.7 && t < 6 && Math.random() < .9) emit(Math.random() * W, -10, 1, 20, 3.5, .25);
     for (j = 1; j < tail.length; j++) { var a = j / tail.length; g.strokeStyle = 'rgba(255,240,190,' + (a * .55).toFixed(3) + ')'; g.lineWidth = a * 30 * K + 1; g.lineCap = 'round'; g.beginPath(); g.moveTo(tail[j - 1][0], tail[j - 1][1]); g.lineTo(tail[j][0], tail[j][1]); g.stroke(); }
     if (sp) { m = map(sp[0], sp[1]); glowStar(m[0], m[1], 75 * K + 10, t); }
@@ -1599,14 +1600,14 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   var ac; if (C && on && !/[?&](demo|splashtest)=/.test(location.search)) try { ac = new C(); } catch (e) {}
   if (!ac) { b.classList.remove('bt-hold'); if (window.__bootStar) window.__bootStar(); return; }
   window.__bootWait = true;
-  var go = function () { b.classList.remove('bt-hold', 'bt-tap'); if (window.__bootStar) window.__bootStar(); window.__bootWait = false; window.__bootT = Date.now(); if (window.__bootArm) window.__bootArm(7000); };
+  var go = function () { b.classList.remove('bt-hold', 'bt-tap'); if (window.__bootStar) window.__bootStar(); window.__bootWait = false; window.__bootT = Date.now(); if (window.__bootArm) window.__bootArm(5600); };
   var tok = 0, bufs = {}, master = ac.createGain(), cmp = ac.createDynamicsCompressor(); cmp.threshold.value = -10; cmp.knee.value = 6; cmp.ratio.value = 10; cmp.attack.value = .002; cmp.release.value = .15; master.connect(cmp); cmp.connect(ac.destination);
   // звуки владелец сам собрал в пробе заставки (claude.ai/artifact/73gup1Ymdov3oiZ4WVBBve): полёт звезды — «таинственный пронос», бусина — пластиковый «пык», салют — «искристый вжух» (все Mixkit), утро без звука
   var load = function (n, u) { return fetch(u).then(function (r) { return r.arrayBuffer(); }).then(function (x) { return new Promise(function (ok, no) { ac.decodeAudioData(x, ok, no); }); }).then(function (v) { bufs[n] = v; }); };
   var ready = Promise.all([load('fly', 'sfx/splash-fly.m4a'), load('pop', 'sfx/splash-bead.wav'), load('fin', 'sfx/splash-sparkle.wav')]);
   var tick = function (n, at, rate, gain) { var q = ac.createBufferSource(), g = ac.createGain(); q.buffer = bufs[n]; q.playbackRate.value = rate; g.gain.value = gain; q.connect(g); g.connect(master); q.start(at); };
   // моменты те же, что в анимации: звезда с 0,3 с, бусина «пык» в момент посадки на нитку (__bootLand), салют в 2,7 с
-  var play = function () { var me = ++tok, t = ac.currentTime + .03, land = window.__bootLand || []; ready.then(function () { if (me !== tok) return; var late = Math.max(0, ac.currentTime - t); if (late < .3) tick('fly', t + .26, 1, .6); for (var i = 0; i < land.length; i++) if (land[i] + .01 > late) tick('pop', t + land[i] + .01, .94 + .03 * i, .8); if (3.38 > late) tick('fin', t + 3.38, 1, .7); }).catch(function () {}); };
+  var play = function () { var me = ++tok, t = ac.currentTime + .03, land = window.__bootLand || []; ready.then(function () { if (me !== tok) return; var late = Math.max(0, ac.currentTime - t); if (late < .25) tick('fly', t + .2, 1, .6); for (var i = 0; i < land.length; i++) if (land[i] + .01 > late) tick('pop', t + land[i] + .01, .94 + .03 * i, .8); if (2.6 > late) tick('fin', t + 2.6, 1, .7); }).catch(function () {}); };
   var live = true, unlock = function () { if (!live || tok) return; try { ac.resume(); var q = ac.createBufferSource(); q.buffer = ac.createBuffer(1, 1, 22050); q.connect(ac.destination); q.start(0); } catch (x) {} window.__bootKeep = true; go(); play(); };
   try { ac.resume(); } catch (e) {}
   // если браузер разрешил звук сам, кнопка не нужна: заставка сразу идёт дальше
@@ -6164,7 +6165,7 @@ DCLite.mount(Component, document.getElementById('app'), document.getElementById(
   var tm = 0, tp = 0, pre = function () { document.documentElement.classList.add('um-pre'); };
   /* сайт под заставкой не рисуется, пока летит звезда (иначе на телефоне кадры пропускаются); показываем его за 0,7 с до конца, когда заставка ещё закрывает экран */
   window.__bootArm = function (ms) { clearTimeout(tm); clearTimeout(tp); tp = setTimeout(pre, Math.max(0, ms - 700)); tm = setTimeout(out, ms); };
-  if (!window.__bootWait) window.__bootArm(Math.max(skip ? 0 : 300, (skip ? 0 : 7000) - (Date.now() - t0)));
+  if (!window.__bootWait) window.__bootArm(Math.max(skip ? 0 : 300, (skip ? 0 : 5600) - (Date.now() - t0)));
   b.addEventListener('click', function () { if (window.__bootWait) return; if (window.__bootKeep) { window.__bootKeep = false; return; } out(); }); })();
 if ('serviceWorker' in navigator) {
   // новая версия подхватывается при следующем открытии: перезагрузка во время заставки давала мигание
