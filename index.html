@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-d7627df82861') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-318a6285efa2') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -350,7 +350,6 @@ button:disabled{cursor:default}
 @keyframes um-hbd-hop{0%{transform:none}25%{transform:translateY(4%) scale(1.14,.86)}55%{transform:translateY(-30%) scale(.94,1.06) rotate(-8deg)}80%{transform:translateY(0) scale(1.06,.94) rotate(4deg)}100%{transform:none}}
 @keyframes um-h-pop{from{opacity:0;transform:translateY(26px) scale(.86)}to{opacity:1;transform:none}}
 html:not(.um-booted) .um-hsec,html:not(.um-booted) .um-hsec *{animation-play-state:paused!important}
-html:not(.um-pre) #app{display:none}
 html:not(.um-pre) #um-scene{visibility:hidden}   /* пейзаж сайта под заставкой (трава на ветру, солнце, дым) не рисуется, пока идёт заставка: телефон тратит силы только на звезду */
 html.um-hseen .um-hth,html.um-hseen .um-hth-sh{animation:none;stroke-dashoffset:0}
 html.um-hseen .um-hbd{animation:um-hbd-sway 4.6s ease-in-out calc(var(--i) * .35s) infinite}
@@ -1598,9 +1597,12 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
   var C = window.AudioContext || window.webkitAudioContext, on = true; try { var d = JSON.parse(localStorage.getItem('umnyasha.v2') || 'null'); if (d && d.sound === false) on = false; } catch (e) {}
   var ac; if (C && on && !/[?&](demo|splashtest)=/.test(location.search)) try { ac = new C(); } catch (e) {}
-  if (!ac) { b.classList.remove('bt-hold'); if (window.__bootStar) window.__bootStar(); return; }
+  /* звезда стартует, только когда сайт под заставкой уже нарисован и его картинки распакованы: иначе в браузере телефон докачивает их прямо во время полёта и кадры пропускаются */
+  var whenReady = function (fn) { if (window.__rdy) fn(); else (window.__rdyQ = window.__rdyQ || []).push(fn); };
+  if (!ac) { whenReady(function () { b.classList.remove('bt-hold'); if (window.__bootStar) window.__bootStar(); if (window.__bootArm) window.__bootArm(5600); }); return; }
   window.__bootWait = true;
   var go = function () { b.classList.remove('bt-hold', 'bt-tap'); if (window.__bootStar) window.__bootStar(); window.__bootWait = false; window.__bootT = Date.now(); if (window.__bootArm) window.__bootArm(5600); };
+  var started = false, start = function () { if (started) return; started = true; whenReady(function () { go(); play(); }); };
   var tok = 0, bufs = {}, master = ac.createGain(), cmp = ac.createDynamicsCompressor(); cmp.threshold.value = -10; cmp.knee.value = 6; cmp.ratio.value = 10; cmp.attack.value = .002; cmp.release.value = .15; master.connect(cmp); cmp.connect(ac.destination);
   // звуки владелец сам собрал в пробе заставки (claude.ai/artifact/73gup1Ymdov3oiZ4WVBBve): полёт звезды — «таинственный пронос», бусина — пластиковый «пык», салют — «искристый вжух» (все Mixkit), утро без звука
   var load = function (n, u) { return fetch(u).then(function (r) { return r.arrayBuffer(); }).then(function (x) { return new Promise(function (ok, no) { ac.decodeAudioData(x, ok, no); }); }).then(function (v) { bufs[n] = v; }); };
@@ -1608,10 +1610,10 @@ summary:focus-visible{outline:3px solid #2557D6;outline-offset:3px;border-radius
   var tick = function (n, at, rate, gain) { var q = ac.createBufferSource(), g = ac.createGain(); q.buffer = bufs[n]; q.playbackRate.value = rate; g.gain.value = gain; q.connect(g); g.connect(master); q.start(at); };
   // моменты те же, что в анимации: звезда с 0,3 с, бусина «пык» в момент посадки на нитку (__bootLand), салют в 2,7 с
   var play = function () { var me = ++tok, t = ac.currentTime + .03, land = window.__bootLand || []; ready.then(function () { if (me !== tok) return; var late = Math.max(0, ac.currentTime - t); if (late < .25) tick('fly', t + .2, 1, .6); for (var i = 0; i < land.length; i++) if (land[i] + .01 > late) tick('pop', t + land[i] + .01, .94 + .03 * i, .8); if (2.6 > late) tick('fin', t + 2.6, 1, .7); }).catch(function () {}); };
-  var live = true, unlock = function () { if (!live || tok) return; try { ac.resume(); var q = ac.createBufferSource(); q.buffer = ac.createBuffer(1, 1, 22050); q.connect(ac.destination); q.start(0); } catch (x) {} window.__bootKeep = true; go(); play(); };
+  var live = true, unlock = function () { if (!live || tok) return; try { ac.resume(); var q = ac.createBufferSource(); q.buffer = ac.createBuffer(1, 1, 22050); q.connect(ac.destination); q.start(0); } catch (x) {} window.__bootKeep = true; start(); };
   try { ac.resume(); } catch (e) {}
   // если браузер разрешил звук сам, кнопка не нужна: заставка сразу идёт дальше
-  var auto = function () { if (live && !tok && ac.state === 'running') { go(); play(); } };
+  var auto = function () { if (live && !tok && ac.state === 'running') { start(); } };
   ac.addEventListener('statechange', auto); ['touchend', 'mousedown', 'click', 'keydown'].forEach(function (t) { document.addEventListener(t, unlock, true); });
   setTimeout(function () { auto(); if (!tok) b.classList.add('bt-tap'); }, 350);
   window.__bootSndOff = function () { live = false; tok++; var t = ac.currentTime; master.gain.setValueAtTime(1, t); master.gain.linearRampToValueAtTime(0, t + 1.2); setTimeout(function () { try { ac.close(); } catch (e) {} }, 1350); };
@@ -6159,6 +6161,10 @@ class Component extends DCLogic {
 }
 
 DCLite.mount(Component, document.getElementById('app'), document.getElementById('tpl'), {});
+// сайт нарисован под заставкой — ждём, пока его картинки распакуются (не дольше 2 с), и только тогда пускаем звезду
+(function () { var fire = function () { if (window.__rdy) return; window.__rdy = 1; (window.__rdyQ || []).forEach(function (f) { try { f(); } catch (e) {} }); window.__rdyQ = []; };
+  var imgs = [].slice.call(document.querySelectorAll('#app img, #boot img'));
+  Promise.all(imgs.map(function (i) { return i.decode ? i.decode().catch(function () {}) : 0; })).then(fire); setTimeout(fire, 2000); })();
 // заставка держится не меньше 1,8 с, потом плавно исчезает
 (function () { var b = document.getElementById('boot'), t0 = window.__bootT || Date.now(), done = false, skip = /[?&]demo=/.test(location.search);
   var out = function () { if (done) return; done = true; var de = document.documentElement; de.classList.add('um-pre', 'um-booted'); setTimeout(function () { de.classList.add('um-hseen'); }, 4500); if (window.__bootSndOff) window.__bootSndOff(); b.classList.add('out'); setTimeout(function () { b.remove(); }, 600); };
