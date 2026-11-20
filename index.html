@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-8ef883dc99d2') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-1c46c5627114') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -453,6 +453,10 @@ html.um-hseen .um-hsec .um-h-t{animation:um-h-in .3s ease-out calc(var(--i) * 20
 .um-hhead{--HW:min(68vw,330px);margin-bottom:0}
 /* превьюшки 14.11: карточка стоит на месте, а картинка внутри медленно «дышит» и плывёт, как живая; иногда по ней проходит мягкий блик */
 .um-h-pic{position:relative;display:block;overflow:hidden;border-radius:20px;isolation:isolate}
+/* 20.11: Safari на iPhone считал ширину картинки-SVG по её высоте, и справа у «Занятия дня» оставалась белая полоса. Теперь размер задаёт рамка, а картинка растянута внутри на всю рамку */
+.um-hsec .um-h-pic{aspect-ratio:300/240}.um-hsec .um-h-big .um-h-pic{aspect-ratio:600/340}
+@media (min-width: 1000px){.um-hsec .um-h-big .um-h-pic{aspect-ratio:300/240}}
+.um-hsec .um-h-pic .um-h-img{position:absolute;left:0;top:0;width:100%!important;height:100%!important;aspect-ratio:auto!important;object-fit:cover}
 /* навык игры: ярлычок на плитке и фильтр над плитками — родителю сразу видно, что развивает игра */
 .um-pp-pc{font-style:normal;font-weight:900;font-size:14px;color:#23395B}.um-pp-gl{grid-column:1/-1;margin:-4px 0 4px;font-size:13px;font-weight:600;line-height:1.35;color:#5A6B86}
 .um-h-sk{position:absolute;left:8px;top:8px;z-index:3;padding:3px 9px 4px;border-radius:999px;background:rgba(255,255,255,.94);color:var(--sc);font-size:12px;font-weight:900;line-height:1.1;box-shadow:0 2px 6px rgba(20,50,100,.18)}
