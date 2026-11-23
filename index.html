@@ -12,7 +12,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-be3d21aa0aea') caches.delete(n); }); });</script>
+<script>if (window.caches) caches.keys().then(function (k) { k.forEach(function (n) { if (n !== 'umnyasha-8fe0993cd47a') caches.delete(n); }); });</script>
 <style>
 /* заставка при запуске (как экран загрузки в детских приложениях): лучи, объёмные буквы, летающие фигурки */
 #boot{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(180deg,#46B9FF 0%,#8EDCFF 38%,#D8F7FF 66%);transition:opacity .6s ease,transform .6s ease;cursor:pointer}
@@ -4016,6 +4016,10 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   var scene, raf;
   var images = {};
   var tools = ['splash/g-sponge-4731e66f.png', 'splash/w-gun-99b8237d.png', 'splash/wash-dryer-36509fe5.png'];
+  // Original foam sprites from the first version of the wash.
+  var foamArt=['splash/wfo-1-df781364.png','splash/wfo-2-d1bb0534.png','splash/wfo-3-0e0a8a0c.png',
+    'splash/wfo-4-c9b76d93.png','splash/wfo-5-e92f9b69.png','splash/wfo-6-89480b9e.png',
+    'splash/wfo-7-a6cd908c.png','splash/wfo-8-daae9fc1.png','splash/wfo-9-ae850450.png'];
   var effects = [
     {src:'sfx/wash-sponge-foley.mp3',gain:.34,cutoff:2700},
     {src:'sfx/wash-rinse-foley.mp3',gain:1,cutoff:4000},
@@ -4072,42 +4076,48 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     oval(g,55,55,50,50,fill);
     return g.canvas;
   }
-  function paintFoam(g,w,h) {
-    // The foam texture is opaque. Only the narrow antialiased edge of the sponge mask blends with the paint.
+  function foamSprite(g,im,x,y,w,flatten) {
+    var h=w*im.naturalHeight/im.naturalWidth*flatten;
+    g.drawImage(im,x-w/2,y-h/2,w,h);
+  }
+  function paintFoam(g,w,h,art) {
+    // The base hides the original paint, while overlapping painted sprites give the foam depth.
     var base=g.createLinearGradient(0,0,w*.24,h);
-    base.addColorStop(0,'#FFFFFC'); base.addColorStop(.63,'#F6F7F3'); base.addColorStop(1,'#E6ECEC');
+    base.addColorStop(0,'#F9FBFF'); base.addColorStop(.58,'#EEF1FC'); base.addColorStop(1,'#DCE5FB');
     g.fillStyle=base; g.fillRect(0,0,w,h);
-
-    var cluster=layer(96,96);
-    var mound=cluster.createRadialGradient(33,30,5,48,53,47);
-    mound.addColorStop(0,'#FFFFFF'); mound.addColorStop(.57,'#FFFFFE');
-    mound.addColorStop(.82,'#E1E8E9E8'); mound.addColorStop(1,'#CDDBE000');
-    oval(cluster,48,48,46,42,mound);
-    for (var j=0;j<48;j++) {
-      var a=Math.random()*2*Math.PI, reach=Math.sqrt(Math.random())*35;
-      var x=47+Math.cos(a)*reach,y=47+Math.sin(a)*reach*.8,r=.55+Math.random()*2.15;
-      oval(cluster,x,y+r*.21,r,r*.87,'#AABFC33F');
-      oval(cluster,x-r*.16,y-r*.29,r*.75,r*.60,'#FFFFFFDC');
+    if(!art.length)return;
+    var step=w*.15;
+    for(var row=-1;row*step<h+step;row++) for(var col=-1;col*step<w+step;col++) {
+      var im=art[((row+1)*7+(col+1)*11)%art.length];
+      var x=(col+(row%2)*.54+Math.random()*.52)*step,y=(row+Math.random()*.55)*step;
+      var size=step*(1.36+Math.random()*.64);
+      g.save(); g.translate(x,y); g.rotate((Math.random()-.5)*.68);
+      foamSprite(g,im,0,0,size,.92+Math.random()*.20); g.restore();
     }
-    for (j=0;j<165;j++) {
-      var x=Math.random()*w,y=Math.random()*h,r=w*(.012+Math.random()*.04);
-      g.save(); g.translate(x,y); g.rotate((Math.random()-.5)*1.05);
-      g.globalAlpha=.52+Math.random()*.47;
-      g.drawImage(cluster.canvas,-r,-r*.84,r*2,r*1.68); g.restore();
-    }
-
-    var bubble=layer(48,48), light=bubble.createRadialGradient(16,12,1,24,25,21);
-    light.addColorStop(0,'#FFFFFF'); light.addColorStop(.64,'#F9FBFA');
-    light.addColorStop(.89,'#D0DFE2C0'); light.addColorStop(1,'#BECED000');
-    oval(bubble,24,24,21,20,light);
-    oval(bubble,17,15,4.3,2.5,'#FFFFFF');
-    for (var i=0;i<360;i++) {
-      var x=Math.random()*w,y=Math.random()*h,r=w*(.0025+.012*Math.pow(Math.random(),2.9));
-      g.globalAlpha=.45+Math.random()*.49;
-      g.drawImage(bubble.canvas,x-r,y-r,r*2,r*2);
-    }
-    g.globalAlpha=1;
-    return bubble.canvas;
+  }
+  function puffAt(s,x,y,now) {
+    var b=s.body;
+    if(!b.art.length || now-(s.lastPuff||0)<58 || !visibleOnCar(b,x,y))return;
+    s.lastPuff=now;
+    if(s.puffs.length===12)s.puffs.shift();
+    var pick=b.art[Math.floor(Math.random()*b.art.length)];
+    s.puffs.push({im:pick,x:x,y:y,size:b.w*(.125+Math.random()*.084),age:0,tilt:(Math.random()-.5)*.42});
+  }
+  function drawPuffs(g,s,dt) {
+    var b=s.body, cloud=b.cloud;
+    cloud.clearRect(0,0,b.w,b.h);
+    s.puffs=s.puffs.filter(function (p) {
+      p.age+=dt;
+      if(p.age>=.82)return false;
+      var rise=1-Math.pow(1-Math.min(1,p.age/.24),3);
+      cloud.save(); cloud.translate(p.x,p.y); cloud.rotate(p.tilt);
+      cloud.globalAlpha=Math.min(1,rise*1.65,(.82-p.age)*4);
+      foamSprite(cloud,p.im,0,0,p.size*(.69+rise*.31),.88+rise*.12);
+      cloud.restore();
+      return true;
+    });
+    clip(cloud,b.soap.canvas);
+    g.drawImage(cloud.canvas,0,0);
   }
   function paintDrops(g,w,h) {
     var columns=17, rows=Math.ceil(h/w*columns);
@@ -4138,7 +4148,8 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
         dirt.globalAlpha=.56+Math.random()*.31; dirt.drawImage(im,-r,-rh,r*2,rh*2); dirt.restore();
       } else oval(dirt,x,y,r,r*.62,'#865433A6');
     }
-    var bubbles=paintFoam(foam,w,h);
+    var art=foamArt.map(image).filter(ready);
+    paintFoam(foam,w,h,art);
     paintDrops(drops,w,h);
     [dirt,foam,drops].forEach(function (g) { clip(g,car.canvas); });
     var shadow=layer(w,Math.ceil(h*1.08)), wheels=[[.12,.31],[.47,.76],[.77,.98]].map(function (range) {
@@ -4159,7 +4170,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     for(j=3;j<silhouette.length;j+=4) if(silhouette[j]>140) area++;
     if(!softBrush) softBrush=makeBrush();
     return {car:car.canvas,shadow:shadow.canvas,w:w,h:h,dirt:dirt,foam:foam,drops:drops,
-      mask:mask,wetMask:wet,soap:soap,wet:rub,analysis:analysis,silhouette:silhouette,area:area,bubbles:bubbles};
+      mask:mask,wetMask:wet,soap:soap,wet:rub,analysis:analysis,silhouette:silhouette,area:area,art:art,cloud:layer(w,h)};
   }
   function resize(s) {
     var cv = s.cv, w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -4187,7 +4198,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   function updateEffect(s, now) {
     var app = FX.app;
     var holding=s.point && s.pid!==null;
-    var active=holding && (s.phase===2 || (s.nearCar && (s.phase===1 || (s.phase===0 && now-s.movedAt<130))));
+    var active=holding && (s.phase===1 || s.phase===2 || (s.phase===0 && s.nearCar && now-s.movedAt<130));
     if (!active || !app.state.sound || s.awaiting || document.hidden) { stopEffect(s); return; }
     var spec=effects[s.phase], url=spec.src;
     if (s.wanted === url) return;
@@ -4221,7 +4232,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   function setPhase(s,phase,now) {
     stopEffect(s);
     s.phase=phase; s.since=now; s.touched=now;
-    s.awaiting=false; s.finishing=null; s.flow=0; s.nearCar=false; s.trail=null; s.bloom.length=0;
+    s.awaiting=false; s.finishing=null; s.flow=0; s.nearCar=false; s.trail=null; s.bloom.length=0; s.puffs.length=0;
     s.progress=phase===3 ? '100%' : '0%'; s.initial=null;
     s.point=null; s.last=null; s.dx=0; s.tilt=0; s.dirty=true; s.needsScan=true; s.guide=null;
     s.meter = s.cv.parentNode.nextElementSibling.querySelector('[data-current=true] .um-wash-meter span');
@@ -4306,20 +4317,10 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
       var lip=b.h*row/sh;
       if(lip-y<b.w*.025)continue;
       s.runoff.push({x:x,y:y,start:y,lip:lip,v:b.w*(.14+Math.random()*.15),
-        r:b.w*(.0045+Math.random()*.011),drift:(Math.random()-.5)*b.w*.025,age:0,falling:false,life:.9+Math.random()*.64});
+        r:b.w*(.0045+Math.random()*.011),drift:(Math.random()-.5)*b.w*.025,age:0,falling:false,life:.9+Math.random()*.64,
+        im:i<2 && b.art.length ? b.art[(s.runoff.length+i)%b.art.length] : null});
     }
     s.lastRunoff=now;
-  }
-  function emit(s,spot,now) {
-    if(now-(s.lastBurst||0)<54)return;
-    var phase=s.phase,w=s.body.w,count=phase===1 ? 7 : 9;
-    for(var i=0;i<count && s.drops.length<76;i++) {
-      var side=(Math.random()-.5)*2,speed=w*(.07+Math.random()*.27);
-      s.drops.push({x:spot.x+side*w*.038,y:spot.y+(Math.random()-.5)*w*.036,
-        vx:side*speed,vy:-speed*(phase===1 ? .6 : .37),
-        r:w*(.003+Math.random()*(phase===0 ? .015 : .006)),age:0,kind:phase});
-    }
-    s.lastBurst=now;
   }
   function swipe(s,p,now) {
     if(s.phase>=3 || s.awaiting || !s.remaining)return;
@@ -4337,6 +4338,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
         if(phase===0) {
           stamp(b.mask,start,end,r*.95,false,true); stamp(b.dirt,start,end,r*.88,true);
           s.coatDirty=true;
+          puffAt(s,mx,my,now);
           if(s.bloom.length<50)s.bloom.push({start:start,end:end,r:r,at:now+106});
         } else if(phase===1) {
           if(leftovers(s,mx,my,r*.82))addRunoff(s,{x:mx,y:my},now);
@@ -4348,7 +4350,6 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     }
     if(!working)return;
     s.needsScan=true; s.dirty=true;
-    if(phase<2 && leftovers(s,p.x,p.y,r*.72))emit(s,p,now);
   }
   function animateWash(s,now,dt) {
     if(s.phase>=3)return;
@@ -4369,7 +4370,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     var active=s.pid!==null && s.point && !s.awaiting;
     var contact=brushSizes[s.phase]*(s.phase===1 ? .73 : .84);
     s.nearCar=!!(active && leftovers(s,s.point.x,s.point.y,b.w*contact));
-    var p=s.point, target=(s.phase===2 ? active : s.nearCar) ? 1 : 0;
+    var p=s.point, target=(s.phase>0 ? active : s.nearCar) ? 1 : 0;
     s.flow+=(target-s.flow)*Math.min(1,dt*(target ? 30 : 19));
     if(s.flow<.015 && !target)s.flow=0;
     var turn=now-s.touched<95 ? Math.max(-.19,Math.min(.19,s.dx*.009)) : 0;
@@ -4416,6 +4417,38 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     }
     return nozzle;
   }
+  function drawWater(g,b,nx,ny,p,strength,now,onBody) {
+    var dx=p.x-nx,dy=p.y-ny,len=Math.hypot(dx,dy);
+    if(strength<.012 || len<1)return;
+    g.save(); g.translate(nx,ny); g.rotate(Math.atan2(dy,dx));
+    var mouth=b.w*.0055, end=b.w*.014, bend=b.w*.009;
+    var flow=g.createLinearGradient(0,0,len,0);
+    flow.addColorStop(0,'#D9F9FFEB'); flow.addColorStop(.38,'#8CDAF4E0'); flow.addColorStop(1,'#C5F6FFDD');
+    g.globalAlpha=strength; g.fillStyle=flow;
+    g.beginPath(); g.moveTo(0,-mouth);
+    g.bezierCurveTo(len*.29,-mouth,len*.66,bend-end,len,-end);
+    g.lineTo(len,end);
+    g.bezierCurveTo(len*.65,bend+end,len*.28,mouth,0,mouth);
+    g.closePath(); g.fill();
+
+    // Two unbroken reflections gently shift inside the solid stream.
+    g.lineCap='round';
+    for(var i=0;i<2;i++) {
+      var wave=Math.sin(now*.005+i*1.6)*end*.42;
+      g.strokeStyle=i ? '#C8F0FCB5' : '#E7FAFFEF';
+      g.lineWidth=Math.max(1,b.w*(i ? .0029 : .0045));
+      g.beginPath(); g.moveTo(0,(i-.5)*mouth);
+      g.bezierCurveTo(len*.27,wave*.5,len*.69,bend*.68+wave,len,(i-.5)*end);
+      g.stroke();
+    }
+
+    if(onBody) {
+      var splash=g.createRadialGradient(len,0,end*.14,len,0,end*2.6);
+      splash.addColorStop(0,'#F1FEFF96'); splash.addColorStop(.56,'#BCEFFF58'); splash.addColorStop(1,'#C6F4FF00');
+      oval(g,len,0,end*2.5,end*2.7,splash);
+    }
+    g.restore();
+  }
   function drawAir(g,b,nx,ny,p,strength,now) {
     var dx=p.x-nx,dy=p.y-ny,len=Math.hypot(dx,dy);
     if(strength<.012 || len<1)return;
@@ -4461,16 +4494,6 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
       var pressing=s.point ? s.flow : 0;
       g.rotate(s.tilt);
       g.scale(1+.08*pressing,1-.16*pressing);
-      if(pressing>.01) {
-        g.globalAlpha=toolOpacity*pressing*.68;
-        var edge=b.w*.105;
-        for(var j=0;j<6;j++){
-          var float=Math.sin(now/190+j*1.8),r=b.w*(.008+(j%3)*.005);
-          var x=(j-2.5)*edge*.34,y=h*(.29+float*.13);
-          g.drawImage(b.bubbles,x-r,y-r,r*2,r*2);
-        }
-        g.globalAlpha=toolOpacity;
-      }
       g.shadowColor='#3926144D'; g.shadowBlur=8; g.shadowOffsetY=4;
       g.drawImage(im,-w*.5,-h*.5,w,h);
       g.restore();
@@ -4491,22 +4514,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
       g.globalAlpha=toolOpacity; g.strokeStyle='#286B54';g.lineWidth=hose;
       g.beginPath();g.moveTo(hoseX,hoseY);
       g.bezierCurveTo(hoseX-d*gripFlip*b.w*.17,hoseY+c*gripFlip*b.w*.17,endX-side*b.w*.14,Math.max(b.h*1.22,hoseY+b.w*.085),endX,Math.max(b.h*1.19,hoseY+b.w*.07));g.stroke();
-      g.globalAlpha=s.flow;
-      var flow=g.createLinearGradient(nx,ny,p.x,p.y), breadth=b.w*.014;
-      flow.addColorStop(0,'#E9FCFFEF'); flow.addColorStop(.38,'#83DBF0AF'); flow.addColorStop(1,'#E4FCFFD5');
-      var dx=p.x-nx,dy=p.y-ny,len=Math.hypot(dx,dy)||1,ex=-dy/len,ey=dx/len;
-      g.fillStyle=flow;
-      g.beginPath(); g.moveTo(nx+ex*breadth*.16,ny+ey*breadth*.16);
-      g.quadraticCurveTo(nx+dx*.6+ex*breadth*.58,ny+dy*.6+ey*breadth*.58,p.x+ex*breadth,p.y+ey*breadth);
-      g.lineTo(p.x-ex*breadth,p.y-ey*breadth);
-      g.quadraticCurveTo(nx+dx*.58-ex*breadth*.51,ny+dy*.58-ey*breadth*.51,nx-ex*breadth*.15,ny-ey*breadth*.15);
-      g.closePath(); g.fill();
-      g.strokeStyle='#F2FDFFE2'; g.lineWidth=Math.max(1,b.w*.0045);
-      for (var n=0;n<5;n++) {
-        var u=(now/260+n*.199)%1, end=Math.min(1,u+.14), drift=(n%3-1)*breadth*.58;
-        g.beginPath(); g.moveTo(nx+dx*u+ex*drift*u,ny+dy*u+ey*drift*u);
-        g.lineTo(nx+dx*end+ex*drift*end,ny+dy*end+ey*drift*end); g.stroke();
-      }
+      drawWater(g,b,nx,ny,p,s.flow,now,visibleOnCar(b,p.x,p.y));
     } else drawAir(g,b,nx,ny,p,s.flow,now);
     g.globalAlpha=toolOpacity;
     g.translate(nx,ny); g.rotate(angle);
@@ -4546,8 +4554,8 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
       g.lineCap='round'; g.lineWidth=q.r*(q.falling ? .85 : 1.22); g.strokeStyle=ramp;
       g.beginPath(); g.moveTo(q.x-q.drift*.38,top);
       g.quadraticCurveTo(q.x+q.r*.46,q.y-length*.54,q.x,q.y); g.stroke();
-      oval(g,q.x,q.y,q.r*.76,q.r*1.4,'#FBFFF0EC');
-      if(!q.falling)oval(g,q.x+q.r*.48,q.y-q.r*2.2,q.r*.34,q.r*.6,'#E8F9F1DE');
+      if (q.im) foamSprite(g,q.im,q.x,q.y,q.r*(q.falling ? 3.1 : 4.4),q.falling ? 1.18 : .83);
+      else oval(g,q.x,q.y,q.r*.65,q.r*1.26,'#F6FDFFCA');
       return true;
     });
     g.globalAlpha=1;
@@ -4555,30 +4563,6 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
   function detail(g, s, now, dt) {
     var phase = s.phase, b = s.body, p = s.point;
     if(s.runoff.length)drawRunoff(g,s,dt);
-    s.drops = s.drops.filter(function (q) {
-      q.age += dt;
-      if (q.age >= .52) return false;
-      q.x += q.vx * dt; q.y += q.vy * dt; q.vy += (q.kind === 1 ? 570 : 25) * dt;
-      g.globalAlpha=1-q.age/.52;
-      if (q.kind===1 && q.y > b.h*.99) {
-        var ripple=1-Math.max(0,Math.min(1,(q.y-b.h*.99)/(b.w*.15)));
-        if (ripple > 0) {
-          g.globalAlpha=ripple*.55;
-          g.strokeStyle='#DBF8EF'; g.lineWidth=Math.max(1.2,b.w*.003);
-          g.beginPath(); g.ellipse(q.x,b.h*.995,q.r*(2-ripple)*3,q.r*(2-ripple),0,0,2*Math.PI); g.stroke();
-        }
-        return true;
-      }
-      if(q.kind===0) {
-        var grow=q.r*(.75+q.age*1.12);
-        g.drawImage(b.bubbles,q.x-grow,q.y-grow,grow*2,grow*2);
-      } else {
-        g.strokeStyle='#DAF7FFF0'; g.lineWidth=q.r*.77; g.lineCap='round';
-        g.beginPath(); g.moveTo(q.x,q.y); g.lineTo(q.x-q.vx*.033,q.y-q.vy*.033); g.stroke();
-      }
-      return true;
-    });
-    g.globalAlpha = 1;
     if (phase === 3) {
       var shine = (now - s.since) / 950;
       for (var i = 0; i < 7; i++) {
@@ -4644,6 +4628,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     if(phase<2) {
       g.globalAlpha=1-q;
       g.drawImage(b.dirt.canvas,0,0);g.drawImage(b.soap.canvas,0,0);
+      if(s.puffs.length)drawPuffs(g,s,dt);
       if(phase===0 && q>0) {
         g.globalAlpha=q;g.drawImage(b.foam.canvas,0,0);
       }
@@ -4696,13 +4681,13 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
     if (!scene || scene.cv !== cv || scene.task !== task) {
       if (!scene || scene.cv !== cv) bind(cv);
       if (scene) stopEffect(scene);
-      scene = { cv: cv, g: cv.getContext('2d'), task: task, pid: null, touched: now, drops: [], bloom: [], runoff: [] };
-      tools.concat(mud).forEach(image);
+      scene = { cv: cv, g: cv.getContext('2d'), task: task, pid: null, touched: now, puffs: [], bloom: [], runoff: [] };
+      tools.concat(mud,foamArt).forEach(image);
       var next=st.tasks[st.ti+1];
       if (next && next.kind==='wash') image(next.img);
     }
     var s = scene, im = image(task.img);
-    if (!s.body && ready(im) && mud.every(function (src) { return image(src).complete; })) s.body = build(task);
+    if (!s.body && ready(im) && mud.concat(foamArt).every(function (src) { return image(src).complete; })) s.body = build(task);
     if (s.body) {
       var phase = st.fin ? st.fin.ph : 0;
       if (phase !== s.phase) setPhase(s, phase, now);
@@ -4713,7 +4698,7 @@ if (typeof document !== 'undefined' && document.addEventListener && typeof reque
       if (s.meter && s.meter.style.width!==s.progress) s.meter.style.width=s.progress;
       if (s.trail && now-s.released>=145) { s.trail=null; s.dirty=true; }
       var idleHint=phase<3 && now-s.touched>(parseInt(s.progress,10)>70 ? 1050 : 3800) && !s.awaiting;
-      if (s.dirty || s.finishing!==null || s.needsScan || s.flow || s.drops.length || s.runoff.length || s.bloom.length || s.trail || (s.pid!==null && s.point) ||
+      if (s.dirty || s.finishing!==null || s.needsScan || s.flow || s.puffs.length || s.runoff.length || s.bloom.length || s.trail || (s.pid!==null && s.point) ||
           (phase===0 && now-s.since<590) || (phase===3 && now-s.since<2150) ||
           (idleHint && (!FX.calm || !s.hintShown))) {
         draw(s,now,dt);
